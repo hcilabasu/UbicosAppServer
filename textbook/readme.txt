@@ -1,3 +1,6 @@
+How to run:
+https://gist.github.com/iamaureen/53cec0c5498449618dc7b51ed657cd0f
+
 upload Image:
 
 documentation reference:
