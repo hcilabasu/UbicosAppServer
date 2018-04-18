@@ -1,4 +1,4 @@
-How to run:
+How to run and install:
 https://gist.github.com/iamaureen/53cec0c5498449618dc7b51ed657cd0f
 
 upload Image:
@@ -10,7 +10,7 @@ https://docs.djangoproject.com/en/2.0/ref/files/uploads/#django.core.files.uploa
 additional reference:
 http://www.codepool.biz/django-upload-file.html
 
-1. use a form tag to upload an image from the digital textbook
+1. use a form tag to upload an image from the digital textbook html
 2. use an ajax request when the submit button is clicked
 3. in the server, create a model that will store the image
 3. in the server, create a view that will capture the requested image, upload the
