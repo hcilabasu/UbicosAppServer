@@ -34,5 +34,5 @@ def handle_uploaded_file(file, filename):
 
 def getImage(request):
     image = ImageModel.objects.all();
-    print(image[0].image)
-    return JsonResponse({'success': urllib.parse.urlencode('MEDIA_ROOT', image[0].image), 'errorMsg': True})
+
+    return JsonResponse({'success': image[2].image.url, 'errorMsg': True})
