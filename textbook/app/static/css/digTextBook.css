@@ -1,0 +1,22 @@
+/* css related to page divider */
+.main-content{
+    width: 50%;
+    float: left;
+}
+
+.wrapper, html, body{
+    height: 100%;
+}
+.divider{
+    position:absolute;
+    left:50%;
+    top:0%;
+    bottom:0%;
+    border-left:3px solid black;
+}
+
+.video{
+    width: 50%;
+    float: left;
+    text-align: center;
+}

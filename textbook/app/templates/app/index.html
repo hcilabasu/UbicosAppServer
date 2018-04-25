@@ -1,0 +1,127 @@
+{% load static %}
+<!doctype html>
+<html lang="en-US">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+
+  <title>2.1 Constant Velocity</title>
+
+  <!-- edit by ishrat-start -->
+
+  <link rel="stylesheet" type="text/css" href="{% static 'css/gallery.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'css/digTextbook.css' %}">
+  <script src="{% static 'js/jquery.min.js' %}"></script>
+
+  <!-- edit by ishrat-end -->
+
+</head>
+<body>
+  <div class="wrapper">
+    <div class="main-content">
+
+      <h1 id="21-constant-velocity">2.1 Constant Velocity</h1>
+      <h2 id="activity-1--how-fast">Activity 1- How Fast?</h2>
+      <h3 id="pre-lab-discussion1">Pre-lab discussion</h3>
+      <ol>
+        <li>Observe a moving object, (ex, toy car, remote operated toy, or even a video clip <img width="20px" src="{% static 'pics/Video-Icon.png' %}" onclick="showVideo()"> of an object moving).  Ask yourself, “How do you know this object is moving?”</li>
+        <li>Share some of your ideas with a partner.  Then share some of your ideas with the whole class the the Chat function and brainstorm.</li>
+        <li>Now watch the battery operated vehicle run on the floor or table. How could we figure out this toy car’s speed?</li>
+        <li>Conduct a class brainstorm and record their ideas at the front of the room. </li>
+        <li>Conduct a class brainstorm and upload your picture in the gallery. </li>
+        <li>Take a picture <img width="20px" src="{% static 'pics/camera.png' %}" ></li>
+        <form enctype= "multipart/form-data" method = "post" action = "http://hcilabasu.pythonanywhere.com/uploadImage/">
+          <input type='file' id="gallery_img" name="gallery_img"/>
+          <input type = "submit"  value = "submit"/>
+        </form>
+        <li>Visit the Gallery. <img width="20px" src="{% static 'pics/gallery.png' %}" onclick="showGallery()"></li>
+      </ol>
+
+      <h3 id="pre-lab-discussion2">Apparatus:</h3>
+      <ui>
+        <li>Toy battery powered car that travels at constant speed
+          (alternatively have someone walk at a roughly constant pace)</li>
+          <li>Stopwatch</li>
+          <li>Meter stick</li>
+          <li>Masking tape or whiteboard markers</li>
+          <li>Copies of 2.1 Act 1 How Fast worksheet</li>
+          <li>Copies of 2.2 Act 1 Number Line Speed</li>
+          <li>Copies of WS2 Terms for How Far</li>
+        </ui>
+        <footer>
+
+          <p><small></small></p>
+        </footer>
+
+      </div>
+
+      <div class="divider"></div>
+
+      <div >
+        <h1 id="right_header"></h1>
+        <p id="right_header_desc"></p>
+      </div>
+
+      <div class="video" id="videoID" style="display: none;">
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/Jme6jbstiDs?rel=0&amp;controls=0&amp;showinfo=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+      </div>
+
+      <!-- div element for gallery -- start -->
+      <!-- reference: http://html-tuts.com/create-valid-html-photo-gallery-for-all-browsers/ -->
+
+    <div class="gallery" id="galleryID" style="display: none;"> </div>
+
+
+  <div class="center border">
+    <input type = "submit"  value = "Submit" class="upload-btn"/>
+    <!-- <form enctype= "multipart/form-data" method = "post" action = "http://hcilabasu.pythonanywhere.com/uploadImage/">
+      <input type='file' id="gallery_img" name="gallery_img"/>
+      <input type = "submit"  value = "Upload" class="upload-btn"/>
+    </form> -->
+  </div>
+
+        <img id="gallery1" style="display: none" src="" width="300" height="300">
+      </div>
+
+
+      <!-- <div class="gallery" id="gallery1" style="display: none">
+
+        <div id="thumbs">
+          <a href="javascript: changeImage(1)"><img src="./pics/image1.png" alt="" /></a>
+          <a href="javascript: changeImage(2)"><img src="./pics/image2.png" alt="" /></a>
+          <a href="javascript:changeImage(3)"><img src="./pics/image3.png" alt="" /></a>
+          <a href="javascript: changeImage(4)"><img src="./pics/image4.png" alt="" /></a>
+          <a href="javascript: changeImage(5);"><img src="./pics/image5.png" alt="" /></a>
+        </div>
+
+      </div>
+
+      <div id="bigimages">
+        <div id="normal1" style="display: none">
+          <img src="./pics/bigimage1.png" alt=""/>
+        </div>
+
+        <div id="normal2" style="display: none">
+          <img src="./pics/bigimage2.png" alt=""/>
+        </div>
+
+        <div id="normal3" style="display: none">
+          <img src="./pics/bigimage3.png" alt=""/>
+        </div>
+
+        <div id="normal4" style="display: none">
+          <img src="./pics/bigimage4.png" alt=""/>
+        </div>
+
+        <div id="normal5" style="display: none">
+          <img src="./pics/bigimage5.png" alt=""/>
+        </div>
+      </div> -->
+
+
+      <!-- div element for gallery -- end -->
+      <script src="{% static 'js/gallery.js' %}"></script>
+      <script src="{% static 'js/video.js' %}"></script>
+    </body>
+    </html>

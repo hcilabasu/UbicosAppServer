@@ -1,4 +1,5 @@
 from django.http import HttpResponse, Http404
+from django.shortcuts import render
 from .models import ImageModel
 import os
 import urllib
@@ -8,7 +9,7 @@ from django.http.response import JsonResponse
 
 #in the browser: http://127.0.0.1:8000/app/
 def index(request):
-    return HttpResponse("Working Successfully")
+    return render(request, 'app/index.html',{})
 
 def uploadImage(request):
     #get image from html and save it in the database
