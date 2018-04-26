@@ -74,7 +74,12 @@
 
 
   <div class="center border">
-    <input type = "submit"  value = "Submit" class="upload-btn"/>
+    <span class="img_identifier">
+      <img id="default" src="{% static 'pics/default.png' %}" class="upload-img">
+      <span class=img_identifier_number>10</span>
+    </span>
+
+    <input width="" type = "submit"  value = "Re-Submit" class="upload-btn"/>
     <!-- <form enctype= "multipart/form-data" method = "post" action = "http://hcilabasu.pythonanywhere.com/uploadImage/">
       <input type='file' id="gallery_img" name="gallery_img"/>
       <input type = "submit"  value = "Upload" class="upload-btn"/>
