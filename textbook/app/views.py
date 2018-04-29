@@ -11,6 +11,10 @@ from django.http.response import JsonResponse
 def index(request):
     return render(request, 'app/index.html',{})
 
+def pageChange(request):
+    return render(request, 'app/page2.html', {})
+
+
 def uploadImage(request):
     #get image from html and save it in the database
     if request.method == "POST":
