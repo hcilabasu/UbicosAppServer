@@ -1,6 +1,6 @@
 from django.http import HttpResponse, Http404
 from django.shortcuts import render
-from .models import ImageModel
+from .models import ImageModel, ActivityIndex
 import os
 import urllib
 from django.http.response import JsonResponse
@@ -13,6 +13,10 @@ def index(request):
 
 def pageChange(request):
     return render(request, 'app/page2.html', {})
+
+def activityList(request):
+    activities = ActivityIndex.objects.all();
+    return render(request, 'app/activityindex.html',  {'activities': activities})
 
 
 def uploadImage(request):
@@ -39,5 +43,4 @@ def handle_uploaded_file(file, filename):
 
 def getImage(request):
     image = ImageModel.objects.all();
-
     return JsonResponse({'success': image[2].image.url, 'errorMsg': True})

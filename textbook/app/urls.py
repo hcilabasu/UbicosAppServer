@@ -7,5 +7,6 @@ urlpatterns = [
     url('index', views.index, name='index'),
     url('uploadImage', views.uploadImage, name='uploadImage'),
     url('getImage', views.getImage, name='getImg'),
-    url('next',views.pageChange, name='nextpage')
+    url('next',views.pageChange, name='nextpage'),
+    url('activities',views.activityList, name='activities')
 ]
