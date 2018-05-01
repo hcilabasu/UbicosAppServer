@@ -1,7 +1,12 @@
-function showVideo(){
+function showVideo(video){
+
   document.getElementById("right_header").innerHTML="Video";
 
+  var url = video.getAttribute("data-url");
+  console.log(url)
+
   var display = document.getElementById("videoID").style.display;
+  document.getElementById("videoFrame").src=url
 
   if(display == 'none'){
     document.getElementById("videoID").style.display = "inline";
@@ -12,4 +17,7 @@ function showVideo(){
     document.getElementById("right_header").style.display = "none";
 
   }
+
+
+
 }
