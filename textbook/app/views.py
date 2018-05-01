@@ -9,14 +9,14 @@ from django.http.response import JsonResponse
 
 #in the browser: http://127.0.0.1:8000/app/
 def index(request):
-    return render(request, 'app/index.html',{})
+    return render(request, 'app/index.html',{'activities': "None"})
 
 def pageChange(request):
     return render(request, 'app/page2.html', {})
 
 def activityList(request):
     activities = ActivityIndex.objects.all();
-    return render(request, 'app/activityindex.html',  {'activities': activities})
+    return render(request, 'app/index.html',  {'activities': activities})
 
 
 def uploadImage(request):

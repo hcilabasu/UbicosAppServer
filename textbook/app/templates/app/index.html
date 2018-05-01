@@ -5,6 +5,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <title>2.1 Constant Velocity</title>
 
@@ -67,15 +68,39 @@
     <div class="divider"></div>
 
     <div>
-        <h1 id="right_header"> Activity Feed </h1>
+        <h1 id="right_header"></h1>
         <p id="right_header_desc"></p>
     </div>
 
+    {% if activities != "None" %}
+    <!--<p>activities :: {{activities}}</p>-->
+    <div id="activity_index">
+        <img width="20" id="back" src="{% static 'pics/back.png'%}" onclick="window.location='/index'">
+        <h1 id="act_index_header">Activity Index</h1>
+
+
+        <table>
+            <tr>
+                <th> Page</th>
+                <th> Activity Type</th>
+            </tr>
+            {% for activity in activities %}
+            <tr>
+                <th> {{ activity.page_number }}</th>
+                <th> {{ activity.activity_type}}</th>
+            </tr>
+            {% endfor %}
+
+        </table>
+    </div>
+    {% endif %}
+
+
     <div id="activity_feed">
-
-
+        <img width="20px" class="topright" src="{% static 'pics/index.png' %}" onclick="showIndex()" {>
 
     </div>
+
 
     <div class="video" id="videoID" style="display: none;">
         <iframe width="560" height="315" id="videoFrame"
@@ -105,51 +130,10 @@
 
         </div>
     </div>
-
-
-    <img id="gallery1" style="display: none" src="" width="300" height="300">
-
 </div>
-
-
-<!-- <div class="gallery" id="gallery1" style="display: none">
-
-  <div id="thumbs">
-    <a href="javascript: changeImage(1)"><img src="./pics/image1.png" alt="" /></a>
-    <a href="javascript: changeImage(2)"><img src="./pics/image2.png" alt="" /></a>
-    <a href="javascript:changeImage(3)"><img src="./pics/image3.png" alt="" /></a>
-    <a href="javascript: changeImage(4)"><img src="./pics/image4.png" alt="" /></a>
-    <a href="javascript: changeImage(5);"><img src="./pics/image5.png" alt="" /></a>
-  </div>
-
-</div>
-
-<div id="bigimages">
-  <div id="normal1" style="display: none">
-    <img src="./pics/bigimage1.png" alt=""/>
-  </div>
-
-  <div id="normal2" style="display: none">
-    <img src="./pics/bigimage2.png" alt=""/>
-  </div>
-
-  <div id="normal3" style="display: none">
-    <img src="./pics/bigimage3.png" alt=""/>
-  </div>
-
-  <div id="normal4" style="display: none">
-    <img src="./pics/bigimage4.png" alt=""/>
-  </div>
-
-  <div id="normal5" style="display: none">
-    <img src="./pics/bigimage5.png" alt=""/>
-  </div>
-</div> -->
-
-
-<!-- div element for gallery -- end -->
 <script src="{% static 'js/gallery.js' %}"></script>
 <script src="{% static 'js/video.js' %}"></script>
+<script src="{% static 'js/digTextBook.js' %}"></script>
 </body>
 </html>
 
