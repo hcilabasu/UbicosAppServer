@@ -34,8 +34,12 @@
         <div id="dynamic-content">
             {% include 'app/activityfeed.html' %}
             <div class="card gallery">
-                <a id="close-card"></a>
+                <a class="close-card"></a>
                 {% include 'app/gallery.html' %}
+            </div>
+            <div class="card video">
+                <a class="close-card"></a>
+                {% include 'app/video.html' %}
             </div>
         </div>
 

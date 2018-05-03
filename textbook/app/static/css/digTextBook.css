@@ -40,6 +40,8 @@ h2 {
 #dynamic-content {
     grid-column: 2;
     position: relative;
+    background: linear-gradient(rgb(224, 235, 240), white);
+    overflow-x: hidden;
 }
 
 .btn {
@@ -149,12 +151,20 @@ a {
     bottom: 0;
     left: 0;
     right: 0;
-    display: none;
     -webkit-backdrop-filter: blur(15px);
     backdrop-filter: blur(15px);
     color: white;
     box-shadow: 0 0 5px rgba(0,0,0,0.3);
     margin: 0 !important;
+    transform: translateX(100%);
+    transition: all 0.4s;
+    transition-timing-function: ease-out;
+}
+
+.card.active {
+    transform: translateX(0);
+    transition: all 0.4s;
+    transition-timing-function: ease-out;
 }
 
     .card > * {
@@ -162,7 +172,7 @@ a {
         padding-top: 0;
     }
 
-#close-card {
+.close-card {
     display: inline-block;
     position: absolute;
     top: 0px;
@@ -277,8 +287,7 @@ a {
 
 /* GALLERY */
 .card.gallery {
-    background: linear-gradient(rgba(86, 197, 163, 0.8), rgba(93, 208, 106, 0.8));
-    display: block;
+    background: linear-gradient(rgba(86, 197, 163, 0.7), rgba(93, 208, 106, 0.7));
 }
 
 #gallery-user-submission {
@@ -335,3 +344,20 @@ a {
     line-height: 1rem;
     box-shadow: 0 2px 4px rgba(0,0,0,0.3);   
 }
+
+/* VIDEO */
+.card.video {
+    background: linear-gradient(rgba(228, 49, 49, 0.8), rgba(228, 88, 130, 0.5));
+}
+
+.video-player {
+    position: absolute;
+    top: 50%;
+    left: 30px;
+    transform: translateY(-50%);
+    text-align: center;
+}
+
+    .video-player iframe {
+        box-shadow: 0 2px 4px rgba(0,0,0,0.3);   
+    }
