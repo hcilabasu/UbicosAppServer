@@ -7,7 +7,12 @@ html, body {
 
 h1 {
     margin: 0;
-    padding: 1rem 0;
+    padding: 0;
+}
+
+h2 {
+    font-size: 1.3rem;
+    font-weight: bolder;
 }
 
 #main-container {
@@ -29,6 +34,7 @@ h1 {
 #textbook-content {
     grid-column: 1;
     border-right: solid 1px #CCC;
+    -webkit-overflow-scrolling: touch;
 }
 
 #dynamic-content {
@@ -38,12 +44,17 @@ h1 {
 
 .btn {
     display: inline-block;
-    padding: 1rem 1.5rem;
-    background: rgba(255,255,255,0.6);
-    box-shadow: 0 0 5px rgba(0,0,0,0.2);
+    padding: 0.7rem 1.5rem;
+    background: white;
+    /* border: solid 1px #007BFF; */
     color: #007BFF;
-    border-radius: 10px;
+    border-radius: 20px;
     text-decoration: none;
+    box-shadow: 0 0 5px rgba(0,0,0,0.2);
+}
+
+a {
+    cursor: pointer;
 }
 
 
@@ -71,13 +82,13 @@ h1 {
 .activity-button {
     display: block;
     position: absolute;
-    height: 58px;
-    width: 58px;
+    height: 48px;
+    width: 48px;
     border-radius: 40px;
-    right: -82px;
+    right: -75px;
     top: 0;
     background: no-repeat top left white;
-    background-size: 58px 58px;
+    background-size: 48px 48px;
 }
 
 .activity-button:after {
@@ -130,27 +141,40 @@ h1 {
 */
 
 .card {
-    overflow: hidden;
-    border-radius: 10px;
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
     box-shadow: 0 0 5px rgba(0,0,0,0.2);
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: none;
+    -webkit-backdrop-filter: blur(15px);
+    backdrop-filter: blur(15px);
+    color: white;
+    box-shadow: 0 0 5px rgba(0,0,0,0.3);
+    margin: 0 !important;
 }
 
     .card > * {
         margin: 1rem;
+        padding-top: 0;
     }
 
-    .card h1 {
-        margin: 0;
-    }
-
-#dynamic-content img {
-    width: 200px;
-    height: 200px;
+#close-card {
+    display: inline-block;
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    height: 30px;
+    width: 30px;
+    background: url('/static/pics/close-card.png') no-repeat;
+    background-size: 100%;
 }
 
-#dynamic-content h1,
-#dynamic-content h2 {
-    text-shadow: 0 1px 0 rgba(255,255,255,0.3);
+#dynamic-content h1 {
+
 }
 
 /* ACTIVITY FEED */
@@ -163,7 +187,7 @@ h1 {
     right: 0px;
     height: 30px;
     border-radius: 30px;
-    padding: 10px 10px 12px 10px;
+    padding: 8px 10px 14px 9px;
     box-shadow: 0 4px 10px rgba(0,0,0,0.1);     
 }
 
@@ -232,7 +256,7 @@ h1 {
     position: relative;
     display: inline-block;
     height: 58px;
-    width: 58px;
+    width: 58px !important;
     background: #C9DDE4;
     border-radius: 40px;
     text-align: center;
@@ -252,27 +276,62 @@ h1 {
 }
 
 /* GALLERY */
-.gallery .card {
-    background: linear-gradient(#0E9642, rgb(134, 216, 205));
-}
-
-.gallery h1, .gallery h2 {
-    color: rgb(2, 56, 23);
+.card.gallery {
+    background: linear-gradient(rgba(86, 197, 163, 0.8), rgba(93, 208, 106, 0.8));
+    display: block;
 }
 
 #gallery-user-submission {
     background: rgba(255,255,255,0.5);
     padding: 1rem;
-    border-radius: 10px;
-    box-shadow: 0 0 5px rgba(0,0,0,0.2);
     display: flex;
     justify-content: center;
     align-items: center;
+    margin: 0;
 }
 
 #gallery-user-submission > * {
+    margin: 0 20px;
 }
 
 #gallery-user-submission .btn {
-    align-self: flex-start;
+    top: 50%;
+}
+
+.gallery img {
+    width: 180px;
+    height: 130px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.3);   
+}
+
+.gallery ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.gallery ul li {
+    display: inline-block;
+    margin-right: 17px;
+    margin-bottom: 17px;
+    position: relative;
+}
+
+.gallery ul li img {
+    width: 100px;
+    height: 80px;
+}
+
+.badge {
+    height: 1rem;
+    width: 1rem;
+    padding: 10px;
+    background: #2D9CDB;
+    display: inline-block;
+    position: absolute;
+    right: -10px;
+    bottom: -5px;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 1rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.3);   
 }
