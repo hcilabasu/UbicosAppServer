@@ -1,64 +1,278 @@
-/* css related to page divider */
-.main-content{
-    width: 50%;
-    float: left;
-}
-
-.wrapper, html, body{
+html, body {
     height: 100%;
+    padding: 0;
+    margin: 0;
+    font-family: 'Lato', sans-serif;
+}
+
+h1 {
+    margin: 0;
+    padding: 1rem 0;
+}
+
+#main-container {
+    display: grid;
+    height: 100%;
+    grid-template-columns: 50% 50%;
+}
+
+#textbook-content,
+#dynamic-content {
+    overflow: auto;
+}
+
+#textbook-content > *,
+#dynamic-content > * {
+    margin: 1rem;
+}
+
+#textbook-content {
+    grid-column: 1;
+    border-right: solid 1px #CCC;
+}
+
+#dynamic-content {
+    grid-column: 2;
+    position: relative;
+}
+
+.btn {
+    display: inline-block;
+    padding: 1rem 1.5rem;
+    background: rgba(255,255,255,0.6);
+    box-shadow: 0 0 5px rgba(0,0,0,0.2);
+    color: #007BFF;
+    border-radius: 10px;
+    text-decoration: none;
+}
+
+
+/*
+    BOOK PAGE STYLING
+*/
+.page {
+    padding-right: 80px;
+}
+
+.page > * {
+    position: relative;
+    text-align: justify;
+}
+
+.page li {
+    position: relative;
+}
+
+#textbook-content h1 {
+    border-bottom: dotted 2px #7AAFB5;
+    padding-bottom: 1rem;
+}
+
+.activity-button {
+    display: block;
+    position: absolute;
+    height: 58px;
+    width: 58px;
+    border-radius: 40px;
+    right: -82px;
+    top: 0;
+    background: no-repeat top left white;
+    background-size: 58px 58px;
+}
+
+.activity-button:after {
+    position: absolute;
+    top: -4px; bottom: -4px;
+    left: -4px; right: -4px;
+    content: '';
+    z-index: -1;
+    border-radius: 40px;
+}
+
+.page a {
+    font-weight: bolder;
+    text-decoration: underline;
+    cursor: pointer; 
+}
+
+.brainstorm {
+    color: #C6920D;
+}
+.activity-button.brainstorm {
+    background-image: url('/static/pics/brainstorm.png');
+}
+.activity-button.brainstorm:after {
+    background: linear-gradient(#F4AB4D, #F9C82C);
+}
+
+.video {
+    color: #F94955;
+}
+.activity-button.video {
+    background-image: url('/static/pics/video.png');
+}
+.activity-button.video:after {
+    background: linear-gradient(#EE9DB9, #FF0F10);
+}
+
+.gallery {
+    color: #44D64D;
+}
+.activity-button.gallery {
+    background-image: url('/static/pics/gallery.png');
+}
+.activity-button.gallery:after {
+    background: linear-gradient(#2DB872, #56EF2C);
+}
+
+/* 
+    DYNAMIC CONTENT STYLING 
+*/
+
+.card {
     overflow: hidden;
+    border-radius: 10px;
+    box-shadow: 0 0 5px rgba(0,0,0,0.2);
 }
 
-.divider{
-    position:absolute;
-    left:50%;
-    top:0%;
-    bottom:0%;
-    border-left:3px solid black;
+    .card > * {
+        margin: 1rem;
+    }
 
+    .card h1 {
+        margin: 0;
+    }
+
+#dynamic-content img {
+    width: 200px;
+    height: 200px;
 }
 
-.video{
-    width: 50%;
-    float: left;
+#dynamic-content h1,
+#dynamic-content h2 {
+    text-shadow: 0 1px 0 rgba(255,255,255,0.3);
+}
+
+/* ACTIVITY FEED */
+
+#write-message {
+    background: #C9DDE4;
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    height: 30px;
+    border-radius: 30px;
+    padding: 10px 10px 12px 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);     
+}
+
+    #write-message input {
+        height: 100%;
+        border: none;
+        border-radius: 20px;
+        width: calc(100% - 70px); 
+        padding-left: 10px;  
+    }
+
+    #write-message a {
+        position: absolute;
+        top: 0px;
+        right: 10px;
+        display: inline-block;
+        height: 50px;
+        width: 50px;
+        background: url('/static/pics/plane.png') no-repeat;
+        background-size: 40px 40px;
+        background-position: 3px 6px;
+    }
+
+.feed {
+    list-style: none;
+    padding: 0;
+}
+
+    .feed li {
+        position: relative;
+        padding: 5px 0 0 70px;
+        min-height: 60px;
+        margin-bottom: 40px;
+    }
+
+    .feed li.self {
+        padding: 5px 70px 0 0;
+    }
+
+.feed p {
+    border-radius: 20px;
+    margin: 0;
+}
+
+.message p {
+    background: linear-gradient(#BCE3EF, #81D3D3);
+    padding: 1rem;
+}
+
+.message.self p {
+    background: linear-gradient(#9AE6BF, #67CCBC);
+}
+
+.feed .user-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.feed .self .user-image {
+    left: auto;
+    right: 0;
+}
+
+.user-image {
+    position: relative;
+    display: inline-block;
+    height: 58px;
+    width: 58px;
+    background: #C9DDE4;
+    border-radius: 40px;
     text-align: center;
 }
 
-.backpage {
+    .user-image span {
+        position: absolute;
+        bottom: -20px;
+        left: 0;
+        width: 100%;
+        display: inline-block;
+    }
 
-    border: 1px solid black;
-    background-color: lightblue;
-    position: relative;
-    top: 20px;
-
+.feed a {
+    color: #1F87FF;
+    text-decoration: underline;
 }
 
-.nextpage {
-
-    border: 1px solid black;
-    background-color: lightblue;
-    position: relative;
-    top: 20px;
-    left: 80%;
-
+/* GALLERY */
+.gallery .card {
+    background: linear-gradient(#0E9642, rgb(134, 216, 205));
 }
 
-.topright {
-    position: absolute;
-    top: 40px;
-    right: 40px;
-
+.gallery h1, .gallery h2 {
+    color: rgb(2, 56, 23);
 }
 
-.right-table{
-    position: absolute;
-    top: 90px;
-    right: 100px;
+#gallery-user-submission {
+    background: rgba(255,255,255,0.5);
+    padding: 1rem;
+    border-radius: 10px;
+    box-shadow: 0 0 5px rgba(0,0,0,0.2);
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-.right{
-    position: absolute;
-    top: 5px;
-    right: 180px;
+#gallery-user-submission > * {
 }
 
+#gallery-user-submission .btn {
+    align-self: flex-start;
+}

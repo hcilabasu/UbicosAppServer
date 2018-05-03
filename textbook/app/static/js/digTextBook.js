@@ -1,5 +1,3 @@
-function showIndex(){
-
- window.location="/activities"
-
-}
+$(function(){
+    
+})
