@@ -62,3 +62,14 @@
     right: 180px;
 }
 
+
+.center {
+  position: absolute;
+	width: 500px; /*size of the div */
+	height: 200px;
+    left: 570px; /*location of the div */
+    top: 110px;
+
+
+}
+

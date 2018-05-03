@@ -27,15 +27,15 @@
        $.ajax({
        type: 'GET',
        dataType: 'json',
-       url: 'http://hcilabasu.pythonanywhere.com/getImage/',
-       //url: 'http://127.0.0.1:8000/getImage/',
+       //url: 'http://hcilabasu.pythonanywhere.com/getImage/',
+       url: 'http://127.0.0.1:8000/getImage/',
        success: function (data, textStatus, xhr) {
                  console.log('success:',data.success);
                  img_src=data.success
                  console.log(img_src)
                  document.getElementById("gallery1").style.display = "inline";
-                 document.getElementById("gallery1").src='http://hcilabasu.pythonanywhere.com'+img_src
-                 //document.getElementById("gallery1").src='http://127.0.0.1:8000'+img_src
+                 //document.getElementById("gallery1").src='http://hcilabasu.pythonanywhere.com'+img_src
+                 document.getElementById("gallery1").src='http://127.0.0.1:8000'+img_src
 
          },
          error: function (error, textStatus) {
