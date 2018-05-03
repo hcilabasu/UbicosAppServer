@@ -41,11 +41,7 @@
             <li>Conduct a class brainstorm and record their ideas at the front of the room.</li>
             <li>Conduct a class brainstorm and upload your picture in the gallery.</li>
             <li>Take a picture <img width="20px" src="{% static 'pics/camera.png' %}"></li>
-            <!--<form enctype= "multipart/form-data" method = "post" action = "http://hcilabasu.pythonanywhere.com/uploadImage/">-->
-            <!--<input type='file' id="gallery_img" name="gallery_img"/>-->
-            <!--<input type = "submit"  value = "submit"/>-->
-            <!--</form>-->
-            <li>Visit the Gallery. <img width="20px" src="{% static 'pics/gallery.png' %}" onclick="showGallery()"></li>
+            <li>Visit the Gallery. <img width="20px" src="{% static 'pics/gallery.png' %}" data-gallery-id="1" onclick="showGallery(this)"></li>
         </ol>
 
         <h3 id="pre-lab-discussion2">Apparatus:</h3>
@@ -102,6 +98,7 @@
     </div>
 
 
+
     <div class="video" id="videoID" style="display: none;">
         <iframe width="560" height="315" id="videoFrame"
                 frameborder="0"
@@ -115,7 +112,7 @@
         <div class="center border">
       <span class="img_identifier">
         <img id="default" src="{% static 'pics/default.png' %}" class="upload-img">
-        <span class=img_identifier_number>1</span>
+        <span class=img_identifier_number id="img_number"></span>
       </span>
 
             <!--check whether the image got uploaded http://127.0.0.1:8000/media/images/<image_file_name>-->
@@ -128,8 +125,16 @@
                 <input type="submit" value="submit" class="submit-btn"/>
             </form>
 
+            <img src="" id="gallery1" width="20px" >
         </div>
+
+        <!--{% if video != "None" %}-->
+        <!--<div>-->
+            <!--<p>place for gallery</p>-->
+        <!--</div>-->
+        <!--{% endif %}-->
     </div>
+
 </div>
 <script src="{% static 'js/gallery.js' %}"></script>
 <script src="{% static 'js/video.js' %}"></script>

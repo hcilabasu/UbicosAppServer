@@ -43,4 +43,4 @@ def handle_uploaded_file(file, filename):
 
 def getImage(request):
     image = ImageModel.objects.all();
-    return JsonResponse({'success': image[2].image.url, 'errorMsg': True})
+    return JsonResponse({'success': image[0].image.url, 'errorMsg': True})
