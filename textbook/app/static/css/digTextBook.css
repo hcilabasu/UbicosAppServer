@@ -45,7 +45,7 @@
 
 .topright {
     position: absolute;
-    top: 40px;
+    top: 100px;
     right: 40px;
 
 }
@@ -64,12 +64,20 @@
 
 
 .center {
-  position: absolute;
+    position: absolute;
 	width: 500px; /*size of the div */
 	height: 200px;
     left: 570px; /*location of the div */
     top: 110px;
 
+}
+
+.logout{
+
+    display: inline-block;
+    position: absolute;
+    left: 90%; /*location of the div */
+    top: 10px;
 
 }
 

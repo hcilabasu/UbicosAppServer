@@ -3,22 +3,22 @@
 <html lang="en-US">
 
 <head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
 
-  <title>2.1 Constant Velocity</title>
+    <title>2.1 Constant Velocity</title>
 
-  <!-- edit by ishrat-start -->
+    <!-- edit by ishrat-start -->
 
-  <link rel="stylesheet" type="text/css" href="{% static 'css/gallery.css' %}">
-  <link rel="stylesheet" type="text/css" href="{% static 'css/digTextBook.css' %}">
-  <script src="{% static 'js/jquery.min.js' %}"></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/gallery.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/digTextBook.css' %}">
+    <script src="{% static 'js/jquery.min.js' %}"></script>
 
-  <!-- edit by ishrat-end -->
+    <!-- edit by ishrat-end -->
 
 </head>
 <body>
-  <div class="wrapper">
+<div class="wrapper">
     <div class="main-content">
 
         <h2 id="activity-1--how-fast">Activity 1- How Fast?</h2>
@@ -27,31 +27,36 @@
         <h4>In-person</h4>
         <p>Using the materials at hand, your task is to devise a method of determining how fast your car moves as
             confidently as possible. Create your plan on the large whiteboard. (More Information) —what measurements do
-                you need to take? What units will you use? Do you plan to take more than one set of data? </p>
+            you need to take? What units will you use? Do you plan to take more than one set of data? </p>
 
         <h4>Digital</h4>
         <ol>
             <li>Carry out your plan from question 1 and record your data below (table/graph).
-                Remember to organize this data (More Information) and add units as necessary to report back to the rest of the class.</li>
-            <li>Take a picture of the whiteboard and post it to our gallery. (Gallery (affinity diagram, swap image behind)</li>
+                Remember to organize this data (More Information) and add units as necessary to report back to the rest
+                of the class.
+            </li>
+            <li>Take a picture of the whiteboard and post it to our gallery. (Gallery (affinity diagram, swap image
+                behind)
+            </li>
             <li>Do a digital gallery walk and compare your results with the members of other groups.</li>
-            <li>Visit the Gallery. <img width="20px" src="{% static 'pics/gallery.png' %}" data-gallery-id="2" onclick="showGallery(this)"></li>
+            <li>Visit the Gallery. <img width="20px" src="{% static 'pics/gallery.png' %}" data-gallery-id="2"
+                                        onclick="showGallery(this)"></li>
         </ol>
 
 
         <!--TODO: make the 'location name' a variable and pass it from view; same as view name??-->
-        <input width="" type = "submit"  value = "Back" class="backpage" onClick="window.location='/index'"/>
-        <input width="" type = "submit"  value = "Next" class="nextpage" onClick="window.location='/next'"/>
+        <input width="" type="submit" value="Back" class="backpage" onClick="window.location='/index'"/>
+        <input width="" type="submit" value="Next" class="nextpage" onClick="window.location='/next'"/>
     </div>
 
-      <div class="divider"></div>
+    <div class="divider"></div>
 
-      <div >
+    <div>
         <h1 id="right_header"></h1>
         <p id="right_header_desc"></p>
-      </div>
+    </div>
 
-         <div id="galleryID" style="display: none;">
+    <div id="galleryID" style="display: none;">
         <div class="center border">
       <span class="img_identifier">
         <img id="default" src="{% static 'pics/default.png' %}" class="upload-img">
@@ -72,22 +77,26 @@
 
         <!--{% if video != "None" %}-->
         <!--<div>-->
-            <!--<p>place for gallery</p>-->
+        <!--<p>place for gallery</p>-->
         <!--</div>-->
         <!--{% endif %}-->
     </div>
 
+    {% if user.is_authenticated %}
 
-      <!-- div element for gallery -- start -->
-      <!-- reference: http://html-tuts.com/create-valid-html-photo-gallery-for-all-browsers/ -->
+    <div class="logout">
 
+        <p>User Name: {{ user.get_username }}</p>
+        <a href="/logout">Logout</a>
 
+        {% else %}
 
+        <a href="/">Login</a>
+    </div>
+    {% endif %}
 
-
-      <!-- div element for gallery -- end -->
-      <script src="{% static 'js/gallery.js' %}"></script>
-      <script src="{% static 'js/video.js' %}"></script>
-  </div>
+    <script src="{% static 'js/gallery.js' %}"></script>
+    <script src="{% static 'js/video.js' %}"></script>
+</div>
 </body>
 </html>
