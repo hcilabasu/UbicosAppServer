@@ -11,7 +11,7 @@
   <!-- edit by ishrat-start -->
 
   <link rel="stylesheet" type="text/css" href="{% static 'css/gallery.css' %}">
-  <link rel="stylesheet" type="text/css" href="{% static 'css/digTextbook.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'css/digTextBook.css' %}">
   <script src="{% static 'js/jquery.min.js' %}"></script>
 
   <!-- edit by ishrat-end -->
@@ -35,6 +35,7 @@
                 Remember to organize this data (More Information) and add units as necessary to report back to the rest of the class.</li>
             <li>Take a picture of the whiteboard and post it to our gallery. (Gallery (affinity diagram, swap image behind)</li>
             <li>Do a digital gallery walk and compare your results with the members of other groups.</li>
+            <li>Visit the Gallery. <img width="20px" src="{% static 'pics/gallery.png' %}" data-gallery-id="2" onclick="showGallery(this)"></li>
         </ol>
 
 
@@ -49,6 +50,32 @@
         <h1 id="right_header"></h1>
         <p id="right_header_desc"></p>
       </div>
+
+         <div id="galleryID" style="display: none;">
+        <div class="center border">
+      <span class="img_identifier">
+        <img id="default" src="{% static 'pics/default.png' %}" class="upload-img">
+        <span class=img_identifier_number id="img_number"></span>
+      </span>
+
+            <!--check whether the image got uploaded http://127.0.0.1:8000/media/images/<image_file_name>-->
+            <!--<form enctype= "multipart/form-data" method = "post" action = "http://hcilabasu.pythonanywhere.com/uploadImage/">-->
+            <form enctype="multipart/form-data" method="post" action="http://127.0.0.1:8000/uploadImage/">
+                <label for="file-upload" class="custom-file-upload upload-btn">
+                    Custom Upload
+                </label>
+                <input id="file-upload" name="gallery_img" type="file"/>
+                <input type="submit" value="submit" class="submit-btn"/>
+            </form>
+
+        </div>
+
+        <!--{% if video != "None" %}-->
+        <!--<div>-->
+            <!--<p>place for gallery</p>-->
+        <!--</div>-->
+        <!--{% endif %}-->
+    </div>
 
 
       <!-- div element for gallery -- start -->

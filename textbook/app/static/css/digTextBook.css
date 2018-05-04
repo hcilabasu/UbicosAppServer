@@ -390,3 +390,14 @@ a {
     background-size: 60%;
     background-position: center center;
 }
+
+.center {
+  position: absolute;
+	width: 500px; /*size of the div */
+	height: 200px;
+    left: 570px; /*location of the div */
+    top: 110px;
+
+
+}
+
