@@ -2,17 +2,23 @@ html, body {
     height: 100%;
     padding: 0;
     margin: 0;
-    font-family: 'Lato', sans-serif;
+    font-family: 'Open Sans', sans-serif;
 }
 
 h1 {
     margin: 0;
     padding: 0;
+    font-family: 'Quicksand', sans-serif;
+    font-weight: 400;
 }
 
 h2 {
     font-size: 1.3rem;
     font-weight: bolder;
+}
+
+h3 {
+    font-weight: normal;
 }
 
 #main-container {
@@ -33,7 +39,6 @@ h2 {
 
 #textbook-content {
     grid-column: 1;
-    border-right: solid 1px #CCC;
     -webkit-overflow-scrolling: touch;
 }
 
@@ -151,20 +156,23 @@ a {
     bottom: 0;
     left: 0;
     right: 0;
-    -webkit-backdrop-filter: blur(15px);
-    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
     color: white;
-    box-shadow: 0 0 5px rgba(0,0,0,0.3);
-    margin: 0 !important;
+    margin: 5px 0 5px 5px !important;
     transform: translateX(100%);
     transition: all 0.4s;
     transition-timing-function: ease-out;
+    box-shadow: none;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
 }
 
 .card.active {
     transform: translateX(0);
     transition: all 0.4s;
     transition-timing-function: ease-out;
+    box-shadow: 4px 0 4px rgba(0,0,0,0.3);
 }
 
     .card > * {
@@ -320,8 +328,8 @@ a {
 
 .gallery ul li {
     display: inline-block;
-    margin-right: 17px;
-    margin-bottom: 17px;
+    margin-right: 15px;
+    margin-bottom: 15px;
     position: relative;
 }
 
@@ -353,11 +361,32 @@ a {
 .video-player {
     position: absolute;
     top: 50%;
-    left: 30px;
+    left: 0px;
+    margin: 0 !important;
     transform: translateY(-50%);
     text-align: center;
+    width: 100%;
 }
 
-    .video-player iframe {
-        box-shadow: 0 2px 4px rgba(0,0,0,0.3);   
-    }
+.video-player iframe {
+    box-shadow: 0 2px 4px rgba(0,0,0,0.3);  
+    width: 100%; 
+}
+
+/* BRAINSTORM */
+.card.brainstorm {
+    background: linear-gradient(rgba(244, 171, 76, 0.8), rgba(249, 198, 46, 0.5));
+}
+
+#new-idea {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.3);   
+    background: url('/static/pics/add.png') no-repeat #1F87FF;
+    background-size: 60%;
+    background-position: center center;
+}
