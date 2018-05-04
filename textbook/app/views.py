@@ -1,3 +1,4 @@
+
 from django.http import HttpResponse, Http404, HttpResponseRedirect
 from django.shortcuts import render
 from .models import ImageModel, ActivityIndex
@@ -9,6 +10,7 @@ from django.contrib.auth import login as auth_login
 
 
 #in the browser: http://127.0.0.1:8000/app/
+
 def index(request):
     return render(request, 'app/index.html',{'activities': "None"})
 
@@ -42,7 +44,8 @@ def login(request):
             auth_login(request, user)
             return HttpResponseRedirect('/index/')
         else:
-            return HttpResponse("Enter Correct Information.")
+            msg = 'Enter Correct Information';
+            return render(request, 'app/login.html', {})
 
 
 def uploadImage(request):
