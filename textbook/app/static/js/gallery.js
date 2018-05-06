@@ -1,21 +1,8 @@
 
     function showGallery(gallery){
 
-      document.getElementById("right_header").innerHTML="Gallery";
 
-      var display = document.getElementById("galleryID").style.display;
-
-      if(display == 'none'){
-        document.getElementById("galleryID").style.display = "inline";
-        document.getElementById("right_header").style.display = "inline";
-      }
-      else{
-        document.getElementById("galleryID").style.display = "none";
-        document.getElementById("right_header").style.display = "none";
-
-      }
-
-      var gallery_id = gallery.getAttribute("data-gallery-id");
+      var gallery_id = gallery.getAttribute("data-gallery-num");
       console.log(gallery_id)
 
       var img_number = document.getElementById("img_number")

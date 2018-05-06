@@ -1,14 +1,27 @@
-<h1>Gallery #1</h1>
+<h1 id="h1-title"></h1>
 
 <p>
-    This is the description for this gallery activity. You are supposed to take pictures of your battery powered cars travelling through the road.
+    This is the description for this gallery activity. You are supposed to take pictures of your battery powered cars
+    travelling through the road.
 </p>
 
 <h2>Your submission</h2>
 
 <div id="gallery-user-submission">
-    <img src="https://tinyurl.com/y72rf9lz" alt="">
-    <a href="" class="btn">Upload</a>
+    <li>
+        <img src="https://tinyurl.com/y72rf9lz" alt="">
+        <span class="badge">3</span>
+    </li>
+
+    <form enctype="multipart/form-data" method="post" action="http://127.0.0.1:8000/uploadImage/">
+        <label for="file-upload" class="btn">
+            Choose
+        </label>
+        <input id="file-upload" name="gallery_img" type="file" class="btn"/>
+        <input type="hidden" name="id" value=""/> <!--pass gallery id number-->
+        <input type="submit" class="btn" value="Submit">
+    </form>
+
 </div>
 
 <h2>All submissions</h2>

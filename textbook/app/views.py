@@ -53,7 +53,19 @@ def uploadImage(request):
     if request.method == "POST":
         # print (request.Files) #gives the name of the <input type='file' name...>
 
-        img = ImageModel(image=request.FILES['gallery_img'])
+        #print('id :: ', request.POST.get('id'))
+
+        gallery_id = request.POST.get('id')
+
+        username = ''
+        if request.user.is_authenticated():
+            print('username :: ',request.user.get_username())
+            username = request.user.get_username();
+        else:
+            print('user not signed in') #add in log
+
+        #TODO: restrict insertion if user is not signed in
+        img = ImageModel(gallery_id=gallery_id, posted_by = username, image=request.FILES['gallery_img'])
         img.save()
 
         #uploads in the server but not in the db
