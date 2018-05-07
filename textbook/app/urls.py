@@ -11,5 +11,7 @@ urlpatterns = [
     url('uploadImage', views.uploadImage, name='uploadImage'),
     url('getImage', views.getImage, name='getImg'),
     url('next',views.pageChange, name='nextpage'),
-    url('activities',views.activityList, name='activities')
+    url('activities',views.activityList, name='activities'),
+    url('delete',views.deleteAllItems, name='activities')
+
 ]

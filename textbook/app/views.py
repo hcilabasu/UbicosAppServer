@@ -1,5 +1,5 @@
 
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render
 from .models import ImageModel, ActivityIndex
 from django.contrib.auth import authenticate
@@ -76,5 +76,9 @@ def uploadImage(request):
 
 
 def getImage(request):
-    image = ImageModel.objects.all();
+    image = ImageModel.objects.all().reverse();
     return JsonResponse({'success': image[0].image.url, 'errorMsg': True})
+
+def deleteAllItems(request):
+    ImageModel.objects.all().delete()
+    return HttpResponse('')
