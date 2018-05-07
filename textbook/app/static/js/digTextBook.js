@@ -24,14 +24,15 @@ $(function(){
         console.log('touch');
 
 
-
+        //based on the activity type, update titles and html elements
         if(type == 'video'){
             $('#h1-title').text('Video #'+id); //update the title of each page //this does not work
             console.log("i am here Video inside if-why dont you update h1?")
         }
         else if(type == 'brainstorm'){
             $('#h1-title').text('Brainstorming #'+id); //this does not work
-        }else if(type == 'gallery'){
+        }
+        else if(type == 'gallery'){
             $('#h1-title').text('Gallery #'+id) //this works
             $('.badge').text(id); //update badge in gallery.html with the id
             $('input[name="id"]').attr('value',id);
@@ -42,5 +43,9 @@ $(function(){
     $('.close-card').on('touch click', function(){
         $(this).closest('.card').removeClass('active');
     });
+
+
+
+
 
 })

@@ -21,6 +21,7 @@
     <!-- Scripts -->
     <script src="{% static 'js/jquery.min.js' %}"></script>
     <script src="{% static 'js/digTextBook.js' %}"></script>
+    <script src="{% static 'js/gallery.js' %}"></script>
 
 </head>
 <body>
@@ -40,7 +41,9 @@
             -->
             <div class="card gallery">
                 <a class="close-card"></a>
+
                 {% include 'app/gallery.html' %}
+
             </div>
             <div class="card video">
                 <a class="close-card"></a>

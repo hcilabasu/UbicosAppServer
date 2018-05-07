@@ -1,13 +1,11 @@
 
-from django.http import HttpResponse, Http404, HttpResponseRedirect
+from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from .models import ImageModel, ActivityIndex
-import os
 from django.contrib.auth import authenticate
 from django.http.response import JsonResponse
 from django.contrib.auth import login as auth_login
-
-
+from django.core import serializers
 
 #in the browser: http://127.0.0.1:8000/app/
 
@@ -54,9 +52,10 @@ def uploadImage(request):
         # print (request.Files) #gives the name of the <input type='file' name...>
 
         #print('id :: ', request.POST.get('id'))
-
+        #get the gallery ID
         gallery_id = request.POST.get('id')
 
+        #get the logged in username
         username = ''
         if request.user.is_authenticated():
             print('username :: ',request.user.get_username())
@@ -64,22 +63,16 @@ def uploadImage(request):
         else:
             print('user not signed in') #add in log
 
+        #insert values in the database
         #TODO: restrict insertion if user is not signed in
         img = ImageModel(gallery_id=gallery_id, posted_by = username, image=request.FILES['gallery_img'])
         img.save()
 
-        #uploads in the server but not in the db
-        #handle_uploaded_file(request.FILES['gallery_img'], str(request.FILES['gallery_img']))
-        return HttpResponse('success')
+        images = ImageModel.objects.all();
 
-
-def handle_uploaded_file(file, filename):
-    if not os.path.exists('media/'):
-        os.mkdir('media/')
-
-    with open('media/' + filename, 'wb+') as destination:
-        for chunk in file.chunks():
-            destination.write(chunk)
+        #TODO: serialize and send only the fieldnames, not the entire model
+        image_data = serializers.serialize('json', images)
+        return JsonResponse({'success': image_data, 'errorMsg': True})
 
 
 def getImage(request):

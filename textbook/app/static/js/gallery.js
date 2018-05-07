@@ -1,43 +1,60 @@
 
-    function showGallery(gallery){
+$(function(){
+
+    $( "#upload-img" ).submit(function( event ) {
+
+        event.preventDefault();
+
+        var form_data = new FormData($('#upload-img')[0]);
+
+        var img_data
 
 
-      var gallery_id = gallery.getAttribute("data-gallery-num");
-      console.log(gallery_id)
 
-      var img_number = document.getElementById("img_number")
-      img_number.innerHTML = gallery_id
+        $.ajax({
+              type:'POST',
+              url:'http://127.0.0.1:8000/uploadImage/',
+              processData: false,
+              contentType: false,
+              async: false,
+              cache: false,
+              data : form_data,
+              success: function(response){
+                //console.log('success:', response.success);
+                img_data = response.success;
 
-      
+                var obj = jQuery.parseJSON(img_data);
+                $.each(obj, function(key,value) {
+                  //console.log(value.fields) //gives all the value
+                  //console.log(value.fields['image']); //image field in the model
 
-       var img_src
-       $.ajax({
-       type: 'GET',
-       dataType: 'json',
-       //url: 'http://hcilabasu.pythonanywhere.com/getImage/',
-       url: 'http://127.0.0.1:8000/getImage/',
-       success: function (data, textStatus, xhr) {
-                 console.log('success:',data.success);
-                 img_src=data.success
-                 console.log(img_src)
-                 document.getElementById("gallery1").style.display = "inline";
-                 //document.getElementById("gallery1").src='http://hcilabasu.pythonanywhere.com'+img_src
-                 document.getElementById("gallery1").src='http://127.0.0.1:8000'+img_src
+                    var li = $("<li/>").appendTo("#gallery");
 
-         },
-         error: function (error, textStatus) {
-                   console.log('error:', error.statusText);
-         }
+                    var img = $('<img/>', {
+                             //src : 'http://127.0.0.1:8000/media/'+value.fields['image'] }).appendTo(li);
+                             src : 'http://127.0.0.1:8000/media/'+value.fields['image'] }).appendTo(li);
 
-     }); //end of ajax call
+                    var span = $('<span/>', {
+                        text: value.fields['gallery_id']}).appendTo(li);
 
- //preview image before it is uploaded in the server
+                    span.addClass('badge');
+
+                });
+
+              }
+          });
+
+
+
+    });
+
+
+    //update preview image
     $("#file-upload").change(function(){
         readURL(this);
     });
 
-    }
-
+})
 
     function readURL(input) {
         if (input.files && input.files[0]) {
