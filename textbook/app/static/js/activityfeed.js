@@ -9,14 +9,18 @@ $(function(){
         var msg_sent = $("input[name='msg-text']").val();
         console.log(msg_sent);
 
+        //get the user name who posted
+        var user_name = $("input[name='username']").val()
+        console.log(user_name);
+
         //clear the message from the box
         $("input[name='msg-text']").val('');
 
-        //TODO: make the feed scrollable; fixed. added overflow:auto in css
+        //TODO; fix the position of the input box. added position:sticky in css
 
-        //TODO; fix the position of the input box
+        //TODO: show newer message without scrolling the feed
 
-        //TODO: add in the database
+        //TODO: add in the database, make an ajax call
 
         //add in the thread itself
         var li = $("<li/>").appendTo(".feed");
@@ -25,9 +29,8 @@ $(function(){
         var div = $("<div/>").appendTo(li);
         div.addClass('user-image');
 
-        //TODO: use the logged in username
         var span = $('<span/>', {
-            text: 'izzy'}).appendTo(div);
+            text: user_name}).appendTo(div);
 
         var p = $('<p/>', {
                 text: msg_sent}).appendTo(li);
