@@ -232,6 +232,7 @@ a {
 .feed {
     list-style: none;
     padding: 0;
+    overflow: auto;
 }
 
     .feed li {
