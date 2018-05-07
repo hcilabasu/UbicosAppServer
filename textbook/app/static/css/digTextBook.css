@@ -200,6 +200,7 @@ a {
 #write-message {
     background: #C9DDE4;
     position: absolute;
+    position: sticky;
     bottom: 0px;
     left: 0px;
     right: 0px;
@@ -232,6 +233,7 @@ a {
 .feed {
     list-style: none;
     padding: 0;
+    overflow: auto;
 }
 
     .feed li {
