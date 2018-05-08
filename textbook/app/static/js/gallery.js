@@ -21,8 +21,8 @@ $(function(){
               data : form_data,
               success: function(response){
 
-                //TODO: update the 'success' message
-                alert('your photo is successfully uploaded')
+                //TODO: update user with a 'success' message on the screen
+                //alert('your photo is successfully uploaded')
                 //console.log('success:', response.success);
                 img_data = response.success;
 
@@ -31,7 +31,7 @@ $(function(){
                   //console.log(value.fields) //gives all the value
                   //console.log(value.fields['image']); //image field in the model
 
-                    var li = $("<li/>").appendTo("#gallery");
+                    var li = $("<li/>").appendTo("#gallery"); //<ul id=gallery>
 
                     var img = $('<img/>', {
                              //src : 'http://127.0.0.1:8000/media/'+value.fields['image'] }).appendTo(li);
@@ -43,6 +43,11 @@ $(function(){
                     span.addClass('badge');
 
                 });
+
+                //reverse the image order
+                var list = $('#gallery');
+                var listItems = list.children('li');
+                list.append(listItems.get().reverse());
 
               }
 

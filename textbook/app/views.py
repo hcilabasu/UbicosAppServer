@@ -51,7 +51,6 @@ def uploadImage(request):
     if request.method == "POST":
         # print (request.Files) #gives the name of the <input type='file' name...>
 
-        #print('id :: ', request.POST.get('id'))
         #get the gallery ID
         gallery_id = request.POST.get('act-id')
 
@@ -76,8 +75,9 @@ def uploadImage(request):
 
 
 def getImage(request):
-    image = ImageModel.objects.all().reverse();
-    return JsonResponse({'success': image[0].image.url, 'errorMsg': True})
+    images = ImageModel.objects.all()
+    image_data = serializers.serialize('json', images)
+    return JsonResponse({'success': image_data, 'errorMsg': True})
 
 def deleteAllItems(request):
     ImageModel.objects.all().delete()
