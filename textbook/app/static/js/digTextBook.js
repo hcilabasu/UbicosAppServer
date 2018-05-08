@@ -28,7 +28,7 @@ $(function(){
         $('.card.' + type + ' h1').text(type + ' #'+id); //update the title of each page
 
         //pass id to gallery activity - upload image
-        $('#upload-img input[name="id"]').attr('value', id)
+        $('#upload-img input[name="act-id"]').attr('value', id)
 
 
     });

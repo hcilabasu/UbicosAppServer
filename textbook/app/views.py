@@ -53,7 +53,7 @@ def uploadImage(request):
 
         #print('id :: ', request.POST.get('id'))
         #get the gallery ID
-        gallery_id = request.POST.get('id')
+        gallery_id = request.POST.get('act-id')
 
         #get the logged in username
         username = ''

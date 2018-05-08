@@ -1,15 +1,15 @@
 
 $(function(){
 
-    $( "#upload-img" ).submit(function( event ) {
 
-        event.preventDefault();
+    $("#file-upload").change(function(event){
+
+        console.log("file changed");
 
         var form_data = new FormData($('#upload-img')[0]);
+        console.log('form_data', form_data)
 
         var img_data
-
-
 
         $.ajax({
               type:'POST',
@@ -20,6 +20,9 @@ $(function(){
               cache: false,
               data : form_data,
               success: function(response){
+
+                //TODO: update the 'success' message
+                alert('your photo is successfully uploaded')
                 //console.log('success:', response.success);
                 img_data = response.success;
 
@@ -45,9 +48,7 @@ $(function(){
 
           });
 
-
-
-    });
+    })
 
 
     //update preview image
