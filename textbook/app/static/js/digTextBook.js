@@ -23,9 +23,18 @@ $(function(){
         // $('.card.' + type).css('transform','none');
         console.log('touch');
 
-        //based on the activity type, update titles and html elements
+        //based on the activity type, update titles in html
 
         $('.card.' + type + ' h1').text(type + ' #'+id); //update the title of each page
+
+        // if video tab is active get the video url and display in video.html
+        if($('.card.video').hasClass('active')){
+
+            var video_url = activityButton.attr('data-video-url');
+            console.log(video_url);
+            $('#videoFrame').attr('src', video_url); //display in video.html
+
+        }
 
         //pass id to gallery activity - upload image
         $('#upload-img input[name="act-id"]').attr('value', id)
