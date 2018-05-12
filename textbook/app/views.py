@@ -1,11 +1,12 @@
 
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render
 from .models import ImageModel, ActivityIndex
 from django.contrib.auth import authenticate
 from django.http.response import JsonResponse
 from django.contrib.auth import login as auth_login
 from django.core import serializers
+import json
 
 #in the browser: http://127.0.0.1:8000/app/
 
@@ -51,9 +52,11 @@ def uploadImage(request):
     if request.method == "POST":
         # print (request.Files) #gives the name of the <input type='file' name...>
 
-        #print('id :: ', request.POST.get('id'))
         #get the gallery ID
-        gallery_id = request.POST.get('id')
+        gallery_id = request.POST.get('act-id')
+
+        # print(type(request.FILES['gallery_img'].name))
+        # django.core.files.uploadedfile.InMemoryUploadedFile
 
         #get the logged in username
         username = ''
@@ -63,18 +66,44 @@ def uploadImage(request):
         else:
             print('user not signed in') #add in log
 
+
         #insert values in the database
         #TODO: restrict insertion if user is not signed in
         img = ImageModel(gallery_id=gallery_id, posted_by = username, image=request.FILES['gallery_img'])
+        # TODO: check whether the insertion was successful or not, else wrong image will be shown using the last() query
         img.save()
 
-        images = ImageModel.objects.all();
+        # using data NOT from database
+        # data = {}
+        # data['gallery_id'] = gallery_id
+        # data['posted_by'] = username
+        # # data['posted_at'] = "{}".format(images.posted_at)
+        # data['url'] = 'images/'+request.FILES['gallery_img'].name
+        # image_data = json.dumps(data)
 
-        #TODO: serialize and send only the fieldnames, not the entire model
-        image_data = serializers.serialize('json', images)
+        #get the latest inserted entry from the database
+        images = ImageModel.objects.last();
+
+        print(images.image.url)
+
+        # using data from database
+        data = {}
+        data['gallery_id'] = images.gallery_id
+        data['posted_by'] = images.posted_by
+        data['posted_at'] = "{}".format(images.posted_at)
+        data['url'] = images.image.url
+        image_data = json.dumps(data)
+
+        # print(image_data)
+
         return JsonResponse({'success': image_data, 'errorMsg': True})
 
 
 def getImage(request):
-    image = ImageModel.objects.all();
-    return JsonResponse({'success': image[0].image.url, 'errorMsg': True})
+    images = ImageModel.objects.all()
+    image_data = serializers.serialize('json', images)
+    return JsonResponse({'success': image_data, 'errorMsg': True})
+
+def deleteAllItems(request):
+    ImageModel.objects.all().delete()
+    return HttpResponse('')

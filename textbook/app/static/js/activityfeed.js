@@ -16,8 +16,6 @@ $(function(){
         //clear the message from the box
         $("input[name='msg-text']").val('');
 
-        //TODO; fix the position of the input box. added position:sticky in css
-
         //TODO: show newer message without scrolling the feed
 
         //TODO: add in the database, make an ajax call
