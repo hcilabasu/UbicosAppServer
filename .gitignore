@@ -12,4 +12,4 @@ lib64
 *.pyc
 
 # User-specific stuff
-idea/
+idea
