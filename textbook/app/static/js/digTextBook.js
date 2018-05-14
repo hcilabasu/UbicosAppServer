@@ -48,6 +48,7 @@ $(function(){
 
               type:'GET',
               url:'http://127.0.0.1:8000/getImage/',
+              //url:'src : 'http://hcilabasu.pythonanywhere.com/getImage/'
               success: function(response){
 
                 //TODO: update user with a 'success' message on the screen
@@ -72,8 +73,8 @@ $(function(){
                             var li = $("<li/>").appendTo("#gallery"); //<ul id=gallery>
 
                             var img = $('<img/>', {
-                                     //src : 'http://127.0.0.1:8000/media/'+value.fields['image'] }).appendTo(li);
                                      src : 'http://127.0.0.1:8000/media/'+value.fields['image'] }).appendTo(li);
+                                     //src : 'http://hcilabasu.pythonanywhere.com/media/'+value.fields['image'] }).appendTo(li);
 
                             var span = $('<span/>', {
                                 text: value.fields['gallery_id']}).appendTo(li);

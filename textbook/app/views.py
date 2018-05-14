@@ -75,8 +75,8 @@ def uploadImage(request):
 
         #get the logged in username
         username = ''
-        if request.user.is_authenticated():
-            print('username :: ',request.user.get_username())
+        if request.user.is_authenticated:
+            print('username :: ', request.user.get_username())
             username = request.user.get_username();
         else:
             print('user not signed in') #add in log

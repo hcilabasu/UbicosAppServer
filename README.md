@@ -14,3 +14,8 @@ pythonanywhere configuration: https://www.youtube.com/watch?v=Y4c4ickks2A
 /static/admin/ - /usr/local/lib/python2.7/dist-packages/django/contrib/admin/media
 /static/ - /home/hcilabasu/UbicosApp/textbook/app/static
 10. Reload the server.
+
+(pusher library installation)
+1. Go inside the virtual environment using the bash console
+2. pip install pusher
+3. reload the applicatin
