@@ -1,5 +1,6 @@
 $(function(){
 
+    var logged_user
 
     //initiate puhser with your application key
     var pusher = new Pusher('ea517de8755ddb1edd03',{
@@ -24,9 +25,11 @@ $(function(){
 
         var p = $('<p/>', {
                 text: data.message}).appendTo(li);
-//
+
+
 
     });
+
 
     //wait until the DOM is fully ready
 
@@ -38,6 +41,7 @@ $(function(){
 
         //get the user name who posted
             var user_name = $("input[name='username']").val()
+            logged_user = user_name
             console.log(user_name);
 
         //get the currently typed message

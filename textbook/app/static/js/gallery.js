@@ -45,8 +45,6 @@ $(function(){
 
                     span.addClass('badge');
 
-
-
                 //reverse the image order
                 var list = $('#gallery');
                 var listItems = list.children('li');

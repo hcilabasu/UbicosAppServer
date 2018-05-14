@@ -1,7 +1,7 @@
 
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render
-from .models import ImageModel, ActivityIndex
+from .models import ImageModel, Message
 from django.contrib.auth import authenticate
 from django.http.response import JsonResponse
 from django.contrib.auth import login as auth_login
@@ -18,7 +18,13 @@ pusher = Pusher(app_id=u'525110', key=u'ea517de8755ddb1edd03', secret=u'be2bf8ae
 @csrf_exempt
 def broadcast(request):
 
-    pusher.trigger(u'a_channel', u'an_event', {u'name': request.POST['username'], u'message': request.POST['message']})
+    print(request.user.get_username())
+    print(request.POST['username'])
+    pusher.trigger(u'a_channel', u'an_event', {u'name': request.POST['username'], u'message': request.POST['message'] })
+
+    #insert into database
+    msg = Message(content=request.POST['message'], posted_by=request.POST['username']);
+    msg.save();
     return HttpResponse("done");
 
 # activity feed code -- end
@@ -26,14 +32,15 @@ def broadcast(request):
 #in the browser: http://127.0.0.1:8000/app/
 
 def index(request):
+
     return render(request, 'app/index.html',{'activities': "None"})
 
 def pageChange(request):
     return render(request, 'app/page2.html', {})
 
-def activityList(request):
-    activities = ActivityIndex.objects.all();
-    return render(request, 'app/index.html',  {'activities': activities})
+# def activityList(request):
+#     activities = ActivityIndex.objects.all();
+#     return render(request, 'app/index.html',  {'activities': activities})
 
 def login_form(request):
     return render(request, 'app/login.html',{})
@@ -113,12 +120,18 @@ def uploadImage(request):
 
         return JsonResponse({'success': image_data, 'errorMsg': True})
 
+def updateFeed(request):
+    msg = Message.objects.all()
+    msg_data = serializers.serialize('json', msg)
+    return JsonResponse({'success': msg_data, 'username': request.user.get_username(),'errorMsg': True})
+
 
 def getImage(request):
     images = ImageModel.objects.all()
     image_data = serializers.serialize('json', images)
-    return JsonResponse({'success': image_data, 'errorMsg': True})
+    return JsonResponse({'success': image_data,  'errorMsg': True})
 
 def deleteAllItems(request):
     ImageModel.objects.all().delete()
+    Message.objects.all().delete()
     return HttpResponse('')

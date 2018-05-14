@@ -98,10 +98,52 @@ $(function(){
 
     });
 
+    //update feed when page loads
+
+
     $('.close-card').on('touch click', function(){
         $(this).closest('.card').removeClass('active');
     });
 
+
+    //update activity feed with history of messages
+    $.ajax({
+
+        type:'GET',
+        url:'http://127.0.0.1:8000/updateFeed/',
+        //url : 'http://hcilabasu.pythonanywhere.com/updateFeed/',
+        success: function(response){
+
+            var logged_in_user = response.username
+
+            msg_data = response.success
+            var obj = jQuery.parseJSON(msg_data);
+
+            //console.log(obj)
+
+            $.each(obj, function(key, value){
+
+                //  add in the thread itself
+                var li = $("<li/>").appendTo(".feed");
+                if(value.fields['posted_by'] == logged_in_user){
+                    li.addClass('message self');
+                }else{
+                    li.addClass('message');
+                }
+
+                var div = $("<div/>").appendTo(li);
+                div.addClass('user-image');
+
+                var span = $('<span/>', {
+                    text: value.fields['posted_by']}).appendTo(div);
+
+                var p = $('<p/>', {
+                        text: value.fields['content']}).appendTo(li);
+            });
+
+        }
+
+    });
 
 
 
