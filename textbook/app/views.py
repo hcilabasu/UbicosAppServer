@@ -8,6 +8,21 @@ from django.contrib.auth import login as auth_login
 from django.core import serializers
 import json
 
+# activity feed code -- start
+from pusher import Pusher
+from django.views.decorators.csrf import csrf_exempt
+
+# instantiate the pusher class
+pusher = Pusher(app_id=u'525110', key=u'ea517de8755ddb1edd03', secret=u'be2bf8ae15037bde9d94', cluster=u'us2')
+
+@csrf_exempt
+def broadcast(request):
+
+    pusher.trigger(u'a_channel', u'an_event', {u'name': request.POST['username'], u'message': request.POST['message']})
+    return HttpResponse("done");
+
+# activity feed code -- end
+
 #in the browser: http://127.0.0.1:8000/app/
 
 def index(request):
