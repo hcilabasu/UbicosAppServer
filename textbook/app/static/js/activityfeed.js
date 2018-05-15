@@ -1,6 +1,5 @@
 $(function(){
 
-    var logged_user
 
     //initiate puhser with your application key
     var pusher = new Pusher('ea517de8755ddb1edd03',{
@@ -11,11 +10,34 @@ $(function(){
     //subscribe to the channel you want to listen to
     var my_channel = pusher.subscribe('a_channel');
     //wait for an event to be triggered in that channel
+
     my_channel.bind("an_event", function (data) {
+
+        var logged_in = ''
+
+        //get the logged in user
+        $.ajax({
+            type:'GET',
+            url:'http://127.0.0.1:8000/getUsername/',
+            async: false, //wait for ajax call to finish, else logged_in is null in the following if condition
+            success: function(e){
+                logged_in  = e.name
+                //console.log('logged in username (inside) :: ', logged_in)
+            }
+        })
 
         //  add in the thread itself
         var li = $("<li/>").appendTo(".feed");
-        li.addClass('message self');
+
+        console.log ('message posted by', data.name)
+        console.log('logged in username (outside):: ', logged_in)
+        if(logged_in == data.name){
+               li.addClass('message self');
+        }else{
+               li.addClass('message');
+        }
+
+
 
         var div = $("<div/>").appendTo(li);
         div.addClass('user-image');
@@ -25,8 +47,6 @@ $(function(){
 
         var p = $('<p/>', {
                 text: data.message}).appendTo(li);
-
-
 
     });
 
@@ -41,14 +61,14 @@ $(function(){
 
         //get the user name who posted
             var user_name = $("input[name='username']").val()
-            logged_user = user_name
+            logged_in = user_name
             console.log(user_name);
 
         //get the currently typed message
             var message = $("input[name='msg-text']").val();
             console.log('user message :: '+message)
 
-
+           //triggers the event in views.py
             $.post({
                 url: '/ajax/chat/',
                 data: {
@@ -57,7 +77,12 @@ $(function(){
                 },
                 success: function (data) {
 
-                    $('#btn-input').val('');
+                    $('#msg-text').val('');
+
+                    //console.log(data)
+
+
+
 
                 }
             });

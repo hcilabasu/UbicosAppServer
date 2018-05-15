@@ -18,18 +18,34 @@ pusher = Pusher(app_id=u'525110', key=u'ea517de8755ddb1edd03', secret=u'be2bf8ae
 @csrf_exempt
 def broadcast(request):
 
-    print(request.user.get_username())
-    print(request.POST['username'])
+
     pusher.trigger(u'a_channel', u'an_event', {u'name': request.POST['username'], u'message': request.POST['message'] })
 
     #insert into database
     msg = Message(content=request.POST['message'], posted_by=request.POST['username']);
     msg.save();
-    return HttpResponse("done");
+
+    msg = Message.objects.last()
+
+    data = {}
+    data['content'] = msg.content
+    data['posted_by'] = msg.posted_by
+    data['posted_at'] = "{}".format(msg.posted_at)
+    msg_data = json.dumps(data)
+
+    # print(image_data)
+
+    return JsonResponse({'success': msg_data, 'errorMsg': True})
 
 # activity feed code -- end
 
 #in the browser: http://127.0.0.1:8000/app/
+
+def getUsername(request):
+    if request.user.is_authenticated:
+        print('username :: ', request.user.get_username())
+        username = request.user.get_username();
+        return JsonResponse({'name': username, 'errorMsg': True})
 
 def index(request):
 

@@ -14,6 +14,7 @@ urlpatterns = [
     #url('activities',views.activityList, name='activities'),
     url('delete',views.deleteAllItems, name='activities'),
     url(r'^ajax/chat/$', views.broadcast),
-    url('updateFeed', views.updateFeed)
+    url('updateFeed', views.updateFeed),
+    url('getUsername', views.getUsername)
 
 ]
