@@ -9,8 +9,8 @@ $(function(){
 
     //subscribe to the channel you want to listen to
     var my_channel = pusher.subscribe('a_channel');
-    //wait for an event to be triggered in that channel
 
+    //wait for an event to be triggered in that channel
     my_channel.bind("an_event", function (data) {
 
         var logged_in = ''
@@ -37,8 +37,6 @@ $(function(){
                li.addClass('message');
         }
 
-
-
         var div = $("<div/>").appendTo(li);
         div.addClass('user-image');
 
@@ -51,17 +49,14 @@ $(function(){
     });
 
 
-    //wait until the DOM is fully ready
-
     //add event listener to the chat button click
-        $("#msg-send-btn").click(function(e){
+    $("#msg-send-btn").click(function(e){
 
         //stop page refreshing with click
             e.preventDefault();
 
         //get the user name who posted
             var user_name = $("input[name='username']").val()
-            logged_in = user_name
             console.log(user_name);
 
         //get the currently typed message
@@ -77,12 +72,10 @@ $(function(){
                 },
                 success: function (data) {
 
+                    //empty the message pane
                     $('#msg-text').val('');
 
                     //console.log(data)
-
-
-
 
                 }
             });

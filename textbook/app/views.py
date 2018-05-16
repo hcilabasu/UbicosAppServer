@@ -25,17 +25,9 @@ def broadcast(request):
     msg = Message(content=request.POST['message'], posted_by=request.POST['username']);
     msg.save();
 
-    msg = Message.objects.last()
-
-    data = {}
-    data['content'] = msg.content
-    data['posted_by'] = msg.posted_by
-    data['posted_at'] = "{}".format(msg.posted_at)
-    msg_data = json.dumps(data)
-
     # print(image_data)
 
-    return JsonResponse({'success': msg_data, 'errorMsg': True})
+    return JsonResponse({'success': '', 'errorMsg': True})
 
 # activity feed code -- end
 
@@ -93,6 +85,9 @@ def uploadImage(request):
         #get the gallery ID
         gallery_id = request.POST.get('act-id')
 
+        #get the group ID
+        group_id = request.POST.get('group-id')
+
         # print(type(request.FILES['gallery_img'].name))
         # django.core.files.uploadedfile.InMemoryUploadedFile
 
@@ -107,7 +102,7 @@ def uploadImage(request):
 
         #insert values in the database
         #TODO: restrict insertion if user is not signed in
-        img = ImageModel(gallery_id=gallery_id, posted_by = username, image=request.FILES['gallery_img'])
+        img = ImageModel(gallery_id=gallery_id, group_id = group_id , posted_by = username, image=request.FILES['gallery_img'])
         # TODO: check whether the insertion was successful or not, else wrong image will be shown using the last() query
         img.save()
 
@@ -119,14 +114,16 @@ def uploadImage(request):
         # data['url'] = 'images/'+request.FILES['gallery_img'].name
         # image_data = json.dumps(data)
 
-        #get the latest inserted entry from the database
-        images = ImageModel.objects.last();
+        #get the latest inserted entry from the database for this particular group
+        #https://stackoverflow.com/questions/2191010/get-last-record-in-a-queryset/21247350
+        images = ImageModel.objects.filter(group_id=group_id).last()
 
-        print(images.image.url)
+        print('image url :: ',images.image.url)
 
         # using data from database
         data = {}
         data['gallery_id'] = images.gallery_id
+        data['group_id'] = images.group_id
         data['posted_by'] = images.posted_by
         data['posted_at'] = "{}".format(images.posted_at)
         data['url'] = images.image.url
@@ -136,16 +133,18 @@ def uploadImage(request):
 
         return JsonResponse({'success': image_data, 'errorMsg': True})
 
+
+def getImage(request, group_id):
+    print('group id 123 :: ', group_id)
+    #images = ImageModel.objects.all()
+    images = ImageModel.objects.filter(group_id=group_id)
+    image_data = serializers.serialize('json', images)
+    return JsonResponse({'success': image_data,  'errorMsg': True})
+
 def updateFeed(request):
     msg = Message.objects.all()
     msg_data = serializers.serialize('json', msg)
     return JsonResponse({'success': msg_data, 'username': request.user.get_username(),'errorMsg': True})
-
-
-def getImage(request):
-    images = ImageModel.objects.all()
-    image_data = serializers.serialize('json', images)
-    return JsonResponse({'success': image_data,  'errorMsg': True})
 
 def deleteAllItems(request):
     ImageModel.objects.all().delete()
