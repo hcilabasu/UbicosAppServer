@@ -46,6 +46,9 @@ $(function(){
         var p = $('<p/>', {
                 text: data.message}).appendTo(li);
 
+        // Scroll view
+        $('#dynamic-content').animate({ scrollTop: $('.feed').height() }, 400);
+
     });
 
 

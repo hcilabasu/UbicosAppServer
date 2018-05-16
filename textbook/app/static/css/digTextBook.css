@@ -8,8 +8,10 @@ html, body {
 h1 {
     margin: 0;
     padding: 0;
-    font-family: 'Quicksand', sans-serif;
-    font-weight: 400;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: bolder;
+    text-transform: capitalize;
+    position: sticky;
 }
 
 h2 {
@@ -198,11 +200,13 @@ a {
 /* ACTIVITY FEED */
 
 #write-message {
-    background: #C9DDE4;
-    position: absolute;
-    position: sticky;
+    background: rgba(201, 221, 228, 1);
+    /* -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px); */
+    overflow: hidden;
+    position: fixed;
     bottom: 0px;
-    left: 0px;
+    left: 50%;
     right: 0px;
     height: 30px;
     border-radius: 30px;
@@ -234,13 +238,14 @@ a {
     list-style: none;
     padding: 0;
     overflow: auto;
+    padding-bottom: 50px;
 }
 
     .feed li {
         position: relative;
         padding: 5px 0 0 70px;
         min-height: 60px;
-        margin-bottom: 40px;
+        margin-bottom: 20px;
     }
 
     .feed li.self {

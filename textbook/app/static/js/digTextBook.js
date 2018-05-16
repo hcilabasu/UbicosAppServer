@@ -152,6 +152,8 @@
                             text: value.fields['content']}).appendTo(li);
                 });
 
+                // Scroll page to bottom
+                $('#dynamic-content').animate({ scrollTop: $('.feed').height() }, 400);
             }
 
         });
