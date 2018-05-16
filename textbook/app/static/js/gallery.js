@@ -15,6 +15,7 @@ $(function(){
         $.ajax({
               type:'POST',
               url:'http://127.0.0.1:8000/uploadImage/',
+              //url: src : 'http://hcilabasu.pythonanywhere.com/uploadImage/'
               processData: false,
               contentType: false,
               async: false,
@@ -37,13 +38,12 @@ $(function(){
                     var img = $('<img/>', {
                              //src : 'http://127.0.0.1:8000/media/'+value.fields['image'] }).appendTo(li);
                              src : 'http://127.0.0.1:8000'+obj.url }).appendTo(li);
+                             //src : 'http://hcilabasu.pythonanywhere.com'+obj.url }).appendTo(li);
 
                     var span = $('<span/>', {
                         text: obj.gallery_id}).appendTo(li);
 
                     span.addClass('badge');
-
-
 
                 //reverse the image order
                 var list = $('#gallery');

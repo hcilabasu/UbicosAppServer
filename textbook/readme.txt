@@ -45,3 +45,17 @@ MIDDLEWARE_CLASSES = (
 
 CORS_ORIGIN_ALLOW_ALL = True
 source: https://stackoverflow.com/questions/22476273/no-access-control-allow-origin-header-is-present-on-the-requested-resource-i
+
+7. For instant message using Pusher Library:
+source:
+a. Create account in pusher.com
+b. Instantiate a pusher object with the app_id, key, secret, cluster in views.py
+c. In the appropriate javascript, bind the event (activityfeed.js)
+d. Add the pusher script in the html file (index.html):
+<script src="//js.pusher.com/4.0/pusher.min.js"></script>
+
+8. Delete All from database
+a. delete the migration files except the 001_initial.py
+b. delete the db.sqlite
+c. from the terminal, run python manage.py makemigrations and python manage.py migrate
+this should clear all the data and also reset the primary key of the tables
