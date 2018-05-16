@@ -1,46 +1,99 @@
 {% load static %}
-<h1></h1>
-
-
-
+<div id="gallery-view">
+    <h1></h1>
     <p>
         This is the description for this gallery activity. You are supposed to take pictures of your battery powered cars
         travelling through the road.
     </p>
 
-    <h2>Your submission</h2>
+    <div class="gallery-panel">
+        <h2>Your submission</h2>
 
-    <div id="gallery-user-submission">
-        <div>
-            <img id="default" src="{% static 'pics/default.png' %}" alt="">
-            <!--<span class="badge"></span>-->
+        <div id="gallery-user-submission" class="section">
+            <div>
+                <img id="default" src="{% static 'pics/default.png' %}" alt="">
+                <!--<span class="badge"></span>-->
+            </div>
+
+            <form id="upload-img" enctype="multipart/form-data" method="post" action="">
+                <label for="file-upload" class="btn">
+                    Choose
+                </label>
+                <input type="file" name="gallery_img" class="btn" id="file-upload"/>
+                <input type="hidden" name="act-id" value=""/> <!--pass gallery id number from digTextBook.js-->
+                <input type="hidden" name="group-id" value=""/> <!--pass group id number from digTextBook.js-->
+                <!--<input type="submit" name="submit" class="btn" value="Submit">-->
+            </form>
+
         </div>
 
-        <form id="upload-img" enctype="multipart/form-data" method="post" action="">
-            <label for="file-upload" class="btn">
-                Choose
-            </label>
-            <input type="file" name="gallery_img" class="btn" id="file-upload"/>
-            <input type="hidden" name="act-id" value=""/> <!--pass gallery id number from digTextBook.js-->
-            <input type="hidden" name="group-id" value=""/> <!--pass group id number from digTextBook.js-->
-            <!--<input type="submit" name="submit" class="btn" value="Submit">-->
-        </form>
+        <h2>All submissions</h2>
 
+        <ul id="gallery">
+            <!--<li>-->
+                <!--<img  src="https://tinyurl.com/y72rf9lz" alt="">-->
+                <!--<span class="badge">3</span>-->
+            <!--</li>-->
+
+        </ul>
     </div>
+    <div id="single-image-view" class="gallery-panel" style="display:none">
+        <div class="section">
+            <a href="" class="previous-image">&lt;</a>
+            <!-- <img id="" src="{% static 'pics/default.png' %}" alt=""> -->
+            <a href="" class="next-image">&gt;</a>
+        </div>
 
-    <h2>All submissions</h2>
-
-
-
-    <ul id="gallery">
-        <!--<li>-->
-            <!--<img  src="https://tinyurl.com/y72rf9lz" alt="">-->
-            <!--<span class="badge">3</span>-->
-        <!--</li>-->
-
-    </ul>
-
-
+        <ul class="feed">
+            <li class="message">
+                <div class="user-image">
+                    <span>Ceni</span>
+                </div>
+                <p>
+                    Have you tried google?
+                </p>
+            </li>
+            <li class="message">
+                <div class="user-image">
+                    <span>Ceni</span>
+                </div>
+                <p>
+                    Have you tried google?
+                </p>
+            </li>
+            <li class="message">
+                <div class="user-image">
+                    <span>Ceni</span>
+                </div>
+                <p>
+                    Have you tried google?
+                </p>
+            </li>
+            <li class="message">
+                <div class="user-image">
+                    <span>Ceni</span>
+                </div>
+                <p>
+                    Have you tried google?
+                </p>
+            </li>
+            <li class="message self">
+                <div class="user-image">
+                    <span>Ceni</span>
+                </div>
+                <p>
+                    Have you tried google?
+                </p>
+            </li>
+        </ul> 
+            
+        <div class="message-input">
+                <input type="text" name="msg-text" placeholder="Type a message to your class here">
+                <input type="hidden" name="username" value={{ user.get_username }}>
+                <a href="" id="msg-send-btn"></a>
+        </div>
+    </div>
+</div>
 <div class="group-view">
 
     <input type="radio" name="group" value="1"> Group 1 <br>

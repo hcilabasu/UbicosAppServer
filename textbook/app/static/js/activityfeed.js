@@ -27,7 +27,7 @@ $(function(){
         })
 
         //  add in the thread itself
-        var li = $("<li/>").appendTo(".feed");
+        var li = $("<li/>").appendTo("#activity-feed");
 
         console.log ('message posted by', data.name)
         console.log('logged in username (outside):: ', logged_in)
@@ -47,7 +47,7 @@ $(function(){
                 text: data.message}).appendTo(li);
 
         // Scroll view
-        $('#dynamic-content').animate({ scrollTop: $('.feed').height() }, 400);
+        $('#dynamic-content').animate({ scrollTop: $('#activity-feed').height() }, 400);
 
     });
 
