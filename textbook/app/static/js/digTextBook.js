@@ -92,6 +92,12 @@
 
                                     span.addClass('badge');
 
+                                    // Add clickhandler to open the single image view
+                                    // IMPORTANT: this (along with the function is uses) should be moved to gallery.js
+                                    img.on('click', function(){
+                                        openImageView($('#gallery-view'), $(this));
+                                    });
+
                                 });
 
                                 //reverse the image order
@@ -135,7 +141,7 @@
                 $.each(obj, function(key, value){
 
                     //  add in the thread itself
-                    var li = $("<li/>").appendTo(".feed");
+                    var li = $("<li/>").appendTo("#activity-feed");
                     if(value.fields['posted_by'] == logged_in_user){
                         li.addClass('message self');
                     }else{
@@ -152,10 +158,23 @@
                             text: value.fields['content']}).appendTo(li);
                 });
 
+                // Scroll page to bottom
+                $('#dynamic-content').animate({ scrollTop: $('#activity-feed').height() }, 400);
             }
-
         });
+    });
 
+    /*
+    Params:
+    * galleryView: the top container for the gallery, holding both the gallery overview and individual images view
+    IMPORTANT: this, along with the gallery building file, should be moved to gallery.js
+    */
+    var openImageView = function(galleryView, image){
+        var singleImageViewer = $('#single-image-view');
+        // Toggle views
+        $('.gallery-panel', galleryView).toggle();
+        // Get image element and add it to the DOM
+        var image = image.clone();
+        $('.section', singleImageViewer).append(image);
 
-
-    })
+    };

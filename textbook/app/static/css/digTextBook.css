@@ -8,8 +8,9 @@ html, body {
 h1 {
     margin: 0;
     padding: 0;
-    font-family: 'Quicksand', sans-serif;
-    font-weight: 400;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: bolder;
+    text-transform: capitalize;
 }
 
 h2 {
@@ -148,7 +149,8 @@ a {
 */
 
 .card {
-    overflow: auto;
+    overflow-y: auto;
+    overflow-x: hidden;
     -webkit-overflow-scrolling: touch;
     box-shadow: 0 0 5px rgba(0,0,0,0.2);
     position: absolute;
@@ -197,12 +199,14 @@ a {
 
 /* ACTIVITY FEED */
 
-#write-message {
-    background: #C9DDE4;
-    position: absolute;
-    position: sticky;
+.message-input {
+    background: rgba(201, 221, 228, 1);
+    /* -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px); */
+    overflow: hidden;
+    position: fixed;
     bottom: 0px;
-    left: 0px;
+    left: 50%;
     right: 0px;
     height: 30px;
     border-radius: 30px;
@@ -210,7 +214,7 @@ a {
     box-shadow: 0 4px 10px rgba(0,0,0,0.1);     
 }
 
-    #write-message input {
+    .message-input input {
         height: 100%;
         border: none;
         border-radius: 20px;
@@ -218,7 +222,7 @@ a {
         padding-left: 10px;  
     }
 
-    #write-message a {
+    .message-input a {
         position: absolute;
         top: 0px;
         right: 10px;
@@ -234,13 +238,14 @@ a {
     list-style: none;
     padding: 0;
     overflow: auto;
+    padding-bottom: 50px;
 }
 
     .feed li {
         position: relative;
         padding: 5px 0 0 70px;
         min-height: 60px;
-        margin-bottom: 40px;
+        margin-bottom: 20px;
     }
 
     .feed li.self {
@@ -300,16 +305,31 @@ a {
     background: linear-gradient(rgba(86, 197, 163, 0.7), rgba(93, 208, 106, 0.7));
 }
 
-#gallery-user-submission {
+#gallery-view {
+    margin: 0;
+}
+#gallery-view > * {
+    margin: 1rem;
+}
+.gallery-panel {
+    margin: 0 !important;
+}
+.gallery-panel > * {
+    margin-left: 1rem;
+    margin-right: 1rem;
+}
+
+.section {
     background: rgba(255,255,255,0.5);
     padding: 1rem;
     display: flex;
     justify-content: center;
     align-items: center;
     margin: 0;
+    position: relative;
 }
 
-#gallery-user-submission > * {
+.section > * {
     margin: 0 20px;
 }
 
@@ -323,19 +343,19 @@ a {
     box-shadow: 0 2px 4px rgba(0,0,0,0.3);   
 }
 
-.gallery ul {
+#gallery {
     list-style-type: none;
     padding: 0;
 }
 
-.gallery ul li {
+#gallery li {
     display: inline-block;
     margin-right: 15px;
     margin-bottom: 15px;
     position: relative;
 }
 
-.gallery ul li img {
+#gallery li img {
     width: 100px;
     height: 80px;
 }
@@ -353,6 +373,48 @@ a {
     text-align: center;
     line-height: 1rem;
     box-shadow: 0 2px 4px rgba(0,0,0,0.3);   
+}
+
+#single-image-view .section img {
+    max-height: 80%;
+    max-width: 80%;
+    width: auto;
+    height: auto;
+}
+
+.previous-image,
+.next-image {
+    position: absolute;
+    display: inline-block;
+    left: 0;
+    top: 50%;
+    background: url(../pics/back.png) no-repeat;
+    text-indent: -999999px;
+    height: 40px;
+    width: 40px;
+    background-position: center;
+    background-size: cover;
+    transform: translateY(-50%);
+}
+
+.next-image {
+    right: 0;
+    left: inherit;
+    transform: translateY(-50%) scale(-1);
+}
+
+.gallery .feed {
+    padding-bottom: 0;
+}
+.gallery .message-input {
+    left: 0;
+    bottom: 10px;
+    /* 
+    Since the .card element has a transform property, position: fixed won't work.
+    I've chosen to just push the input down the flow of the page. If we want to keep it fixed,
+    we could apply some JS to do so.
+    */
+    position: relative; 
 }
 
 /* VIDEO */

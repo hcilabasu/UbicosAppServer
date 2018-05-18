@@ -1,6 +1,6 @@
 <h1>Activity Feed</h1>
 
-<ul class="feed">
+<ul id="activity-feed" class="feed">
     <li class="update">
         <div class="user-image">
             <span>John</span>
@@ -36,7 +36,7 @@
     </li>
 </ul> 
 
-<div id="write-message">
+<div id="write-message" class="message-input">
      <input type="text" name="msg-text" id="msg-text" placeholder="Type a message to your class here">
      <input type="hidden" name="username" value={{ user.get_username }}>
      <a href="" id="msg-send-btn"></a>
