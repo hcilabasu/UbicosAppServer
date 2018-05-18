@@ -1,5 +1,7 @@
     $(function(){
 
+        var host_url = window.location.host
+
         console.log('page load');
 
         $('.page a').on('touch click', function(){
@@ -57,7 +59,7 @@
                       $.ajax({
 
                         type:'GET',
-                        url:'http://127.0.0.1:8000/getImage/'+groupValue,
+                        url:'http://'+ host_url +'/getImage/'+groupValue,
                         //url:'src : 'http://hcilabasu.pythonanywhere.com/getImage/'
                         success: function(response){
 
@@ -84,7 +86,7 @@
                                     var li = $("<li/>").appendTo("#gallery"); //<ul id=gallery>
 
                                     var img = $('<img/>', {
-                                             src : 'http://127.0.0.1:8000/media/'+value.fields['image'] }).appendTo(li);
+                                             src : 'http://'+ host_url +'/media/'+value.fields['image'] }).appendTo(li);
                                              //src : 'http://hcilabasu.pythonanywhere.com/media/'+value.fields['image'] }).appendTo(li);
 
                                     var span = $('<span/>', {

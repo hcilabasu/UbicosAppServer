@@ -1,6 +1,6 @@
 $(function(){
 
-
+    var host_url = window.location.host
     //initiate puhser with your application key
     var pusher = new Pusher('ea517de8755ddb1edd03',{
       cluster: 'us2',
@@ -18,7 +18,7 @@ $(function(){
         //get the logged in user
         $.ajax({
             type:'GET',
-            url:'http://127.0.0.1:8000/getUsername/',
+            url:'http://'+ host_url +'/getUsername/',
             async: false, //wait for ajax call to finish, else logged_in is null in the following if condition
             success: function(e){
                 logged_in  = e.name
