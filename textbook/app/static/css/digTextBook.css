@@ -473,6 +473,9 @@ a {
 
 }
 
+/* BRAINSTORM HTML */
+#draggable { width: 150px; height: 150px; padding: 0.5em; }
+
 /* GROUP HTML */
 .card.group {
     background: linear-gradient(rgba(140, 191, 255, 0.8), rgba(249, 198, 46, 0.5));
