@@ -89,12 +89,15 @@
 
 			$('.group-view').hide()
 			$('#upload-img input[name="group-id"]').attr('value', 0)
+			$('.card.gallery #gallery-group-heading').text('All Submission'); //update the sub-title of gallery page
+
 			displayGallery(0)
 
 		}else{
 
+            //TODO: check if 'group' was selected before
 
-			//$('.group-view').show();
+			console.log('group value stored??', groupValue)
 
 			$('.card.active').removeClass('active');
             $('.card.group').addClass('active');
@@ -109,11 +112,15 @@
                         console.log('group ID :: ', groupValue)
                         $('.card.group').removeClass('active');
                         $('.card.gallery').addClass('active');
+                        $('.card.gallery #gallery-group-heading').text('Group #'+groupValue+' Submission'); //update the sub-title of gallery page
+
+
+
+
 
                 }
 
-                 //deactivate the div group-view
-                 //$('.group-view').hide()
+
                  displayGallery(groupValue)
 
 
@@ -141,11 +148,11 @@
 
 		   var obj = jQuery.parseJSON(img_data);
 
-		   //if already gallery generated, then do nothing
-		   if($("#gallery li").length > 0){
+		   $('#gallery').empty()
 
-		   }
-		   else {  //if no gallery, then generate the gallery
+		   console.log('gallery - length: ', $("#gallery li").length)
+
+
 
 			   $.each(obj, function(key,value) {
 
@@ -181,7 +188,7 @@
 				var listItems = list.children('li');
 				list.append(listItems.get().reverse());
 
-		}
+
 
 		}
 
