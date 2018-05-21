@@ -1,6 +1,6 @@
 $(function(){
 
-
+    var host_url = window.location.host
     //initiate puhser with your application key
     var pusher = new Pusher('ea517de8755ddb1edd03',{
       cluster: 'us2',
@@ -18,7 +18,7 @@ $(function(){
         //get the logged in user
         $.ajax({
             type:'GET',
-            url:'http://127.0.0.1:8000/getUsername/',
+            url:'http://'+ host_url +'/getUsername/',
             async: false, //wait for ajax call to finish, else logged_in is null in the following if condition
             success: function(e){
                 logged_in  = e.name
@@ -86,3 +86,44 @@ $(function(){
         })
 
 })
+
+function loadFeed(){
+    $.ajax({
+
+            type:'GET',
+            url:'http://'+ host_url +'/updateFeed/',
+            //url : 'http://hcilabasu.pythonanywhere.com/updateFeed/',
+            success: function(response){
+
+                var logged_in_user = response.username //passed from views.py - updateFeed
+
+                msg_data = response.success
+                var obj = jQuery.parseJSON(msg_data);
+
+                //console.log(obj)
+
+                $.each(obj, function(key, value){
+
+                    //  add in the thread itself
+                    var li = $("<li/>").appendTo("#activity-feed");
+                    if(value.fields['posted_by'] == logged_in_user){
+                        li.addClass('message self');
+                    }else{
+                        li.addClass('message');
+                    }
+
+                    var div = $("<div/>").appendTo(li);
+                    div.addClass('user-image');
+
+                    var span = $('<span/>', {
+                        text: value.fields['posted_by']}).appendTo(div);
+
+                    var p = $('<p/>', {
+                            text: value.fields['content']}).appendTo(li);
+                });
+
+                // Scroll page to bottom
+                $('#dynamic-content').animate({ scrollTop: $('#activity-feed').height() }, 400);
+            }
+        });
+}

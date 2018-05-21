@@ -1,10 +1,13 @@
 {% load static %}
 <div id="gallery-view">
+
     <h1></h1>
     <p>
         This is the description for this gallery activity. You are supposed to take pictures of your battery powered cars
         travelling through the road.
     </p>
+
+
 
     <div class="gallery-panel">
         <h2>Your submission</h2>
@@ -21,13 +24,12 @@
                 </label>
                 <input type="file" name="gallery_img" class="btn" id="file-upload"/>
                 <input type="hidden" name="act-id" value=""/> <!--pass gallery id number from digTextBook.js-->
-                <input type="hidden" name="group-id" value=""/> <!--pass group id number from digTextBook.js-->
-                <!--<input type="submit" name="submit" class="btn" value="Submit">-->
+                <input type="hidden" name="group-id" value=""/> <!--pass group id number from gallery.js-->
             </form>
 
         </div>
 
-        <h2>All submissions</h2>
+        <h2 id="gallery-group-heading">All submissions</h2>
 
         <ul id="gallery">
             <!--<li>-->
@@ -94,12 +96,4 @@
         </div>
     </div>
 </div>
-<div class="group-view">
 
-    <input type="radio" name="group" value="1"> Group 1 <br>
-    <input type="radio" name="group" value="2"> Group 2 <br>
-    <input type="radio" name="group" value="3"> Group 3 <br>
-    <input type="radio" name="group" value="4"> Group 4 <br>
-    <input type="radio" name="group" value="0"> All Class <br>
-
-</div>

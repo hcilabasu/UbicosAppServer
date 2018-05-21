@@ -40,11 +40,11 @@ def getUsername(request):
         return JsonResponse({'name': username, 'errorMsg': True})
 
 def index(request):
+    return render(request, 'app/index.html',{'pagename': "app/page1.html"})
 
-    return render(request, 'app/index.html',{'activities': "None"})
-
-def pageChange(request):
-    return render(request, 'app/page2.html', {})
+def pageChange(request, page):
+    print('go to: ',page)
+    return render(request, 'app/index.html', {'pagename': "app/"+page+".html"})
 
 # def activityList(request):
 #     activities = ActivityIndex.objects.all();

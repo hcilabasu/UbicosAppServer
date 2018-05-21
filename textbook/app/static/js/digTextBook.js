@@ -1,5 +1,7 @@
     $(function(){
 
+        var host_url = window.location.host
+
         console.log('page load');
 
         $('.page a').on('touch click', function(){
@@ -33,89 +35,25 @@
                 $('#videoFrame').attr('src', video_url); //display in video.html
             }
 
-            // pass id to gallery activity - to upload image form in gallery.html
-            $('#upload-img input[name="act-id"]').attr('value', id)
+
+
 
             // if gallery div is active, load the gallery
             if($('.card.gallery').hasClass('active')){
 
-                console.log("i am gallery and I am active");
+                // pass id to gallery activity - to upload image form in gallery.html
+                $('#upload-img input[name="act-id"]').attr('value', id)
 
-                $('.group-view').show();
+                var view = activityButton.attr('data-view');
+                console.log('view: ', view)
 
-                //get group id from the radio button
-                var groupValue
-                $("input[name='group']").change(function(){
-                    groupValue = $("input[name='group']:checked").val();
-                    if(groupValue){
-                        $('#upload-img input[name="group-id"]').attr('value', groupValue)
-                        console.log('group ID :: ', groupValue)
-                    }
-                    //deactivate the div group-view
-                    $('.group-view').hide()
+                //call function from gallery.js
+                viewDiv(view);
 
-                      $.ajax({
-
-                        type:'GET',
-                        url:'http://127.0.0.1:8000/getImage/'+groupValue,
-                        //url:'src : 'http://hcilabasu.pythonanywhere.com/getImage/'
-                        success: function(response){
-
-                            //TODO: update user with a 'success' message on the screen
-
-                            //console.log('success:', response.success);
-                            img_data = response.success;
-
-                            var obj = jQuery.parseJSON(img_data);
-
-                            console.log($("#gallery li").length);
-
-                            //if already gallery generated, then do nothing
-                            if($("#gallery li").length > 0){
-
-                            }
-                            else {  //if no gallery, then generate the gallery
-
-                                $.each(obj, function(key,value) {
-
-                                  //console.log(value.fields) //gives all the value
-                                  //console.log(value.fields['image']); //image field in the model
-
-                                    var li = $("<li/>").appendTo("#gallery"); //<ul id=gallery>
-
-                                    var img = $('<img/>', {
-                                             src : 'http://127.0.0.1:8000/media/'+value.fields['image'] }).appendTo(li);
-                                             //src : 'http://hcilabasu.pythonanywhere.com/media/'+value.fields['image'] }).appendTo(li);
-
-                                    var span = $('<span/>', {
-                                        text: value.fields['gallery_id']}).appendTo(li);
-
-                                    span.addClass('badge');
-
-                                    // Add clickhandler to open the single image view
-                                    // IMPORTANT: this (along with the function is uses) should be moved to gallery.js
-                                    img.on('click', function(){
-                                        openImageView($('#gallery-view'), $(this));
-                                    });
-
-                                });
-
-                                //reverse the image order
-                                var list = $('#gallery');
-                                var listItems = list.children('li');
-                                list.append(listItems.get().reverse());
-
-                            }
-
-                        }
-
-                      });
-                })
 
             }
 
         });
-
 
 
         $('.close-card').on('touch click', function(){
@@ -124,44 +62,8 @@
 
 
         //update activity feed with history of messages
-        $.ajax({
+        loadFeed(); //call function from activity.js
 
-            type:'GET',
-            url:'http://127.0.0.1:8000/updateFeed/',
-            //url : 'http://hcilabasu.pythonanywhere.com/updateFeed/',
-            success: function(response){
-
-                var logged_in_user = response.username //passed from views.py - updateFeed
-
-                msg_data = response.success
-                var obj = jQuery.parseJSON(msg_data);
-
-                //console.log(obj)
-
-                $.each(obj, function(key, value){
-
-                    //  add in the thread itself
-                    var li = $("<li/>").appendTo("#activity-feed");
-                    if(value.fields['posted_by'] == logged_in_user){
-                        li.addClass('message self');
-                    }else{
-                        li.addClass('message');
-                    }
-
-                    var div = $("<div/>").appendTo(li);
-                    div.addClass('user-image');
-
-                    var span = $('<span/>', {
-                        text: value.fields['posted_by']}).appendTo(div);
-
-                    var p = $('<p/>', {
-                            text: value.fields['content']}).appendTo(li);
-                });
-
-                // Scroll page to bottom
-                $('#dynamic-content').animate({ scrollTop: $('#activity-feed').height() }, 400);
-            }
-        });
     });
 
     /*
