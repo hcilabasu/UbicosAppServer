@@ -65,7 +65,7 @@
         loadFeed(); //call function from activity.js
 
         //brainstorm stuff trial and error
-        $('#dialogMsg').dialog();
+
 
     });
 
