@@ -64,6 +64,9 @@
         //update activity feed with history of messages
         loadFeed(); //call function from activity.js
 
+        //brainstorm stuff trial and error
+
+
     });
 
     /*

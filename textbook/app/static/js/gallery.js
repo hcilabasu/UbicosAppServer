@@ -115,9 +115,6 @@
                         $('.card.gallery #gallery-group-heading').text('Group #'+groupValue+' Submission'); //update the sub-title of gallery page
 
 
-
-
-
                 }
 
 
