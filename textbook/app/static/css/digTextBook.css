@@ -480,3 +480,18 @@ a {
 .card.group {
     background: linear-gradient(rgba(140, 191, 255, 0.8), rgba(249, 198, 46, 0.5));
 }
+
+/* MORE INFO */
+.activity-button.moreinfo {
+    background-image: url('/static/pics/more.png');
+}
+
+/* TABLE/GRAPH */
+.activity-button.table {
+    background-image: url('/static/pics/table.png');
+}
+
+/* Convert */
+.activity-button.convert {
+    background-image: url('/static/pics/convert.png');
+}
