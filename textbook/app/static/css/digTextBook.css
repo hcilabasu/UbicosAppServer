@@ -144,6 +144,36 @@ a {
     background: linear-gradient(#2DB872, #56EF2C);
 }
 
+.moreinfo {
+    color: rgb(105, 119, 128);
+}
+.activity-button.moreinfo {
+    background-image: url('/static/pics/more.png');
+}
+.activity-button.moreinfo:after {
+    background: linear-gradient(rgb(109, 156, 194), rgb(105, 119, 128));
+}
+
+.table {
+    color: rgb(153, 0, 255);
+}
+.activity-button.table {
+    background-image: url('/static/pics/graph.png');
+}
+.activity-button.table:after {
+    background: linear-gradient(rgb(255, 0, 157), rgb(153, 0, 255));
+}
+
+.convert {
+    color: #FF738C;
+}
+.activity-button.convert {
+    background-image: url('/static/pics/convert.png');
+}
+.activity-button.convert:after {
+    background: linear-gradient(yellow,magenta);
+}
+
 /* 
     DYNAMIC CONTENT STYLING 
 */
@@ -481,16 +511,6 @@ a {
     background: linear-gradient(rgba(140, 191, 255, 0.8), rgba(249, 198, 46, 0.5));
 }
 
-/* MORE INFO */
-.activity-button.moreinfo {
-    background-image: url('/static/pics/more.png');
-}
-
-/* TABLE/GRAPH */
-.activity-button.table {
-    background-image: url('/static/pics/table.png');
-}
-
 .card.table {
     background: linear-gradient(rgba(221, 221, 221, 0.8), rgba(110, 110, 110, 0.5));
 }
@@ -500,9 +520,6 @@ a {
     background: linear-gradient(rgba(88, 51, 52, 0.8), rgba(60, 228, 228, 0.5));
 }
 
-.activity-button.convert {
-    background-image: url('/static/pics/convert.png');
-}
 
 .convert-input input[type="text"] {
     width: 100%;
