@@ -23,7 +23,8 @@
     <script src="{% static 'js/digTextBook.js' %}"></script>
     <script src="{% static 'js/gallery.js' %}"></script>
     <script src="{% static 'js/activityfeed.js' %}"></script>
-    <script src="{% static 'js/brainstorm.js' %}"></script>
+    <!--<script src="{% static 'js/brainstorm.js' %}"></script>-->
+    <script src="{% static 'js/convert.js' %}"></script>
 
     <!--script for pusher - message communication-->
     <script src="//js.pusher.com/4.0/pusher.min.js"></script>
@@ -70,6 +71,11 @@
             <div class="card group">
                 <a class="close-card"></a>
                 {% include 'app/group.html' %}
+            </div>
+
+            <div class="card convert">
+                <a class="close-card"></a>
+                {% include 'app/convert.html' %}
             </div>
         </div>
 
