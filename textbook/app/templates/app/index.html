@@ -38,15 +38,25 @@
     <!--script for chart.js-->
     <script src="//cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js" type="text/javascript"></script>
 
-
+    <script>
+        API_URL = {
+            pagesBase: "{% static 'pages' %}" // Base directory for pages
+        }
+    </script>
 </head>
 <body>
-
     <div id="main-container">
 
-        <div id="textbook-content">
-            <div class="page">
-                {% include pagename %}
+        <div id="textbook-content" class="first">
+            <div class="page previous">
+            </div>
+            <div class="page" data-page="1">
+            </div>
+            <div class="page next" data-page="2">
+            </div>
+            <div id="page-controls">
+                <a id="page-control-previous" onclick="movePage(false);">Previous page</a>
+                <a id="page-control-next" onclick="movePage(true);">Next page</a>
             </div>
         </div>
         <div id="dynamic-content">
@@ -89,9 +99,7 @@
                 <a class="close-card"></a>
             </div>
         </div>
-
     </div>
-
 </body>
 </html>
 

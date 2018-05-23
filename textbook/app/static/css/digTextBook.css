@@ -3,6 +3,7 @@ html, body {
     padding: 0;
     margin: 0;
     font-family: 'Open Sans', sans-serif;
+    overflow: hidden;
 }
 
 h1 {
@@ -22,6 +23,10 @@ h3 {
     font-weight: normal;
 }
 
+a {
+    cursor: pointer;
+}
+
 #main-container {
     display: grid;
     height: 100%;
@@ -33,13 +38,13 @@ h3 {
     overflow: auto;
 }
 
-#textbook-content > *,
 #dynamic-content > * {
     margin: 1rem;
 }
 
 #textbook-content {
     grid-column: 1;
+    overflow-x: hidden;
     -webkit-overflow-scrolling: touch;
 }
 
@@ -70,17 +75,72 @@ a {
     BOOK PAGE STYLING
 */
 .page {
+    position: absolute;
     padding-right: 80px;
+    width: 50%;
+    box-sizing: border-box; 
+    transition: all 0.5s;
+    transform: translateX(0);
+    opacity: 1;
 }
 
 .page > * {
-    position: relative;
     text-align: justify;
+    margin: 1rem;
+}
+
+
+.page.previous {
+    transform: translateX(-100%);
+    opacity: 0;
+}
+
+.page.next {
+    transform: translateX(100%);
+    opacity: 0;
 }
 
 .page li {
     position: relative;
 }
+#page-controls {
+    position: absolute;
+    background: red;
+    bottom: 0;
+    width: 50%;
+    margin: 0;
+}
+
+    #page-controls > a {
+        display: inline-block;
+        position: absolute;
+        bottom: 15px;
+        height: 52px;
+        width: 52px;
+        border-radius: 50%;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        background-repeat: no-repeat;
+        text-indent: -999999px;
+        background-position: center;
+        background-size: 30px;
+        background-color: #C9DDE4;
+    }
+
+    #page-controls #page-control-previous {
+        left: 10px;
+        background-image: url(../pics/back-blue.png);
+    }
+    .first #page-controls #page-control-previous {
+        display: none;
+    }
+    
+    #page-controls #page-control-next {
+        right: 10px;
+        background-image: url(../pics/next-blue.png);
+    }
+    .last #page-controls #page-control-next {
+        display: none;
+    }
 
 #textbook-content h1 {
     border-bottom: dotted 2px #7AAFB5;
@@ -198,6 +258,7 @@ a {
     box-shadow: none;
     border-top-left-radius: 10px;
     border-bottom-left-radius: 10px;
+    z-index: 2;
 }
 
 .card.active {
@@ -223,8 +284,14 @@ a {
     background-size: 100%;
 }
 
-#dynamic-content h1 {
-
+#dynamic-content > h1 {
+    position: fixed;
+    top: 0;
+    z-index: 1;
+    background: #E3EDF1;
+    margin: 0;
+    width: 50%;
+    padding: 1rem;
 }
 
 /* ACTIVITY FEED */
@@ -264,6 +331,10 @@ a {
         background-position: 3px 6px;
     }
 
+#activity-feed {
+    padding-top: 80px;
+}
+
 .feed {
     list-style: none;
     padding: 0;
@@ -283,7 +354,7 @@ a {
     }
 
 .feed p {
-    border-radius: 20px;
+    border-radius: 30px;
     margin: 0;
 }
 
@@ -370,7 +441,8 @@ a {
 .gallery img {
     width: 180px;
     height: 130px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.3);   
+    box-shadow: 0 2px 4px rgba(0,0,0,0.3);  
+    cursor: pointer; 
 }
 
 #gallery {

@@ -1,6 +1,6 @@
 
 from django.http import HttpResponseRedirect, HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, render_to_response
 from .models import ImageModel, Message
 from django.contrib.auth import authenticate
 from django.http.response import JsonResponse
