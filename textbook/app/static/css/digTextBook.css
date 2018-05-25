@@ -544,18 +544,127 @@ a {
     background: linear-gradient(rgba(244, 171, 76, 0.8), rgba(249, 198, 46, 0.5));
 }
 
+#brainstorm-header {
+    z-index: 2;
+    position: absolute;
+}
+
+#idea-workspace {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+    margin: 0;
+    overflow: auto;
+}
+
+    #idea-workspace .idea {
+        position: absolute;
+        width: 150px;
+        min-height: 100px;
+        background: #8FC7EC;
+        color: black;
+        border-radius: 3px;
+        box-shadow: 0 0 4px rgba(0,0,0,0.3);
+        padding: 5px;
+        opacity: 1; 
+        transform: scale(1);
+        transition: opacity 0.5s, transform 0.5s;
+    }
+    
+    #idea-workspace .idea.new {
+        transform: scale(3);
+        opacity: 0;
+        transition: opacity 0.5s, transform 0.5s;
+    }
+
+/* Container style and base children style */
 #new-idea {
     position: absolute;
     bottom: 10px;
     right: 10px;
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
     box-shadow: 0 2px 4px rgba(0,0,0,0.3);   
+    transition: all 1s;
+    width: auto;
+    height: auto;
+    overflow: hidden;
+    min-width: 60px;
+    min-height: 60px;
+}
+
+#new-idea > a {
+    display: block;
     background: url('/static/pics/add.png') no-repeat #1F87FF;
     background-size: 60%;
     background-position: center center;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    transform: all 1s;
+    position: absolute;
+    top: 0;
+    right: 0;
+    transform-origin: 75% 40% 0;
 }
+
+#new-idea > form {
+    color: black;
+    display: none;
+    opacity: 1;
+}
+    #new-idea > form h3 {
+        margin: 0 0 5px 0;
+    }
+
+    #new-idea > form .btn {
+        display: block;
+        text-align: center;
+    }
+
+    #new-idea > form p {
+        line-height: 30px;
+    }
+
+    #new-idea > form .colorpicker {
+        display: inline-block;
+        height: 30px;
+        width: 30px;
+        border: solid 4px white;
+        transition: border 0.5s;
+        transform: translateY(25%);
+    }
+    
+    #new-idea > form .colorpicker.active {
+        border: solid 4px #1F87FF;
+        transition: border 0.5s;
+    }
+
+/* Styles when container is a button */
+#new-idea.button {
+    background-color: #1F87FF;
+    border-radius: 50%;
+}
+
+    #new-idea.button > a {
+        transform: scale(1) rotate(0deg) ;
+        transition: transform 1s;
+    }
+
+/* Styles when container is a popup */
+#new-idea.popup {
+    background: white;
+    width: auto;
+    height: auto;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+    #new-idea.popup > a {
+        transform: scale(0.5) rotate(45deg);
+        transition: transform 1s;
+    }
+
+/* END button/popup styling */
 
 .center {
     position: absolute;
