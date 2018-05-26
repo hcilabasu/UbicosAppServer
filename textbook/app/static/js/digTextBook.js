@@ -143,6 +143,16 @@ var bindActivityButtons = function(){
             viewDiv(view);
         }
 
+        if($('.card.multQues').hasClass('active')){
+
+            $('.act2ques').hide()
+            //get which question is clicked and activate that div
+            var quesno = activityButton.attr('data-quesid');
+            console.log('clicked',quesno)
+            $('div[data-quesno="'+quesno+'"]').show()
+
+        }
+
     });
 };
 
