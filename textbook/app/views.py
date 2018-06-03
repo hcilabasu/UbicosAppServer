@@ -42,9 +42,6 @@ def getUsername(request):
 def index(request):
     return render(request, 'app/index.html',{'pagename': "app/page1.html"})
 
-def pageChange(request, page):
-    print('go to: ',page)
-    return render(request, 'app/index.html', {'pagename': "app/"+page+".html"})
 
 # def activityList(request):
 #     activities = ActivityIndex.objects.all();
@@ -66,6 +63,7 @@ def login(request):
 
         # Use Django's machinery to attempt to see if the username/password
         # combination is valid - a User object is returned if it is.
+        # user is created using the createsuperuser command
         user = authenticate(username=username, password=password)
         print(user)
 
@@ -73,7 +71,7 @@ def login(request):
             auth_login(request, user)
             return HttpResponseRedirect('/index/')
         else:
-            msg = 'Enter Correct Information';
+            #return invalid login message
             return render(request, 'app/login.html', {})
 
 

@@ -83,22 +83,22 @@ var loadPage = function(pageNum, pageContainer, successFn, notFoundFn){
         url: API_URL.pagesBase + '/' + pageNum + '.html',
         success: function(data){
 
-            var pageHTML = $(data) //convert data into jquery object
+        var pageHTML = $(data) //convert data into jquery object
             //console.log(pageHTML)
 
-            //console.log("img", pageHTML) // returns 0; doesnt work
-            //console.log($('.imgtxtbook').children('img'))
-            if($('.imgtxtbook').children('img').attr('src')){
+            console.log("img", pageHTML) // returns 0; doesnt work
+            //console.log($('.imgtxtbook').children('img')) //returns the image object
+            if($('img', pageHTML)){
 
-                var imgsrc = $('.imgtxtbook').children('img').attr('src')
+                $('img')
+
+                var imgsrc = $('img', pageHTML).attr('src') //get the image src from the html i.e. '/act2/1.png'
                 console.log(imgsrc)
 
-                $('.imgtxtbook').children('img').attr('src', API_URL.picsBase + imgsrc);
-
+                $('img', pageHTML).attr('src', API_URL.picsBase + imgsrc); //append the base url in the front
             }
 
-
-            pageContainer.html(data);
+            pageContainer.html(pageHTML);
             pageContainer.data('page', pageNum);
             if(successFn){
                 successFn();
@@ -160,12 +160,13 @@ var bindActivityButtons = function(){
             viewDiv(view);
         }
 
+
         if($('.card.multQues').hasClass('active')){
 
             $('.act2ques').hide()
-            //get which question is clicked and activate that div
+            //get which question is clicked and activate that div for question
             var quesno = activityButton.attr('data-quesid');
-            console.log('clicked',quesno)
+            console.log('you clicked',quesno)
             $('div[data-quesno="'+quesno+'"]').show()
 
         }
