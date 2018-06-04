@@ -42,9 +42,13 @@
 
     <script>
         API_URL = {
-            pagesBase: "{% static 'pages' %}" // Base directory for pages
+            pagesBase: "{% static 'pages' %}", // Base directory for pages
+            picsBase: "{% static 'pics' %}"
+
         }
+        console.log('index', API_URL)
     </script>
+
 </head>
 <body>
     <div id="main-container">
@@ -60,7 +64,20 @@
                 <a id="page-control-previous" onclick="movePage(false);">Previous page</a>
                 <a id="page-control-next" onclick="movePage(true);">Next page</a>
             </div>
+
+            <div class="user-login">
+            {% if user.is_authenticated %}
+
+            <p>User Name: {{ user.get_username }}</p>
+            <a href="/logout">Logout</a>
+
+            {% else %}
+                    <a href="/">Login</a>
+
+            {% endif %}
+            </div>
         </div>
+
         <div id="dynamic-content">
             {% include 'app/activityfeed.html' %}
 
@@ -99,6 +116,11 @@
             
             <div class="card moreinfo">
                 <a class="close-card"></a>
+            </div>
+
+            <div class="card multQues">
+                <a class="close-card"></a>
+                {% include 'app/multQues.html' %}
             </div>
         </div>
     </div>

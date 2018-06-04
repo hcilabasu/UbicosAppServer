@@ -234,6 +234,10 @@ a {
     background: linear-gradient(yellow,magenta);
 }
 
+.multQues{
+    color: #FF738C;
+}
+
 /* 
     DYNAMIC CONTENT STYLING 
 */
@@ -675,12 +679,11 @@ a {
 
 }
 
-.logout{
+.user-login{
 
-    display: inline-block;
     position: absolute;
-    left: 90%; /*location of the div */
-    top: 10px;
+    left: 570px; /*location of the div */
+    top: 1px;
 
 }
 
@@ -705,7 +708,9 @@ a {
     background: linear-gradient(rgba(109, 155, 192, 0.8), rgba(105, 120, 129, 0.5));
 }
 
-
+.card.multQues {
+    background: linear-gradient(rgba(109, 155, 192, 0.8), rgba(105, 120, 129, 0.5));
+}
 .convert-input input[type="text"] {
     width: 100%;
     padding: 12px 20px;
