@@ -64,12 +64,20 @@
                 <a id="page-control-previous" onclick="movePage(false);">Previous page</a>
                 <a id="page-control-next" onclick="movePage(true);">Next page</a>
             </div>
-            <div class="page-number">
-                <span></span>
+
+            <div class="user-login">
+            {% if user.is_authenticated %}
+
+            <p>User Name: {{ user.get_username }}</p>
+            <a href="/logout">Logout</a>
+
+            {% else %}
+                    <a href="/">Login</a>
+
+            {% endif %}
             </div>
-
-
         </div>
+
         <div id="dynamic-content">
             {% include 'app/activityfeed.html' %}
 

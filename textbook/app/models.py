@@ -15,7 +15,6 @@ class ActivityIndex(models.Model):
     page_number = models.IntegerField()
     activity_type = models.CharField(max_length=40)
 
-
 class Message(models.Model):
     content = models.CharField(max_length=400)
     posted_by = models.CharField(max_length=20)
