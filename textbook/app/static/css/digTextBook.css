@@ -158,6 +158,7 @@ a {
     top: 0;
     background: no-repeat top left white;
     background-size: 48px 48px;
+    transition: all 0.4s;
 }
 
 .activity-button:after {
@@ -184,6 +185,10 @@ a {
 .activity-button.brainstorm:after {
     background: linear-gradient(#F4AB4D, #F9C82C);
 }
+.activity-button.brainstorm:hover {
+    box-shadow: 0 0 30px rgb(248, 192, 52);
+    transition: all 0.4s;
+}
 
 .video {
     color: #F94955;
@@ -193,6 +198,10 @@ a {
 }
 .activity-button.video:after {
     background: linear-gradient(#EE9DB9, #FF0F10);
+}
+.activity-button.video:hover {
+    box-shadow: 0 0 30px #F94955;
+    transition: all 0.4s;
 }
 
 .gallery {
@@ -204,6 +213,10 @@ a {
 .activity-button.gallery:after {
     background: linear-gradient(#2DB872, #56EF2C);
 }
+.activity-button.gallery:hover {
+    box-shadow: 0 0 30px #44D64D;
+    transition: all 0.4s;
+}
 
 .moreinfo {
     color: rgb(105, 119, 128);
@@ -213,6 +226,10 @@ a {
 }
 .activity-button.moreinfo:after {
     background: linear-gradient(rgb(109, 156, 194), rgb(105, 119, 128));
+}
+.activity-button.moreinfo:hover {
+    box-shadow: 0 0 30px rgb(105, 119, 128);
+    transition: all 0.4s;
 }
 
 .table {
@@ -224,6 +241,10 @@ a {
 .activity-button.table:after {
     background: linear-gradient(rgb(255, 0, 157), rgb(153, 0, 255));
 }
+.activity-button.table:hover {
+    box-shadow: 0 0 30px rgb(153, 0, 255);
+    transition: all 0.4s;
+}
 
 .convert {
     color: #FF738C;
@@ -233,6 +254,10 @@ a {
 }
 .activity-button.convert:after {
     background: linear-gradient(yellow,magenta);
+}
+.activity-button.convert:hover {
+    box-shadow: 0 0 30px #FF738C;
+    transition: all 0.4s;
 }
 
 .multQues{
