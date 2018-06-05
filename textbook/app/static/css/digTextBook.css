@@ -43,6 +43,7 @@ a {
 }
 
 #textbook-content {
+    position: relative;
     grid-column: 1;
     overflow-x: hidden;
     -webkit-overflow-scrolling: touch;
@@ -77,7 +78,7 @@ a {
 .page {
     position: absolute;
     padding-right: 80px;
-    width: 50%;
+    width: 100%;
     box-sizing: border-box; 
     transition: all 0.5s;
     transform: translateX(0);
@@ -104,11 +105,11 @@ a {
     position: relative;
 }
 #page-controls {
-    position: absolute;
-    background: red;
+    position: fixed;
     bottom: 0;
     width: 50%;
     margin: 0;
+    text-align: center;
 }
 
     #page-controls > a {
@@ -126,6 +127,13 @@ a {
         background-color: #C9DDE4;
     }
 
+    #page-controls #page-control-number {
+        background: white;
+        text-align: center;
+        line-height: 80px;
+        color: #CCC;
+    }
+
     #page-controls #page-control-previous {
         left: 10px;
         background-image: url(../pics/back-blue.png);
@@ -135,7 +143,7 @@ a {
     }
     
     #page-controls #page-control-next {
-        right: 10px;
+        right: 15px;
         background-image: url(../pics/next-blue.png);
     }
     .last #page-controls #page-control-next {
@@ -157,6 +165,7 @@ a {
     top: 0;
     background: no-repeat top left white;
     background-size: 48px 48px;
+    transition: all 0.4s;
 }
 
 .activity-button:after {
@@ -183,6 +192,10 @@ a {
 .activity-button.brainstorm:after {
     background: linear-gradient(#F4AB4D, #F9C82C);
 }
+.activity-button.brainstorm:hover {
+    box-shadow: 0 0 30px rgb(248, 192, 52);
+    transition: all 0.4s;
+}
 
 .video {
     color: #F94955;
@@ -192,6 +205,10 @@ a {
 }
 .activity-button.video:after {
     background: linear-gradient(#EE9DB9, #FF0F10);
+}
+.activity-button.video:hover {
+    box-shadow: 0 0 30px #F94955;
+    transition: all 0.4s;
 }
 
 .gallery {
@@ -203,6 +220,10 @@ a {
 .activity-button.gallery:after {
     background: linear-gradient(#2DB872, #56EF2C);
 }
+.activity-button.gallery:hover {
+    box-shadow: 0 0 30px #44D64D;
+    transition: all 0.4s;
+}
 
 .moreinfo {
     color: rgb(105, 119, 128);
@@ -212,6 +233,10 @@ a {
 }
 .activity-button.moreinfo:after {
     background: linear-gradient(rgb(109, 156, 194), rgb(105, 119, 128));
+}
+.activity-button.moreinfo:hover {
+    box-shadow: 0 0 30px rgb(105, 119, 128);
+    transition: all 0.4s;
 }
 
 .table {
@@ -223,6 +248,10 @@ a {
 .activity-button.table:after {
     background: linear-gradient(rgb(255, 0, 157), rgb(153, 0, 255));
 }
+.activity-button.table:hover {
+    box-shadow: 0 0 30px rgb(153, 0, 255);
+    transition: all 0.4s;
+}
 
 .convert {
     color: #FF738C;
@@ -232,6 +261,10 @@ a {
 }
 .activity-button.convert:after {
     background: linear-gradient(yellow,magenta);
+}
+.activity-button.convert:hover {
+    box-shadow: 0 0 30px #FF738C;
+    transition: all 0.4s;
 }
 
 .multQues{
@@ -286,6 +319,7 @@ a {
     width: 30px;
     background: url('/static/pics/close-card.png') no-repeat;
     background-size: 100%;
+    z-index: 2;
 }
 
 #dynamic-content > h1 {
@@ -311,7 +345,7 @@ a {
     right: 0px;
     height: 30px;
     border-radius: 30px;
-    padding: 8px 10px 14px 9px;
+    padding: 12px 10px 14px 9px;
     box-shadow: 0 4px 10px rgba(0,0,0,0.1);     
 }
 
@@ -680,12 +714,34 @@ a {
 }
 
 .user-login{
-
-    position: absolute;
-    left: 570px; /*location of the div */
-    top: 1px;
-
+    position: fixed;
+    z-index: 2;
+    top: 0px;
+    left: 75%;
+    transform: translateX(-50%);
+    background: #C9DDE4;
+    padding: 0 0 0 10px;
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+    margin: 0 !important;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
 }
+
+    .user-login a {
+        color: #1F87FF;
+        display: inline-block;
+        padding: 0 10px 0 5px;
+        margin-left: 5px;
+        border-bottom-right-radius: 5px;
+        text-decoration: none;
+        transition: all 0.4s;
+    }
+
+    .user-login a:hover {
+        background: #1F87FF;
+        color: white;
+        transition: all 0.4s;
+    }
 
 /* BRAINSTORM HTML */
 #draggable { width: 150px; height: 150px; padding: 0.5em; }
