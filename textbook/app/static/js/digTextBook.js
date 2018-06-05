@@ -42,6 +42,7 @@ var movePage = function(moveToNext){
         pageToShow, // This is the page that will be shown next
         pageToReplace, // this is the page whose content will need to be updated
         currentNewClass, // this is the new class that will be applied to the current page
+        currentPageNum, // Page number of the page that will be shown
         replacePageNum, // Number of the new page to be dynamically loaded
         noMoreClass; // Class that will be added to container if 
     if(moveToNext === true){
@@ -49,16 +50,21 @@ var movePage = function(moveToNext){
         pageToReplace = $('.page.previous', container);
         currentNewClass = 'previous';
         replaceNewClass = 'next';
-        replacePageNum = parseInt(pageToShow.data('page')) + 1;
+        currentPageNum = parseInt(pageToShow.data('page'));
+        replacePageNum = currentPageNum + 1;
         noMoreClass = 'last';
     } else {
         pageToShow = $('.page.previous', container);
         pageToReplace = $('.page.next', container);
         currentNewClass = 'next';
         replaceNewClass = 'previous';
-        replacePageNum = parseInt(pageToShow.data('page')) - 1;
+        currentPageNum = parseInt(pageToShow.data('page'));
+        replacePageNum = currentPageNum - 1;
         noMoreClass = 'first';
     }
+    // Replace page number
+    $("#page-control-number").text('Page ' + currentPageNum);
+
     // Do swaps
     pageToHide.attr('class','page').addClass(currentNewClass); // Turn the current page into either next or previous
     pageToShow.attr('class','page');
