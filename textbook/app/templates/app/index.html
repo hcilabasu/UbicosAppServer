@@ -25,7 +25,7 @@
     <script src="{% static 'js/digTextBook.js' %}"></script>
     <script src="{% static 'js/gallery.js' %}"></script>
     <script src="{% static 'js/activityfeed.js' %}"></script>
-    <!--<script src="{% static 'js/brainstorm.js' %}"></script>-->
+    <script src="{% static 'js/brainstorm.js' %}"></script>
     <script src="{% static 'js/convert.js' %}"></script>
     <script src="{% static 'js/table.js' %}"></script>
 
@@ -64,21 +64,18 @@
                 <a id="page-control-previous" onclick="movePage(false);">Previous page</a>
                 <a id="page-control-next" onclick="movePage(true);">Next page</a>
             </div>
-
-            <div class="user-login">
-            {% if user.is_authenticated %}
-
-            <p>User Name: {{ user.get_username }}</p>
-            <a href="/logout">Logout</a>
-
-            {% else %}
-                    <a href="/">Login</a>
-
-            {% endif %}
-            </div>
         </div>
 
         <div id="dynamic-content">
+                <div class="user-login">
+                    {% if user.is_authenticated %}
+                        Welcome, {{ user.get_username }}!
+                        <a href="/logout">Logout</a>
+                    {% else %}
+                        <a href="/">Login</a>
+                    {% endif %}
+                </div>
+
             {% include 'app/activityfeed.html' %}
 
             <!-- 
