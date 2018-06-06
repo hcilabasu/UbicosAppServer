@@ -20,6 +20,14 @@ $(function(){
     // If we start loading the cards dynamically, this needs to be called after the brainstorm card is built
     setupBrainstorm();
 
+    $('#main-view-toggle').click(function(){
+        var hidden = $('.main-view:hidden');
+        $('.main-view:visible').fadeOut('fast', function(){
+            hidden.fadeIn('fast');
+        });
+        $(this).toggleClass('pressed');
+    });
+
 });
 
 /*

@@ -1,3 +1,26 @@
+// Define colors for activity types
+@video1: #e43131;
+@video2: #e45882;
+@brainstorm1: #F4AB4D;
+@brainstorm2: #F9C82C;
+@gallery1: #2DB872;
+@gallery2: #56EF2C;
+@moreInfo1: rgb(105, 119, 128);
+@moreInfo2: rgb(109, 156, 194);
+@table1: rgb(153, 0, 255);
+@table2: rgb(255, 0, 157);
+@convert1: magenta;
+@convert2: yellow;
+
+// Other colors
+@linkColor: #007BFF;
+
+// Mixins
+.bg-color-image(@color, @image){
+    background-image: @image;
+    background-color: @color;
+} 
+
 html, body {
     height: 100%;
     padding: 0;
@@ -38,7 +61,7 @@ a {
     overflow: auto;
 }
 
-#dynamic-content > * {
+#dynamic-content > div > * {
     margin: 1rem;
 }
 
@@ -61,7 +84,7 @@ a {
     padding: 0.7rem 1.5rem;
     background: white;
     /* border: solid 1px #007BFF; */
-    color: #007BFF;
+    color: @linkColor;
     border-radius: 20px;
     text-decoration: none;
     box-shadow: 0 0 5px rgba(0,0,0,0.2);
@@ -184,86 +207,86 @@ a {
 }
 
 .brainstorm {
-    color: #C6920D;
+    color: @brainstorm1;
 }
 .activity-button.brainstorm {
     background-image: url('/static/pics/brainstorm.png');
 }
 .activity-button.brainstorm:after {
-    background: linear-gradient(#F4AB4D, #F9C82C);
+    background: linear-gradient(@brainstorm1, @brainstorm2);
 }
 .activity-button.brainstorm:hover {
-    box-shadow: 0 0 30px rgb(248, 192, 52);
+    box-shadow: 0 0 30px @brainstorm1;
     transition: all 0.4s;
 }
 
 .video {
-    color: #F94955;
+    color: @video1;
 }
 .activity-button.video {
     background-image: url('/static/pics/video.png');
 }
 .activity-button.video:after {
-    background: linear-gradient(#EE9DB9, #FF0F10);
+    background: linear-gradient(@video1, @video2);
 }
 .activity-button.video:hover {
-    box-shadow: 0 0 30px #F94955;
+    box-shadow: 0 0 30px @video1;
     transition: all 0.4s;
 }
 
 .gallery {
-    color: #44D64D;
+    color: @gallery1;
 }
 .activity-button.gallery {
     background-image: url('/static/pics/gallery.png');
 }
 .activity-button.gallery:after {
-    background: linear-gradient(#2DB872, #56EF2C);
+    background: linear-gradient(@gallery1, @gallery2);
 }
 .activity-button.gallery:hover {
-    box-shadow: 0 0 30px #44D64D;
+    box-shadow: 0 0 30px @gallery1;
     transition: all 0.4s;
 }
 
 .moreinfo {
-    color: rgb(105, 119, 128);
+    color: @moreInfo1;
 }
 .activity-button.moreinfo {
     background-image: url('/static/pics/more.png');
 }
 .activity-button.moreinfo:after {
-    background: linear-gradient(rgb(109, 156, 194), rgb(105, 119, 128));
+    background: linear-gradient(@moreInfo1, @moreInfo2);
 }
 .activity-button.moreinfo:hover {
-    box-shadow: 0 0 30px rgb(105, 119, 128);
+    box-shadow: 0 0 30px @moreInfo1;
     transition: all 0.4s;
 }
 
 .table {
-    color: rgb(153, 0, 255);
+    color: @table1;
 }
 .activity-button.table {
     background-image: url('/static/pics/graph.png');
 }
 .activity-button.table:after {
-    background: linear-gradient(rgb(255, 0, 157), rgb(153, 0, 255));
+    background: linear-gradient(@table1, @table2);
 }
 .activity-button.table:hover {
-    box-shadow: 0 0 30px rgb(153, 0, 255);
+    box-shadow: 0 0 30px @table1;
     transition: all 0.4s;
 }
 
 .convert {
-    color: #FF738C;
+    color: @convert1;
 }
 .activity-button.convert {
     background-image: url('/static/pics/convert.png');
 }
 .activity-button.convert:after {
-    background: linear-gradient(yellow,magenta);
+    background: linear-gradient(@convert1,@convert2);
 }
 .activity-button.convert:hover {
-    box-shadow: 0 0 30px #FF738C;
+    box-shadow: 0 0 30px @convert1;
     transition: all 0.4s;
 }
 
@@ -322,17 +345,7 @@ a {
     z-index: 2;
 }
 
-#dynamic-content > h1 {
-    position: fixed;
-    top: 0;
-    z-index: 1;
-    background: #E3EDF1;
-    margin: 0;
-    width: 50%;
-    padding: 1rem;
-}
-
-/* ACTIVITY FEED */
+/* ACTIVITY FEED AND INDEX */
 
 .message-input {
     background: rgba(201, 221, 228, 1);
@@ -342,7 +355,7 @@ a {
     position: fixed;
     bottom: 0px;
     left: 50%;
-    right: 0px;
+    right: 14px;
     height: 30px;
     border-radius: 30px;
     padding: 12px 10px 14px 9px;
@@ -377,7 +390,7 @@ a {
     list-style: none;
     padding: 0;
     overflow: auto;
-    padding-bottom: 50px;
+    padding-bottom: 60px;
 }
 
     .feed li {
@@ -437,6 +450,80 @@ a {
 .feed a {
     color: #1F87FF;
     text-decoration: underline;
+}
+
+#main-view-toggle {
+    position: fixed;
+    top: 15px;
+    right: 20px;
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+    z-index: 2;
+    background-image: url(../pics/index.png);
+    background-size: cover;
+    border-radius: 50%;
+    transition: all 0.4s;
+
+    &.pressed {
+        box-shadow: inset 0 3px 25px rgba(0,0,0,0.3);
+        background-color: #C9DDE4;
+    }
+}
+
+.main-view h1 {
+    background: #E3EDF1;
+    box-shadow: 0 10px 10px -5px rgba(0,0,0,0.1);
+    position: fixed;
+    top: 0;
+    z-index: 1;
+    margin: 0 !important;
+    display: inline-block;
+    width: calc(50% - 1rem);
+    box-sizing: border-box;
+    padding: 1rem;
+}
+
+#activity-index {
+    margin-top: 90px !important;
+
+    h2 {
+        float:left;
+        clear: left;
+        margin-top: 0;
+    }
+
+    ul {
+        padding-left: 100px;
+        margin-bottom: 50px;
+        list-style-type: none;
+
+        li {
+            padding-bottom: 10px;
+
+            a {
+                color: #1f87ff;
+                line-height: 30px;
+                height: 30px;
+                display: inline-block;
+
+                span {
+                    display: inline-block;
+                    background: red;
+                    height: 20px;
+                    width: 20px;
+                    border-radius: 50%;
+                    transform: translateY(5px);
+                    margin-right: 5px;
+                    background-size: cover;  
+                }
+            }
+
+            &.video span { .bg-color-image(@video1, url(../pics/video.png)); }
+            &.gallery span { .bg-color-image(@gallery1, url(../pics/gallery.png)); }
+            &.brainstorm span { .bg-color-image(@brainstorm1, url(../pics/brainstorm.png)); }
+        }
+    }
 }
 
 /* GALLERY */
@@ -558,8 +645,9 @@ a {
 }
 
 /* VIDEO */
+
 .card.video {
-    background: linear-gradient(rgba(228, 49, 49, 1), rgba(228, 88, 130, 1));
+    background: linear-gradient(@video1, @video2);
 }
 
 .video-player {
@@ -735,6 +823,7 @@ a {
         border-bottom-right-radius: 5px;
         text-decoration: none;
         transition: all 0.4s;
+        margin: 0 !important;
     }
 
     .user-login a:hover {
