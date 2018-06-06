@@ -54,7 +54,6 @@ def login_form(request):
     return render(request, 'app/login.html',{})
 
 def login(request):
-
     if request.method == 'POST':
         # Gather the username and password provided by the user.
         # This information is obtained from the login form.
@@ -137,7 +136,6 @@ def uploadImage(request):
         # print(image_data)
 
         return JsonResponse({'success': image_data, 'errorMsg': True})
-
 
 def getImage(request, group_id):
     print('group id 123 :: ', group_id)

@@ -1,192 +1,189 @@
+    var host_url = window.location.host
 
-	var host_url = window.location.host
+    $(function(){
 
+        $("#file-upload").change(function(event){
 
-	$(function(){
+                console.log("file changed");
 
-		$("#file-upload").change(function(event){
+                var form_data = new FormData($('#upload-img')[0]);
+                console.log('form_data', form_data)
 
-			console.log("file changed");
+                var img_data
 
-			var form_data = new FormData($('#upload-img')[0]);
-			console.log('form_data', form_data)
+                //ajax call to post the uploaded image in the database and with successful entry show the image at the beginning of the list
+                $.ajax({
+                      type:'POST',
+                      url:'http://'+ host_url +'/uploadImage/',
+                      processData: false,
+                      contentType: false,
+                      async: false,
+                      cache: false,
+                      data : form_data,
+                      success: function(response){
 
-			var img_data
+                        //TODO: update user with a 'success' message on the screen
 
-			//ajax call to post the uploaded image in the database and with successful entry show the image at the beginning of the list
-			$.ajax({
-				  type:'POST',
-				  url:'http://'+ host_url +'/uploadImage/',
-				  processData: false,
-				  contentType: false,
-				  async: false,
-				  cache: false,
-				  data : form_data,
-				  success: function(response){
+                        img_data = response.success;
 
-					//TODO: update user with a 'success' message on the screen
+                        var obj = jQuery.parseJSON(img_data);
 
-					img_data = response.success;
+                        console.log(obj)
 
-					var obj = jQuery.parseJSON(img_data);
+                            console.log("appending image to the gallery")
 
-					console.log(obj)
 
-					    console.log("appending image to the gallery")
+                            var li = $("<li/>").appendTo("#gallery"); //<ul id=gallery>
 
+                            var img = $('<img/>', {
+                                     src : 'http://'+ host_url +obj.url }).appendTo(li);
 
-						var li = $("<li/>").appendTo("#gallery"); //<ul id=gallery>
+    //						var span = $('<span/>', {
+    //							text: obj.gallery_id}).appendTo(li);
+    //
+    //						span.addClass('badge');
 
-						var img = $('<img/>', {
-								 src : 'http://'+ host_url +obj.url }).appendTo(li);
+                        //reverse the image order
+                        var list = $('#gallery');
+                        var listItems = list.children('li');
+                        list.append(listItems.get().reverse());
 
-//						var span = $('<span/>', {
-//							text: obj.gallery_id}).appendTo(li);
-//
-//						span.addClass('badge');
+                    }
 
-					//reverse the image order
-					var list = $('#gallery');
-					var listItems = list.children('li');
-					list.append(listItems.get().reverse());
+                  });
 
-				}
+            });
 
-			  });
 
-		});
+            //update preview image
+            $("#file-upload").change(function(){
+                readURL(this);
+            });
 
+        })
 
-		//update preview image
-		$("#file-upload").change(function(){
-			readURL(this);
-		});
 
-	})
 
+        function readURL(input) {
 
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
 
-	function readURL(input) {
 
-		if (input.files && input.files[0]) {
-			var reader = new FileReader();
+                    reader.onload = function (e) {
+                        $('#default').attr('src', e.target.result);
+                    }
 
+                    reader.readAsDataURL(input.files[0]);
+            }
+        }
 
-				reader.onload = function (e) {
-					$('#default').attr('src', e.target.result);
-				}
+        function viewDiv(view){
 
-				reader.readAsDataURL(input.files[0]);
-		}
-	}
+            console.log('value pass to gallery.js', view)
+            if(view == 'class'){
 
-	function viewDiv(view){
+                $('.group-view').hide()
+                $('#upload-img input[name="group-id"]').attr('value', 0)
+                $('.card.gallery #gallery-group-heading').text('All Submission'); //update the sub-title of gallery page
 
-		console.log('value pass to gallery.js', view)
-		if(view == 'class'){
+                displayGallery(0)
 
-			$('.group-view').hide()
-			$('#upload-img input[name="group-id"]').attr('value', 0)
-			$('.card.gallery #gallery-group-heading').text('All Submission'); //update the sub-title of gallery page
+            }else{
 
-			displayGallery(0)
+                //TODO: check if 'group' was selected before
 
-		}else{
+                console.log('group value stored??', groupValue)
 
-            //TODO: check if 'group' was selected before
+                $('.card.active').removeClass('active');
+                $('.card.group').addClass('active');
 
-			console.log('group value stored??', groupValue)
+                //get group id from the radio button
+                var groupValue
+                $("input[name='group']").change(function(){
+                    groupValue = $("input[name='group']:checked").val();
+                    if(groupValue){
+                            //pass group value in the form so it can be added into the database
+                            $('#upload-img input[name="group-id"]').attr('value', groupValue)
+                            console.log('group ID :: ', groupValue)
+                            $('.card.group').removeClass('active');
+                            $('.card.gallery').addClass('active');
+                            $('.card.gallery #gallery-group-heading').text('Group #'+groupValue+' Submission'); //update the sub-title of gallery page
 
-			$('.card.active').removeClass('active');
-            $('.card.group').addClass('active');
+                    }
 
-			//get group id from the radio button
-            var groupValue
-            $("input[name='group']").change(function(){
-                groupValue = $("input[name='group']:checked").val();
-                if(groupValue){
-                        //pass group value in the form so it can be added into the database
-                        $('#upload-img input[name="group-id"]').attr('value', groupValue)
-                        console.log('group ID :: ', groupValue)
-                        $('.card.group').removeClass('active');
-                        $('.card.gallery').addClass('active');
-                        $('.card.gallery #gallery-group-heading').text('Group #'+groupValue+' Submission'); //update the sub-title of gallery page
+                     displayGallery(groupValue)
 
-                }
+                })
 
-                 displayGallery(groupValue)
 
+            }
 
-            })
+        }
 
+        var openImageView = function(galleryView, image){
+        console.log('openImageView', image)
+        var singleImageViewer = $('#single-image-view');
+        // Toggle views
+        $('.gallery-panel', galleryView).toggle();
+        // Get image element and add it to the DOM
+        var image = image.clone();
 
-		}
+        $('.section', singleImageViewer).append(image);
+    };
 
-	}
+      function displayGallery(groupValue){
 
-  function displayGallery(groupValue){
+            $.ajax({
 
-		$.ajax({
+               type:'GET',
+               url:'http://'+ host_url +'/getImage/'+groupValue, //get all the image for the particular group
+               success: function(response){
 
+               //TODO: update user with a 'success' message on the screen
 
+               //console.log('success:', response.success);
+               img_data = response.success;
 
-		   type:'GET',
-		   url:'http://'+ host_url +'/getImage/'+groupValue,
-		   success: function(response){
+               var obj = jQuery.parseJSON(img_data);
 
-		   //TODO: update user with a 'success' message on the screen
+               $('#gallery').empty();
 
-		   //console.log('success:', response.success);
-		   img_data = response.success;
+               //console.log('gallery - length: ', $("#gallery li").length)
 
-		   var obj = jQuery.parseJSON(img_data);
+                $.each(obj, function(key,value) {
 
-		   $('#gallery').empty()
+                   //console.log(value.fields) //gives all the value
+                   //console.log(value.fields['image']); //image field in the model
 
-		   console.log('gallery - length: ', $("#gallery li").length)
+                  // console.log("building gallery from scratch")
 
+                    console.log('total number of images: ', obj.length)
 
+                    var li = $("<li/>").appendTo("#gallery"); //<ul id=gallery>
 
-			   $.each(obj, function(key,value) {
+                    var img = $('<img/>', {
+                        src : 'http://'+ host_url +'/media/'+value.fields['image'] }).appendTo(li);
 
-			   //console.log(value.fields) //gives all the value
-			   //console.log(value.fields['image']); //image field in the model
+                        // Add clickhandler to open the single image view
+                        img.on('click', function(){
 
-			   console.log("building gallery from scratch")
+                            openImageView($('#gallery-view'), $(this));
 
-			    var li = $("<li/>").appendTo("#gallery"); //<ul id=gallery>
+                        });
 
-				var img = $('<img/>', {
+                });
 
-					src : 'http://'+ host_url +'/media/'+value.fields['image'] }).appendTo(li);
-					//src : 'http://hcilabasu.pythonanywhere.com/media/'+value.fields['image'] }).appendTo(li);
+                //reverse the image order
+                var list = $('#gallery');
+                var listItems = list.children('li');
+                list.append(listItems.get().reverse());
 
-//					var span = $('<span/>', {
-//						text: value.fields['gallery_id']}).appendTo(li);
-//
-//					span.addClass('badge');
 
-					// Add clickhandler to open the single image view
-					// IMPORTANT: this (along with the function is uses) should be moved to gallery.js
 
-					img.on('click', function(){
+            }
 
-						openImageView($('#gallery-view'), $(this));
+        });
 
-					});
-
-				});
-
-				//reverse the image order
-				var list = $('#gallery');
-				var listItems = list.children('li');
-				list.append(listItems.get().reverse());
-
-
-
-		}
-
-	});
-
-}
+    }
 

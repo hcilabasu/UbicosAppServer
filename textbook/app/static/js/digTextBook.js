@@ -27,14 +27,7 @@ Params:
 * galleryView: the top container for the gallery, holding both the gallery overview and individual images view
 IMPORTANT: this, along with the gallery building file, should be moved to gallery.js
 */
-var openImageView = function(galleryView, image){
-    var singleImageViewer = $('#single-image-view');
-    // Toggle views
-    $('.gallery-panel', galleryView).toggle();
-    // Get image element and add it to the DOM
-    var image = image.clone();
-    $('.section', singleImageViewer).append(image);
-};
+
 
 var movePage = function(moveToNext){
     var container = $('#textbook-content'),
@@ -84,19 +77,18 @@ var movePage = function(moveToNext){
 
 var loadPage = function(pageNum, pageContainer, successFn, notFoundFn){
     console.log('loadPage Function', pageNum)
-    $.ajax({
-        method: 'GET',
-        url: API_URL.pagesBase + '/' + pageNum + '.html',
-        success: function(data){
+    loadHTML(
+        API_URL.pagesBase + '/' + pageNum + '.html',
+        function(data){
 
-        var pageHTML = $(data) //convert data into jquery object
+            var pageHTML = $(data) //convert data into jquery object
+
             //console.log(pageHTML)
 
-            console.log("img", pageHTML) // returns 0; doesnt work
+            console.log("img", pageHTML)
             //console.log($('.imgtxtbook').children('img')) //returns the image object
             if($('img', pageHTML)){
 
-                $('img')
 
                 var imgsrc = $('img', pageHTML).attr('src') //get the image src from the html i.e. '/act2/1.png'
                 console.log(imgsrc)
@@ -111,7 +103,7 @@ var loadPage = function(pageNum, pageContainer, successFn, notFoundFn){
             }
             bindActivityButtons();
         },
-        error: function (xhr, ajaxOptions, thrownError){
+        function (xhr, ajaxOptions, thrownError){
             if(xhr.status==404) {
                 console.dir('Page not found');
                 if (notFoundFn){
@@ -119,8 +111,17 @@ var loadPage = function(pageNum, pageContainer, successFn, notFoundFn){
                 }
             }
         }
-    });
+    );
 }
+
+var loadHTML = function(url, successFn, errorFn){
+    $.ajax({
+        method: 'GET',
+        url: url,
+        success:successFn,
+        error:errorFn
+    });
+};
 
 var bindActivityButtons = function(){
     $('.page a').on('touch click', function(){
