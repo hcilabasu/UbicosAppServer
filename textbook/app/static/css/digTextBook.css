@@ -441,7 +441,7 @@ a {
 
 /* GALLERY */
 .card.gallery {
-    background: linear-gradient(rgba(86, 197, 163, 0.7), rgba(93, 208, 106, 0.7));
+    background: linear-gradient(rgba(86, 197, 163, 1), rgba(93, 208, 106, 1));
 }
 
 #gallery-view {
@@ -559,7 +559,7 @@ a {
 
 /* VIDEO */
 .card.video {
-    background: linear-gradient(rgba(228, 49, 49, 0.8), rgba(228, 88, 130, 0.5));
+    background: linear-gradient(rgba(228, 49, 49, 1), rgba(228, 88, 130, 1));
 }
 
 .video-player {
@@ -579,7 +579,7 @@ a {
 
 /* BRAINSTORM */
 .card.brainstorm {
-    background: linear-gradient(rgba(244, 171, 76, 0.8), rgba(249, 198, 46, 0.5));
+    background: linear-gradient(rgba(244, 171, 76, 1), rgba(249, 198, 46, 1));
 }
 
 #brainstorm-header {
@@ -748,24 +748,24 @@ a {
 
 /* GROUP HTML */
 .card.group {
-    background: linear-gradient(rgba(140, 191, 255, 0.8), rgba(249, 198, 46, 0.5));
+    background: linear-gradient(rgba(140, 191, 255, 1), rgba(249, 198, 46, 1));
 }
 
 .card.table {
-    background: linear-gradient(rgba(250, 0, 162, 0.8), rgba(157, 0, 251, 0.5));
+    background: linear-gradient(rgba(250, 0, 162, 1), rgba(157, 0, 251, 1));
 }
 
 /* Convert */
 .card.convert {
-    background: linear-gradient(rgba(255, 188, 4, 0.8), rgba(175, 60, 175, 0.5));
+    background: linear-gradient(rgba(255, 188, 4, 1), rgba(175, 60, 175, 1));
 }
 
 .card.moreinfo {
-    background: linear-gradient(rgba(109, 155, 192, 0.8), rgba(105, 120, 129, 0.5));
+    background: linear-gradient(rgba(109, 155, 192, 1), rgba(105, 120, 129, 1));
 }
 
 .card.multQues {
-    background: linear-gradient(rgba(109, 155, 192, 0.8), rgba(105, 120, 129, 0.5));
+    background: linear-gradient(rgba(109, 155, 192, 1), rgba(105, 120, 129, 1));
 }
 .convert-input input[type="text"] {
     width: 100%;
