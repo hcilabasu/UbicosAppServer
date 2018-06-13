@@ -38,14 +38,12 @@
 						var li = $("<li/>").appendTo("#gallery"); //<ul id=gallery>
 
 						var img = $('<img/>', {
-								 //src : 'http://127.0.0.1:8000/media/'+value.fields['image'] }).appendTo(li);
 								 src : 'http://'+ host_url +obj.url }).appendTo(li);
-								 //src : 'http://hcilabasu.pythonanywhere.com'+obj.url }).appendTo(li);
 
-						var span = $('<span/>', {
-							text: obj.gallery_id}).appendTo(li);
-
-						span.addClass('badge');
+//						var span = $('<span/>', {
+//							text: obj.gallery_id}).appendTo(li);
+//
+//						span.addClass('badge');
 
 					//reverse the image order
 					var list = $('#gallery');
@@ -114,9 +112,7 @@
                         $('.card.gallery').addClass('active');
                         $('.card.gallery #gallery-group-heading').text('Group #'+groupValue+' Submission'); //update the sub-title of gallery page
 
-
                 }
-
 
                  displayGallery(groupValue)
 
@@ -165,10 +161,10 @@
 					src : 'http://'+ host_url +'/media/'+value.fields['image'] }).appendTo(li);
 					//src : 'http://hcilabasu.pythonanywhere.com/media/'+value.fields['image'] }).appendTo(li);
 
-					var span = $('<span/>', {
-						text: value.fields['gallery_id']}).appendTo(li);
-
-					span.addClass('badge');
+//					var span = $('<span/>', {
+//						text: value.fields['gallery_id']}).appendTo(li);
+//
+//					span.addClass('badge');
 
 					// Add clickhandler to open the single image view
 					// IMPORTANT: this (along with the function is uses) should be moved to gallery.js
@@ -176,6 +172,7 @@
 					img.on('click', function(){
 
 						openImageView($('#gallery-view'), $(this));
+
 					});
 
 				});

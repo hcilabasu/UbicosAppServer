@@ -18,8 +18,6 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
-
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
 
@@ -30,6 +28,10 @@ SECRET_KEY = '&82g0ts$v5j-0nu_iu3hhtdd+xc7%)757zz7#ll8ir)pw!^&(_'
 DEBUG = True
 
 ALLOWED_HOSTS = ['hcilabasu.pythonanywhere.com','127.0.0.1','localhost','192.168.0.8']
+
+#URL for @login_required decorator to use
+LOGIN_URL = '/login'
+
 
 
 # Application definition

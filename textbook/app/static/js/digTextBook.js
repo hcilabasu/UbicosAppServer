@@ -17,6 +17,17 @@ $(function(){
     loadPage(1, $('.page:not(.previous):not(.next)'));
     loadPage(2, $('.page.next'));
 
+    // If we start loading the cards dynamically, this needs to be called after the brainstorm card is built
+    setupBrainstorm();
+
+    $('#main-view-toggle').click(function(){
+        var hidden = $('.main-view:hidden');
+        $('.main-view:visible').fadeOut('fast', function(){
+            hidden.fadeIn('fast');
+        });
+        $(this).toggleClass('pressed');
+    });
+
 });
 
 /*
@@ -39,6 +50,7 @@ var movePage = function(moveToNext){
         pageToShow, // This is the page that will be shown next
         pageToReplace, // this is the page whose content will need to be updated
         currentNewClass, // this is the new class that will be applied to the current page
+        currentPageNum, // Page number of the page that will be shown
         replacePageNum, // Number of the new page to be dynamically loaded
         noMoreClass; // Class that will be added to container if 
     if(moveToNext === true){
@@ -46,16 +58,21 @@ var movePage = function(moveToNext){
         pageToReplace = $('.page.previous', container);
         currentNewClass = 'previous';
         replaceNewClass = 'next';
-        replacePageNum = parseInt(pageToShow.data('page')) + 1;
+        currentPageNum = parseInt(pageToShow.data('page'));
+        replacePageNum = currentPageNum + 1;
         noMoreClass = 'last';
     } else {
         pageToShow = $('.page.previous', container);
         pageToReplace = $('.page.next', container);
         currentNewClass = 'next';
         replaceNewClass = 'previous';
-        replacePageNum = parseInt(pageToShow.data('page')) - 1;
+        currentPageNum = parseInt(pageToShow.data('page'));
+        replacePageNum = currentPageNum - 1;
         noMoreClass = 'first';
     }
+    // Replace page number
+    $("#page-control-number").text('Page ' + currentPageNum);
+
     // Do swaps
     pageToHide.attr('class','page').addClass(currentNewClass); // Turn the current page into either next or previous
     pageToShow.attr('class','page');
@@ -74,11 +91,28 @@ var movePage = function(moveToNext){
 };
 
 var loadPage = function(pageNum, pageContainer, successFn, notFoundFn){
+    console.log('loadPage Function', pageNum)
     $.ajax({
         method: 'GET',
         url: API_URL.pagesBase + '/' + pageNum + '.html',
         success: function(data){
-            pageContainer.html(data);
+
+        var pageHTML = $(data) //convert data into jquery object
+            //console.log(pageHTML)
+
+            console.log("img", pageHTML) // returns 0; doesnt work
+            //console.log($('.imgtxtbook').children('img')) //returns the image object
+            if($('img', pageHTML)){
+
+                $('img')
+
+                var imgsrc = $('img', pageHTML).attr('src') //get the image src from the html i.e. '/act2/1.png'
+                console.log(imgsrc)
+
+                $('img', pageHTML).attr('src', API_URL.picsBase + imgsrc); //append the base url in the front
+            }
+
+            pageContainer.html(pageHTML);
             pageContainer.data('page', pageNum);
             if(successFn){
                 successFn();
@@ -140,5 +174,17 @@ var bindActivityButtons = function(){
             viewDiv(view);
         }
 
+
+        if($('.card.multQues').hasClass('active')){
+
+            $('.act2ques').hide()
+            //get which question is clicked and activate that div for question
+            var quesno = activityButton.attr('data-quesid');
+            console.log('you clicked',quesno)
+            $('div[data-quesno="'+quesno+'"]').show()
+
+        }
+
     });
 };
+

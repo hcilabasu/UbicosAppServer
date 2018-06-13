@@ -11,8 +11,8 @@
 
     <!-- Styles -->
     <link rel="stylesheet" type="text/css" href="{% static 'css/gallery.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'css/digTextBook.css' %}">
-
+    <link rel="stylesheet/less" type="text/css" href="{% static 'css/digTextBook.less' %}">
+    
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
@@ -20,12 +20,15 @@
 
     <!-- Scripts -->
     <script src="{% static 'js/jquery.min.js' %}"></script>
+    <script src="{% static 'js/jquery-ui.min.js' %}"></script>
+    <script src="{% static 'js/jquery.ui.touch-punch.min.js' %}"></script>
     <script src="{% static 'js/digTextBook.js' %}"></script>
     <script src="{% static 'js/gallery.js' %}"></script>
     <script src="{% static 'js/activityfeed.js' %}"></script>
-    <!--<script src="{% static 'js/brainstorm.js' %}"></script>-->
+    <script src="{% static 'js/brainstorm.js' %}"></script>
     <script src="{% static 'js/convert.js' %}"></script>
     <script src="{% static 'js/table.js' %}"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/less.js/3.0.2/less.min.js" ></script>
 
     <!--script for pusher - message communication-->
     <script src="//js.pusher.com/4.0/pusher.min.js"></script>
@@ -40,9 +43,13 @@
 
     <script>
         API_URL = {
-            pagesBase: "{% static 'pages' %}" // Base directory for pages
+            pagesBase: "{% static 'pages' %}", // Base directory for pages
+            picsBase: "{% static 'pics' %}"
+
         }
+        console.log('index', API_URL)
     </script>
+
 </head>
 <body>
     <div id="main-container">
@@ -55,13 +62,31 @@
             <div class="page next" data-page="2">
             </div>
             <div id="page-controls">
+                <span id="page-control-number">Page 1</span>
                 <a id="page-control-previous" onclick="movePage(false);">Previous page</a>
                 <a id="page-control-next" onclick="movePage(true);">Next page</a>
             </div>
         </div>
-        <div id="dynamic-content">
-            {% include 'app/activityfeed.html' %}
 
+        <div id="dynamic-content">
+            <div class="user-login">
+                {% if user.is_authenticated %}
+                    Welcome, {{ user.get_username }}!
+                    <a href="/logout">Logout</a>
+                {% else %}
+                    <a href="/">Login</a>
+                {% endif %}
+            </div>
+        
+            <a id="main-view-toggle"></a>
+
+            <div id="activity-feed-view" class="main-view">
+                {% include 'app/activityfeed.html' %}
+            </div>
+            <div id="activity-index-view" class="main-view" style="display: none;">
+                {% include 'app/activityindex.html' %}
+            </div>
+            
             <!-- 
                 Ideally we'd only have one div.card, whose content is loaded dynamically on click.
             -->
@@ -97,6 +122,11 @@
             
             <div class="card moreinfo">
                 <a class="close-card"></a>
+            </div>
+
+            <div class="card multQues">
+                <a class="close-card"></a>
+                {% include 'app/multQues.html' %}
             </div>
         </div>
     </div>
