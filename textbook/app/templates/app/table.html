@@ -1,32 +1,55 @@
-<h1></h1>
-
-<div>
-    <p> sample table </p>
-    <table>
-      <tr>
-       <td>time</td>
-       <td>1</td>
-       <td>2</td>
-       <td>3</td>
-       <td>4</td>
-       <td>5</td>
-       <td>6</td>
-      </tr>
-      <tr>
-        <td>distance</td>
-        <td>5</td>
-        <td>10</td>
-        <td>15</td>
-        <td>20</td>
-        <td>25</td>
-        <td>30</td>
-      </tr>
-    </table>
-
+<head>
+<style>
+input:invalid {
+    border: 4px solid red;
+}
+div.left{
+    float: left;
+}
+div.right{
+    float: right;
+}
+table {
+    font-family: arial, sans-serif;
+    width: 40%;
+}
+td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 7px;
+}
+</style>
+</head>
+<body>
+<h4>Please enter time and distance values:</h4>
+<div class="left">
+<table id="TimeDistance">
+  <tr>
+    <th>Distance</th>
+    <td><input type="text" align="right" size="3" id="d1" pattern="-?[0-9]*" title="Positive or negative numbers only"></td>
+    <td><input type="text" align="right" size="3" id="d2" pattern="-?[0-9]*" title="Positive or negative numbers only"></td>
+    <td><input type="text" align="right" size="3" id="d3" pattern="-?[0-9]*" title="Positive or negative numbers only"></td>
+    <td><input type="text" align="right" size="3" id="d4" pattern="-?[0-9]*" title="Positive or negative numbers only"></td>
+    <td><input type="text" align="right" size="3" id="d5" pattern="-?[0-9]*" title="Positive or negative numbers only"></td>
+  </tr>
+  <tr>
+    <th>Time</th>
+    <td><input type="text" align="right" size="3" id="t1" pattern="-?[0-9]*" title="Positive or negative numbers only"></td>
+    <td><input type="text" align="right" size="3" id="t2" pattern="-?[0-9]*" title="Positive or negative numbers only"></td>
+    <td><input type="text" align="right" size="3" id="t3" pattern="-?[0-9]*" title="Positive or negative numbers only"></td>
+    <td><input type="text" align="right" size="3" id="t4" pattern="-?[0-9]*" title="Positive or negative numbers only"></td>
+    <td><input type="text" align="right" size="3" id="t5" pattern="-?[0-9]*" title="Positive or negative numbers only"></td>
+  </tr>
+</table>
 </div>
-
+<div class="right">
+  <button id = "plot_btn" class="btn" type="button">
+    PLOT
+  </button>
+</div>
 <div>
-
     <canvas id="time-distance-chart" width="500" height="300"></canvas>
-
 </div>
+
+</body>
+
