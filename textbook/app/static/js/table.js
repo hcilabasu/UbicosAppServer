@@ -1,4 +1,11 @@
 $(function(){
+    $('#equate').click(function(e){
+        $("#tableID").css("display", "none");
+        $('#equationID').css("display", "block");
+    })
+})
+
+$(function(){
     $('#plot_btn').click(function(e){
         var times = [];
         var distances = [];
@@ -13,18 +20,22 @@ $(function(){
             }
             n++;
         })
-        var graph = new Chart($('#time-distance-chart'), {
-            type: 'line',
-            data: {
-                labels: times,
-                datasets: [{
-                    label: "Time-Distance",
-                    data: distances,
-                    fill: false,
-                    borderColor: '#07C',
-                 }]
-            }
-        });
-        graph.draw();
+        if($('#equate').is(':checked')) {
+            console.log("Equation radio checked");
+        } else {
+            var graph = new Chart($('#time-distance-chart'), {
+                type: 'line',
+                data: {
+                    labels: times,
+                    datasets: [{
+                        label: "Time-Distance",
+                        data: distances,
+                        fill: false,
+                        borderColor: '#07C',
+                    }]
+                }
+            });
+            graph.draw();
+        }
     })
 })
