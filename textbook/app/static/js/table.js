@@ -1,18 +1,41 @@
 $(function(){
+    $('#equate').click(function(e){
+        $("#tableID").css("display", "none");
+        $('#equationID').css("display", "block");
+    })
+})
 
-var ctx = $('#time-distance-chart');
-var graph = new Chart(ctx, {
-    type: 'line',
-    data: {
-        labels: ["1", "2", "3", "4", "5", "6"],
-        datasets: [{
-            label: "Time-Distance",
-            data: [5, 10, 15, 20, 25, 30],
-            fill: false,
-            borderColor: '#07C',
-        }]
-    }
-});
-
-
+$(function(){
+    $('#plot_btn').click(function(e){
+        var times = [];
+        var distances = [];
+        var n = 0;
+        $("table td").each(function(){
+            if (n > 4) {
+                textval = $(this).find(":text").val();
+                distances.push(textval);
+            } else {
+                textval = $(this).find(":text").val();
+                times.push(textval);
+            }
+            n++;
+        })
+        if($('#equate').is(':checked')) {
+            console.log("Equation radio checked");
+        } else {
+            var graph = new Chart($('#time-distance-chart'), {
+                type: 'line',
+                data: {
+                    labels: times,
+                    datasets: [{
+                        label: "Time-Distance",
+                        data: distances,
+                        fill: false,
+                        borderColor: '#07C',
+                    }]
+                }
+            });
+            graph.draw();
+        }
+    })
 })
