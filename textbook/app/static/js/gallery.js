@@ -6,10 +6,11 @@
 
                 console.log("file changed");
 
+                //get file information
                 var form_data = new FormData($('#upload-img')[0]);
-                console.log('form_data', form_data)
+                //console.log('form_data', form_data)
 
-                var img_data
+                var img_data //variable to store the image
 
                 //ajax call to post the uploaded image in the database and with successful entry show the image at the beginning of the list
                 $.ajax({
@@ -25,23 +26,14 @@
                         //TODO: update user with a 'success' message on the screen
 
                         img_data = response.success;
-
                         var obj = jQuery.parseJSON(img_data);
+                        //console.log(obj)
+                        //console.log("appending image to the gallery")
 
-                        console.log(obj)
+                        var li = $("<li/>").appendTo("#gallery"); //<ul id=gallery>
 
-                            console.log("appending image to the gallery")
-
-
-                            var li = $("<li/>").appendTo("#gallery"); //<ul id=gallery>
-
-                            var img = $('<img/>', {
-                                     src : 'http://'+ host_url +obj.url }).appendTo(li);
-
-    //						var span = $('<span/>', {
-    //							text: obj.gallery_id}).appendTo(li);
-    //
-    //						span.addClass('badge');
+                        var img = $('<img/>', {
+                                src : 'http://'+ host_url +obj.url }).appendTo(li);
 
                         //reverse the image order
                         var list = $('#gallery');
@@ -60,6 +52,21 @@
                 readURL(this);
             });
 
+            $(".previous-image").click(function(e){
+                e.preventDefault();
+                console.log("previous image arrow clicked", $("#gallery").children())
+            })
+
+            $("#backToGallery").click(function(e){
+                console.log('going back to gallery')
+                e.preventDefault();
+                console.log("");
+                $("#single-image-view").hide()
+                $("#gallery-panel").show()
+            })
+
+
+
         })
 
 
@@ -68,22 +75,19 @@
 
             if (input.files && input.files[0]) {
                 var reader = new FileReader();
-
-
                     reader.onload = function (e) {
                         $('#default').attr('src', e.target.result);
                     }
-
                     reader.readAsDataURL(input.files[0]);
             }
         }
 
+        //function called from digTextBook.js
         function viewDiv(view){
 
-            console.log('value pass to gallery.js', view)
+            //console.log('value pass to gallery.js', view)
             if(view == 'class'){
 
-                $('.group-view').hide()
                 $('#upload-img input[name="group-id"]').attr('value', 0)
                 $('.card.gallery #gallery-group-heading').text('All Submission'); //update the sub-title of gallery page
 
@@ -93,7 +97,7 @@
 
                 //TODO: check if 'group' was selected before
 
-                console.log('group value stored??', groupValue)
+                //console.log('group value stored??', groupValue)
 
                 $('.card.active').removeClass('active');
                 $('.card.group').addClass('active');
@@ -122,14 +126,20 @@
         }
 
         var openImageView = function(galleryView, image){
-        console.log('openImageView', image)
+        //console.log('openImageView', galleryView)
         var singleImageViewer = $('#single-image-view');
-        // Toggle views
+
+        // Toggle views: Display or hide the matched elements.
         $('.gallery-panel', galleryView).toggle();
+
         // Get image element and add it to the DOM
         var image = image.clone();
 
+        //remove previous single image before adding new one
+        $('.section').children('img').remove();
+        
         $('.section', singleImageViewer).append(image);
+        //console.log($('#single-image-view').html())
     };
 
       function displayGallery(groupValue){
@@ -142,35 +152,29 @@
 
                //TODO: update user with a 'success' message on the screen
 
-               //console.log('success:', response.success);
                img_data = response.success;
-
                var obj = jQuery.parseJSON(img_data);
-
                $('#gallery').empty();
-
                //console.log('gallery - length: ', $("#gallery li").length)
-
-                $.each(obj, function(key,value) {
+               $.each(obj, function(key,value) {
 
                    //console.log(value.fields) //gives all the value
                    //console.log(value.fields['image']); //image field in the model
+                   // console.log("building gallery from scratch")
+                   console.log('total number of images: ', obj.length)
 
-                  // console.log("building gallery from scratch")
+                   var li = $("<li/>").appendTo("#gallery"); //<ul id=gallery>
 
-                    console.log('total number of images: ', obj.length)
+                   var img = $('<img/>', {
+                       src : 'http://'+ host_url +'/media/'+value.fields['image'] }).appendTo(li);
 
-                    var li = $("<li/>").appendTo("#gallery"); //<ul id=gallery>
+                       // Add clickhandler to open the single image view
+                       img.on('click', function(event){
+                           //console.log($(this).parent().siblings().length); //+1 gives me the total number of images in the gallery
+                           console.log($(this).index())
+                           openImageView($('#gallery-view'), $(this));
 
-                    var img = $('<img/>', {
-                        src : 'http://'+ host_url +'/media/'+value.fields['image'] }).appendTo(li);
-
-                        // Add clickhandler to open the single image view
-                        img.on('click', function(){
-
-                            openImageView($('#gallery-view'), $(this));
-
-                        });
+                       });
 
                 });
 
@@ -178,8 +182,6 @@
                 var list = $('#gallery');
                 var listItems = list.children('li');
                 list.append(listItems.get().reverse());
-
-
 
             }
 

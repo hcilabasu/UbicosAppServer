@@ -93,13 +93,13 @@ var loadPage = function(pageNum, pageContainer, successFn, notFoundFn){
 
             //console.log(pageHTML)
 
-            console.log("img", pageHTML)
+            //console.log("img", pageHTML)
             //console.log($('.imgtxtbook').children('img')) //returns the image object
             if($('img', pageHTML)){
 
 
                 var imgsrc = $('img', pageHTML).attr('src') //get the image src from the html i.e. '/act2/1.png'
-                console.log(imgsrc)
+                //console.log(imgsrc)
 
                 $('img', pageHTML).attr('src', API_URL.picsBase + imgsrc); //append the base url in the front
             }
@@ -170,6 +170,9 @@ var bindActivityButtons = function(){
 
             var view = activityButton.attr('data-view');
             console.log('view: ', view)
+
+//            $('#gallery-panel').show();
+//            $('#single-image-view').hide()
 
             //call function from gallery.js
             viewDiv(view);
