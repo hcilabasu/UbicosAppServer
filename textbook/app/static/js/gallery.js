@@ -95,7 +95,7 @@
         }
 
         //function called from digTextBook.js
-        function viewDiv(view){
+        function viewDiv(view, number_of_group){
 
             //console.log('value pass to gallery.js', view)
             if(view == 'class'){
@@ -107,17 +107,28 @@
 
             }else{
 
+                console.log("here")
+
                 //TODO: check if 'group' was selected before
 
-                //console.log('group value stored??', groupValue)
+                console.log('number of group value: ', number_of_group)
 
                 $('.card.active').removeClass('active');
                 $('.card.group').addClass('active');
 
+                //clear previous items
+                $('#group-view').empty();
+                //add radio button dynamically
+                for (i = 1; i <= number_of_group; i++) {
+
+                    $('<input type="radio" name="radiogroup" value="'+i+'"/> Group '+ i +'</br>').appendTo('#group-view');
+
+                 }
+
                 //get group id from the radio button
                 var groupValue
-                $("input[name='group']").change(function(){
-                    groupValue = $("input[name='group']:checked").val();
+                $("input[name='radiogroup']").change(function(){
+                    groupValue = $("input[name='radiogroup']:checked").val();
                     if(groupValue){
                             //pass group value in the form so it can be added into the database
                             $('#upload-img input[name="group-id"]').attr('value', groupValue)

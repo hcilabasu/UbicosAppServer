@@ -165,17 +165,23 @@ var bindActivityButtons = function(){
         // if gallery div is active, load the gallery
         if($('.card.gallery').hasClass('active')){
 
+            console.log("here 1")
             // pass id to gallery activity - to upload image form in gallery.html
             $('#upload-img input[name="act-id"]').attr('value', id)
+
 
             var view = activityButton.attr('data-view');
             console.log('view: ', view)
 
-//            $('#gallery-panel').show();
-//            $('#single-image-view').hide()
+            var number_of_group
+            if(view == 'group'){
+                number_of_group = activityButton.attr('data-group-number');
+               // console.log('number of group:' , number_of_group)
+            }
+
 
             //call function from gallery.js
-            viewDiv(view);
+            viewDiv(view, number_of_group);
         }
 
 
