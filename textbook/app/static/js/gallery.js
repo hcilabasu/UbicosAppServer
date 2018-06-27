@@ -46,30 +46,42 @@
 
             });
 
-
             //update preview image
             $("#file-upload").change(function(){
                 readURL(this);
             });
 
+            //back button
             $(".previous-image").click(function(e){
                 e.preventDefault();
-                console.log("previous image arrow clicked", $("#gallery").children())
+                var val = $('input[name=image-index]').val() - 1
+                $('.section input[name="image-index"]').attr('value', val)
+                console.log('previous image index:: ', val)
+                var prev_img = $('#gallery li').eq(val).children('img')[0]
+                console.log($(prev_img))
+                openImageView($('#gallery-panel'), $(prev_img));
+
             })
 
-            $("#backToGallery").click(function(e){
-                console.log('going back to gallery')
+            //next button
+            $(".next-image").click(function(e){
                 e.preventDefault();
-                console.log("");
+                var val = eval($('input[name=image-index]').val()) + 1
+                $('.section input[name="image-index"]').attr('value', val)
+                console.log('previous image index:: ', val)
+                var prev_img = $('#gallery li').eq(val).children('img')[0]
+                console.log($(prev_img))
+                openImageView($('#gallery-panel'), $(prev_img));
+
+            })
+
+            //back to gallery from single image view
+            $("#backToGallery").click(function(e){
+                e.preventDefault();
                 $("#single-image-view").hide()
                 $("#gallery-panel").show()
             })
-
-
-
         })
-
-
 
         function readURL(input) {
 
@@ -115,17 +127,13 @@
                             $('.card.gallery #gallery-group-heading').text('Group #'+groupValue+' Submission'); //update the sub-title of gallery page
 
                     }
-
                      displayGallery(groupValue)
-
                 })
-
-
             }
-
         }
 
         var openImageView = function(galleryView, image){
+
         //console.log('openImageView', galleryView)
         var singleImageViewer = $('#single-image-view');
 
@@ -137,9 +145,10 @@
 
         //remove previous single image before adding new one
         $('.section').children('img').remove();
-        
+
         $('.section', singleImageViewer).append(image);
         //console.log($('#single-image-view').html())
+
     };
 
       function displayGallery(groupValue){
@@ -168,10 +177,13 @@
                    var img = $('<img/>', {
                        src : 'http://'+ host_url +'/media/'+value.fields['image'] }).appendTo(li);
 
+
                        // Add clickhandler to open the single image view
                        img.on('click', function(event){
+                           console.log($(this))
                            //console.log($(this).parent().siblings().length); //+1 gives me the total number of images in the gallery
-                           console.log($(this).index())
+                           console.log($(this).parent().index())
+                           $('.section input[name="image-index"]').attr('value', $(this).parent().index())
                            openImageView($('#gallery-view'), $(this));
 
                        });
