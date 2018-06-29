@@ -1,5 +1,6 @@
  $( function() {
 
+    ideaDragPositionUpdate();
 
 
 
@@ -65,6 +66,8 @@ var saveBrainstormNote = function(idea, color, hideName, posTop, posLeft){
 
 
 
+
+
                 }
             });
 
@@ -92,6 +95,8 @@ var addIdeaToWorkspace = function(idea, color, hideName, position, animate){
         .css('background', color)
         .css('top', position.top + 'px')
         .css('left', position.left + 'px');
+
+
     // Add to workspace
     $('#idea-workspace').append(idea);
     // Make it draggable
@@ -100,3 +105,20 @@ var addIdeaToWorkspace = function(idea, color, hideName, position, animate){
     idea.removeClass('new');
 }
 
+var ideaDragPositionUpdate = function(){
+
+    //detect when an idea is stopped dragging to get the final location
+    //and save it into the database
+    //http://api.jqueryui.com/draggable/#event-start
+    $( ".idea" ).on( "dragstop", function( event, ui ) {
+
+
+        //find the id of the note - which is used to update the note in the database
+        //console.log($(this).find("input[name='note-id']").attr('value'))
+        console.log("idea dragged", ui.position )
+
+
+
+     } );
+
+}

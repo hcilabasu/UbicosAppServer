@@ -155,6 +155,9 @@ def brainstormSave(request):
     note = brainstormNote(ideaText = request.POST.get('idea'), color = request.POST.get('color'),
                               position_top = request.POST.get('posTop'), position_left = request.POST.get('posLeft'), posted_by = request.user)
     note.save()
+
+    # note = brainstormNote.objects.last()
+    # print(note.id)
     return HttpResponse('')
 
 
