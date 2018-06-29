@@ -1,7 +1,7 @@
 
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render, render_to_response
-from .models import ImageModel, Message
+from .models import ImageModel, Message, brainstormNote
 from django.contrib.auth import authenticate
 from django.http.response import JsonResponse
 from django.contrib.auth import login as auth_login
@@ -148,6 +148,16 @@ def updateFeed(request):
     msg = Message.objects.all()
     msg_data = serializers.serialize('json', msg)
     return JsonResponse({'success': msg_data, 'username': request.user.get_username(),'errorMsg': True})
+
+
+def brainstormSave(request):
+
+    note = brainstormNote(ideaText = request.POST.get('idea'), color = request.POST.get('color'),
+                              position_top = request.POST.get('posTop'), position_left = request.POST.get('posLeft'), posted_by = request.user)
+    note.save()
+    return HttpResponse('')
+
+
 
 def deleteAllItems(request):
     ImageModel.objects.all().delete()

@@ -21,3 +21,9 @@ class Message(models.Model):
     posted_at = models.DateTimeField(auto_now_add=True)
 
 
+class brainstormNote(models.Model):
+    ideaText = models.CharField(max_length=400)
+    color = models.CharField(max_length=20)
+    position_top = models.CharField(max_length=20)
+    position_left = models.CharField(max_length=20)
+    posted_by = models.ForeignKey(settings.AUTH_USER_MODEL)

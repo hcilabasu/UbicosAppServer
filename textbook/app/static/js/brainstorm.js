@@ -1,6 +1,8 @@
  $( function() {
 
 
+
+
   } );
 
 var draggableConfig = {
@@ -42,9 +44,31 @@ var setupBrainstorm = function(){
         // Submit idea
         toggleNewIdeaButton();
         addIdeaToWorkspace(idea, color, hideName, {top:posTop,left:posLeft}, true);
-        return false;
+        //send to database
+        saveBrainstormNote(idea, color, hideName, posTop, posLeft);
+        return false; //why return false?
     });
 };
+
+var saveBrainstormNote = function(idea, color, hideName, posTop, posLeft){
+
+
+      $.post({
+                url: '/brainstorm/save/',
+                data: {
+                'idea': idea,
+                'color': color,
+                'posTop': posTop,
+                'posLeft': posLeft
+                },
+                success: function (data) {
+
+
+
+                }
+            });
+
+}
 
 var toggleNewIdeaButton = function(){
     // Toggle main class
@@ -75,3 +99,4 @@ var addIdeaToWorkspace = function(idea, color, hideName, position, animate){
     // Remove new class
     idea.removeClass('new');
 }
+
