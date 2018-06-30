@@ -842,6 +842,63 @@ a {
 
 .card.table {
     background: linear-gradient(rgba(250, 0, 162, 1), rgba(157, 0, 251, 1));
+
+    @tableColor: #007ACC;
+    @equationColor: rgb(250, 147, 28);
+
+    input[type=text]{
+        width: 30px;
+    }
+
+    table {
+        display: inline-block;
+        border-collapse: collapse;
+        font-family: arial, sans-serif;
+        color: white;
+        
+        td, 
+        th {
+            border: 1px solid #dddddd;
+            text-align: left;
+            
+        }
+    }
+
+    .graph {
+        box-shadow: 0 0 5px rgba(0,0,0,0.5);
+        background-color: white;
+        border-radius: 10px;
+        
+        canvas {
+            display: block;
+        }
+    }
+
+    #addColumn {
+        vertical-align: top;
+        transform: translateY(10%);
+    }
+
+    #graphSources {
+        list-style: none;
+        padding: 0;
+
+        li {
+            margin-bottom: 20px;
+            padding: 10px;
+            background: rgba(255,255,255,0.3);
+            border-radius: 10px;
+            border-left: solid 5px; 
+            border-right: solid 5px; 
+        }
+        
+        .table { border-color: @tableColor; }
+        .equation { border-color: @equationColor; }
+    }
+
+    #time-distance-chart {
+        display: none;
+    }
 }
 
 /* Convert */
