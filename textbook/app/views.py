@@ -156,9 +156,9 @@ def brainstormSave(request):
                               position_top = request.POST.get('posTop'), position_left = request.POST.get('posLeft'), posted_by = request.user)
     note.save()
 
-    # note = brainstormNote.objects.last()
-    # print(note.id)
-    return HttpResponse('')
+    note = brainstormNote.objects.last()
+    print(note.id)
+    return JsonResponse({'id': note.id,'errorMsg': True})
 
 
 

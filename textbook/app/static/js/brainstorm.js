@@ -44,17 +44,10 @@ var setupBrainstorm = function(){
 
         // Submit idea
         toggleNewIdeaButton();
-        addIdeaToWorkspace(idea, color, hideName, {top:posTop,left:posLeft}, true);
+
         //send to database
-        saveBrainstormNote(idea, color, hideName, posTop, posLeft);
-        return false; //why return false?
-    });
-};
-
-var saveBrainstormNote = function(idea, color, hideName, posTop, posLeft){
-
-
-      $.post({
+        //saveBrainstormNote(idea, color, hideName, posTop, posLeft);
+          $.post({
                 url: '/brainstorm/save/',
                 data: {
                 'idea': idea,
@@ -64,14 +57,15 @@ var saveBrainstormNote = function(idea, color, hideName, posTop, posLeft){
                 },
                 success: function (data) {
 
-
-
-
+                    noteID = data.id
+                    addIdeaToWorkspace(idea, color, hideName, {top:posTop,left:posLeft}, noteID, true);
 
                 }
-            });
+        });
+        return false; //why return false?
+    });
+};
 
-}
 
 var toggleNewIdeaButton = function(){
     // Toggle main class
@@ -88,7 +82,7 @@ var toggleNewIdeaButton = function(){
     position: object with top and left number positions (i.e. {top:10, left:20})
     animate: whether the idea should be added with an animation or not
 */
-var addIdeaToWorkspace = function(idea, color, hideName, position, animate){
+var addIdeaToWorkspace = function(idea, color, hideName, position, noteID, animate){
     // Create idea
     var idea = $('<div class="idea new"></div>')
         .text(idea)
@@ -96,13 +90,14 @@ var addIdeaToWorkspace = function(idea, color, hideName, position, animate){
         .css('top', position.top + 'px')
         .css('left', position.left + 'px');
 
-
     // Add to workspace
     $('#idea-workspace').append(idea);
     // Make it draggable
     idea.draggable(draggableConfig);
     // Remove new class
     idea.removeClass('new');
+
+    $('.idea').data('noteid', noteID)
 }
 
 var ideaDragPositionUpdate = function(){
@@ -115,7 +110,10 @@ var ideaDragPositionUpdate = function(){
 
         //find the id of the note - which is used to update the note in the database
         //console.log($(this).find("input[name='note-id']").attr('value'))
+        console.log($(this).data('noteid'))
         console.log("idea dragged", ui.position )
+
+        //update position in the DB
 
 
 
