@@ -1,9 +1,8 @@
  $( function() {
 
-
-    ideaDragPositionUpdate();
-
-
+        console.log("here 2");
+        loadIdeaToWorkspace();
+        ideaDragPositionUpdate();
 
   } );
 
@@ -106,8 +105,8 @@ var ideaDragPositionUpdate = function(){
     //detect when an idea is stopped dragging to get the final location
     //and save it into the database
     //http://api.jqueryui.com/draggable/#event-start
+    console.log('total idea divs',$(".idea").length) //debug purpose - remove later
     $( ".idea" ).on( "dragstop", function( event, ui ) {
-
 
         //find the id of the note - which is used to update the note in the database
         //console.log($(this).find("input[name='note-id']").attr('value'))
@@ -133,6 +132,11 @@ var loadIdeaToWorkspace = function(){
                 console.log(data.success)
                 notes = data.success;
                 notes = jQuery.parseJSON(notes);
+
+                //clear the workspace
+                //$('#idea-workspace').empty()
+
+                //loop through and display notes
                 $.each(notes, function(key, value){
 
                     addIdeaToWorkspace(value.fields['ideaText'], value.fields['color'], true, {top:value.fields['position_top'],
@@ -144,6 +148,6 @@ var loadIdeaToWorkspace = function(){
 
         });
 
-        //loop through and display notes
+
 
 }

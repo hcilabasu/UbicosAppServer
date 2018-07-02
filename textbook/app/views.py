@@ -43,7 +43,7 @@ def getUsername(request):
 
 @login_required
 def index(request):
-    return render(request, 'app/index.html',{'pagename': "app/page1.html"})
+    return render(request, 'app/index.html')
 
 
 # def activityList(request):
@@ -138,7 +138,7 @@ def uploadImage(request):
         return JsonResponse({'success': image_data, 'errorMsg': True})
 
 def getImage(request, group_id):
-    print('group id 123 :: ', group_id)
+
     #images = ImageModel.objects.all()
     images = ImageModel.objects.filter(group_id=group_id)
     image_data = serializers.serialize('json', images)
