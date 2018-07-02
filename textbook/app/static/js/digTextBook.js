@@ -195,6 +195,10 @@ var bindActivityButtons = function(){
 
         }
 
+        if($('.card.brainstorm').hasClass('active')){
+            loadIdeaToWorkspace();
+        }
+
     });
 };
 

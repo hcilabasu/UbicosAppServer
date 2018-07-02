@@ -1,5 +1,6 @@
  $( function() {
 
+
     ideaDragPositionUpdate();
 
 
@@ -113,10 +114,36 @@ var ideaDragPositionUpdate = function(){
         console.log($(this).data('noteid'))
         console.log("idea dragged", ui.position )
 
-        //update position in the DB
-
-
+        //TODO: update position in the DB
 
      } );
+
+}
+
+
+var loadIdeaToWorkspace = function(){
+
+    var notes
+
+     $.get({
+
+         url:'/brainstorm/get/', //get all the notes
+         success: function(data){
+
+                console.log(data.success)
+                notes = data.success;
+                notes = jQuery.parseJSON(notes);
+                $.each(notes, function(key, value){
+
+                    addIdeaToWorkspace(value.fields['ideaText'], value.fields['color'], true, {top:value.fields['position_top'],
+                            left:value.fields['position_left']}, value.pk, true );
+
+                })
+
+            }
+
+        });
+
+        //loop through and display notes
 
 }

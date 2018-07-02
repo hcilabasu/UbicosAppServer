@@ -161,6 +161,12 @@ def brainstormSave(request):
     return JsonResponse({'id': note.id,'errorMsg': True})
 
 
+def brainstormGet(request):
+
+    notes = brainstormNote.objects.all()
+    notes = serializers.serialize('json', notes)
+
+    return JsonResponse({'success': notes})
 
 def deleteAllItems(request):
     ImageModel.objects.all().delete()
