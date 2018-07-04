@@ -12,6 +12,7 @@ urlpatterns = [
     url('getImage/(?P<group_id>\d+)/', views.getImage, name='getImg'),
     url('brainstorm/save/',views.brainstormSave),
     url('brainstorm/get/',views.brainstormGet),
+    url('brainstorm/update/(?P<note_id>\d+)/', views.brainstormUpdate),
     url('delete',views.deleteAllItems, name='activities'),
     url(r'^ajax/chat/$', views.broadcast),
     url('updateFeed', views.updateFeed),

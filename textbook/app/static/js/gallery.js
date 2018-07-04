@@ -171,7 +171,7 @@ function displayGallery(groupValue){
 
            type:'GET',
            url:'http://'+ host_url +'/getImage/'+groupValue, //get all the image for the particular group
-           success: function(response){tm
+           success: function(response){
 
            //TODO: update user with a 'success' message on the screen
 

@@ -168,6 +168,13 @@ def brainstormGet(request):
 
     return JsonResponse({'success': notes})
 
+
+def brainstormUpdate(request, note_id):
+
+    brainstormNote.objects.filter(id=note_id).update(position_top=request.POST.get('top'),
+                                                     position_left=request.POST.get('left'))
+    return HttpResponse('')
+
 def deleteAllItems(request):
     ImageModel.objects.all().delete()
     Message.objects.all().delete()

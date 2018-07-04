@@ -1,8 +1,5 @@
  $( function() {
 
-        console.log("here 2");
-        loadIdeaToWorkspace();
-        ideaDragPositionUpdate();
 
   } );
 
@@ -88,7 +85,8 @@ var addIdeaToWorkspace = function(idea, color, hideName, position, noteID, anima
         .text(idea)
         .css('background', color)
         .css('top', position.top + 'px')
-        .css('left', position.left + 'px');
+        .css('left', position.left + 'px')
+        .data('noteid',noteID); //add id
 
     // Add to workspace
     $('#idea-workspace').append(idea);
@@ -97,7 +95,7 @@ var addIdeaToWorkspace = function(idea, color, hideName, position, noteID, anima
     // Remove new class
     idea.removeClass('new');
 
-    $('.idea').data('noteid', noteID)
+
 }
 
 var ideaDragPositionUpdate = function(){
@@ -106,14 +104,34 @@ var ideaDragPositionUpdate = function(){
     //and save it into the database
     //http://api.jqueryui.com/draggable/#event-start
     console.log('total idea divs',$(".idea").length) //debug purpose - remove later
+
     $( ".idea" ).on( "dragstop", function( event, ui ) {
 
         //find the id of the note - which is used to update the note in the database
-        //console.log($(this).find("input[name='note-id']").attr('value'))
-        console.log($(this).data('noteid'))
-        console.log("idea dragged", ui.position )
+        noteID = $(this).data('noteid')
+        //console.log(noteID)
+        var position =
+
+        console.log("idea dragged 1", ui.position )
 
         //TODO: update position in the DB
+         $.post({
+
+           async: false,
+           url:'/brainstorm/update/'+noteID+'/', //get all the image for the particular group
+           data: {
+                'left': ui.position.left,
+                'top': ui.position.top
+                },
+           success: function(response){
+
+        }
+
+        });
+
+     console.log("idea dragged 2", ui.position )
+
+
 
      } );
 
@@ -129,12 +147,12 @@ var loadIdeaToWorkspace = function(){
          url:'/brainstorm/get/', //get all the notes
          success: function(data){
 
-                console.log(data.success)
+                //console.log(data.success)
                 notes = data.success;
                 notes = jQuery.parseJSON(notes);
 
                 //clear the workspace
-                //$('#idea-workspace').empty()
+                $('#idea-workspace').empty()
 
                 //loop through and display notes
                 $.each(notes, function(key, value){
@@ -143,6 +161,8 @@ var loadIdeaToWorkspace = function(){
                             left:value.fields['position_left']}, value.pk, true );
 
                 })
+
+                ideaDragPositionUpdate();
 
             }
 

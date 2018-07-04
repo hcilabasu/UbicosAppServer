@@ -20,6 +20,7 @@ $(function(){
     // If we start loading the cards dynamically, this needs to be called after the brainstorm card is built
     setupBrainstorm();
 
+    //toggle between activity feed and index
     $('#main-view-toggle').click(function(){
         var hidden = $('.main-view:hidden');
         $('.main-view:visible').fadeOut('fast', function(){
@@ -29,12 +30,6 @@ $(function(){
     });
 
 });
-
-/*
-Params:
-* galleryView: the top container for the gallery, holding both the gallery overview and individual images view
-IMPORTANT: this, along with the gallery building file, should be moved to gallery.js
-*/
 
 
 var movePage = function(moveToNext){
@@ -84,7 +79,8 @@ var movePage = function(moveToNext){
 };
 
 var loadPage = function(pageNum, pageContainer, successFn, notFoundFn){
-    console.log('loadPage Function', pageNum)
+    //console.log('loadPage Function', pageNum)
+
     loadHTML(
         API_URL.pagesBase + '/' + pageNum + '.html',
         function(data){
@@ -93,22 +89,19 @@ var loadPage = function(pageNum, pageContainer, successFn, notFoundFn){
 
             //console.log(pageHTML)
 
-            //console.log("img", pageHTML)
-            //console.log($('.imgtxtbook').children('img')) //returns the image object
             if($('img', pageHTML)){
 
-
                 var imgsrc = $('img', pageHTML).attr('src') //get the image src from the html i.e. '/act2/1.png'
-                //console.log(imgsrc)
-
                 $('img', pageHTML).attr('src', API_URL.picsBase + imgsrc); //append the base url in the front
             }
 
             pageContainer.html(pageHTML);
             pageContainer.data('page', pageNum);
+
             if(successFn){
                 successFn();
             }
+
             bindActivityButtons();
         },
         function (xhr, ajaxOptions, thrownError){
@@ -131,8 +124,10 @@ var loadHTML = function(url, successFn, errorFn){
     });
 };
 
+
+
 var bindActivityButtons = function(){
-    $('.page a').on('touch click', function(){
+    $('.page a').off().on('touch click', function(){
         // Get button type to open appropriate view
         //console.log('this', this)
         //console.log('$(this)', $(this))
@@ -184,18 +179,18 @@ var bindActivityButtons = function(){
 
         if($('.card.multQues').hasClass('active')){
 
+            //hide questions previously added in the DOM
             $('.act2ques').hide()
+
             //get which question is clicked and activate that div for question
             var quesno = activityButton.attr('data-quesid');
-            console.log('you clicked',quesno)
             $('div[data-quesno="'+quesno+'"]').show()
 
         }
 
         if($('.card.brainstorm').hasClass('active')){
-            console.log("here 1")
-//            loadIdeaToWorkspace();
-//            ideaDragPositionUpdate();
+
+            loadIdeaToWorkspace();
         }
 
     });
