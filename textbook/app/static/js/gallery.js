@@ -36,6 +36,12 @@ $(function(){
                         var img = $('<img/>', {
                                 src : 'http://'+ host_url + obj.url }).appendTo(li);
 
+                         img.on('click', function(event){
+                           $('.section input[name="image-index"]').attr('value', $(this).parent().index())
+                           openImageView($('#gallery-view'), $(this));
+
+                       });
+
                         //reverse the image order
                         var list = $('#gallery');
                         var listItems = list.children('li');
