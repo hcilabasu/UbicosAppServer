@@ -1,6 +1,23 @@
+var TABLE_DATASETS = {};
+
 $(function(){
 
-    $('#plot_btn').click(function(e){
+    $('#plot_table').click(function(){
+        prepareDataset('table');
+    });
+    $('#plot_equation').click(function(){
+        prepareDataset('equation');
+    });
+
+    var prepareDataset = function(type){
+        var color = {
+            table: '#007ACC',
+            equation: 'rgb(250, 147, 28)'
+        };
+        var label = {
+            table: 'Table',
+            equation: 'Equation'
+        };
         // Get values from table
         var getRow = function(rowClass){
             values = [];
@@ -10,43 +27,76 @@ $(function(){
             });
             return values;
         }
-        var distances = getRow('distances'),
-            times = getRow('times'),
+        var y = getRow('distances'),
+            x = getRow('times'),
             slope = parseFloat($('#slope').val()),
-            tablePoints = [],
-            equationPoints = [];
-        for (let i = 0; i < distances.length; i++) {
+            points = [],
+            n = x.length;
+            var fakePoints = false;
+            if (type == 'equation' && n == 1){
+                // If this is equation and table hasn't been added yet / has only one point
+                // In this case, create fake points
+                n = 10;
+                fakePoints = true;
+            }
+        for (let i = 0; i < n; i++) {
             // Create table points
-            tablePoints.push({
-                x: times[i],
-                y: distances[i]
-            });
-            // Create equation points
-            equationPoints.push({
-                x: times[i],
-                y: slope * times[i]
-            })
+            if (type == 'table'){
+                points.push({
+                    x: x[i],
+                    y: y[i]
+                });
+            } else if (type == 'equation'){
+                // Create equation points
+                var xPoint = fakePoints ? i : x[i];
+                points.push({
+                    x: xPoint,
+                    y: slope * xPoint
+                });
+            }
         }
-        // Plot
+        // Only update targeted dataset
+        TABLE_DATASETS[type] = {
+            label: label[type],
+            data: points,
+            borderColor: color[type],
+            backgroundColor: 'transparent',
+            showLine: true,
+            lineTension: 0
+        };
+        plotGraph();
+    };
+
+    $('#addColumn').click(function(){
+        var MAX_COLUMNS = 6;
+        var rows = $('#TimeDistance tr');
+        // Check if there are already enough columns
+        var length = $('td', $(rows[0])).length;
+        if(length < MAX_COLUMNS){
+            rows.each(function(i,d){
+                $(d).append($('<td><input type="text" /></td>'));
+            });
+            if (length == MAX_COLUMNS - 1){
+                // Hide button
+                $('#addColumn').hide();
+            }
+        }
+    });
+
+    var plotGraph = function(){
+        var datasets = [];
+        if(TABLE_DATASETS['table']){
+            datasets.push(TABLE_DATASETS['table']);
+        }
+        if(TABLE_DATASETS['equation']){
+            datasets.push(TABLE_DATASETS['equation']);
+        }
         var canvas = $('#time-distance-chart');
         canvas.fadeIn('fast');
         var graph = new Chart(canvas, {
             type: 'scatter',
             data: {
-                datasets: [{
-                    label: 'Table',
-                    data: tablePoints,
-                    borderColor: '#007ACC',
-                    backgroundColor: 'transparent',
-                    showLine: true,
-                    lineTension: 0
-                },{
-                    label: 'Equation',
-                    data: equationPoints,
-                    borderColor: 'rgb(250, 147, 28)',
-                    backgroundColor: 'transparent',
-                    showLine: true
-                }]
+                datasets: datasets
             },
             options: {
                 responsive: true,
@@ -69,21 +119,7 @@ $(function(){
             }
         });
         graph.draw();
-    });
-
-    $('#addColumn').click(function(){
-        var MAX_COLUMNS = 6;
-        var rows = $('#TimeDistance tr');
-        // Check if there are already enough columns
-        var length = $('td', $(rows[0])).length;
-        if(length < MAX_COLUMNS){
-            rows.each(function(i,d){
-                $(d).append($('<td><input type="text" /></td>'));
-            });
-            if (length == MAX_COLUMNS - 1){
-                // Hide button
-                $('#addColumn').hide();
-            }
-        }
-    });
+    };
+    // Initialize graph
+    plotGraph();
 })
