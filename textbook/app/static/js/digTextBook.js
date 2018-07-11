@@ -20,6 +20,7 @@ $(function(){
     // If we start loading the cards dynamically, this needs to be called after the brainstorm card is built
     setupBrainstorm();
 
+    //toggle between activity feed and index
     $('#main-view-toggle').click(function(){
         var hidden = $('.main-view:hidden');
         $('.main-view:visible').fadeOut('fast', function(){
@@ -30,19 +31,6 @@ $(function(){
 
 });
 
-/*
-Params:
-* galleryView: the top container for the gallery, holding both the gallery overview and individual images view
-IMPORTANT: this, along with the gallery building file, should be moved to gallery.js
-*/
-var openImageView = function(galleryView, image){
-    var singleImageViewer = $('#single-image-view');
-    // Toggle views
-    $('.gallery-panel', galleryView).toggle();
-    // Get image element and add it to the DOM
-    var image = image.clone();
-    $('.section', singleImageViewer).append(image);
-};
 
 var movePage = function(moveToNext){
     var container = $('#textbook-content'),
@@ -91,35 +79,32 @@ var movePage = function(moveToNext){
 };
 
 var loadPage = function(pageNum, pageContainer, successFn, notFoundFn){
-    console.log('loadPage Function', pageNum)
-    $.ajax({
-        method: 'GET',
-        url: API_URL.pagesBase + '/' + pageNum + '.html',
-        success: function(data){
+    //console.log('loadPage Function', pageNum)
 
-        var pageHTML = $(data) //convert data into jquery object
+    loadHTML(
+        API_URL.pagesBase + '/' + pageNum + '.html',
+        function(data){
+
+            var pageHTML = $(data) //convert data into jquery object
+
             //console.log(pageHTML)
 
-            console.log("img", pageHTML) // returns 0; doesnt work
-            //console.log($('.imgtxtbook').children('img')) //returns the image object
             if($('img', pageHTML)){
 
-                $('img')
-
                 var imgsrc = $('img', pageHTML).attr('src') //get the image src from the html i.e. '/act2/1.png'
-                console.log(imgsrc)
-
                 $('img', pageHTML).attr('src', API_URL.picsBase + imgsrc); //append the base url in the front
             }
 
             pageContainer.html(pageHTML);
             pageContainer.data('page', pageNum);
+
             if(successFn){
                 successFn();
             }
+
             bindActivityButtons();
         },
-        error: function (xhr, ajaxOptions, thrownError){
+        function (xhr, ajaxOptions, thrownError){
             if(xhr.status==404) {
                 console.dir('Page not found');
                 if (notFoundFn){
@@ -127,11 +112,22 @@ var loadPage = function(pageNum, pageContainer, successFn, notFoundFn){
                 }
             }
         }
-    });
+    );
 }
 
+var loadHTML = function(url, successFn, errorFn){
+    $.ajax({
+        method: 'GET',
+        url: url,
+        success:successFn,
+        error:errorFn
+    });
+};
+
+
+
 var bindActivityButtons = function(){
-    $('.page a').on('touch click', function(){
+    $('.page a').off().on('touch click', function(){
         // Get button type to open appropriate view
         //console.log('this', this)
         //console.log('$(this)', $(this))
@@ -170,19 +166,31 @@ var bindActivityButtons = function(){
             var view = activityButton.attr('data-view');
             console.log('view: ', view)
 
+            var number_of_group
+            if(view == 'group'){
+                number_of_group = activityButton.attr('data-group-number');
+               // console.log('number of group:' , number_of_group)
+            }
+
             //call function from gallery.js
-            viewDiv(view);
+            viewDiv(view, number_of_group);
         }
 
 
         if($('.card.multQues').hasClass('active')){
 
+            //hide questions previously added in the DOM
             $('.act2ques').hide()
+
             //get which question is clicked and activate that div for question
             var quesno = activityButton.attr('data-quesid');
-            console.log('you clicked',quesno)
             $('div[data-quesno="'+quesno+'"]').show()
 
+        }
+
+        if($('.card.brainstorm').hasClass('active')){
+
+            loadIdeaToWorkspace();
         }
 
     });

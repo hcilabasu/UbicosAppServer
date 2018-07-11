@@ -1,7 +1,7 @@
 
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render, render_to_response
-from .models import ImageModel, Message
+from .models import ImageModel, Message, brainstormNote
 from django.contrib.auth import authenticate
 from django.http.response import JsonResponse
 from django.contrib.auth import login as auth_login
@@ -43,7 +43,7 @@ def getUsername(request):
 
 @login_required
 def index(request):
-    return render(request, 'app/index.html',{'pagename': "app/page1.html"})
+    return render(request, 'app/index.html')
 
 
 # def activityList(request):
@@ -54,7 +54,6 @@ def login_form(request):
     return render(request, 'app/login.html',{})
 
 def login(request):
-
     if request.method == 'POST':
         # Gather the username and password provided by the user.
         # This information is obtained from the login form.
@@ -138,9 +137,8 @@ def uploadImage(request):
 
         return JsonResponse({'success': image_data, 'errorMsg': True})
 
-
 def getImage(request, group_id):
-    print('group id 123 :: ', group_id)
+
     #images = ImageModel.objects.all()
     images = ImageModel.objects.filter(group_id=group_id)
     image_data = serializers.serialize('json', images)
@@ -150,6 +148,32 @@ def updateFeed(request):
     msg = Message.objects.all()
     msg_data = serializers.serialize('json', msg)
     return JsonResponse({'success': msg_data, 'username': request.user.get_username(),'errorMsg': True})
+
+
+def brainstormSave(request):
+
+    note = brainstormNote(ideaText = request.POST.get('idea'), color = request.POST.get('color'),
+                              position_top = request.POST.get('posTop'), position_left = request.POST.get('posLeft'), posted_by = request.user)
+    note.save()
+
+    note = brainstormNote.objects.last()
+    print(note.id)
+    return JsonResponse({'id': note.id,'errorMsg': True})
+
+
+def brainstormGet(request):
+
+    notes = brainstormNote.objects.all()
+    notes = serializers.serialize('json', notes)
+
+    return JsonResponse({'success': notes})
+
+
+def brainstormUpdate(request, note_id):
+
+    brainstormNote.objects.filter(id=note_id).update(position_top=request.POST.get('top'),
+                                                     position_left=request.POST.get('left'))
+    return HttpResponse('')
 
 def deleteAllItems(request):
     ImageModel.objects.all().delete()

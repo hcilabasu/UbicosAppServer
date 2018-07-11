@@ -41,10 +41,28 @@ var setupBrainstorm = function(){
 
         // Submit idea
         toggleNewIdeaButton();
-        addIdeaToWorkspace(idea, color, hideName, {top:posTop,left:posLeft}, true);
-        return false;
+
+        //send to database
+        //saveBrainstormNote(idea, color, hideName, posTop, posLeft);
+          $.post({
+                url: '/brainstorm/save/',
+                data: {
+                'idea': idea,
+                'color': color,
+                'posTop': posTop,
+                'posLeft': posLeft
+                },
+                success: function (data) {
+
+                    noteID = data.id
+                    addIdeaToWorkspace(idea, color, hideName, {top:posTop,left:posLeft}, noteID, true);
+
+                }
+        });
+        return false; //why return false?
     });
 };
+
 
 var toggleNewIdeaButton = function(){
     // Toggle main class
@@ -61,17 +79,95 @@ var toggleNewIdeaButton = function(){
     position: object with top and left number positions (i.e. {top:10, left:20})
     animate: whether the idea should be added with an animation or not
 */
-var addIdeaToWorkspace = function(idea, color, hideName, position, animate){
+var addIdeaToWorkspace = function(idea, color, hideName, position, noteID, animate){
     // Create idea
     var idea = $('<div class="idea new"></div>')
         .text(idea)
         .css('background', color)
         .css('top', position.top + 'px')
-        .css('left', position.left + 'px');
+        .css('left', position.left + 'px')
+        .data('noteid',noteID); //add id
+
     // Add to workspace
     $('#idea-workspace').append(idea);
     // Make it draggable
     idea.draggable(draggableConfig);
     // Remove new class
     idea.removeClass('new');
+
+
+}
+
+var ideaDragPositionUpdate = function(){
+
+    //detect when an idea is stopped dragging to get the final location
+    //and save it into the database
+    //http://api.jqueryui.com/draggable/#event-start
+    console.log('total idea divs',$(".idea").length) //debug purpose - remove later
+
+    $( ".idea" ).on( "dragstop", function( event, ui ) {
+
+        //find the id of the note - which is used to update the note in the database
+        noteID = $(this).data('noteid')
+        //console.log(noteID)
+        var position =
+
+        console.log("idea dragged 1", ui.position )
+
+        //TODO: update position in the DB
+         $.post({
+
+           async: false,
+           url:'/brainstorm/update/'+noteID+'/', //get all the image for the particular group
+           data: {
+                'left': ui.position.left,
+                'top': ui.position.top
+                },
+           success: function(response){
+
+        }
+
+        });
+
+     console.log("idea dragged 2", ui.position )
+
+
+
+     } );
+
+}
+
+
+var loadIdeaToWorkspace = function(){
+
+    var notes
+
+     $.get({
+
+         url:'/brainstorm/get/', //get all the notes
+         success: function(data){
+
+                //console.log(data.success)
+                notes = data.success;
+                notes = jQuery.parseJSON(notes);
+
+                //clear the workspace
+                $('#idea-workspace').empty()
+
+                //loop through and display notes
+                $.each(notes, function(key, value){
+
+                    addIdeaToWorkspace(value.fields['ideaText'], value.fields['color'], true, {top:value.fields['position_top'],
+                            left:value.fields['position_left']}, value.pk, true );
+
+                })
+
+                ideaDragPositionUpdate();
+
+            }
+
+        });
+
+
+
 }
