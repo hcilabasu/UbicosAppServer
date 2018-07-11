@@ -890,14 +890,16 @@ a {
             border-radius: 10px;
             border-left: solid 5px; 
             border-right: solid 5px; 
+
+            &:after {
+                clear: both;
+                display: table;
+                content: "";
+            }
         }
         
         .table { border-color: @tableColor; }
         .equation { border-color: @equationColor; }
-    }
-
-    #time-distance-chart {
-        display: none;
     }
 }
 
@@ -921,3 +923,6 @@ a {
     border-radius: 4px;
 }
 
+.floatRight {
+    float: right;
+}
