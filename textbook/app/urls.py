@@ -16,6 +16,7 @@ urlpatterns = [
     url('delete',views.deleteAllItems, name='activities'),
     url(r'^ajax/chat/$', views.broadcast),
     url('updateFeed', views.updateFeed),
-    url('getUsername', views.getUsername)
+    url('getUsername', views.getUsername),
+    url('userlog',views.userlog)
 
 ]

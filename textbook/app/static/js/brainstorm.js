@@ -96,6 +96,9 @@ var addIdeaToWorkspace = function(idea, color, hideName, position, noteID, anima
     idea.removeClass('new');
 
 
+    ideaDragPositionUpdate();
+
+
 }
 
 var ideaDragPositionUpdate = function(){
@@ -103,18 +106,18 @@ var ideaDragPositionUpdate = function(){
     //detect when an idea is stopped dragging to get the final location
     //and save it into the database
     //http://api.jqueryui.com/draggable/#event-start
-    console.log('total idea divs',$(".idea").length) //debug purpose - remove later
+    //console.log('total idea divs',$(".idea").length) //debug purpose - remove later
 
     $( ".idea" ).on( "dragstop", function( event, ui ) {
 
         //find the id of the note - which is used to update the note in the database
         noteID = $(this).data('noteid')
         //console.log(noteID)
-        var position =
+        //var position =
 
-        console.log("idea dragged 1", ui.position )
+        console.log("idea dragged: ", ui.position )
 
-        //TODO: update position in the DB
+
          $.post({
 
            async: false,
@@ -128,9 +131,6 @@ var ideaDragPositionUpdate = function(){
         }
 
         });
-
-     console.log("idea dragged 2", ui.position )
-
 
 
      } );

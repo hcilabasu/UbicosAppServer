@@ -1,7 +1,7 @@
 
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render, render_to_response
-from .models import ImageModel, Message, brainstormNote
+from .models import ImageModel, Message, brainstormNote,userLogTable
 from django.contrib.auth import authenticate
 from django.http.response import JsonResponse
 from django.contrib.auth import login as auth_login
@@ -173,6 +173,14 @@ def brainstormUpdate(request, note_id):
 
     brainstormNote.objects.filter(id=note_id).update(position_top=request.POST.get('top'),
                                                      position_left=request.POST.get('left'))
+    return HttpResponse('')
+
+def userlog(request):
+
+    log = userLogTable(username = request.user, action = request.POST.get('action'), type = request.POST.get('type'),
+                       input = request.POST.get('input'), pagenumber=request.POST.get('pagenumber'))
+    log.save()
+
     return HttpResponse('')
 
 def deleteAllItems(request):

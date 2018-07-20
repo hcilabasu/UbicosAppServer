@@ -7,7 +7,7 @@ from django.conf import settings
 class ImageModel(models.Model):
     gallery_id = models.IntegerField()
     group_id = models.IntegerField()
-    posted_by = models.ForeignKey(settings.AUTH_USER_MODEL)
+    posted_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     posted_at = models.DateTimeField(auto_now_add=True)
     image = models.ImageField(upload_to='images')
 
@@ -26,4 +26,13 @@ class brainstormNote(models.Model):
     color = models.CharField(max_length=20)
     position_top = models.CharField(max_length=20)
     position_left = models.CharField(max_length=20)
-    posted_by = models.ForeignKey(settings.AUTH_USER_MODEL)
+    posted_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+
+
+class userLogTable(models.Model):
+    username = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    action = models.CharField(max_length=20)
+    type = models.CharField(max_length=200)
+    input = models.CharField(max_length=200)
+    pagenumber = models.IntegerField(null=True)
+    posted_at = models.DateTimeField(auto_now_add=True)

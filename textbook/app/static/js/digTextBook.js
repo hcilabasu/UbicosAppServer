@@ -1,3 +1,4 @@
+var current_pagenumber=1 //initial page number; gets updated with page change
 $(function(){
 
     var host_url = window.location.host
@@ -5,6 +6,10 @@ $(function(){
     console.log('page load');
 
     $('.close-card').on('touch click', function(){
+
+        var classNameWhichisClosed = $(this).offsetParent()[0].className.split(" ")[1]
+        //user logging
+        enterLogIntoDatabase('card close', classNameWhichisClosed, 'none', current_pagenumber)
         $(this).closest('.card').removeClass('active');
     });
 
@@ -59,7 +64,10 @@ var movePage = function(moveToNext){
         noMoreClass = 'first';
     }
     // Replace page number
+    current_pagenumber = currentPageNum
     $("#page-control-number").text('Page ' + currentPageNum);
+    //user logging
+    enterLogIntoDatabase('click', 'page change' , 'none', current_pagenumber)
 
     // Do swaps
     pageToHide.attr('class','page').addClass(currentNewClass); // Turn the current page into either next or previous
@@ -149,6 +157,7 @@ var bindActivityButtons = function(){
         // based on the activity type, update titles in html
         $('.card.' + type + ' h1').text(type + ' #'+id); //update the title of each page
 
+        // TODO: make the following if dynamic
         // if video tab is active get the video url and display in video.html
         if($('.card.video').hasClass('active')){
 
@@ -189,9 +198,11 @@ var bindActivityButtons = function(){
         }
 
         if($('.card.brainstorm').hasClass('active')){
-
             loadIdeaToWorkspace();
         }
+
+        //user logging
+        enterLogIntoDatabase('click', type , 'none', current_pagenumber)
 
     });
 };
