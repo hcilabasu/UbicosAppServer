@@ -56,6 +56,8 @@ var setupBrainstorm = function(){
 
                     noteID = data.id
                     addIdeaToWorkspace(idea, color, hideName, {top:posTop,left:posLeft}, noteID, true);
+                    //user logging
+                    enterLogIntoDatabase('add note', 'brainstorm' , idea , current_pagenumber)
 
                 }
         });
@@ -113,9 +115,10 @@ var ideaDragPositionUpdate = function(){
         //find the id of the note - which is used to update the note in the database
         noteID = $(this).data('noteid')
         //console.log(noteID)
-        //var position =
 
-        console.log("idea dragged: ", ui.position )
+
+        //user logging - printing log multiple times why?
+        enterLogIntoDatabase('note dragged', 'brainstorm' , JSON.stringify(ui.position) , current_pagenumber)
 
 
          $.post({

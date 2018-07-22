@@ -2,22 +2,28 @@ from django.db import models
 from django.conf import settings
 
 # Create your models here.
+class ActivityIndex(models.Model):
+    page_number = models.IntegerField()
+    activity_type = models.CharField(max_length=40)
 
-
-class ImageModel(models.Model):
+class imageModel(models.Model):
     gallery_id = models.IntegerField()
     group_id = models.IntegerField()
     posted_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     posted_at = models.DateTimeField(auto_now_add=True)
     image = models.ImageField(upload_to='images')
 
-class ActivityIndex(models.Model):
-    page_number = models.IntegerField()
-    activity_type = models.CharField(max_length=40)
+class imageComment(models.Model):
+    content = models.CharField(max_length=400)
+    posted_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    posted_at = models.DateTimeField(auto_now_add=True)
+    image_id = models.ForeignKey(imageModel, on_delete=models.CASCADE)
+
+
 
 class Message(models.Model):
     content = models.CharField(max_length=400)
-    posted_by = models.CharField(max_length=20)
+    posted_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     posted_at = models.DateTimeField(auto_now_add=True)
 
 

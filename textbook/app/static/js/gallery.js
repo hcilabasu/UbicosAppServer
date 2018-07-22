@@ -1,5 +1,4 @@
 
-
 var host_url = window.location.host
 
 $(function(){
@@ -88,6 +87,8 @@ $(function(){
                 $("#single-image-view").hide()
                 $("#gallery-panel").show()
             })
+
+
  })
 
 function readURL(input) {

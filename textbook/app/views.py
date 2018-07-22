@@ -1,7 +1,7 @@
 
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render, render_to_response
-from .models import ImageModel, Message, brainstormNote,userLogTable
+from .models import imageModel, Message, brainstormNote,userLogTable
 from django.contrib.auth import authenticate
 from django.http.response import JsonResponse
 from django.contrib.auth import login as auth_login
@@ -24,7 +24,7 @@ def broadcast(request):
     pusher.trigger(u'a_channel', u'an_event', {u'name': request.POST['username'], u'message': request.POST['message'] })
 
     #insert into database
-    msg = Message(content=request.POST['message'], posted_by=request.POST['username']);
+    msg = Message(content=request.POST['message'], posted_by=request.user);
     msg.save();
 
     # print(image_data)
@@ -104,7 +104,7 @@ def uploadImage(request):
 
         #insert values in the database
         #TODO: restrict insertion if user is not signed in
-        img = ImageModel(gallery_id=gallery_id, group_id = group_id , posted_by = request.user, image=request.FILES['gallery_img'])
+        img = imageModel(gallery_id=gallery_id, group_id = group_id , posted_by = request.user, image=request.FILES['gallery_img'])
         # TODO: check whether the insertion was successful or not, else wrong image will be shown using the last() query
         img.save()
 
@@ -118,7 +118,7 @@ def uploadImage(request):
 
         #get the latest inserted entry from the database for this particular group
         #https://stackoverflow.com/questions/2191010/get-last-record-in-a-queryset/21247350
-        images = ImageModel.objects.filter(group_id=group_id).last()
+        images = imageModel.objects.filter(group_id=group_id).last()
 
         print('image url :: ',images.image.url)
 
@@ -140,7 +140,7 @@ def uploadImage(request):
 def getImage(request, group_id):
 
     #images = ImageModel.objects.all()
-    images = ImageModel.objects.filter(group_id=group_id)
+    images = imageModel.objects.filter(group_id=group_id)
     image_data = serializers.serialize('json', images)
     return JsonResponse({'success': image_data,  'errorMsg': True})
 
@@ -184,6 +184,7 @@ def userlog(request):
     return HttpResponse('')
 
 def deleteAllItems(request):
-    ImageModel.objects.all().delete()
+    imageModel.objects.all().delete()
     Message.objects.all().delete()
+    userLogTable.objects.all().delete()
     return HttpResponse('')
