@@ -15,6 +15,7 @@ urlpatterns = [
     url('brainstorm/update/(?P<note_id>\d+)/', views.brainstormUpdate),
     url('delete',views.deleteAllItems, name='activities'),
     url(r'^ajax/chat/$', views.broadcast),
+    url(r'^ajax/imageComment/$', views.broadcastImageComment),
     url('updateFeed', views.updateFeed),
     url('getUsername', views.getUsername),
     url('userlog',views.userlog)

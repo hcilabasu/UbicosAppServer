@@ -1,7 +1,7 @@
 
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render, render_to_response
-from .models import imageModel, Message, brainstormNote,userLogTable
+from .models import imageModel, imageComment, Message, brainstormNote,userLogTable
 from django.contrib.auth import authenticate
 from django.http.response import JsonResponse
 from django.contrib.auth import login as auth_login
@@ -14,8 +14,11 @@ import json
 from pusher import Pusher
 from django.views.decorators.csrf import csrf_exempt
 
-# instantiate the pusher class
+# instantiate the pusher class - this is used for activity feed message
 pusher = Pusher(app_id=u'525110', key=u'ea517de8755ddb1edd03', secret=u'be2bf8ae15037bde9d94', cluster=u'us2')
+
+# instantiate the pusher class - this is used for inidividual image message
+pusher1 = Pusher(app_id=u'525110', key=u'f6bea936b66e4ad47f97', secret=u'ed3e9509fce91430fcac', cluster=u'us2')
 
 @csrf_exempt
 def broadcast(request):
@@ -32,6 +35,20 @@ def broadcast(request):
     return JsonResponse({'success': '', 'errorMsg': True})
 
 # activity feed code -- end
+
+
+@csrf_exempt
+def broadcastImageComment(request):
+
+    pusher1.trigger(u'b_channel', u'bn_event', {u'name': request.POST['username'], u'message': request.POST['message'] })
+
+    #get the image id
+    img = imageModel.objects.get(id=request.POST['imagePk'])
+    print('image primary id',img.pk)
+    #comment = imageComment(content=request.POST['message'], posted_by = request.user, imageId = '')
+    #comment.save()
+
+    return JsonResponse({'success': '', 'errorMsg': True})
 
 #in the browser: http://127.0.0.1:8000/app/
 

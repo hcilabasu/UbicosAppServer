@@ -17,7 +17,7 @@ class imageComment(models.Model):
     content = models.CharField(max_length=400)
     posted_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     posted_at = models.DateTimeField(auto_now_add=True)
-    image_id = models.ForeignKey(imageModel, on_delete=models.CASCADE)
+    imageId = models.ForeignKey(imageModel, on_delete=models.CASCADE)
 
 
 
