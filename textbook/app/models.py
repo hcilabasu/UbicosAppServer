@@ -40,6 +40,9 @@ class brainstormNote(models.Model):
     position_left = models.CharField(max_length=20)
     posted_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
+    def natural_key(self):
+        return (self.posted_by.username)
+
 
 class userLogTable(models.Model):
     username = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)

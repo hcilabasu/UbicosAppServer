@@ -78,3 +78,10 @@ input[type="file"] {
     display: none;
 }
 
+.brainstorm_name {
+    position:absolute;
+    right:0;
+    bottom:0;
+    text-align:right;
+    background-color:#8FBC8F;
+}

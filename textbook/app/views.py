@@ -183,7 +183,7 @@ def brainstormSave(request):
 def brainstormGet(request):
 
     notes = brainstormNote.objects.all()
-    notes = serializers.serialize('json', notes)
+    notes = serializers.serialize('json', notes, use_natural_foreign_keys=True)
 
     return JsonResponse({'success': notes})
 

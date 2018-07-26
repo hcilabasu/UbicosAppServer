@@ -1,7 +1,21 @@
+ var logged_in=''
+
  $( function() {
+
+     //get the logged in user
+        $.ajax({
+            type:'GET',
+            url:'http://'+ host_url +'/getUsername/',
+            async: false, //wait for ajax call to finish, else logged_in is null in the following if condition
+            success: function(e){
+                logged_in  = e.name
+                //console.log('logged in username (inside) :: ', logged_in)
+            }
+        })
 
 
   } );
+
 
 var draggableConfig = {
     scroll: true
@@ -24,13 +38,17 @@ var setupBrainstorm = function(){
 
     // Handle submission
     $('#new-idea form .btn').click(function(){
+
+
+
+
         // TODO validate
 
         // Get values
         var form = $('#new-idea form');
         var idea = $('textarea', form).val();
         var color = $('.colorpicker.active', form).css('background-color');
-        var hideName = $('#hidename', form).is(':checked');
+        //var hideName = $('#hidename', form).is(':checked');
 
         // Calculate center position:
         var workspace = $('#idea-workspace');
@@ -55,7 +73,7 @@ var setupBrainstorm = function(){
                 success: function (data) {
 
                     noteID = data.id
-                    addIdeaToWorkspace(idea, color, hideName, {top:posTop,left:posLeft}, noteID, true);
+                    addIdeaToWorkspace(idea, color, logged_in, {top:posTop,left:posLeft}, noteID, true);
                     //user logging
                     enterLogIntoDatabase('add note', 'brainstorm' , idea , current_pagenumber)
 
@@ -81,14 +99,27 @@ var toggleNewIdeaButton = function(){
     position: object with top and left number positions (i.e. {top:10, left:20})
     animate: whether the idea should be added with an animation or not
 */
-var addIdeaToWorkspace = function(idea, color, hideName, position, noteID, animate){
+var addIdeaToWorkspace = function(idea, color, name, position, noteID, animate, isItYours){
+
     // Create idea
     var idea = $('<div class="idea new"></div>')
         .text(idea)
         .css('background', color)
         .css('top', position.top + 'px')
         .css('left', position.left + 'px')
-        .data('noteid',noteID); //add id
+        .data('noteid',noteID) //add id
+        .append('<span class="brainstorm_name ">'+ name +'</span>'); //add username
+
+        if(isItYours == true){
+
+             idea.css({"border-color": "#000000",
+             "border-width":"1px",
+             "border-style":"solid"});
+
+        }
+
+
+
 
     // Add to workspace
     $('#idea-workspace').append(idea);
@@ -160,8 +191,16 @@ var loadIdeaToWorkspace = function(){
                 //loop through and display notes
                 $.each(notes, function(key, value){
 
-                    addIdeaToWorkspace(value.fields['ideaText'], value.fields['color'], true, {top:value.fields['position_top'],
-                            left:value.fields['position_left']}, value.pk, true );
+                    var isItYours = ''
+
+
+                    if(logged_in == value.fields['posted_by'][0]) {
+                        console.log(logged_in)
+                        isItYours = true
+                    }else isItYours = false
+
+                    addIdeaToWorkspace(value.fields['ideaText'], value.fields['color'], value.fields['posted_by'][0], {top:value.fields['position_top'],
+                            left:value.fields['position_left']}, value.pk, true,  isItYours);
 
                 })
 

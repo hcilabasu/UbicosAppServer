@@ -293,15 +293,16 @@ function displayGallery(groupValue){
                // console.log(value.fields['image']); //image field in the model
                // console.log("building gallery from scratch")
 
-
-
-               console.log(logged_in, value.fields['posted_by'][0])
-
-               console.log('primary id::',value.pk)
-
-               console.log('total number of images: ', obj.length)
+//               console.log(logged_in, value.fields['posted_by'][0])
+//
+//               console.log('primary id::',value.pk)
+//
+//               console.log('total number of images: ', obj.length)
 
                var li = $("<li/>").appendTo("#gallery"); //<ul id=gallery>
+
+//               var img = $('<img/>', {
+//                   src : 'http://'+ host_url +'/media/'+value.fields['image'] }).appendTo(li);
 
 
 
