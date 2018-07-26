@@ -7,6 +7,7 @@ from django.http.response import JsonResponse
 from django.contrib.auth import login as auth_login
 from django.contrib.auth.decorators import login_required
 from django.core import serializers
+
 import json
 
 
@@ -158,7 +159,8 @@ def getImage(request, group_id):
 
     #images = ImageModel.objects.all()
     images = imageModel.objects.filter(group_id=group_id)
-    image_data = serializers.serialize('json', images)
+    image_data = serializers.serialize('json', images, use_natural_foreign_keys=True)
+    #print(image_data)
     return JsonResponse({'success': image_data,  'errorMsg': True})
 
 def updateFeed(request):
@@ -199,6 +201,7 @@ def userlog(request):
     log.save()
 
     return HttpResponse('')
+
 
 def deleteAllItems(request):
     imageModel.objects.all().delete()

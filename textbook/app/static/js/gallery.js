@@ -1,5 +1,6 @@
 
 var host_url = window.location.host
+var logged_in = ''
 
 $(function(){
 
@@ -15,8 +16,6 @@ $(function(){
 
         console.log(data);
 
-        var logged_in = ''
-
         //get the logged in user
         $.ajax({
             type:'GET',
@@ -24,7 +23,7 @@ $(function(){
             async: false, //wait for ajax call to finish, else logged_in is null in the following if condition
             success: function(e){
                 logged_in  = e.name
-                //console.log('logged in username (inside) :: ', logged_in)
+                console.log('logged in username (inside) :: ', logged_in)
             }
         })
 
@@ -122,7 +121,8 @@ $(function(){
                         var li = $("<li/>").appendTo("#gallery"); //<ul id=gallery>
 
                         var img = $('<img/>', {
-                                src : 'http://'+ host_url + obj.url }).appendTo(li);
+                                src : 'http://'+ host_url + obj.url }).css({opacity:1.0}).appendTo(li);
+
 
                          img.on('click', function(event){
                            $('.section input[name="image-index"]').attr('value', $(this).parent().index())
@@ -263,6 +263,17 @@ var openImageView = function(galleryView, image){
 
 function displayGallery(groupValue){
 
+        //get the logged in user
+        $.ajax({
+            type:'GET',
+            url:'http://'+ host_url +'/getUsername/',
+            async: false, //wait for ajax call to finish, else logged_in is null in the following if condition
+            success: function(e){
+                logged_in  = e.name
+                console.log('logged in username (inside) :: ', logged_in)
+            }
+        })
+
         $.ajax({
 
            type:'GET',
@@ -282,14 +293,26 @@ function displayGallery(groupValue){
                // console.log(value.fields['image']); //image field in the model
                // console.log("building gallery from scratch")
 
+
+
+               console.log(logged_in, value.fields['posted_by'][0])
+
                console.log('primary id::',value.pk)
 
                console.log('total number of images: ', obj.length)
 
                var li = $("<li/>").appendTo("#gallery"); //<ul id=gallery>
 
-               var img = $('<img/>', {
+
+
+                  if(logged_in == value.fields['posted_by'][0]){
+                   var img = $('<img/>', {
+                   src : 'http://'+ host_url +'/media/'+value.fields['image'] }).css({opacity:1.0}).appendTo(li);
+                }else{
+                    var img = $('<img/>', {
                    src : 'http://'+ host_url +'/media/'+value.fields['image'] }).appendTo(li);
+                }
+
 
 
                // Add clickhandler to open the single image view

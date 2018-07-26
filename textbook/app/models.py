@@ -13,6 +13,12 @@ class imageModel(models.Model):
     posted_at = models.DateTimeField(auto_now_add=True)
     image = models.ImageField(upload_to='images')
 
+    #https://docs.djangoproject.com/en/2.0/topics/serialization/
+    #https://stackoverflow.com/questions/28591176/serializing-django-model-and-including-further-information-for-foreignkeyfield
+    def natural_key(self):
+        return (self.posted_by.username)
+
+
 class imageComment(models.Model):
     content = models.CharField(max_length=400)
     posted_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)

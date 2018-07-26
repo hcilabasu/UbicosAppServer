@@ -1,4 +1,5 @@
 var current_pagenumber=1 //initial page number; gets updated with page change
+
 $(function(){
 
     var host_url = window.location.host
@@ -65,7 +66,7 @@ var movePage = function(moveToNext){
     }
     // Replace page number
     current_pagenumber = currentPageNum
-    $("#page-control-number").text('Page ' + currentPageNum);
+    $("#page-control-number").text('Page ' + currentPageNum + '/10');
     //user logging
     enterLogIntoDatabase('click', 'page change' , 'none', current_pagenumber)
 
