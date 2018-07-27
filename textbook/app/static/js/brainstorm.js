@@ -13,9 +13,21 @@
             }
         })
 
+        $(".object-delete").click(function(){
+
+            console.log('note delete button')
+
+        })
+
+
+
 
   } );
 
+var deleteNote = function(){
+
+
+}
 
 var draggableConfig = {
     scroll: true
@@ -108,13 +120,17 @@ var addIdeaToWorkspace = function(idea, color, name, position, noteID, animate, 
         .css('top', position.top + 'px')
         .css('left', position.left + 'px')
         .data('noteid',noteID) //add id
-        .append('<span class="brainstorm_name ">'+ name +'</span>'); //add username
+        .append('<span class="brainstorm_name ">'+ name +'</span>'); //add username in the right end corner
+
 
         if(isItYours == true){
 
              idea.css({"border-color": "#000000",
              "border-width":"1px",
              "border-style":"solid"});
+
+             //add delete button to notes
+             idea.append('<span class="object-delete">&times;</span>')
 
         }
 
@@ -192,7 +208,6 @@ var loadIdeaToWorkspace = function(){
                 $.each(notes, function(key, value){
 
                     var isItYours = ''
-
 
                     if(logged_in == value.fields['posted_by'][0]) {
                         console.log(logged_in)

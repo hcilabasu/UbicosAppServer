@@ -274,6 +274,7 @@ function displayGallery(groupValue){
             }
         })
 
+
         $.ajax({
 
            type:'GET',
