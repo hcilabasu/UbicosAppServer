@@ -7,7 +7,7 @@ from django.http.response import JsonResponse
 from django.contrib.auth import login as auth_login
 from django.contrib.auth.decorators import login_required
 from django.core import serializers
-
+from .parser import parser
 import json
 
 
@@ -203,8 +203,17 @@ def userlog(request):
     return HttpResponse('')
 
 
+def pageParser(request):
+    #CASE 4: static method - FAIL, not possible to call `cls.get` or `self.get`
+    #ref: https://stackoverflow.com/questions/50806626/django-calling-one-class-method-from-another-in-class-based-view
+    self = None
+    print(parser.activityParser(self))
+    return HttpResponse('')
+
+
 def deleteAllItems(request):
-    imageModel.objects.all().delete()
-    Message.objects.all().delete()
+    # brainstormNote.objects.all().delete()
+    # imageModel.objects.all().delete()
+    # Message.objects.all().delete()
     userLogTable.objects.all().delete()
     return HttpResponse('')

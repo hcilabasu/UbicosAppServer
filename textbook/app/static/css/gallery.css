@@ -88,7 +88,7 @@ input[type="file"] {
 
 /* delete button notes */
 
-.object-delete {
+#object_delete {
     position: absolute;
     top: 2px;
     right: 2px;
@@ -104,6 +104,6 @@ input[type="file"] {
     line-height: 10px;
     border-radius: 50%;
 }
-.idea:hover .object-delete{
+.idea:hover #object_delete{
     opacity: 1;
 }

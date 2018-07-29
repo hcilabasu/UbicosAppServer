@@ -18,6 +18,7 @@ urlpatterns = [
     url(r'^ajax/imageComment/$', views.broadcastImageComment),
     url('updateFeed', views.updateFeed),
     url('getUsername', views.getUsername),
-    url('userlog',views.userlog)
+    url('userlog',views.userlog),
+    url('parser',views.pageParser)
 
 ]

@@ -26,6 +26,8 @@ $(function(){
     // If we start loading the cards dynamically, this needs to be called after the brainstorm card is built
     setupBrainstorm();
 
+    loadActivityIndex();
+
     //toggle between activity feed and index
     $('#main-view-toggle').click(function(){
         var hidden = $('.main-view:hidden');
@@ -208,3 +210,7 @@ var bindActivityButtons = function(){
     });
 };
 
+var loadActivityIndex = function(){
+    //TODO: call the parser here, parse the files and build activity index
+
+}

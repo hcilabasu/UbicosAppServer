@@ -13,21 +13,12 @@
             }
         })
 
-        $(".object-delete").click(function(){
 
-            console.log('note delete button')
-
-        })
 
 
 
 
   } );
-
-var deleteNote = function(){
-
-
-}
 
 var draggableConfig = {
     scroll: true
@@ -130,7 +121,7 @@ var addIdeaToWorkspace = function(idea, color, name, position, noteID, animate, 
              "border-style":"solid"});
 
              //add delete button to notes
-             idea.append('<span class="object-delete">&times;</span>')
+             idea.append('<span id="object_delete">&times;</span>')
 
         }
 
@@ -221,9 +212,21 @@ var loadIdeaToWorkspace = function(){
 
                 ideaDragPositionUpdate();
 
+                // works only for the first fetched note
+
+                $('#object_delete').on('click', function(e){
+                    e.preventDefault();
+                    console.log('here i am, want to delete everything')
+                    $(this).parent().remove();
+                    //TODO: remove from database as well
+                    return false;
+                });
+
             }
 
         });
+
+
 
 
 
