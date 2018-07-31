@@ -19,6 +19,7 @@ urlpatterns = [
     url('updateFeed', views.updateFeed),
     url('getUsername', views.getUsername),
     url('userlog',views.userlog),
-    url('parser',views.pageParser)
+    url('parser',views.pageParser),
+    url('tableData/save/',views.tableEntriesSave)
 
 ]

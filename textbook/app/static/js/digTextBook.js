@@ -196,7 +196,9 @@ var bindActivityButtons = function(){
 
             //get which question is clicked and activate that div for question
             var quesno = activityButton.attr('data-quesid');
-            $('div[data-quesno="'+quesno+'"]').show()
+            $('div[data-quesno="'+quesno+'"]').show
+
+            //TODO: call loadHTML() from here
 
         }
 
@@ -211,6 +213,6 @@ var bindActivityButtons = function(){
 };
 
 var loadActivityIndex = function(){
-    //TODO: call the parser here, parse the files and build activity index
+    //TODO: call the parser here using ajax request, parse the files and build activity index
 
 }

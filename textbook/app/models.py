@@ -1,5 +1,6 @@
 from django.db import models
 from django.conf import settings
+import jsonfield
 
 # Create your models here.
 class ActivityIndex(models.Model):
@@ -42,6 +43,13 @@ class brainstormNote(models.Model):
 
     def natural_key(self):
         return (self.posted_by.username)
+
+class tableChartData(models.Model):
+    posted_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    table_id = models.IntegerField(null=True)
+    plot_type = models.CharField(max_length=20) #enumeration
+    plot_data = jsonfield.JSONField() #https://stackoverflow.com/questions/37007109/django-1-9-jsonfield-in-models
+
 
 
 class userLogTable(models.Model):

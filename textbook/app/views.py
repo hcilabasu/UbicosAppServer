@@ -1,7 +1,7 @@
 
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render, render_to_response
-from .models import imageModel, imageComment, Message, brainstormNote,userLogTable
+from .models import imageModel, imageComment, Message, brainstormNote,userLogTable, tableChartData
 from django.contrib.auth import authenticate
 from django.http.response import JsonResponse
 from django.contrib.auth import login as auth_login
@@ -201,6 +201,15 @@ def userlog(request):
     log.save()
 
     return HttpResponse('')
+
+def tableEntriesSave(request):
+
+    entries = tableChartData(posted_by = request.user, table_id = request.POST.get('table_id'), plot_type = request.POST.get('plot_type'),
+                             plot_data = request.POST.get('plot_data'))
+    entries.save()
+
+    return HttpResponse('')
+
 
 
 def pageParser(request):
