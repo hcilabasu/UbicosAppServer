@@ -25,6 +25,7 @@ $(function(){
                 val = parseFloat($(this).find(":text").val());
                 values.push(val);
             });
+
             return values;
         }
         var y = getRow('distances'),
@@ -46,6 +47,7 @@ $(function(){
                     x: x[i],
                     y: y[i]
                 });
+
             } else if (type == 'equation'){
                 // Create equation points
                 var xPoint = fakePoints ? i : x[i];
@@ -55,6 +57,9 @@ $(function(){
                 });
             }
         }
+        //converto to json and insert into database
+        //console.log(points)
+        TableDataInsert(type, points)
         // Only update targeted dataset
         TABLE_DATASETS[type] = {
             label: label[type],
@@ -122,4 +127,26 @@ $(function(){
     };
     // Initialize graph
     plotGraph();
+
+    var TableDataInsert = function(type, points){
+
+        var pointsAsJSON = JSON.stringify(points);
+        console.log(pointsAsJSON)
+        //send to database
+
+          $.post({
+
+           async: false,
+           url:'/tableData/save/', //save table data
+           data: {
+                'table_id': 1, //TODO: pass values
+                'plot_type': type ,
+                'plot_data': pointsAsJSON
+                },
+           success: function(response){
+
+        }
+
+        });
+    }
 })

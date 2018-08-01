@@ -585,7 +585,16 @@ a {
 #gallery li img {
     width: 100px;
     height: 80px;
+    opacity: 0.5;
+
+    &:hover {
+    border: 1px solid red;
+  }
 }
+
+
+
+
 
 .badge {
     height: 1rem;
@@ -696,6 +705,8 @@ a {
         opacity: 1; 
         transform: scale(1);
         transition: opacity 0.5s, transform 0.5s;
+
+
     }
     
     #idea-workspace .idea.new {

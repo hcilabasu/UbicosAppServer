@@ -1,8 +1,95 @@
 
-
 var host_url = window.location.host
+var logged_in = ''
 
 $(function(){
+
+     var pusher_gallery = new Pusher('f6bea936b66e4ad47f97',{
+        cluster: 'us2',
+        encrypted: true
+     });
+
+    //subscribe to the channel you want to listen to
+    var my_channel = pusher_gallery.subscribe('b_channel');
+
+    my_channel.bind("bn_event", function (data) {
+
+        console.log(data);
+
+        //get the logged in user
+        $.ajax({
+            type:'GET',
+            url:'http://'+ host_url +'/getUsername/',
+            async: false, //wait for ajax call to finish, else logged_in is null in the following if condition
+            success: function(e){
+                logged_in  = e.name
+                console.log('logged in username (inside) :: ', logged_in)
+            }
+        })
+
+        //  add in the thread itself
+        var li = $("<li/>").appendTo("#image-feed");
+
+        console.log ('message posted by', data.name)
+        console.log('logged in username (outside):: ', logged_in)
+        if(logged_in == data.name){
+               li.addClass('message self');
+        }else{
+               li.addClass('message');
+        }
+
+        var div = $("<div/>").appendTo(li);
+        div.addClass('user-image');
+
+        var span = $('<span/>', {
+            text: data.name}).appendTo(div);
+
+        var p = $('<p/>', {
+                text: data.message}).appendTo(li);
+
+    });
+
+     //add event listener to the chat button click
+    $("#image-msg-send-btn").click(function(e){
+
+        //stop page refreshing with click
+            e.preventDefault();
+
+        //get the user name who posted
+            var user_name = $("input[name='username']").val()
+            console.log(user_name);
+
+        //get the currently typed message
+            var message = $("input[name='image-msg-text']").val();
+            console.log('user message :: '+message)
+
+            var index = $("input[name='image-index']").val();
+            console.log('image index :: ', index)
+
+            var imagePk = $("input[name='image-db-pk']").val();
+            console.log('image pk :: ',imagePk)
+
+
+           //triggers the event in views.py
+            $.post({
+                url: '/ajax/imageComment/',
+                data: {
+                'username': user_name,
+                'message':  message,
+                'imagePk': imagePk
+                },
+                success: function (data) {
+
+                    //empty the message pane
+                    $('#image-msg-text').val('');
+
+                    //console.log(data)
+
+                }
+            });
+
+        })
+
 
         $("#file-upload").change(function(event){
 
@@ -34,7 +121,8 @@ $(function(){
                         var li = $("<li/>").appendTo("#gallery"); //<ul id=gallery>
 
                         var img = $('<img/>', {
-                                src : 'http://'+ host_url + obj.url }).appendTo(li);
+                                src : 'http://'+ host_url + obj.url }).css({opacity:1.0}).appendTo(li);
+
 
                          img.on('click', function(event){
                            $('.section input[name="image-index"]').attr('value', $(this).parent().index())
@@ -58,7 +146,7 @@ $(function(){
                 readURL(this);
             });
 
-            //back button
+            //previous image button
             $(".previous-image").click(function(e){
                 e.preventDefault();
                 var val = $('input[name=image-index]').val() - 1
@@ -70,7 +158,7 @@ $(function(){
 
             })
 
-            //next button
+            //next image button
             $(".next-image").click(function(e){
                 e.preventDefault();
                 var val = eval($('input[name=image-index]').val()) + 1
@@ -88,6 +176,8 @@ $(function(){
                 $("#single-image-view").hide()
                 $("#gallery-panel").show()
             })
+
+
  })
 
 function readURL(input) {
@@ -173,6 +263,18 @@ var openImageView = function(galleryView, image){
 
 function displayGallery(groupValue){
 
+        //get the logged in user
+        $.ajax({
+            type:'GET',
+            url:'http://'+ host_url +'/getUsername/',
+            async: false, //wait for ajax call to finish, else logged_in is null in the following if condition
+            success: function(e){
+                logged_in  = e.name
+                console.log('logged in username (inside) :: ', logged_in)
+            }
+        })
+
+
         $.ajax({
 
            type:'GET',
@@ -192,20 +294,36 @@ function displayGallery(groupValue){
                // console.log(value.fields['image']); //image field in the model
                // console.log("building gallery from scratch")
 
-               console.log('total number of images: ', obj.length)
+//               console.log(logged_in, value.fields['posted_by'][0])
+//
+//               console.log('primary id::',value.pk)
+//
+//               console.log('total number of images: ', obj.length)
 
                var li = $("<li/>").appendTo("#gallery"); //<ul id=gallery>
 
-               var img = $('<img/>', {
+//               var img = $('<img/>', {
+//                   src : 'http://'+ host_url +'/media/'+value.fields['image'] }).appendTo(li);
+
+
+
+                  if(logged_in == value.fields['posted_by'][0]){
+                   var img = $('<img/>', {
+                   src : 'http://'+ host_url +'/media/'+value.fields['image'] }).css({opacity:1.0}).appendTo(li);
+                }else{
+                    var img = $('<img/>', {
                    src : 'http://'+ host_url +'/media/'+value.fields['image'] }).appendTo(li);
+                }
+
 
 
                // Add clickhandler to open the single image view
                img.on('click', function(event){
                    console.log($(this))
                    //console.log($(this).parent().siblings().length); //+1 gives me the total number of images in the gallery
-                   console.log($(this).parent().index())
+                   //console.log($(this).parent().index())
                    $('.section input[name="image-index"]').attr('value', $(this).parent().index())
+                   $('.section input[name="image-db-pk"]').attr('value', value.pk)
                    openImageView($('#gallery-view'), $(this));
 
                });

@@ -1,4 +1,21 @@
+ var logged_in=''
+
  $( function() {
+
+     //get the logged in user
+        $.ajax({
+            type:'GET',
+            url:'http://'+ host_url +'/getUsername/',
+            async: false, //wait for ajax call to finish, else logged_in is null in the following if condition
+            success: function(e){
+                logged_in  = e.name
+                //console.log('logged in username (inside) :: ', logged_in)
+            }
+        })
+
+
+
+
 
 
   } );
@@ -24,13 +41,17 @@ var setupBrainstorm = function(){
 
     // Handle submission
     $('#new-idea form .btn').click(function(){
+
+
+
+
         // TODO validate
 
         // Get values
         var form = $('#new-idea form');
         var idea = $('textarea', form).val();
         var color = $('.colorpicker.active', form).css('background-color');
-        var hideName = $('#hidename', form).is(':checked');
+        //var hideName = $('#hidename', form).is(':checked');
 
         // Calculate center position:
         var workspace = $('#idea-workspace');
@@ -55,7 +76,9 @@ var setupBrainstorm = function(){
                 success: function (data) {
 
                     noteID = data.id
-                    addIdeaToWorkspace(idea, color, hideName, {top:posTop,left:posLeft}, noteID, true);
+                    addIdeaToWorkspace(idea, color, logged_in, {top:posTop,left:posLeft}, noteID, true);
+                    //user logging
+                    enterLogIntoDatabase('add note', 'brainstorm' , idea , current_pagenumber)
 
                 }
         });
@@ -79,14 +102,31 @@ var toggleNewIdeaButton = function(){
     position: object with top and left number positions (i.e. {top:10, left:20})
     animate: whether the idea should be added with an animation or not
 */
-var addIdeaToWorkspace = function(idea, color, hideName, position, noteID, animate){
+var addIdeaToWorkspace = function(idea, color, name, position, noteID, animate, isItYours){
+
     // Create idea
     var idea = $('<div class="idea new"></div>')
         .text(idea)
         .css('background', color)
         .css('top', position.top + 'px')
         .css('left', position.left + 'px')
-        .data('noteid',noteID); //add id
+        .data('noteid',noteID) //add id
+        .append('<span class="brainstorm_name ">'+ name +'</span>'); //add username in the right end corner
+
+
+        if(isItYours == true){
+
+             idea.css({"border-color": "#000000",
+             "border-width":"1px",
+             "border-style":"solid"});
+
+             //add delete button to notes
+             idea.append('<span id="object_delete">&times;</span>')
+
+        }
+
+
+
 
     // Add to workspace
     $('#idea-workspace').append(idea);
@@ -96,6 +136,9 @@ var addIdeaToWorkspace = function(idea, color, hideName, position, noteID, anima
     idea.removeClass('new');
 
 
+    ideaDragPositionUpdate();
+
+
 }
 
 var ideaDragPositionUpdate = function(){
@@ -103,18 +146,19 @@ var ideaDragPositionUpdate = function(){
     //detect when an idea is stopped dragging to get the final location
     //and save it into the database
     //http://api.jqueryui.com/draggable/#event-start
-    console.log('total idea divs',$(".idea").length) //debug purpose - remove later
+    //console.log('total idea divs',$(".idea").length) //debug purpose - remove later
 
     $( ".idea" ).on( "dragstop", function( event, ui ) {
 
         //find the id of the note - which is used to update the note in the database
         noteID = $(this).data('noteid')
         //console.log(noteID)
-        var position =
 
-        console.log("idea dragged 1", ui.position )
 
-        //TODO: update position in the DB
+        //user logging - printing log multiple times why?
+        enterLogIntoDatabase('note dragged', 'brainstorm' , JSON.stringify(ui.position) , current_pagenumber)
+
+
          $.post({
 
            async: false,
@@ -128,9 +172,6 @@ var ideaDragPositionUpdate = function(){
         }
 
         });
-
-     console.log("idea dragged 2", ui.position )
-
 
 
      } );
@@ -157,16 +198,35 @@ var loadIdeaToWorkspace = function(){
                 //loop through and display notes
                 $.each(notes, function(key, value){
 
-                    addIdeaToWorkspace(value.fields['ideaText'], value.fields['color'], true, {top:value.fields['position_top'],
-                            left:value.fields['position_left']}, value.pk, true );
+                    var isItYours = ''
+
+                    if(logged_in == value.fields['posted_by'][0]) {
+                        console.log(logged_in)
+                        isItYours = true
+                    }else isItYours = false
+
+                    addIdeaToWorkspace(value.fields['ideaText'], value.fields['color'], value.fields['posted_by'][0], {top:value.fields['position_top'],
+                            left:value.fields['position_left']}, value.pk, true,  isItYours);
 
                 })
 
                 ideaDragPositionUpdate();
 
+                // works only for the first fetched note
+
+                $('#object_delete').on('click', function(e){
+                    e.preventDefault();
+                    console.log('here i am, want to delete everything')
+                    $(this).parent().remove();
+                    //TODO: remove from database as well
+                    return false;
+                });
+
             }
 
         });
+
+
 
 
 

@@ -1,12 +1,13 @@
 
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render, render_to_response
-from .models import ImageModel, Message, brainstormNote
+from .models import imageModel, imageComment, Message, brainstormNote,userLogTable, tableChartData
 from django.contrib.auth import authenticate
 from django.http.response import JsonResponse
 from django.contrib.auth import login as auth_login
 from django.contrib.auth.decorators import login_required
 from django.core import serializers
+from .parser import parser
 import json
 
 
@@ -14,8 +15,11 @@ import json
 from pusher import Pusher
 from django.views.decorators.csrf import csrf_exempt
 
-# instantiate the pusher class
+# instantiate the pusher class - this is used for activity feed message
 pusher = Pusher(app_id=u'525110', key=u'ea517de8755ddb1edd03', secret=u'be2bf8ae15037bde9d94', cluster=u'us2')
+
+# instantiate the pusher class - this is used for inidividual image message
+pusher1 = Pusher(app_id=u'525110', key=u'f6bea936b66e4ad47f97', secret=u'ed3e9509fce91430fcac', cluster=u'us2')
 
 @csrf_exempt
 def broadcast(request):
@@ -24,7 +28,7 @@ def broadcast(request):
     pusher.trigger(u'a_channel', u'an_event', {u'name': request.POST['username'], u'message': request.POST['message'] })
 
     #insert into database
-    msg = Message(content=request.POST['message'], posted_by=request.POST['username']);
+    msg = Message(content=request.POST['message'], posted_by=request.user);
     msg.save();
 
     # print(image_data)
@@ -32,6 +36,20 @@ def broadcast(request):
     return JsonResponse({'success': '', 'errorMsg': True})
 
 # activity feed code -- end
+
+
+@csrf_exempt
+def broadcastImageComment(request):
+
+    pusher1.trigger(u'b_channel', u'bn_event', {u'name': request.POST['username'], u'message': request.POST['message'] })
+
+    #get the image id
+    img = imageModel.objects.get(id=request.POST['imagePk'])
+    print('image primary id',img.pk)
+    #comment = imageComment(content=request.POST['message'], posted_by = request.user, imageId = '')
+    #comment.save()
+
+    return JsonResponse({'success': '', 'errorMsg': True})
 
 #in the browser: http://127.0.0.1:8000/app/
 
@@ -104,7 +122,7 @@ def uploadImage(request):
 
         #insert values in the database
         #TODO: restrict insertion if user is not signed in
-        img = ImageModel(gallery_id=gallery_id, group_id = group_id , posted_by = request.user, image=request.FILES['gallery_img'])
+        img = imageModel(gallery_id=gallery_id, group_id = group_id , posted_by = request.user, image=request.FILES['gallery_img'])
         # TODO: check whether the insertion was successful or not, else wrong image will be shown using the last() query
         img.save()
 
@@ -118,7 +136,7 @@ def uploadImage(request):
 
         #get the latest inserted entry from the database for this particular group
         #https://stackoverflow.com/questions/2191010/get-last-record-in-a-queryset/21247350
-        images = ImageModel.objects.filter(group_id=group_id).last()
+        images = imageModel.objects.filter(group_id=group_id).last()
 
         print('image url :: ',images.image.url)
 
@@ -140,8 +158,9 @@ def uploadImage(request):
 def getImage(request, group_id):
 
     #images = ImageModel.objects.all()
-    images = ImageModel.objects.filter(group_id=group_id)
-    image_data = serializers.serialize('json', images)
+    images = imageModel.objects.filter(group_id=group_id)
+    image_data = serializers.serialize('json', images, use_natural_foreign_keys=True)
+    #print(image_data)
     return JsonResponse({'success': image_data,  'errorMsg': True})
 
 def updateFeed(request):
@@ -164,7 +183,7 @@ def brainstormSave(request):
 def brainstormGet(request):
 
     notes = brainstormNote.objects.all()
-    notes = serializers.serialize('json', notes)
+    notes = serializers.serialize('json', notes, use_natural_foreign_keys=True)
 
     return JsonResponse({'success': notes})
 
@@ -175,7 +194,35 @@ def brainstormUpdate(request, note_id):
                                                      position_left=request.POST.get('left'))
     return HttpResponse('')
 
+def userlog(request):
+
+    log = userLogTable(username = request.user, action = request.POST.get('action'), type = request.POST.get('type'),
+                       input = request.POST.get('input'), pagenumber=request.POST.get('pagenumber'))
+    log.save()
+
+    return HttpResponse('')
+
+def tableEntriesSave(request):
+
+    entries = tableChartData(posted_by = request.user, table_id = request.POST.get('table_id'), plot_type = request.POST.get('plot_type'),
+                             plot_data = request.POST.get('plot_data'))
+    entries.save()
+
+    return HttpResponse('')
+
+
+
+def pageParser(request):
+    #CASE 4: static method - FAIL, not possible to call `cls.get` or `self.get`
+    #ref: https://stackoverflow.com/questions/50806626/django-calling-one-class-method-from-another-in-class-based-view
+    self = None
+    print(parser.activityParser(self))
+    return HttpResponse('')
+
+
 def deleteAllItems(request):
-    ImageModel.objects.all().delete()
-    Message.objects.all().delete()
+    # brainstormNote.objects.all().delete()
+    # imageModel.objects.all().delete()
+    # Message.objects.all().delete()
+    userLogTable.objects.all().delete()
     return HttpResponse('')
