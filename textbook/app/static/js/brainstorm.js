@@ -14,10 +14,6 @@
         })
 
 
-
-
-
-
   } );
 
 var draggableConfig = {
@@ -76,12 +72,21 @@ var setupBrainstorm = function(){
                 success: function (data) {
 
                     noteID = data.id
-                    addIdeaToWorkspace(idea, color, logged_in, {top:posTop,left:posLeft}, noteID, true);
+                    addIdeaToWorkspace(idea, color, logged_in, {top:posTop,left:posLeft}, noteID, true, true);
                     //user logging
                     enterLogIntoDatabase('add note', 'brainstorm' , idea , current_pagenumber)
 
                 }
         });
+
+        $('#object_delete').on('click', function(e){
+                    e.preventDefault();
+                    console.log($(this).parent()[0])
+                    $(this).parent().remove();
+                    //TODO: remove from database as well
+                    return false;
+                });
+
         return false; //why return false?
     });
 };
@@ -124,6 +129,18 @@ var addIdeaToWorkspace = function(idea, color, name, position, noteID, animate, 
              idea.append('<span id="object_delete">&times;</span>')
 
         }
+
+        //add delete button to notes
+           var closeBtn = $('<span id="object_delete">&times;</span>');
+           closeBtn.click(function(e){
+               e.preventDefault();
+               console.log('here i am, want to delete everything')
+               $(this).parent().remove();
+               //TODO: remove from database as well
+               return false;
+           });
+
+           idea.append(closeBtn);
 
 
 
@@ -212,15 +229,7 @@ var loadIdeaToWorkspace = function(){
 
                 ideaDragPositionUpdate();
 
-                // works only for the first fetched note
 
-                $('#object_delete').on('click', function(e){
-                    e.preventDefault();
-                    console.log('here i am, want to delete everything')
-                    $(this).parent().remove();
-                    //TODO: remove from database as well
-                    return false;
-                });
 
             }
 

@@ -19,6 +19,7 @@ urlpatterns = [
     url('updateFeed', views.updateFeed),
     url('getUsername', views.getUsername),
     url('userlog',views.userlog),
+    # //url(r'^extensionlog/$',views.extensionlog.as_view()),
     url('parser',views.pageParser),
     url('tableData/save/',views.tableEntriesSave)
 
