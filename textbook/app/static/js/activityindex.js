@@ -1,7 +1,7 @@
 $(function(){
 
     $('#activity-index a').off().on('touch click', function(){
-    console.log('im here')
+
         // Get button type to open appropriate view
         //console.log('this', this)
         //console.log('$(this)', $(this))
