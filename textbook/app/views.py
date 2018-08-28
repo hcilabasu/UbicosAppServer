@@ -167,7 +167,7 @@ def getImage(request, group_id):
 
 def updateFeed(request):
     msg = Message.objects.all()
-    msg_data = serializers.serialize('json', msg)
+    msg_data = serializers.serialize('json', msg, use_natural_foreign_keys=True)
     return JsonResponse({'success': msg_data, 'username': request.user.get_username(),'errorMsg': True})
 
 

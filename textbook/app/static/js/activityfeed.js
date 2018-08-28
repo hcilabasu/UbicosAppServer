@@ -92,7 +92,7 @@ function loadFeed(){
 
             type:'GET',
             url:'http://'+ host_url +'/updateFeed/',
-            //url : 'http://hcilabasu.pythonanywhere.com/updateFeed/',
+
             success: function(response){
 
                 var logged_in_user = response.username //passed from views.py - updateFeed
@@ -106,7 +106,7 @@ function loadFeed(){
 
                     //  add in the thread itself
                     var li = $("<li/>").appendTo("#activity-feed");
-                    if(value.fields['posted_by'] == logged_in_user){
+                    if(value.fields['posted_by'][0] == logged_in_user){
                         li.addClass('message self');
                     }else{
                         li.addClass('message');
@@ -116,7 +116,7 @@ function loadFeed(){
                     div.addClass('user-image');
 
                     var span = $('<span/>', {
-                        text: value.fields['posted_by']}).appendTo(div);
+                        text: value.fields['posted_by'][0]}).appendTo(div);
 
                     var p = $('<p/>', {
                             text: value.fields['content']}).appendTo(li);

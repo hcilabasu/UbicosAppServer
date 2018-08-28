@@ -33,6 +33,9 @@ class Message(models.Model):
     posted_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     posted_at = models.DateTimeField(auto_now_add=True)
 
+    def natural_key(self):
+        return (self.posted_by.username)
+
 
 class brainstormNote(models.Model):
     ideaText = models.CharField(max_length=400)
