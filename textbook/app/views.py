@@ -196,6 +196,18 @@ def brainstormUpdate(request, note_id):
                                                      position_left=request.POST.get('left'))
     return HttpResponse('')
 
+def brainstormDelete(request,note_id):
+
+
+    print('NOTEID', note_id);
+
+    b = brainstormNote.objects.get(pk=note_id)
+    # This will delete the Blog and all of its Entry objects.
+    print(b)
+    b.delete()
+
+    return HttpResponse('no delete?')
+
 
 def userlog(request):
 
