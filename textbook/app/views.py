@@ -1,6 +1,7 @@
 
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render, render_to_response
+from rest_framework.views import APIView
 from .models import imageModel, imageComment, Message, brainstormNote,userLogTable, tableChartData
 from django.contrib.auth import authenticate
 from django.http.response import JsonResponse
@@ -8,6 +9,7 @@ from django.contrib.auth import login as auth_login
 from django.contrib.auth.decorators import login_required
 from django.core import serializers
 from .parser import parser
+from rest_framework.decorators import api_view
 import json
 
 
@@ -165,7 +167,7 @@ def getImage(request, group_id):
 
 def updateFeed(request):
     msg = Message.objects.all()
-    msg_data = serializers.serialize('json', msg)
+    msg_data = serializers.serialize('json', msg, use_natural_foreign_keys=True)
     return JsonResponse({'success': msg_data, 'username': request.user.get_username(),'errorMsg': True})
 
 
@@ -194,13 +196,29 @@ def brainstormUpdate(request, note_id):
                                                      position_left=request.POST.get('left'))
     return HttpResponse('')
 
+def brainstormDelete(request,note_id):
+
+
+    print('NOTEID', note_id);
+
+    b = brainstormNote.objects.get(pk=note_id)
+    # This will delete the Blog and all of its Entry objects.
+    print(b)
+    b.delete()
+
+    return HttpResponse('no delete?')
+
+
 def userlog(request):
 
-    log = userLogTable(username = request.user, action = request.POST.get('action'), type = request.POST.get('type'),
-                       input = request.POST.get('input'), pagenumber=request.POST.get('pagenumber'))
+
+    log = userLogTable(username=request.user, action=request.POST.get('action'), type=request.POST.get('type'),
+                       input=request.POST.get('input'), pagenumber=request.POST.get('pagenumber'))
     log.save()
 
     return HttpResponse('')
+
+
 
 def tableEntriesSave(request):
 
@@ -226,3 +244,4 @@ def deleteAllItems(request):
     # Message.objects.all().delete()
     userLogTable.objects.all().delete()
     return HttpResponse('')
+

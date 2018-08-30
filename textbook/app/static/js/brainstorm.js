@@ -1,4 +1,5 @@
  var logged_in=''
+ var host_url = window.location.host
 
  $( function() {
 
@@ -14,11 +15,7 @@
         })
 
 
-
-
-
-
-  } );
+  } ); //end of page load function
 
 var draggableConfig = {
     scroll: true
@@ -39,11 +36,8 @@ var setupBrainstorm = function(){
         $(this).addClass('active');
     });
 
-    // Handle submission
+    // Handle current submission
     $('#new-idea form .btn').click(function(){
-
-
-
 
         // TODO validate
 
@@ -76,15 +70,25 @@ var setupBrainstorm = function(){
                 success: function (data) {
 
                     noteID = data.id
-                    addIdeaToWorkspace(idea, color, logged_in, {top:posTop,left:posLeft}, noteID, true);
+                    addIdeaToWorkspace(idea, color, logged_in, {top:posTop,left:posLeft}, noteID, true, true);
                     //user logging
                     enterLogIntoDatabase('add note', 'brainstorm' , idea , current_pagenumber)
 
                 }
         });
+
+        $('#object_delete').on('click', function(e){
+                    e.preventDefault();
+                    console.log($(this).parent()
+                    .data('noteid'))
+                    $(this).parent().remove();
+                    //TODO: remove from database as well
+                    return false;
+                });
+
         return false; //why return false?
     });
-};
+}; //end of setupBrainstorm
 
 
 var toggleNewIdeaButton = function(){
@@ -125,6 +129,34 @@ var addIdeaToWorkspace = function(idea, color, name, position, noteID, animate, 
 
         }
 
+        //add delete button to notes
+           var closeBtn = $('<span id="object_delete">&times;</span>');
+           closeBtn.click(function(e){
+               console.log('i am clicked')
+               e.preventDefault();
+               //get ID of the deleted note
+               var deletedNoteID = $(this).parent().data('noteid');
+               console.log(deletedNoteID);
+               $(this).parent().remove();
+
+
+              //delete note from database
+                $.ajax({
+                    type:'POST',
+                    url:'/brainstorm/del/'+deletedNoteID,
+                    async: false, //wait for ajax call to finish,
+                    success: function(e){
+                        console.log(e)
+                        //TODO: add user log
+                }
+            })
+
+
+               return false;
+           });
+
+           idea.append(closeBtn);
+
 
 
 
@@ -152,7 +184,7 @@ var ideaDragPositionUpdate = function(){
 
         //find the id of the note - which is used to update the note in the database
         noteID = $(this).data('noteid')
-        //console.log(noteID)
+        console.log('dragggg',noteID)
 
 
         //user logging - printing log multiple times why?
@@ -162,7 +194,7 @@ var ideaDragPositionUpdate = function(){
          $.post({
 
            async: false,
-           url:'/brainstorm/update/'+noteID+'/', //get all the image for the particular group
+           url:'/brainstorm/update/'+noteID+'/', //update location of the dragged note
            data: {
                 'left': ui.position.left,
                 'top': ui.position.top
@@ -212,15 +244,7 @@ var loadIdeaToWorkspace = function(){
 
                 ideaDragPositionUpdate();
 
-                // works only for the first fetched note
 
-                $('#object_delete').on('click', function(e){
-                    e.preventDefault();
-                    console.log('here i am, want to delete everything')
-                    $(this).parent().remove();
-                    //TODO: remove from database as well
-                    return false;
-                });
 
             }
 

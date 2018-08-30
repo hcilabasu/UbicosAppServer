@@ -19,6 +19,7 @@ urlpatterns = [
     url('updateFeed', views.updateFeed),
     url('getUsername', views.getUsername),
     url('userlog',views.userlog),
+    url('brainstorm/del/(?P<note_id>\d+)',views.brainstormDelete),
     url('parser',views.pageParser),
     url('tableData/save/',views.tableEntriesSave)
 
