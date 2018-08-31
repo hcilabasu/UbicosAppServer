@@ -14,7 +14,7 @@ $(function(){
 
     my_channel.bind("bn_event", function (data) {
 
-        console.log(data);
+        //console.log(data);
 
         //get the logged in user
         $.ajax({
@@ -23,15 +23,15 @@ $(function(){
             async: false, //wait for ajax call to finish, else logged_in is null in the following if condition
             success: function(e){
                 logged_in  = e.name
-                console.log('logged in username (inside) :: ', logged_in)
+                //console.log('logged in username (inside) :: ', logged_in)
             }
-        })
+        });
 
         //  add in the thread itself
         var li = $("<li/>").appendTo("#image-feed");
 
-        console.log ('message posted by', data.name)
-        console.log('logged in username (outside):: ', logged_in)
+        //console.log ('message posted by', data.name);
+        //console.log('logged in username (outside):: ', logged_in);
         if(logged_in == data.name){
                li.addClass('message self');
         }else{
@@ -66,6 +66,7 @@ $(function(){
             var index = $("input[name='image-index']").val();
             console.log('image index :: ', index)
 
+            //TODO: wrong - fix it - once the value is set - will always use that value
             var imagePk = $("input[name='image-db-pk']").val();
             console.log('image pk :: ',imagePk)
 
@@ -114,6 +115,7 @@ $(function(){
 
                         //TODO: update user with a 'success' message on the screen
 
+                        //update gallery with nrewly uploaded image
                         img_data = response.success;
                         var obj = jQuery.parseJSON(img_data);
 
@@ -244,7 +246,6 @@ function viewDiv(view, number_of_group){
 
 var openImageView = function(galleryView, image){
 
-    //console.log('openImageView', galleryView)
     var singleImageViewer = $('#single-image-view');
 
     // Toggle views: Display or hide the matched elements.
@@ -257,7 +258,42 @@ var openImageView = function(galleryView, image){
     $('.section').children('img').remove();
 
     $('.section', singleImageViewer).append(image);
-    //console.log($('#single-image-view').html())
+
+    //get image location from image object
+    var image_location = image.attr('src').toString();
+
+    //get image file name
+    image_filename = image_location.split('/').pop()
+    //console.log(image_filename)
+
+    //get ID using filename
+    var imageID='';
+    $.ajax({
+        type:'GET',
+        async: false,
+        url:'/getImageID/'+image_filename+'/',
+        success: function(data){
+            imageID = data.imageID;
+            console.log('image primary id :: ',data.imageID);
+        }
+    })
+
+    //with each click update the input 
+    $('.section input[name="image-db-pk"]').attr('value', imageID)
+   //update feed
+   // update feed with each image
+     $.ajax({
+             type: 'GET',
+             url: '/updateImageFeed/'+imageID, //get image comment using primary id
+             success: function(response){
+                      console.log(response)
+             }
+     });
+
+    //debug
+    console.log('openImageView (pk-wrong one) :: ',$('input[name="image-db-pk"]').val())
+
+
 
 };
 
@@ -270,11 +306,12 @@ function displayGallery(groupValue){
             async: false, //wait for ajax call to finish, else logged_in is null in the following if condition
             success: function(e){
                 logged_in  = e.name
-                console.log('logged in username (inside) :: ', logged_in)
+                //console.log('logged in username (inside) :: ', logged_in)
             }
         })
 
 
+        //get images from database for a specific gallery
         $.ajax({
 
            type:'GET',
@@ -305,8 +342,6 @@ function displayGallery(groupValue){
 //               var img = $('<img/>', {
 //                   src : 'http://'+ host_url +'/media/'+value.fields['image'] }).appendTo(li);
 
-
-
                   if(logged_in == value.fields['posted_by'][0]){
                    var img = $('<img/>', {
                    src : 'http://'+ host_url +'/media/'+value.fields['image'] }).css({opacity:1.0}).appendTo(li);
@@ -319,12 +354,14 @@ function displayGallery(groupValue){
 
                // Add clickhandler to open the single image view
                img.on('click', function(event){
-                   console.log($(this))
+
                    //console.log($(this).parent().siblings().length); //+1 gives me the total number of images in the gallery
-                   //console.log($(this).parent().index())
+                   //console.log($(this).parent().index()) //gives the index of li within the ul id = gallery
                    $('.section input[name="image-index"]').attr('value', $(this).parent().index())
-                   $('.section input[name="image-db-pk"]').attr('value', value.pk)
+                   //$('.section input[name="image-db-pk"]').attr('value', value.pk)
+
                    openImageView($('#gallery-view'), $(this));
+
 
                });
 

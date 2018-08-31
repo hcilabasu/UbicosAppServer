@@ -47,9 +47,11 @@ def broadcastImageComment(request):
 
     #get the image id
     img = imageModel.objects.get(id=request.POST['imagePk'])
-    print('image primary id',img.pk)
-    #comment = imageComment(content=request.POST['message'], posted_by = request.user, imageId = '')
-    #comment.save()
+    print('image primary id type',type(img))
+    #error: id is not instance of the model
+    #solution: https://www.slideshare.net/BaabtraMentoringPartner/how-to-fix-must-be-an-instance-when-a-foreign-key-is-referred-django-python-mysql
+    comment = imageComment(content=request.POST['message'], posted_by = request.user, imageId = img)
+    comment.save()
 
     return JsonResponse({'success': '', 'errorMsg': True})
 
@@ -165,11 +167,26 @@ def getImage(request, group_id):
     #print(image_data)
     return JsonResponse({'success': image_data,  'errorMsg': True})
 
+def getImageID(request,img_filename):
+    print('file name :: ' + img_filename);
+
+    img = imageModel.objects.filter(image='images/'+img_filename)
+    print(img[0].pk)
+    return JsonResponse({'imageID': img[0].pk})
+
+
 def updateFeed(request):
     msg = Message.objects.all()
     msg_data = serializers.serialize('json', msg, use_natural_foreign_keys=True)
     return JsonResponse({'success': msg_data, 'username': request.user.get_username(),'errorMsg': True})
 
+def updateImageFeed(request, img_id):
+
+    print('updateImageFeed (image_id) :: ' + img_id)
+    img_msg = imageComment.objects.filter(imageId_id=img_id)
+    img_msg = serializers.serialize('json', img_msg, use_natural_foreign_keys=True, use_natural_primary_keys=True)
+    print('hojoborolo :: ', img_msg)
+    return JsonResponse({'success': img_msg, 'username': request.user.get_username(),'errorMsg': True})
 
 def brainstormSave(request):
 

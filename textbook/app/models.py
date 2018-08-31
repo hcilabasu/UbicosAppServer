@@ -7,17 +7,24 @@ class ActivityIndex(models.Model):
     page_number = models.IntegerField()
     activity_type = models.CharField(max_length=40)
 
+
+
 class imageModel(models.Model):
+
     gallery_id = models.IntegerField()
     group_id = models.IntegerField()
     posted_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     posted_at = models.DateTimeField(auto_now_add=True)
     image = models.ImageField(upload_to='images')
 
+    class Meta:
+        unique_together = (('posted_by', 'id'),)
+
     #https://docs.djangoproject.com/en/2.0/topics/serialization/
     #https://stackoverflow.com/questions/28591176/serializing-django-model-and-including-further-information-for-foreignkeyfield
     def natural_key(self):
-        return (self.posted_by.username)
+        #return (self.posted_by.username)
+        return (self.id)
 
 
 class imageComment(models.Model):
@@ -25,6 +32,9 @@ class imageComment(models.Model):
     posted_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     posted_at = models.DateTimeField(auto_now_add=True)
     imageId = models.ForeignKey(imageModel, on_delete=models.CASCADE)
+
+    def natural_key(self):
+        return (self.posted_by.username)
 
 
 
