@@ -281,17 +281,47 @@ var openImageView = function(galleryView, image){
     //with each click update the input 
     $('.section input[name="image-db-pk"]').attr('value', imageID)
    //update feed
-   // update feed with each image
+   //clear update feed with new image
+   $('#image-feed').empty();
+   //update feed with each image
      $.ajax({
              type: 'GET',
              url: '/updateImageFeed/'+imageID, //get image comment using primary id
              success: function(response){
                       console.log(response)
+
+
+                    var logged_in_user = response.username //passed from views.py - updateFeed
+
+                    msg_data = response.success
+                    var obj = jQuery.parseJSON(msg_data);
+
+                    //console.log(obj)
+
+                    $.each(obj, function(key, value){
+
+                        //  add in the thread itself
+                        var li = $("<li/>").appendTo("#image-feed");
+                        if(value.fields['posted_by'][0] == logged_in_user){
+                            li.addClass('message self');
+                        }else{
+                            li.addClass('message');
+                        }
+
+                        var div = $("<div/>").appendTo(li);
+                        div.addClass('user-image');
+
+                        var span = $('<span/>', {
+                            text: value.fields['posted_by'][0]}).appendTo(div);
+
+                        var p = $('<p/>', {
+                                text: value.fields['content']}).appendTo(li);
+                });
              }
      });
 
     //debug
-    console.log('openImageView (pk-wrong one) :: ',$('input[name="image-db-pk"]').val())
+    console.log('openImageView (passed to ) :: ',$('input[name="image-db-pk"]').val())
 
 
 
