@@ -47,6 +47,8 @@ $(function(){
         var p = $('<p/>', {
                 text: data.message}).appendTo(li);
 
+
+
     });
 
      //add event listener to the chat button click
@@ -353,6 +355,8 @@ function displayGallery(groupValue){
            img_data = response.success;
            var obj = jQuery.parseJSON(img_data);
 
+           console.log(img_data)
+
            $('#gallery').empty();
 
            $.each(obj, function(key,value) {
@@ -362,23 +366,61 @@ function displayGallery(groupValue){
                // console.log("building gallery from scratch")
 
 //               console.log(logged_in, value.fields['posted_by'][0])
-//
 //               console.log('primary id::',value.pk)
-//
 //               console.log('total number of images: ', obj.length)
 
                var li = $("<li/>").appendTo("#gallery"); //<ul id=gallery>
 
-//               var img = $('<img/>', {
-//                   src : 'http://'+ host_url +'/media/'+value.fields['image'] }).appendTo(li);
-
                   if(logged_in == value.fields['posted_by'][0]){
+
+                    //adding image delete span
+                   var span = $('<span/>', {
+                        html: '&times'})
+                        .addClass('object_delete')
+                        .appendTo(li);
+
+
                    var img = $('<img/>', {
-                   src : 'http://'+ host_url +'/media/'+value.fields['image'] }).css({opacity:1.0}).appendTo(li);
+                   src : 'http://'+ host_url +'/media/'+value.fields['image'] })
+                   .css({opacity:1.0})
+                   .appendTo(li);
+
                 }else{
-                    var img = $('<img/>', {
+
+                   var img = $('<img/>', {
                    src : 'http://'+ host_url +'/media/'+value.fields['image'] }).appendTo(li);
+
                 }
+
+               //add delete button to images
+           var closeBtn = $('<span class="object_delete">&times;</span>');
+           closeBtn.click(function(e){
+               console.log('i am clicked')
+               e.preventDefault();
+               //get ID of the deleted note
+               var deletedImageID = value.pk;
+               console.log(deletedImageID);
+               $(this).parent().remove();
+
+
+              //delete note from database
+                $.ajax({
+                    type:'POST',
+                    url:'/gallery/del/'+deletedImageID,
+                    async: false, //wait for ajax call to finish,
+                    success: function(e){
+                        console.log(e)
+                        //TODO: add user log
+                }
+            })
+
+
+               return false;
+           });
+
+           li.append(closeBtn);
+
+
 
 
 
@@ -388,7 +430,6 @@ function displayGallery(groupValue){
                    //console.log($(this).parent().siblings().length); //+1 gives me the total number of images in the gallery
                    //console.log($(this).parent().index()) //gives the index of li within the ul id = gallery
                    $('.section input[name="image-index"]').attr('value', $(this).parent().index())
-                   //$('.section input[name="image-db-pk"]').attr('value', value.pk)
 
                    openImageView($('#gallery-view'), $(this));
 

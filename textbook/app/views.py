@@ -174,6 +174,14 @@ def getImageID(request,img_filename):
     print(img[0].pk)
     return JsonResponse({'imageID': img[0].pk})
 
+def imageDelete(request, img_id):
+
+    img = imageModel.objects.get(pk=img_id)
+    # This will delete the Blog and all of its Entry objects.
+    print(img)
+    img.delete()
+
+    return HttpResponse('deleted?')
 
 def updateFeed(request):
     msg = Message.objects.all()
