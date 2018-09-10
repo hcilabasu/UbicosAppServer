@@ -1,9 +1,11 @@
 
 var host_url = window.location.host
 var logged_in = ''
+var totalPhoto
 
 $(function(){
 
+    //channel for inidividual message
      var pusher_gallery = new Pusher('f6bea936b66e4ad47f97',{
         cluster: 'us2',
         encrypted: true
@@ -68,7 +70,6 @@ $(function(){
             var index = $("input[name='image-index']").val();
             console.log('image index :: ', index)
 
-            //TODO: wrong - fix it - once the value is set - will always use that value
             var imagePk = $("input[name='image-db-pk']").val();
             console.log('image pk :: ',imagePk)
 
@@ -153,7 +154,9 @@ $(function(){
             //previous image button
             $(".previous-image").click(function(e){
                 e.preventDefault();
+
                 var val = $('input[name=image-index]').val() - 1
+                if(val<0)  return !$(this).attr('disabled'); //disable when reached to last image
                 $('.section input[name="image-index"]').attr('value', val)
                 console.log('previous image index:: ', val)
                 var prev_img = $('#gallery li').eq(val).children('img')[0]
@@ -165,11 +168,14 @@ $(function(){
             //next image button
             $(".next-image").click(function(e){
                 e.preventDefault();
+
                 var val = eval($('input[name=image-index]').val()) + 1
+                //console.log('total photo :: ', totalPhoto);
+                 if(val>=totalPhoto)  return !$(this).attr('disabled'); //disable when reached to last image
                 $('.section input[name="image-index"]').attr('value', val)
                 console.log('previous image index:: ', val)
                 var prev_img = $('#gallery li').eq(val).children('img')[0]
-                console.log($(prev_img))
+                //console.log($(prev_img))
                 openImageView($('#gallery-panel'), $(prev_img));
 
             })
@@ -355,7 +361,7 @@ function displayGallery(groupValue){
            img_data = response.success;
            var obj = jQuery.parseJSON(img_data);
 
-           console.log(img_data)
+           //console.log(img_data)
 
            $('#gallery').empty();
 
@@ -428,6 +434,7 @@ function displayGallery(groupValue){
                img.on('click', function(event){
 
                    //console.log($(this).parent().siblings().length); //+1 gives me the total number of images in the gallery
+                   totalPhoto = $(this).parent().siblings().length+1;
                    //console.log($(this).parent().index()) //gives the index of li within the ul id = gallery
                    $('.section input[name="image-index"]').attr('value', $(this).parent().index())
 

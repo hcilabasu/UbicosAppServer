@@ -177,7 +177,7 @@ def getImageID(request,img_filename):
 def imageDelete(request, img_id):
 
     img = imageModel.objects.get(pk=img_id)
-    # This will delete the Blog and all of its Entry objects.
+    # This will delete the image and all of its Entry objects.
     print(img)
     img.delete()
 
