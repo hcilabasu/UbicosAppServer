@@ -77,7 +77,7 @@ var setupBrainstorm = function(){
                 }
         });
 
-        $('#object_delete').on('click', function(e){
+        $('.object_delete').on('click', function(e){
                     e.preventDefault();
                     console.log($(this).parent()
                     .data('noteid'))
@@ -115,22 +115,20 @@ var addIdeaToWorkspace = function(idea, color, name, position, noteID, animate, 
         .css('top', position.top + 'px')
         .css('left', position.left + 'px')
         .data('noteid',noteID) //add id
-        .append('<span class="brainstorm_name ">'+ name +'</span>'); //add username in the right end corner
+        .append('<span class="brainstorm_name ">Added by '+ name +'</span>'); //add username in the right end corner
 
 
         if(isItYours == true){
 
-             idea.css({"border-color": "#000000",
-             "border-width":"1px",
-             "border-style":"solid"});
+             idea.addClass('idea-owner');
 
              //add delete button to notes
-             idea.append('<span id="object_delete">&times;</span>')
+            //  idea.append('<span class="object_delete"></span>')
 
         }
 
         //add delete button to notes
-           var closeBtn = $('<span id="object_delete">&times;</span>');
+           var closeBtn = $('<a class="object_delete"></a>');
            closeBtn.click(function(e){
                console.log('i am clicked')
                e.preventDefault();

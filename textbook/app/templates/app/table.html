@@ -1,34 +1,57 @@
 <h1>Graph</h1>
-<h4>Please enter time and distance values:</h4>
 
-<ul id="graphSources">
-    <li class="table">
-        <table class="tableInput" id="TimeDistance">
-            <tr class="distances">
-                <th>Distance</th>
-                <td><input type="text"></td>
-            </tr>
-            <tr class="times">
-                <th>Time</th>
-                <td><input type="text"></td>
-            </tr>
-        </table>
-        <a class="btn" id="addColumn">+</a>
-        <a id="plot_table" class="btn floatRight">Plot</a>
-    </li>
-    <li class="equation">
-        y = <input type="text" id="slope">x
-        <a id="plot_equation" class="btn floatRight">Plot</a>
-    </li>
-</ul>
+<div class="center-container">
+    <ul id="graphSources">
+        <li class="table">
+            <table class="tableInput" id="TimeDistance">
+                <tr>
+                    <th></th>
+                    <th>1</th>
+                    <th>2</th>
+                    <th>3</th>
+                    <th>4</th>
+                    <th>5</th>
+                </tr>
+                <tr class="x-row">
+                    <th>X</th>
+                    <td><input type="number"></td>
+                    <td><input type="number"></td>
+                    <td><input type="number"></td>
+                    <td><input type="number"></td>
+                    <td><input type="number"></td>
+                </tr>
+                <tr class="y-row">
+                    <th>Y</th>
+                    <td><input type="number"></td>
+                    <td><input type="number"></td>
+                    <td><input type="number"></td>
+                    <td><input type="number"></td>
+                    <td><input type="number"></td>
+                </tr>
+                <tr class="clear-row">
+                    <th></th>
+                    <td><a class="clear"></a></td>
+                    <td><a class="clear"></a></td>
+                    <td><a class="clear"></a></td>
+                    <td><a class="clear"></a></td>
+                    <td><a class="clear"></a></td>
+                </tr>
+            </table>
+            <a id="plot_table" class="btn">Plot Line</a>
+        </li>
+    </ul>
+</div>
 
-<div>
+<div class="center-container">
     
+    <p id="message-container">
+        To get started, enter points into the table above.
+    </p>
+    <div id="graph-container">
+        <div id="graph"></div>
+    </div>
 </div>
 
-<div class="graph">
-    <canvas id="time-distance-chart" width="500" height="300"></canvas>
-</div>
 
 </body>
 
