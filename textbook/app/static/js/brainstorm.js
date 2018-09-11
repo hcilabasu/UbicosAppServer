@@ -123,7 +123,6 @@ var addIdeaToWorkspace = function(idea, color, name, position, noteID, animate, 
              idea.addClass('idea-owner');
 
              //add delete button to notes
-
              idea.append('<span class="object_delete">&times;</span>')
 
 
