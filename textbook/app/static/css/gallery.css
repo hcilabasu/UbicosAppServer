@@ -78,6 +78,7 @@ input[type="file"] {
     display: none;
 }
 
+
 .brainstorm_name {
     position:absolute;
     right:0;
@@ -107,3 +108,4 @@ input[type="file"] {
 .object_delete:hover {
     opacity: 1;
 }
+
