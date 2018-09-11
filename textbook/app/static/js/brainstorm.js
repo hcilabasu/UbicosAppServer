@@ -123,12 +123,17 @@ var addIdeaToWorkspace = function(idea, color, name, position, noteID, animate, 
              idea.addClass('idea-owner');
 
              //add delete button to notes
-            //  idea.append('<span class="object_delete"></span>')
+
+             idea.append('<span class="object_delete">&times;</span>')
+
+
 
         }
 
         //add delete button to notes
-           var closeBtn = $('<a class="object_delete"></a>');
+
+           var closeBtn = $('<span class="object_delete">&times;</span>');
+
            closeBtn.click(function(e){
                console.log('i am clicked')
                e.preventDefault();

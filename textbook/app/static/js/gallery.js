@@ -1,9 +1,11 @@
 
 var host_url = window.location.host
 var logged_in = ''
+var totalPhoto
 
 $(function(){
 
+    //channel for inidividual message
      var pusher_gallery = new Pusher('f6bea936b66e4ad47f97',{
         cluster: 'us2',
         encrypted: true
@@ -14,7 +16,7 @@ $(function(){
 
     my_channel.bind("bn_event", function (data) {
 
-        console.log(data);
+        //console.log(data);
 
         //get the logged in user
         $.ajax({
@@ -23,15 +25,15 @@ $(function(){
             async: false, //wait for ajax call to finish, else logged_in is null in the following if condition
             success: function(e){
                 logged_in  = e.name
-                console.log('logged in username (inside) :: ', logged_in)
+                //console.log('logged in username (inside) :: ', logged_in)
             }
-        })
+        });
 
         //  add in the thread itself
         var li = $("<li/>").appendTo("#image-feed");
 
-        console.log ('message posted by', data.name)
-        console.log('logged in username (outside):: ', logged_in)
+        //console.log ('message posted by', data.name);
+        //console.log('logged in username (outside):: ', logged_in);
         if(logged_in == data.name){
                li.addClass('message self');
         }else{
@@ -46,6 +48,8 @@ $(function(){
 
         var p = $('<p/>', {
                 text: data.message}).appendTo(li);
+
+
 
     });
 
@@ -114,6 +118,7 @@ $(function(){
 
                         //TODO: update user with a 'success' message on the screen
 
+                        //update gallery with nrewly uploaded image
                         img_data = response.success;
                         var obj = jQuery.parseJSON(img_data);
 
@@ -149,7 +154,9 @@ $(function(){
             //previous image button
             $(".previous-image").click(function(e){
                 e.preventDefault();
+
                 var val = $('input[name=image-index]').val() - 1
+                if(val<0)  return !$(this).attr('disabled'); //disable when reached to last image
                 $('.section input[name="image-index"]').attr('value', val)
                 console.log('previous image index:: ', val)
                 var prev_img = $('#gallery li').eq(val).children('img')[0]
@@ -161,11 +168,14 @@ $(function(){
             //next image button
             $(".next-image").click(function(e){
                 e.preventDefault();
+
                 var val = eval($('input[name=image-index]').val()) + 1
+                //console.log('total photo :: ', totalPhoto);
+                 if(val>=totalPhoto)  return !$(this).attr('disabled'); //disable when reached to last image
                 $('.section input[name="image-index"]').attr('value', val)
                 console.log('previous image index:: ', val)
                 var prev_img = $('#gallery li').eq(val).children('img')[0]
-                console.log($(prev_img))
+                //console.log($(prev_img))
                 openImageView($('#gallery-panel'), $(prev_img));
 
             })
@@ -244,7 +254,6 @@ function viewDiv(view, number_of_group){
 
 var openImageView = function(galleryView, image){
 
-    //console.log('openImageView', galleryView)
     var singleImageViewer = $('#single-image-view');
 
     // Toggle views: Display or hide the matched elements.
@@ -257,7 +266,72 @@ var openImageView = function(galleryView, image){
     $('.section').children('img').remove();
 
     $('.section', singleImageViewer).append(image);
-    //console.log($('#single-image-view').html())
+
+    //get image location from image object
+    var image_location = image.attr('src').toString();
+
+    //get image file name
+    image_filename = image_location.split('/').pop()
+    //console.log(image_filename)
+
+    //get ID using filename
+    var imageID='';
+    $.ajax({
+        type:'GET',
+        async: false,
+        url:'/getImageID/'+image_filename+'/',
+        success: function(data){
+            imageID = data.imageID;
+            console.log('image primary id :: ',data.imageID);
+        }
+    })
+
+    //with each click update the input 
+    $('.section input[name="image-db-pk"]').attr('value', imageID)
+   //update feed
+   //clear update feed with new image
+   $('#image-feed').empty();
+   //update feed with each image
+     $.ajax({
+             type: 'GET',
+             url: '/updateImageFeed/'+imageID, //get image comment using primary id
+             success: function(response){
+                      console.log(response)
+
+
+                    var logged_in_user = response.username //passed from views.py - updateFeed
+
+                    msg_data = response.success
+                    var obj = jQuery.parseJSON(msg_data);
+
+                    //console.log(obj)
+
+                    $.each(obj, function(key, value){
+
+                        //  add in the thread itself
+                        var li = $("<li/>").appendTo("#image-feed");
+                        if(value.fields['posted_by'][0] == logged_in_user){
+                            li.addClass('message self');
+                        }else{
+                            li.addClass('message');
+                        }
+
+                        var div = $("<div/>").appendTo(li);
+                        div.addClass('user-image');
+
+                        var span = $('<span/>', {
+                            text: value.fields['posted_by'][0]}).appendTo(div);
+
+                        var p = $('<p/>', {
+                                text: value.fields['content']}).appendTo(li);
+                });
+             }
+     });
+
+    //debug
+    console.log('openImageView (passed to ) :: ',$('input[name="image-db-pk"]').val())
+
+
 
 };
 
@@ -270,11 +344,12 @@ function displayGallery(groupValue){
             async: false, //wait for ajax call to finish, else logged_in is null in the following if condition
             success: function(e){
                 logged_in  = e.name
-                console.log('logged in username (inside) :: ', logged_in)
+                //console.log('logged in username (inside) :: ', logged_in)
             }
         })
 
 
+        //get images from database for a specific gallery
         $.ajax({
 
            type:'GET',
@@ -286,6 +361,8 @@ function displayGallery(groupValue){
            img_data = response.success;
            var obj = jQuery.parseJSON(img_data);
 
+           //console.log(img_data)
+
            $('#gallery').empty();
 
            $.each(obj, function(key,value) {
@@ -295,36 +372,74 @@ function displayGallery(groupValue){
                // console.log("building gallery from scratch")
 
 //               console.log(logged_in, value.fields['posted_by'][0])
-//
 //               console.log('primary id::',value.pk)
-//
 //               console.log('total number of images: ', obj.length)
 
                var li = $("<li/>").appendTo("#gallery"); //<ul id=gallery>
 
-//               var img = $('<img/>', {
-//                   src : 'http://'+ host_url +'/media/'+value.fields['image'] }).appendTo(li);
-
-
-
                   if(logged_in == value.fields['posted_by'][0]){
+
+                    //adding image delete span
+                   var span = $('<span/>', {
+                        html: '&times'})
+                        .addClass('object_delete')
+                        .appendTo(li);
+
+
                    var img = $('<img/>', {
-                   src : 'http://'+ host_url +'/media/'+value.fields['image'] }).css({opacity:1.0}).appendTo(li);
+                   src : 'http://'+ host_url +'/media/'+value.fields['image'] })
+                   .css({opacity:1.0})
+                   .appendTo(li);
+
                 }else{
-                    var img = $('<img/>', {
+
+                   var img = $('<img/>', {
                    src : 'http://'+ host_url +'/media/'+value.fields['image'] }).appendTo(li);
+
                 }
+
+               //add delete button to images
+           var closeBtn = $('<span class="object_delete">&times;</span>');
+           closeBtn.click(function(e){
+               console.log('i am clicked')
+               e.preventDefault();
+               //get ID of the deleted note
+               var deletedImageID = value.pk;
+               console.log(deletedImageID);
+               $(this).parent().remove();
+
+
+              //delete note from database
+                $.ajax({
+                    type:'POST',
+                    url:'/gallery/del/'+deletedImageID,
+                    async: false, //wait for ajax call to finish,
+                    success: function(e){
+                        console.log(e)
+                        //TODO: add user log
+                }
+            })
+
+
+               return false;
+           });
+
+           li.append(closeBtn);
+
+
 
 
 
                // Add clickhandler to open the single image view
                img.on('click', function(event){
-                   console.log($(this))
+
                    //console.log($(this).parent().siblings().length); //+1 gives me the total number of images in the gallery
-                   //console.log($(this).parent().index())
+                   totalPhoto = $(this).parent().siblings().length+1;
+                   //console.log($(this).parent().index()) //gives the index of li within the ul id = gallery
                    $('.section input[name="image-index"]').attr('value', $(this).parent().index())
-                   $('.section input[name="image-db-pk"]').attr('value', value.pk)
+
                    openImageView($('#gallery-view'), $(this));
+
 
                });
 

@@ -37,6 +37,8 @@ $(function(){
         $(this).toggleClass('pressed');
     });
 
+
+
 });
 
 
@@ -138,6 +140,13 @@ var loadHTML = function(url, successFn, errorFn){
 
 
 var bindActivityButtons = function(){
+
+    $('#day1-showTable').off().on("click", function(e) {
+            e.preventDefault();
+            console.log("hide show clicked");
+            $('#day1-table').toggle();
+    });
+
     $('.page a').off().on('touch click', function(){
         // Get button type to open appropriate view
         //console.log('this', this)
