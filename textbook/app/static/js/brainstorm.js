@@ -124,7 +124,7 @@ var addIdeaToWorkspace = function(idea, color, name, position, noteID, animate, 
 
              //add delete button to notes
 
-             idea.append('<span class="object_delete">&times;</span>')
+             idea.append('<span class="object_delete"></span>')
 
 
 
@@ -132,7 +132,7 @@ var addIdeaToWorkspace = function(idea, color, name, position, noteID, animate, 
 
         //add delete button to notes
 
-           var closeBtn = $('<span class="object_delete">&times;</span>');
+           var closeBtn = $('<span class="object_delete"></span>');
 
            closeBtn.click(function(e){
                console.log('i am clicked')
