@@ -159,10 +159,12 @@ def uploadImage(request):
 
         return JsonResponse({'success': image_data, 'errorMsg': True})
 
-def getImage(request, group_id):
+def getImage(request, gallery_id,group_id):
 
-    #images = ImageModel.objects.all()
+    print('view.py line 164 ', gallery_id);
+
     images = imageModel.objects.filter(group_id=group_id)
+    images = images.filter(gallery_id=gallery_id)
     image_data = serializers.serialize('json', images, use_natural_foreign_keys=True)
     #print(image_data)
     return JsonResponse({'success': image_data,  'errorMsg': True})

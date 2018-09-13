@@ -8,7 +8,6 @@ class ActivityIndex(models.Model):
     activity_type = models.CharField(max_length=40)
 
 
-
 class imageModel(models.Model):
 
     gallery_id = models.IntegerField()
@@ -37,7 +36,7 @@ class imageComment(models.Model):
         return (self.posted_by.username)
 
 
-
+# activity feed message
 class Message(models.Model):
     content = models.CharField(max_length=400)
     posted_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
@@ -62,7 +61,6 @@ class tableChartData(models.Model):
     table_id = models.IntegerField(null=True)
     plot_type = models.CharField(max_length=20) #enumeration
     plot_data = jsonfield.JSONField() #https://stackoverflow.com/questions/37007109/django-1-9-jsonfield-in-models
-
 
 
 class userLogTable(models.Model):

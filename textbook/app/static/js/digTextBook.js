@@ -1,5 +1,5 @@
-var current_pagenumber=1 //initial page number; gets updated with page change
-
+var current_pagenumber = 1 //initial page number; gets updated with page change
+var type = '' //card type
 $(function(){
 
     var host_url = window.location.host
@@ -35,6 +35,7 @@ $(function(){
             hidden.fadeIn('fast');
         });
         $(this).toggleClass('pressed');
+        //TODO: add user log
     });
 
 
@@ -43,6 +44,7 @@ $(function(){
 
 
 var movePage = function(moveToNext){
+
     var container = $('#textbook-content'),
         pageToHide = $('.page:not(.previous):not(.next)', container), // This the current page, which will be hidden
         pageToShow, // This is the page that will be shown next
@@ -70,9 +72,16 @@ var movePage = function(moveToNext){
     }
     // Replace page number
     current_pagenumber = currentPageNum
-    $("#page-control-number").text('Page ' + currentPageNum + '/10');
+    $("#page-control-number").text('Page ' + currentPageNum + '/6');
     //user logging
     enterLogIntoDatabase('click', 'page change' , 'none', current_pagenumber)
+
+    //close any card with page navigation
+    if(type!=''){
+        $('.card.' + type).removeClass('active');
+    }
+
+
 
     // Do swaps
     pageToHide.attr('class','page').addClass(currentNewClass); // Turn the current page into either next or previous
@@ -155,7 +164,7 @@ var bindActivityButtons = function(){
         var activityButton = $(this);
 
         //type of activity - gallery/brainstorm/video etc
-        var type = activityButton.attr('class').replace('activity-button','').trim();
+        type = activityButton.attr('class').replace('activity-button','').trim();
         console.log('type', type)
 
         //id of each each activity - based on page no
