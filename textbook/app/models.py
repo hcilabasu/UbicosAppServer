@@ -63,6 +63,12 @@ class tableChartData(models.Model):
     plot_data = jsonfield.JSONField() #https://stackoverflow.com/questions/37007109/django-1-9-jsonfield-in-models
 
 
+class userQuesAnswerTable(models.Model):
+    questionIDbyPage = models.IntegerField(null=True)
+    answer = jsonfield.JSONField()
+    posted_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    posted_at = models.DateTimeField(auto_now_add=True)
+
 class userLogTable(models.Model):
     username = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     action = models.CharField(max_length=20)

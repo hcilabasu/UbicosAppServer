@@ -2,7 +2,7 @@
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render, render_to_response
 from rest_framework.views import APIView
-from .models import imageModel, imageComment, Message, brainstormNote,userLogTable, tableChartData
+from .models import imageModel, imageComment, Message, brainstormNote,userLogTable, tableChartData, userQuesAnswerTable
 from django.contrib.auth import authenticate
 from django.http.response import JsonResponse
 from django.contrib.auth import login as auth_login
@@ -255,6 +255,14 @@ def tableEntriesSave(request):
 
     return HttpResponse('')
 
+
+def submitAnswer(request):
+
+    print(request.POST.get('answer'));
+    userQuesAnswer = userQuesAnswerTable(questionIDbyPage = request.POST.get('page'), answer = request.POST.get('answer'), posted_by = request.user)
+    userQuesAnswer.save()
+
+    return HttpResponse('')
 
 
 def pageParser(request):

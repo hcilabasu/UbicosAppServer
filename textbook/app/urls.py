@@ -24,6 +24,7 @@ urlpatterns = [
     url('brainstorm/del/(?P<note_id>\d+)',views.brainstormDelete),
     url('gallery/del/(?P<img_id>\d+)',views.imageDelete),
     url('parser',views.pageParser),
-    url('tableData/save/',views.tableEntriesSave)
+    url('tableData/save/',views.tableEntriesSave),
+    url('submitAnswer',views.submitAnswer)
 
 ]
