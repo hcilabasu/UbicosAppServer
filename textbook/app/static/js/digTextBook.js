@@ -221,6 +221,9 @@ var bindActivityButtons = function(){
         }
 
         if($('.card.brainstorm').hasClass('active')){
+
+            $('input[name="brainstorm-id"]').attr('value', id)
+
             loadIdeaToWorkspace();
         }
 

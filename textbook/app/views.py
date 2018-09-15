@@ -200,7 +200,7 @@ def updateImageFeed(request, img_id):
 
 def brainstormSave(request):
 
-    note = brainstormNote(ideaText = request.POST.get('idea'), color = request.POST.get('color'),
+    note = brainstormNote(brainstormID = request.POST.get('brainstormID'), ideaText = request.POST.get('idea'), color = request.POST.get('color'),
                               position_top = request.POST.get('posTop'), position_left = request.POST.get('posLeft'), posted_by = request.user)
     note.save()
 
@@ -209,9 +209,9 @@ def brainstormSave(request):
     return JsonResponse({'id': note.id,'errorMsg': True})
 
 
-def brainstormGet(request):
+def brainstormGet(request,brainstorm_id):
 
-    notes = brainstormNote.objects.all()
+    notes = brainstormNote.objects.filter(brainstormID=brainstorm_id)
     notes = serializers.serialize('json', notes, use_natural_foreign_keys=True)
 
     return JsonResponse({'success': notes})

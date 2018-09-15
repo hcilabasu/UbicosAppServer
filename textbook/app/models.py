@@ -47,6 +47,7 @@ class Message(models.Model):
 
 
 class brainstormNote(models.Model):
+    brainstormID = models.IntegerField(null=True)
     ideaText = models.CharField(max_length=400)
     color = models.CharField(max_length=20)
     position_top = models.CharField(max_length=20)
