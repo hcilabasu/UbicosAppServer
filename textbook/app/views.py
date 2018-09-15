@@ -44,7 +44,7 @@ def broadcast(request):
 @csrf_exempt
 def broadcastImageComment(request):
 
-    pusher1.trigger(u'b_channel', u'bn_event', {u'name': request.POST['username'], u'message': request.POST['message'] })
+    pusher1.trigger(u'b_channel', u'bn_event', {u'name': request.POST['username'], u'message': request.POST['message'], u'imageid': request.POST['imagePk'] })
 
     #get the image id
     img = imageModel.objects.get(id=request.POST['imagePk'])

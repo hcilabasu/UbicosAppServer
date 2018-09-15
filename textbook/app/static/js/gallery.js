@@ -21,28 +21,36 @@
             //message entered by the user
             //console.log(data);
 
-            console.log('hello bello', $("input[name='image-db-pk']").val())
 
-            //  add in the individual image discussion thread itself
-            var li = $("<li/>").appendTo("#image-feed");
+            console.log('hello bello (server)', data.imageid)
+            console.log('hello bello (local)', $("input[name='image-db-pk']").val())
 
-            //console.log ('message posted by', data.name);
-            //console.log('logged in username (outside):: ', logged_in);
+            //if student commenting on one image is the same as the other user is viewing show the comment else don't show
+            if(data.imageid == $("input[name='image-db-pk']").val())
+            {
+                //  add in the individual image discussion thread itself
+                var li = $("<li/>").appendTo("#image-feed");
 
-            if(logged_in == data.name){
-                   li.addClass('message self');
-            }else{
-                   li.addClass('message');
+                //console.log ('message posted by', data.name);
+                //console.log('logged in username (outside):: ', logged_in);
+
+                if(logged_in == data.name){
+                       li.addClass('message self');
+                }else{
+                       li.addClass('message');
+                }
+
+                var div = $("<div/>").appendTo(li);
+                div.addClass('user-image');
+
+                var span = $('<span/>', {
+                    text: data.name}).appendTo(div);
+
+                var p = $('<p/>', {
+                        text: data.message}).appendTo(li);
             }
 
-            var div = $("<div/>").appendTo(li);
-            div.addClass('user-image');
 
-            var span = $('<span/>', {
-                text: data.name}).appendTo(div);
-
-            var p = $('<p/>', {
-                    text: data.message}).appendTo(li);
 
         });
 
