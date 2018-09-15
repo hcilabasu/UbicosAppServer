@@ -25,6 +25,7 @@ urlpatterns = [
     url('gallery/del/(?P<img_id>\d+)',views.imageDelete),
     url('parser',views.pageParser),
     url('tableData/save/',views.tableEntriesSave),
-    url('submitAnswer',views.submitAnswer)
+    url('submitAnswer',views.submitAnswer),
+    url('getUserList',views.getUserList)
 
 ]

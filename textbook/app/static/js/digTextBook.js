@@ -186,6 +186,10 @@ var bindActivityButtons = function(){
             console.log(video_url);
             $('#videoFrame').attr('src', video_url); //display in video.html
         }
+         if($('.card.table').hasClass('active')){
+
+             $('input[name="table-id"]').attr('value', id)
+        }
 
         // if gallery div is active, load the gallery
         if($('.card.gallery').hasClass('active')){

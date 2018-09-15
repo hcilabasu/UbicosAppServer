@@ -7,6 +7,7 @@ from django.contrib.auth import authenticate
 from django.http.response import JsonResponse
 from django.contrib.auth import login as auth_login
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 from django.core import serializers
 from .parser import parser
 from rest_framework.decorators import api_view
@@ -271,6 +272,13 @@ def pageParser(request):
     self = None
     print(parser.activityParser(self))
     return HttpResponse('')
+
+def getUserList(request):
+    users = User.objects.all()
+    print(users)
+
+    return HttpResponse('')
+
 
 
 def deleteAllItems(request):

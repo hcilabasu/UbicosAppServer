@@ -21,6 +21,8 @@
             //message entered by the user
             //console.log(data);
 
+            console.log('hello bello', $("input[name='image-db-pk']").val())
+
             //  add in the individual image discussion thread itself
             var li = $("<li/>").appendTo("#image-feed");
 
