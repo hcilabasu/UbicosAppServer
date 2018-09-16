@@ -141,7 +141,7 @@ function handleDrawLine(){
 
 function createGraph(){
 
-    var margin = {top: 20, right: 15, bottom: 20, left: 15}
+    var margin = {top: 20, right: 15, bottom: 35, left: 35}
     , width = 450 - margin.left - margin.right
     , height = 340 - margin.top - margin.bottom;
   
@@ -168,7 +168,8 @@ function createGraph(){
     .attr('class', 'main')   
         
     // draw the x axis
-    var xAxis = d3.axisBottom(x);
+    var xAxis = d3.axisBottom(x)
+    .ticks(d3.max(POINTS, function(d) { return d[0]; }));
 
     main.append('g')
     .attr('transform', 'translate(0,' + height + ')')
@@ -176,12 +177,26 @@ function createGraph(){
     .call(xAxis);
 
     // draw the y axis
-    var yAxis = d3.axisLeft(y);
+    var yAxis = d3.axisLeft(y)
+    .ticks(d3.max(POINTS, function(d) { return d[1]; }));
 
     main.append('g')
     .attr('transform', 'translate(0,0)')
     .attr('class', 'main axis date')
     .call(yAxis);
+
+    // Attach labels
+    main.append("text")
+        .attr("text-anchor", "middle")  // this makes it easy to centre the text as the transform is applied to the anchor
+        .attr("transform", "translate(-"+ (margin.left/2) +","+(height/2)+")rotate(-90)")  // text is drawn off the screen top left, move down and out and rotate
+        .style('fill', 'white')
+        .text("X");
+
+    main.append("text")
+        .attr("text-anchor", "middle")  // this makes it easy to centre the text as the transform is applied to the anchor
+        .attr("transform", "translate("+ (width/2) +","+(height+(margin.bottom)) + ")")  // text is drawn off the screen top left, move down and out and rotate
+        .style('fill', 'white')
+        .text("Y");
 
     var g = main.append("svg:g"); 
 
