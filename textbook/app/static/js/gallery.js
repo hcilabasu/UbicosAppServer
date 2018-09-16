@@ -5,6 +5,8 @@
 
     $(function(){
 
+
+
         getLoggedUserName();
 
         //channel for individual image message
@@ -21,26 +23,36 @@
             //message entered by the user
             //console.log(data);
 
-            //  add in the individual image discussion thread itself
-            var li = $("<li/>").appendTo("#image-feed");
 
-            //console.log ('message posted by', data.name);
-            //console.log('logged in username (outside):: ', logged_in);
+            console.log('hello bello (server)', data.imageid)
+            console.log('hello bello (local)', $("input[name='image-db-pk']").val())
 
-            if(logged_in == data.name){
-                   li.addClass('message self');
-            }else{
-                   li.addClass('message');
+            //if student commenting on one image is the same as the other user is viewing show the comment else don't show
+            if(data.imageid == $("input[name='image-db-pk']").val())
+            {
+                //  add in the individual image discussion thread itself
+                var li = $("<li/>").appendTo("#image-feed");
+
+                //console.log ('message posted by', data.name);
+                //console.log('logged in username (outside):: ', logged_in);
+
+                if(logged_in == data.name){
+                       li.addClass('message self');
+                }else{
+                       li.addClass('message');
+                }
+
+                var div = $("<div/>").appendTo(li);
+                div.addClass('user-image');
+
+                var span = $('<span/>', {
+                    text: data.name}).appendTo(div);
+
+                var p = $('<p/>', {
+                        text: data.message}).appendTo(li);
             }
 
-            var div = $("<div/>").appendTo(li);
-            div.addClass('user-image');
 
-            var span = $('<span/>', {
-                text: data.name}).appendTo(div);
-
-            var p = $('<p/>', {
-                    text: data.message}).appendTo(li);
 
         });
 
@@ -343,7 +355,7 @@
          });
 
         //debug
-        console.log('openImageView (passed to ) :: ',$('input[name="image-db-pk"]').val())
+        //console.log('openImageView (passed to ) :: ',$('input[name="image-db-pk"]').val())
 
 
 
@@ -354,6 +366,7 @@
             //get the gallery ID - passed from digTextBook.js to input field
             //console.log('gallery-id, ', $("input[name='act-id").val());
             var gallery_id = $("input[name='act-id").val();
+
 
             //get images from database for a specific gallery for specific group - 0 means whole class
             $.ajax({
@@ -389,6 +402,8 @@
                        var span = $('<span/>')
                             .addClass('object_delete')
                             .appendTo(li);
+
+
 
                        var img = $('<img/>', {
                        src : 'http://'+ host_url +'/media/'+value.fields['image'] })

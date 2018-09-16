@@ -1,9 +1,9 @@
 
 .center {
   position: absolute;
-	width: 500px; /*size of the div */
+	width: 300px; /*size of the div */
 	height: 200px;
-    left: 870px; /*location of the div */
+    left: 550px; /*location of the div */
     top: 110px;
 	background: #F0F8FF;
 
@@ -98,5 +98,45 @@ input[type="file"] {
             opacity: 0.7;
         }
 }
+
+.page6-input{
+
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+
+}
+
+/* Bordered form */
+form {
+    border: 3px solid #f1f1f1;
+}
+
+
+
+/* Set a style for all buttons
+button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+} */
+
+
+
+
+/* Add padding to containers */
+.container {
+    padding: 16px;
+}
+
+
 
 

@@ -185,6 +185,13 @@ var bindActivityButtons = function(){
             var video_url = activityButton.attr('data-video-url');
             console.log(video_url);
             $('#videoFrame').attr('src', video_url); //display in video.html
+
+            //update h1
+
+        }
+         if($('.card.table').hasClass('active')){
+
+             $('input[name="table-id"]').attr('value', id)
         }
 
         // if gallery div is active, load the gallery
@@ -221,6 +228,9 @@ var bindActivityButtons = function(){
         }
 
         if($('.card.brainstorm').hasClass('active')){
+
+            $('input[name="brainstorm-id"]').attr('value', id)
+
             loadIdeaToWorkspace();
         }
 

@@ -6,35 +6,35 @@
     <head>
         <meta charset="UTF-8">
         <title>LOGIN</title>
-
-        <link rel="stylesheet" type="text/css" href="{% static 'css/digTextBook.css' %}">
+          <link rel="stylesheet" type="text/css" href="{% static 'css/gallery.css' %}">
     </head>
 
     <body>
 
         <form id="login-form" method="post"
-              action="/login" class="center">
+               class="center">
             {% csrf_token %}
-            <table >
+            <table class="container">
                 <tr>
                     <td><label for="id_username">Username</label></td>
                     <td><input id="id_username" name="username"
-                               type="text" ></td>
+                               type="text" class="page6-input"></td>
                 </tr>
                 <tr>
                     <td><label for="id_password">Password</label></td>
                     <td><input id="id_password" name="password"
-                               type="password"></td>
+                               type="password" class="page6-input"></td>
                 </tr>
             </table>
 
 
 
-
-
-            <input type="submit" value="Login"/>
+            <button id="login-user" type="submit" formaction="/login" value="login-user" style="display: block; margin: 0 auto;">Login</button>
+            <button id="create-user" type="submit" formaction="/createUser"value="create-user"  style="display: block; margin: 0 auto;">Create User</button>
             <input type="hidden" name="next" value="{{ next }}"/>
         </form>
+
+
 
     </body>
 

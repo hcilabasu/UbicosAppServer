@@ -55,6 +55,8 @@ function updateTableStatus(){
     if (!arraysEqual(previousPoints, POINTS)){
         tableUpdated();
     }
+
+
 }
 
 function tableUpdated(){
@@ -208,4 +210,25 @@ function createGraph(){
 function drawLine(){
     // Show lines
     $('.graph-line').css('visibility', 'visible');
+
+    console.log(jQuery.type(POINTS));
+    //save the data points in database
+    tableDataInsert('table', POINTS)
 }
+
+ var tableDataInsert = function(type, points){
+         var pointsAsJSON = JSON.stringify(points);
+        console.log(pointsAsJSON)
+        //send to database
+           $.post({
+            async: false,
+           url:'/tableData/save/', //save table data
+           data: {
+                'table_id': $("input[name='table-id']").val(), //TODO: pass values
+                'plot_type': type ,
+                'plot_data': pointsAsJSON
+                },
+           success: function(response){
+         }
+         });
+    }

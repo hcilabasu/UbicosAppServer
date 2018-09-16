@@ -2,11 +2,12 @@
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render, render_to_response
 from rest_framework.views import APIView
-from .models import imageModel, imageComment, Message, brainstormNote,userLogTable, tableChartData
+from .models import imageModel, imageComment, Message, brainstormNote,userLogTable, tableChartData, userQuesAnswerTable
 from django.contrib.auth import authenticate
 from django.http.response import JsonResponse
 from django.contrib.auth import login as auth_login
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 from django.core import serializers
 from .parser import parser
 from rest_framework.decorators import api_view
@@ -43,7 +44,7 @@ def broadcast(request):
 @csrf_exempt
 def broadcastImageComment(request):
 
-    pusher1.trigger(u'b_channel', u'bn_event', {u'name': request.POST['username'], u'message': request.POST['message'] })
+    pusher1.trigger(u'b_channel', u'bn_event', {u'name': request.POST['username'], u'message': request.POST['message'], u'imageid': request.POST['imagePk'] })
 
     #get the image id
     img = imageModel.objects.get(id=request.POST['imagePk'])
@@ -200,7 +201,7 @@ def updateImageFeed(request, img_id):
 
 def brainstormSave(request):
 
-    note = brainstormNote(ideaText = request.POST.get('idea'), color = request.POST.get('color'),
+    note = brainstormNote(brainstormID = request.POST.get('brainstormID'), ideaText = request.POST.get('idea'), color = request.POST.get('color'),
                               position_top = request.POST.get('posTop'), position_left = request.POST.get('posLeft'), posted_by = request.user)
     note.save()
 
@@ -209,9 +210,9 @@ def brainstormSave(request):
     return JsonResponse({'id': note.id,'errorMsg': True})
 
 
-def brainstormGet(request):
+def brainstormGet(request,brainstorm_id):
 
-    notes = brainstormNote.objects.all()
+    notes = brainstormNote.objects.filter(brainstormID=brainstorm_id)
     notes = serializers.serialize('json', notes, use_natural_foreign_keys=True)
 
     return JsonResponse({'success': notes})
@@ -256,6 +257,14 @@ def tableEntriesSave(request):
     return HttpResponse('')
 
 
+def submitAnswer(request):
+
+    print(request.POST.get('answer'));
+    userQuesAnswer = userQuesAnswerTable(questionIDbyPage = request.POST.get('page'), answer = request.POST.get('answer'), posted_by = request.user)
+    userQuesAnswer.save()
+
+    return HttpResponse('')
+
 
 def pageParser(request):
     #CASE 4: static method - FAIL, not possible to call `cls.get` or `self.get`
@@ -264,6 +273,36 @@ def pageParser(request):
     print(parser.activityParser(self))
     return HttpResponse('')
 
+def getUserList(request):
+    users = User.objects.all()
+    print(users)
+
+    return HttpResponse('')
+
+# create superuser
+# https://docs.djangoproject.com/en/2.1/topics/auth/default/
+def createUser(request):
+    if request.method == "POST":
+
+        #get username/password from the form
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+
+        user = User.objects.create_user(username, '', password)
+        user.save()
+
+        #authenticate and redirect to index
+        user = authenticate(username=username, password=password)
+        print(user)
+
+        if user:
+            auth_login(request, user)
+            return HttpResponseRedirect('/index/')
+        else:
+            # return invalid login message
+            return render(request, 'app/login.html', {})
+
+    return HttpResponse('')
 
 def deleteAllItems(request):
     # brainstormNote.objects.all().delete()

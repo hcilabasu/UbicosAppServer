@@ -1,7 +1,10 @@
- var logged_in=''
- var host_url = window.location.host
+ var logged_in='';
+ var host_url = window.location.host;
+ var brainstormID
 
  $( function() {
+
+
 
      //get the logged in user
         $.ajax({
@@ -62,6 +65,7 @@ var setupBrainstorm = function(){
           $.post({
                 url: '/brainstorm/save/',
                 data: {
+                'brainstormID': $("input[name='brainstorm-id']").val(),
                 'idea': idea,
                 'color': color,
                 'posTop': posTop,
@@ -216,11 +220,12 @@ var ideaDragPositionUpdate = function(){
 
 var loadIdeaToWorkspace = function(){
 
+    brainstormID = $("input[name='brainstorm-id']").val();
     var notes
 
      $.get({
 
-         url:'/brainstorm/get/', //get all the notes
+         url:'/brainstorm/get/'+brainstormID, //get all the notes
          success: function(data){
 
                 //console.log(data.success)

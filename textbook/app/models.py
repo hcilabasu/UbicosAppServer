@@ -47,6 +47,7 @@ class Message(models.Model):
 
 
 class brainstormNote(models.Model):
+    brainstormID = models.IntegerField(null=True)
     ideaText = models.CharField(max_length=400)
     color = models.CharField(max_length=20)
     position_top = models.CharField(max_length=20)
@@ -62,6 +63,12 @@ class tableChartData(models.Model):
     plot_type = models.CharField(max_length=20) #enumeration
     plot_data = jsonfield.JSONField() #https://stackoverflow.com/questions/37007109/django-1-9-jsonfield-in-models
 
+
+class userQuesAnswerTable(models.Model):
+    questionIDbyPage = models.IntegerField(null=True)
+    answer = jsonfield.JSONField()
+    posted_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    posted_at = models.DateTimeField(auto_now_add=True)
 
 class userLogTable(models.Model):
     username = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
