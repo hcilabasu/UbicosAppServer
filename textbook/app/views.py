@@ -279,7 +279,30 @@ def getUserList(request):
 
     return HttpResponse('')
 
+# create superuser
+# https://docs.djangoproject.com/en/2.1/topics/auth/default/
+def createUser(request):
+    if request.method == "POST":
 
+        #get username/password from the form
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+
+        user = User.objects.create_user(username, '', password)
+        user.save()
+
+        #authenticate and redirect to index
+        user = authenticate(username=username, password=password)
+        print(user)
+
+        if user:
+            auth_login(request, user)
+            return HttpResponseRedirect('/index/')
+        else:
+            # return invalid login message
+            return render(request, 'app/login.html', {})
+
+    return HttpResponse('')
 
 def deleteAllItems(request):
     # brainstormNote.objects.all().delete()

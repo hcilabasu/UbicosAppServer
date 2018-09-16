@@ -26,6 +26,7 @@ urlpatterns = [
     url('parser',views.pageParser),
     url('tableData/save/',views.tableEntriesSave),
     url('submitAnswer',views.submitAnswer),
-    url('getUserList',views.getUserList)
+    url('getUserList',views.getUserList),
+    url('createUser',views.createUser)
 
 ]

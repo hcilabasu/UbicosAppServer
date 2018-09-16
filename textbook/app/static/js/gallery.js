@@ -5,6 +5,8 @@
 
     $(function(){
 
+
+
         getLoggedUserName();
 
         //channel for individual image message
@@ -353,7 +355,7 @@
          });
 
         //debug
-        console.log('openImageView (passed to ) :: ',$('input[name="image-db-pk"]').val())
+        //console.log('openImageView (passed to ) :: ',$('input[name="image-db-pk"]').val())
 
 
 
@@ -364,6 +366,7 @@
             //get the gallery ID - passed from digTextBook.js to input field
             //console.log('gallery-id, ', $("input[name='act-id").val());
             var gallery_id = $("input[name='act-id").val();
+
 
             //get images from database for a specific gallery for specific group - 0 means whole class
             $.ajax({
@@ -399,6 +402,8 @@
                        var span = $('<span/>')
                             .addClass('object_delete')
                             .appendTo(li);
+
+
 
                        var img = $('<img/>', {
                        src : 'http://'+ host_url +'/media/'+value.fields['image'] })
