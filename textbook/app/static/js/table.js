@@ -141,16 +141,20 @@ function handleDrawLine(){
 
 function createGraph(){
 
-    var margin = {top: 20, right: 15, bottom: 35, left: 35}
+    var margin = {top: 20, right: 15, bottom: 45, left: 45}
     , width = 450 - margin.left - margin.right
     , height = 340 - margin.top - margin.bottom;
   
+    var maxPoints = d3.max([
+        d3.max(POINTS, function(d) { return d[0]; }),
+        d3.max(POINTS, function(d) { return d[1]; })
+    ])
     var x = d3.scaleLinear()
-                .domain([0, d3.max(POINTS, function(d) { return d[0]; })])
+                .domain([0, maxPoints])
                 .range([ 0, width ]);
     
     var y = d3.scaleLinear()
-                .domain([0, d3.max(POINTS, function(d) { return d[1]; })])
+                .domain([0, maxPoints])
                 .range([ height, 0 ]);
 
     d3.select('svg').remove(); // Ideally we should just update the data and animate
@@ -167,9 +171,12 @@ function createGraph(){
     .attr('height', height)
     .attr('class', 'main')   
         
+    var maxTicks = 15;
+    var numTicks = maxPoints <= maxTicks ? maxPoints : maxTicks;
+
     // draw the x axis
     var xAxis = d3.axisBottom(x)
-    .ticks(d3.max(POINTS, function(d) { return d[0]; }));
+    .ticks(numTicks);//d3.max(POINTS, function(d) { return d[0]; }));
 
     main.append('g')
     .attr('transform', 'translate(0,' + height + ')')
@@ -178,7 +185,7 @@ function createGraph(){
 
     // draw the y axis
     var yAxis = d3.axisLeft(y)
-    .ticks(d3.max(POINTS, function(d) { return d[1]; }));
+    .ticks(numTicks);
 
     main.append('g')
     .attr('transform', 'translate(0,0)')
@@ -188,7 +195,7 @@ function createGraph(){
     // Attach labels
     main.append("text")
         .attr("text-anchor", "middle")  // this makes it easy to centre the text as the transform is applied to the anchor
-        .attr("transform", "translate(-"+ (margin.left/2) +","+(height/2)+")rotate(-90)")  // text is drawn off the screen top left, move down and out and rotate
+        .attr("transform", "translate(-"+ (margin.left/1.5) +","+(height/2)+")rotate(-90)")  // text is drawn off the screen top left, move down and out and rotate
         .style('fill', 'white')
         .text("Y");
 
