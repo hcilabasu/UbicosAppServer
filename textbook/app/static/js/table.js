@@ -190,13 +190,13 @@ function createGraph(){
         .attr("text-anchor", "middle")  // this makes it easy to centre the text as the transform is applied to the anchor
         .attr("transform", "translate(-"+ (margin.left/2) +","+(height/2)+")rotate(-90)")  // text is drawn off the screen top left, move down and out and rotate
         .style('fill', 'white')
-        .text("X");
+        .text("Y");
 
     main.append("text")
         .attr("text-anchor", "middle")  // this makes it easy to centre the text as the transform is applied to the anchor
         .attr("transform", "translate("+ (width/2) +","+(height+(margin.bottom)) + ")")  // text is drawn off the screen top left, move down and out and rotate
         .style('fill', 'white')
-        .text("Y");
+        .text("X");
 
     var g = main.append("svg:g"); 
 
