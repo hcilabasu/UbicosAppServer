@@ -19,7 +19,7 @@
 .bg-color-image(@color, @image){
     background-image: @image;
     background-color: @color;
-} 
+}
 
 html, body {
     height: 100%;
@@ -49,6 +49,46 @@ h3 {
 a {
     cursor: pointer;
 }
+
+.center {
+    position: absolute;
+    width: 500px; /*size of the div */
+    height: 200px;
+    left: 570px; /*location of the div */
+    top: 110px;
+
+}
+
+.user-login{
+    position: fixed;
+    z-index: 2;
+    top: 0px;
+    left: 75%;
+    transform: translateX(-50%);
+    background: #C9DDE4;
+    padding: 0 0 0 10px;
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+    margin: 0 !important;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+    .user-login a {
+        color: #1F87FF;
+        display: inline-block;
+        padding: 0 10px 0 5px;
+        margin-left: 5px;
+        border-bottom-right-radius: 5px;
+        text-decoration: none;
+        transition: all 0.4s;
+        margin: 0 !important;
+    }
+
+    .user-login a:hover {
+        background: #1F87FF;
+        color: white;
+        transition: all 0.4s;
+    }
 
 #main-container {
     display: grid;
@@ -102,7 +142,7 @@ a {
     position: absolute;
     padding-right: 80px;
     width: 100%;
-    box-sizing: border-box; 
+    box-sizing: border-box;
     transition: all 0.5s;
     transform: translateX(0);
     opacity: 1;
@@ -111,6 +151,7 @@ a {
 .page > * {
     text-align: justify;
     margin: 1rem;
+    position: relative;
 }
 
 
@@ -164,7 +205,7 @@ a {
     .first #page-controls #page-control-previous {
         display: none;
     }
-    
+
     #page-controls #page-control-next {
         right: 15px;
         background-image: url(../pics/next-blue.png);
@@ -203,7 +244,7 @@ a {
 .page a {
     font-weight: bolder;
     text-decoration: underline;
-    cursor: pointer; 
+    cursor: pointer;
 }
 
 .brainstorm {
@@ -294,8 +335,8 @@ a {
     color: #FF738C;
 }
 
-/* 
-    DYNAMIC CONTENT STYLING 
+/*
+    DYNAMIC CONTENT STYLING
 */
 
 .card {
@@ -359,15 +400,15 @@ a {
     height: 30px;
     border-radius: 30px;
     padding: 12px 10px 14px 9px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);     
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
 }
 
     .message-input input {
         height: 100%;
         border: none;
         border-radius: 20px;
-        width: calc(100% - 70px); 
-        padding-left: 10px;  
+        width: calc(100% - 70px);
+        padding-left: 10px;
     }
 
     .message-input a {
@@ -515,7 +556,7 @@ a {
                     border-radius: 50%;
                     transform: translateY(5px);
                     margin-right: 5px;
-                    background-size: cover;  
+                    background-size: cover;
                 }
             }
 
@@ -566,8 +607,8 @@ a {
 .gallery img {
     width: 180px;
     height: 130px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.3);  
-    cursor: pointer; 
+    box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    cursor: pointer;
 }
 
 #gallery {
@@ -608,7 +649,7 @@ a {
     border-radius: 50%;
     text-align: center;
     line-height: 1rem;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.3);   
+    box-shadow: 0 2px 4px rgba(0,0,0,0.3);
 }
 
 #single-image-view .section img {
@@ -645,12 +686,12 @@ a {
 .gallery .message-input {
     left: 0;
     bottom: 10px;
-    /* 
+    /*
     Since the .card element has a transform property, position: fixed won't work.
     I've chosen to just push the input down the flow of the page. If we want to keep it fixed,
     we could apply some JS to do so.
     */
-    position: relative; 
+    position: relative;
 }
 
 /* VIDEO */
@@ -670,8 +711,8 @@ a {
 }
 
 .video-player iframe {
-    box-shadow: 0 2px 4px rgba(0,0,0,0.3);  
-    width: 100%; 
+    box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    width: 100%;
 }
 
 /* BRAINSTORM */
@@ -707,7 +748,7 @@ a {
         z-index: 2;
         position: absolute;
     }
-    
+
     #idea-workspace {
         position: absolute;
         top: 0;
@@ -716,7 +757,7 @@ a {
         margin: 0;
         overflow: auto;
     }
-    
+
         #idea-workspace .idea {
             position: absolute;
             width: 200px;
@@ -727,23 +768,23 @@ a {
             box-shadow: 0 0 4px rgba(0,0,0,0.3);
             padding: 5px;
             padding-bottom: 25px;
-            opacity: 1; 
+            opacity: 1;
             transform: scale(1);
-            transition: opacity 0.5s, transform 0.5s;  
+            transition: opacity 0.5s, transform 0.5s;
         }
-        
+
         #idea-workspace .idea.new {
             transform: scale(3);
             opacity: 0;
             transition: opacity 0.5s, transform 0.5s;
         }
-    
+
     /* Container style and base children style */
     #new-idea {
         position: absolute;
         bottom: 10px;
         right: 10px;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.3);   
+        box-shadow: 0 2px 4px rgba(0,0,0,0.3);
         transition: all 1s;
         width: auto;
         height: auto;
@@ -751,7 +792,7 @@ a {
         min-width: 60px;
         min-height: 60px;
     }
-    
+
     #new-idea > a {
         display: block;
         background: url('/static/pics/add.png') no-repeat #1F87FF;
@@ -766,7 +807,7 @@ a {
         right: 0;
         transform-origin: 75% 40% 0;
     }
-    
+
     #new-idea > form {
         color: black;
         display: none;
@@ -775,16 +816,16 @@ a {
         #new-idea > form h3 {
             margin: 0 0 5px 0;
         }
-    
+
         #new-idea > form .btn {
             display: block;
             text-align: center;
         }
-    
+
         #new-idea > form p {
             line-height: 30px;
         }
-    
+
         #new-idea > form .colorpicker {
             display: inline-block;
             height: 30px;
@@ -793,23 +834,23 @@ a {
             transition: border 0.5s;
             transform: translateY(25%);
         }
-        
+
         #new-idea > form .colorpicker.active {
             border: solid 4px #1F87FF;
             transition: border 0.5s;
         }
-    
+
     /* Styles when container is a button */
     #new-idea.button {
         background-color: #1F87FF;
         border-radius: 50%;
     }
-    
+
         #new-idea.button > a {
             transform: scale(1) rotate(0deg) ;
             transition: transform 1s;
         }
-    
+
     /* Styles when container is a popup */
     #new-idea.popup {
         background: white;
@@ -818,59 +859,17 @@ a {
         border-radius: 10px;
         padding: 10px;
     }
-    
+
         #new-idea.popup > a {
             transform: scale(0.5) rotate(45deg);
             transition: transform 1s;
         }
-    
+
     /* END button/popup styling */
-    
-    .center {
-        position: absolute;
-        width: 500px; /*size of the div */
-        height: 200px;
-        left: 570px; /*location of the div */
-        top: 110px;
-    
-    }
-    
-    .user-login{
-        position: fixed;
-        z-index: 2;
-        top: 0px;
-        left: 75%;
-        transform: translateX(-50%);
-        background: #C9DDE4;
-        padding: 0 0 0 10px;
-        border-bottom-right-radius: 5px;
-        border-bottom-left-radius: 5px;
-        margin: 0 !important;
-        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    }
-    
-        .user-login a {
-            color: #1F87FF;
-            display: inline-block;
-            padding: 0 10px 0 5px;
-            margin-left: 5px;
-            border-bottom-right-radius: 5px;
-            text-decoration: none;
-            transition: all 0.4s;
-            margin: 0 !important;
-        }
-    
-        .user-login a:hover {
-            background: #1F87FF;
-            color: white;
-            transition: all 0.4s;
-        }
-    
+
     /* BRAINSTORM HTML */
     #draggable { width: 150px; height: 150px; padding: 0.5em; }
 }
-
-
 
 /* GROUP HTML */
 .card.group {
@@ -886,7 +885,7 @@ a {
     input[type='number'] {
         -moz-appearance:textfield;
     }
-    
+
     input::-webkit-outer-spin-button,
     input::-webkit-inner-spin-button {
         -webkit-appearance: none;
@@ -907,8 +906,8 @@ a {
         font-family: arial, sans-serif;
         color: white;
         margin-bottom: 1rem;
-        
-        td, 
+
+        td,
         th {
             text-align: center;
             padding: 0.5rem 0.5rem;
@@ -945,7 +944,7 @@ a {
             opacity: 0.4;
         }
 
-        .clear-row th, 
+        .clear-row th,
         .clear-row td {
             padding-bottom: 0;
         }
@@ -978,7 +977,7 @@ a {
     .center-container {
         text-align: center;
     }
-    
+
     .graph-line {
         stroke: #FFA319 !important;
         stroke-width: 4;
@@ -1013,4 +1012,3 @@ a {
 .floatRight {
     float: right;
 }
-

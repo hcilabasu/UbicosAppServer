@@ -66,22 +66,30 @@ $(function(){
             var message = $("input[name='msg-text']").val();
             console.log('user message :: '+message)
 
-           //triggers the event in views.py
-            $.post({
-                url: '/ajax/chat/',
-                data: {
-                'username': user_name,
-                'message': message
-                },
-                success: function (data) {
+            if(message == ""){
+                console.log('empty input activity feed')
+            }else{
 
-                    //empty the message pane
-                    $('#msg-text').val('');
+                //triggers the event in views.py
+                $.post({
+                    url: '/ajax/chat/',
+                    data: {
+                    'username': user_name,
+                    'message': message
+                    },
+                    success: function (data) {
 
-                    //console.log(data)
+                        //empty the message pane
+                        $('#msg-text').val('');
 
-                }
-            });
+                        //console.log(data)
+
+                    }
+                });
+
+            }
+
+
 
         })
 

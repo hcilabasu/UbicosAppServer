@@ -302,6 +302,27 @@ def createUser(request):
             # return invalid login message
             return render(request, 'app/login.html', {})
 
+    # user = User.objects.create_user('ant', '', 'ant');
+    # user.save();
+    # user = User.objects.create_user('bee', '', 'bee');
+    # user.save();
+    # user = User.objects.create_user('tiger', '', 'tiger');
+    # user.save();
+    # user = User.objects.create_user('lion', '', 'lion');
+    # user.save();
+    # user = User.objects.create_user('fish', '', 'fish');
+    # user.save();
+    # user = User.objects.create_user('bear', '', 'bear');
+    # user.save();
+    # user = User.objects.create_user('fox', '', 'fox');
+    # user.save();
+    # user = User.objects.create_user('deer', '', 'deer');
+    # user.save();
+    # user = User.objects.create_user('zebra', '', 'zebra');
+    # user.save();
+    # user = User.objects.create_user('eagle', '', 'eagle');
+    # user.save();
+
     return HttpResponse('')
 
 def deleteAllItems(request):

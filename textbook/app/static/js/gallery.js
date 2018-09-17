@@ -78,23 +78,31 @@
                 console.log('image pk :: ',imagePk)
 
 
-               //posts student comment in database - can be extracted using image primary key.
-                $.post({
-                    url: '/ajax/imageComment/',
-                    data: {
-                    'username': user_name,
-                    'message':  message,
-                    'imagePk': imagePk
-                    },
-                    success: function (data) {
+                if(message == ""){
+                    console.log('empty input gallery')
+                }
+                else{
 
-                        //empty the message pane
-                        $("input[name='image-msg-text']").val('');
+                     //posts student comment in database - can be extracted using image primary key.
+                    $.post({
+                        url: '/ajax/imageComment/',
+                        data: {
+                        'username': user_name,
+                        'message':  message,
+                        'imagePk': imagePk
+                        },
+                        success: function (data) {
 
-                        //console.log(data)
+                            //empty the message pane
+                            $("input[name='image-msg-text']").val('');
 
-                    }
-                });
+                            //console.log(data)
+
+                        }
+                    });
+
+                }
+
 
             })
 
