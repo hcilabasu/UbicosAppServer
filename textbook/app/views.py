@@ -334,3 +334,5 @@ def deleteAllItems(request):
 
     return HttpResponse('')
 
+def camera(request):
+    return render(request, 'app/camera.html', {})
