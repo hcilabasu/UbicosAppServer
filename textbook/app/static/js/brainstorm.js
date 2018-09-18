@@ -60,35 +60,44 @@ var setupBrainstorm = function(){
         // Submit idea
         toggleNewIdeaButton();
 
-        //send to database
-        //saveBrainstormNote(idea, color, hideName, posTop, posLeft);
-          $.post({
-                url: '/brainstorm/save/',
-                data: {
-                'brainstormID': $("input[name='brainstorm-id']").val(),
-                'idea': idea,
-                'color': color,
-                'posTop': posTop,
-                'posLeft': posLeft
-                },
-                success: function (data) {
+        if(!idea){
+            console.log('enter values');
+            alert('enter values');
+            //TODO: add user log here
+        }else{
+             //send to database
+            //saveBrainstormNote(idea, color, hideName, posTop, posLeft);
+              $.post({
+                    url: '/brainstorm/save/',
+                    data: {
+                    'brainstormID': $("input[name='brainstorm-id']").val(),
+                    'idea': idea,
+                    'color': color,
+                    'posTop': posTop,
+                    'posLeft': posLeft
+                    },
+                    success: function (data) {
 
-                    noteID = data.id
-                    addIdeaToWorkspace(idea, color, logged_in, {top:posTop,left:posLeft}, noteID, true, true);
-                    //user logging
-                    enterLogIntoDatabase('add note', 'brainstorm' , idea , current_pagenumber)
+                        noteID = data.id
+                        addIdeaToWorkspace(idea, color, logged_in, {top:posTop,left:posLeft}, noteID, true, true);
+                        //clear the input field
+                        $('textarea', form).val('');
+                        //user logging
+                        enterLogIntoDatabase('add note', 'brainstorm' , idea , current_pagenumber)
 
-                }
-        });
+                    }
+            });
+        }
 
-        $('.object_delete').on('click', function(e){
-                    e.preventDefault();
-                    console.log($(this).parent()
-                    .data('noteid'))
-                    $(this).parent().remove();
-                    //TODO: remove from database as well
-                    return false;
-                });
+
+//        $('.object_delete').on('click', function(e){
+//                    e.preventDefault();
+//                    console.log($(this).parent()
+//                    .data('noteid'))
+//                    $(this).parent().remove();
+//                    //TODO: remove from database as well
+//                    return false;
+//                });
 
         return false; //why return false?
     });
@@ -125,18 +134,12 @@ var addIdeaToWorkspace = function(idea, color, name, position, noteID, animate, 
         if(isItYours == true){
 
              idea.addClass('idea-owner');
-
              //add delete button to notes
-
              idea.append('<span class="object_delete"></span>')
 
+             //add delete button to notes
+             var closeBtn = $('<span class="object_delete"></span>');
 
-
-        }
-
-        //add delete button to notes
-
-           var closeBtn = $('<span class="object_delete"></span>');
 
            closeBtn.click(function(e){
                console.log('i am clicked')
@@ -154,8 +157,13 @@ var addIdeaToWorkspace = function(idea, color, name, position, noteID, animate, 
                     async: false, //wait for ajax call to finish,
                     success: function(e){
                         console.log(e)
-                        //TODO: add user log
-                }
+                        enterLogIntoDatabase('note delete', 'brainstorm' , deletedNoteID+"" , 3333);
+                },
+                error: function(XMLHttpRequest, textStatus, errorThrown) {
+                            alert(XMLHttpRequest.status+" "+XMLHttpRequest.statusText);
+                            enterLogIntoDatabase('attempted note delete', 'error' , XMLHttpRequest.status+" "+XMLHttpRequest.statusText, 3333);
+
+                        }
             })
 
 
@@ -165,6 +173,8 @@ var addIdeaToWorkspace = function(idea, color, name, position, noteID, animate, 
            idea.append(closeBtn);
 
 
+
+        }
 
 
     // Add to workspace
@@ -191,7 +201,7 @@ var ideaDragPositionUpdate = function(){
 
         //find the id of the note - which is used to update the note in the database
         noteID = $(this).data('noteid')
-        console.log('dragggg',noteID)
+        console.log('dragged note :: ',noteID)
 
 
         //user logging - printing log multiple times why?
@@ -252,14 +262,8 @@ var loadIdeaToWorkspace = function(){
 
                 ideaDragPositionUpdate();
 
-
-
             }
 
         });
-
-
-
-
 
 }
