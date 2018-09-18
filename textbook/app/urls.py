@@ -28,6 +28,8 @@ urlpatterns = [
     url('submitAnswer',views.submitAnswer),
     url('getUserList',views.getUserList),
     url('createUser',views.createUser),
+    #url('addMembertoGroups', views.groupAdd),
+    url('getGroupID', views.getGroupID),
     url('camera',views.camera)
 
 ]

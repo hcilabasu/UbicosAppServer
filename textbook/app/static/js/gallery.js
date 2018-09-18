@@ -234,7 +234,20 @@
 
         }else if(view == "comment"){
             $('#gallery-user-submission').hide();
-            displayGallery(number_of_group);
+
+
+            var group_id_user
+            //get the group id of the user
+            $.ajax({
+                type:'GET',
+                url:'http://'+ host_url +'/getGroupID',
+                async: false, //wait for ajax call to finish, else logged_in is null in the following if condition
+                success: function(e){
+                    group_id_user = e;
+                }
+            })
+
+            displayGallery(group_id_user);
 
         }
 

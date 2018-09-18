@@ -2,7 +2,7 @@
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render, render_to_response
 from rest_framework.views import APIView
-from .models import imageModel, imageComment, Message, brainstormNote,userLogTable, tableChartData, userQuesAnswerTable
+from .models import imageModel, imageComment, Message, brainstormNote,userLogTable, tableChartData, userQuesAnswerTable, groupInfo
 from django.contrib.auth import authenticate
 from django.http.response import JsonResponse
 from django.contrib.auth import login as auth_login
@@ -162,10 +162,15 @@ def uploadImage(request):
 
 def getImage(request, gallery_id,group_id):
 
-    print('view.py line 164 ', gallery_id);
+    if(int(gallery_id) == 1): #different filter :P
+        print('view.py line 168 ', gallery_id, group_id)
+        images = imageModel.objects.exclude(group_id=group_id)
+        images = images.filter(gallery_id=gallery_id)
+    else:
+        print('inside else', gallery_id, group_id)
+        images = imageModel.objects.filter(group_id=group_id)
+        images = images.filter(gallery_id=gallery_id)
 
-    images = imageModel.objects.filter(group_id=group_id)
-    images = images.filter(gallery_id=gallery_id)
     image_data = serializers.serialize('json', images, use_natural_foreign_keys=True)
     #print(image_data)
     return JsonResponse({'success': image_data,  'errorMsg': True})
@@ -325,12 +330,29 @@ def createUser(request):
 
     return HttpResponse('')
 
+#temp solution for pilot-1 -- start
+# def groupAdd(request):
+#
+#     member = groupInfo(activityType='gallery', activityID=1, group=3, users=request.user)
+#     member.save();
+#
+#     return HttpResponse('')
+
+def getGroupID(request):
+    groupID = groupInfo.objects.get(users_id = request.user)
+    #print(groupID.group)
+
+    return HttpResponse(groupID.group)
+
+# temp solution for pilot-1 -- start
+
+
 def deleteAllItems(request):
     # brainstormNote.objects.all().delete()
     imageModel.objects.all().delete()
     # Message.objects.all().delete()
-    #imageComment.objects.all().delete();
-    #userLogTable.objects.all().delete();
+    # imageComment.objects.all().delete();
+    # userLogTable.objects.all().delete();
 
     return HttpResponse('')
 
