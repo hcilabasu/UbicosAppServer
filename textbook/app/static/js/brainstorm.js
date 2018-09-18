@@ -134,17 +134,12 @@ var addIdeaToWorkspace = function(idea, color, name, position, noteID, animate, 
         if(isItYours == true){
 
              idea.addClass('idea-owner');
-
              //add delete button to notes
              idea.append('<span class="object_delete"></span>')
 
+             //add delete button to notes
+             var closeBtn = $('<span class="object_delete"></span>');
 
-
-        }
-
-        //add delete button to notes
-
-           var closeBtn = $('<span class="object_delete"></span>');
 
            closeBtn.click(function(e){
                console.log('i am clicked')
@@ -162,8 +157,13 @@ var addIdeaToWorkspace = function(idea, color, name, position, noteID, animate, 
                     async: false, //wait for ajax call to finish,
                     success: function(e){
                         console.log(e)
-                        //TODO: add user log
-                }
+                        enterLogIntoDatabase('note delete', 'brainstorm' , deletedNoteID+"" , 3333);
+                },
+                error: function(XMLHttpRequest, textStatus, errorThrown) {
+                            alert(XMLHttpRequest.status+" "+XMLHttpRequest.statusText);
+                            enterLogIntoDatabase('attempted note delete', 'error' , XMLHttpRequest.status+" "+XMLHttpRequest.statusText, 3333);
+
+                        }
             })
 
 
@@ -173,6 +173,8 @@ var addIdeaToWorkspace = function(idea, color, name, position, noteID, animate, 
            idea.append(closeBtn);
 
 
+
+        }
 
 
     // Add to workspace
@@ -260,14 +262,8 @@ var loadIdeaToWorkspace = function(){
 
                 ideaDragPositionUpdate();
 
-
-
             }
 
         });
-
-
-
-
 
 }

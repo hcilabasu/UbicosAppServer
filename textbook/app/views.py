@@ -327,10 +327,10 @@ def createUser(request):
 
 def deleteAllItems(request):
     # brainstormNote.objects.all().delete()
-    # imageModel.objects.all().delete()
+    imageModel.objects.all().delete()
     # Message.objects.all().delete()
-    imageComment.objects.all().delete();
-    userLogTable.objects.all().delete();
+    #imageComment.objects.all().delete();
+    #userLogTable.objects.all().delete();
 
     return HttpResponse('')
 

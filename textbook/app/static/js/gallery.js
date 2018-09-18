@@ -5,8 +5,6 @@
 
     $(function(){
 
-
-
         getLoggedUserName();
 
         //channel for individual image message
@@ -24,8 +22,8 @@
             //console.log(data);
 
 
-            console.log('hello bello (server)', data.imageid)
-            console.log('hello bello (local)', $("input[name='image-db-pk']").val())
+            console.log('(server)', data.imageid)
+            console.log('(local)', $("input[name='image-db-pk']").val())
 
             //if student commenting on one image is the same as the other user is viewing show the comment else don't show
             if(data.imageid == $("input[name='image-db-pk']").val())
@@ -229,62 +227,77 @@
     //function called from digTextBook.js
     function viewDiv(view, number_of_group){
 
-        //console.log('value pass to gallery.js', view)
-        if(view == 'class'){
-
+        if(view == "class"){
             $('#gallery-user-submission').show();
+            displayGallery(number_of_group);
 
-            $('#upload-img input[name="group-id"]').attr('value', 0)
-            $('.card.gallery #gallery-group-heading').text('All Submission'); //update the sub-title of gallery page
 
-            displayGallery(0)
+        }else if(view == "comment"){
+            $('#gallery-user-submission').hide();
+            displayGallery(number_of_group);
 
-        }else if(view == 'comment'){
-                $('#gallery-user-submission').hide();
-
-                $('#upload-img input[name="group-id"]').attr('value', 0)
-                $('.card.gallery #gallery-group-heading').text('All Submission'); //update the sub-title of gallery page
-
-                 displayGallery(0)
-            }
-            else{
-
-            //TODO: check if 'group' was selected before
-
-            console.log('total number of group (gallery.js): ', number_of_group)
-
-            $('.card.active').removeClass('active');
-            $('.card.group').addClass('active');
-
-            //clear previous items
-            $('#group-view').empty();
-
-            //add radio button dynamically
-            for (i = 1; i <= number_of_group; i++) {
-                $('<input type="radio" name="radiogroup" value="'+i+'"/> Group '+ i +'</br>').appendTo('#group-view');
-             }
-
-            //get group id from the radio button
-            var groupValue
-            $("input[name='radiogroup']").change(function(){
-                groupValue = $("input[name='radiogroup']:checked").val();
-                if(groupValue){
-                        //pass group value in the form so it can be added into the database
-                        $('#upload-img input[name="group-id"]').attr('value', groupValue)
-
-                        console.log('group ID :: ', groupValue) //debug
-                        $('.card.group').removeClass('active');
-                        $('.card.gallery').addClass('active');
-
-                        //update the sub-title of gallery page
-                        $('.card.gallery #gallery-group-heading').text('Group #'+groupValue+' Submission');
-
-                }
-
-                displayGallery(groupValue)
-            })
         }
+
     }
+//    function viewDiv(view, number_of_group){
+//
+//        //console.log('value pass to gallery.js', view)
+//        if(view == 'class'){
+//
+//            $('#gallery-user-submission').show();
+//
+//            //$('#upload-img input[name="group-id"]').attr('value', 0)
+//            $('.card.gallery #gallery-group-heading').text('All Submission'); //update the sub-title of gallery page
+//
+//            displayGallery(0)
+//            displayGallery($("input[name='group-id']").val())
+//
+//        }else if(view == 'comment'){
+//                $('#gallery-user-submission').hide();
+//
+//                $('#upload-img input[name="group-id"]').attr('value', 0)
+//                $('.card.gallery #gallery-group-heading').text('All Submission'); //update the sub-title of gallery page
+//
+//                 displayGallery(0)
+//            }
+//            else{
+//
+//            //TODO: check if 'group' was selected before
+//
+//            console.log('total number of group (gallery.js): ', number_of_group)
+//
+//            $('.card.active').removeClass('active');
+//            $('.card.group').addClass('active');
+//
+//            //clear previous items
+//            $('#group-view').empty();
+//
+//            //add radio button dynamically
+//            for (i = 1; i <= number_of_group; i++) {
+//                $('<input type="radio" name="radiogroup" value="'+i+'"/> Group '+ i +'</br>').appendTo('#group-view');
+//             }
+//
+//            //get group id from the radio button
+//            var groupValue
+//            $("input[name='radiogroup']").change(function(){
+//                groupValue = $("input[name='radiogroup']:checked").val();
+//                if(groupValue){
+//                        //pass group value in the form so it can be added into the database
+//                        $('#upload-img input[name="group-id"]').attr('value', groupValue)
+//
+//                        console.log('group ID :: ', groupValue) //debug
+//                        $('.card.group').removeClass('active');
+//                        $('.card.gallery').addClass('active');
+//
+//                        //update the sub-title of gallery page
+//                        $('.card.gallery #gallery-group-heading').text('Group #'+groupValue+' Submission');
+//
+//                }
+//
+//                displayGallery(groupValue)
+//            })
+//        }
+//    }
 
     var openImageView = function(galleryView, image){
 
@@ -306,7 +319,7 @@
 
         //get image file name
         image_filename = image_location.split('/').pop()
-        //console.log(image_filename)
+        console.log(image_filename)
 
         //get ID using filename
         var imageID='';

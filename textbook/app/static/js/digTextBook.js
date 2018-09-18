@@ -180,15 +180,22 @@ var bindActivityButtons = function(){
 
         // TODO: make the following if dynamic
         // if video tab is active get the video url and display in video.html
-        if($('.card.video').hasClass('active')){
-
+        //display the video url in a new tab instead of the card
+        if(type == 'video'){
+            $('.card.active').removeClass('active');
             var video_url = activityButton.attr('data-video-url');
-            console.log(video_url);
-            $('#videoFrame').attr('src', video_url); //display in video.html
-
-            //update h1
-
+            window.open(video_url, '_blank');
         }
+//        if($('.card.video').hasClass('active')){
+//
+//            var video_url = activityButton.attr('data-video-url');
+//            console.log(video_url);
+//            //$('#videoFrame').attr('src', video_url); //display in video.html
+//            window.open(video_url, '_blank');
+//
+//            //update h1
+//
+//        }
          if($('.card.table').hasClass('active')){
 
              $('input[name="table-id"]').attr('value', id)
@@ -203,13 +210,14 @@ var bindActivityButtons = function(){
             var view = activityButton.attr('data-view');
             console.log('view: ', view)
 
-            var number_of_group
-            if(view == 'group'){
-                number_of_group = activityButton.attr('data-group-number');
-               // console.log('number of group:' , number_of_group)
-            }
+            var number_of_group = activityButton.attr('data-group');
+//            if(view == 'group'){
+//                number_of_group = activityButton.attr('data-group-number');
+//               // console.log('number of group:' , number_of_group)
+//            }
 
             //call function from gallery.js
+            $("input[name='group-id']").attr('value', number_of_group);
             viewDiv(view, number_of_group);
         }
 

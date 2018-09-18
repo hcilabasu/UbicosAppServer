@@ -68,6 +68,7 @@ $(function(){
 
             if(message == ""){
                 console.log('empty input activity feed')
+                enterLogIntoDatabase('click', 'activity-feed empty message input' , message, current_pagenumber)
             }else{
 
                 //triggers the event in views.py

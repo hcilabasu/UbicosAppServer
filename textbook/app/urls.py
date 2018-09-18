@@ -10,7 +10,7 @@ urlpatterns = [
     url('index', views.index, name='index'),
     url('uploadImage', views.uploadImage, name='uploadImage'),
     url('getImage/(?P<gallery_id>\d+)/(?P<group_id>\d+)/', views.getImage, name='getImg'),
-    url('getImageID/(?P<img_filename>[\w-]+\.[\w]+)/', views.getImageID), #regular expression checker: https://regex101.com/r/iQ8gG4/1
+    url('getImageID/(?P<img_filename>[\w+._^%$#!~@,-]+)/', views.getImageID), #regular expression checker: https://regex101.com/r/iQ8gG4/1
     url('brainstorm/save/',views.brainstormSave),
     url('brainstorm/get/(?P<brainstorm_id>\d+)',views.brainstormGet),
     url('brainstorm/update/(?P<note_id>\d+)/', views.brainstormUpdate),
