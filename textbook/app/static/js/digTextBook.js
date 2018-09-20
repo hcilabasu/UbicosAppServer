@@ -204,6 +204,12 @@ var bindActivityButtons = function(){
         // if gallery div is active, load the gallery
         if($('.card.gallery').hasClass('active')){
 
+            console.log(activityButton.attr('data-heading'));
+            if(activityButton.attr('data-heading')){
+                $('.card.' + type + ' h1').text(type + ' #'+id + ' '+ activityButton.attr('data-heading'));
+            }
+
+
             // pass id to gallery activity - to upload image form in gallery.html
             $('#upload-img input[name="act-id"]').attr('value', id)
 
@@ -224,14 +230,14 @@ var bindActivityButtons = function(){
 
         if($('.card.multQues').hasClass('active')){
 
-            //hide questions previously added in the DOM
-            $('.act2ques').hide()
-
-            //get which question is clicked and activate that div for question
-            var quesno = activityButton.attr('data-quesid');
-            $('div[data-quesno="'+quesno+'"]').show
-
-            //TODO: call loadHTML() from here
+//            //hide questions previously added in the DOM
+//            $('.act2ques').hide()
+//
+//            //get which question is clicked and activate that div for question
+//            var quesno = activityButton.attr('data-quesid');
+//            $('div[data-quesno="'+quesno+'"]').show
+//
+//            //TODO: call loadHTML() from here
 
         }
 
