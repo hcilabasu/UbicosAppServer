@@ -78,9 +78,10 @@
 
                 if(message == ""){
                     console.log('empty input gallery')
+                    enterLogIntoDatabase('input button click', 'image-feed empty message input' , message, current_pagenumber)
                 }
                 else{
-
+                      enterLogIntoDatabase('input button click', 'image-feed message input' , message, current_pagenumber)
                      //posts student comment in database - can be extracted using image primary key.
                     $.post({
                         url: '/ajax/imageComment/',
@@ -106,6 +107,8 @@
 
 
             $("#file-upload").change(function(event){
+
+                    enterLogIntoDatabase('click', 'image upload attempted' , '', current_pagenumber)
 
                     console.log("file changed");
 
@@ -182,7 +185,8 @@
                     var prev_img = $('#gallery li').eq(val).children('img')[0]
                     //console.log($(prev_img))
                     openImageView($('#gallery-panel'), $(prev_img));
-                    //TODO: add user log
+
+                    enterLogIntoDatabase('image navigation click', 'previous image view click' , 'total photo '+totalPhoto, current_pagenumber)
 
                 })
 
@@ -191,6 +195,7 @@
                     e.preventDefault();
 
                     var val = eval($('input[name=image-index]').val()) + 1
+                    enterLogIntoDatabase('image navigation click', 'next image view click' , 'total photo'+totalPhoto, current_pagenumber)
                     //console.log('total photo :: ', totalPhoto);
                      if(val>=totalPhoto)  return !$(this).attr('disabled'); //disable when reached to last image
                     $('.section input[name="image-index"]').attr('value', val)
@@ -198,16 +203,17 @@
                     var prev_img = $('#gallery li').eq(val).children('img')[0]
                     //console.log($(prev_img))
                     openImageView($('#gallery-panel'), $(prev_img));
-                    //TODO: add user log
+
+                    enterLogIntoDatabase('image navigation click', 'next image view click' , 'total photo '+totalPhoto, current_pagenumber)
 
                 })
 
                 //back to gallery from single image view
                 $("#backToGallery").click(function(e){
                     e.preventDefault();
+                    enterLogIntoDatabase('back to gallery button click', 'next image view click' , 'total photo '+totalPhoto, current_pagenumber)
                     $("#single-image-view").hide()
                     $("#gallery-panel").show()
-                    //TODO: add user log
                 })
 
 

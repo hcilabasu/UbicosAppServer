@@ -249,7 +249,7 @@ var bindActivityButtons = function(){
         }
 
         //user logging
-        enterLogIntoDatabase('click', type , 'none', current_pagenumber)
+        enterLogIntoDatabase('click', type , 'id'+id, current_pagenumber)
 
     });
 };

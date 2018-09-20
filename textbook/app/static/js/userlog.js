@@ -18,7 +18,7 @@ var enterLogIntoDatabase = function(action, type, input, pagenumber){
                 'pagenumber': pagenumber
                 },
            success: function(response){
-
+                console.log('success inserting user log')
         }
 
         });

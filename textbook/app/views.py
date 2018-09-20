@@ -2,7 +2,7 @@
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render, render_to_response
 from rest_framework.views import APIView
-from .models import imageModel, imageComment, Message, brainstormNote,userLogTable, tableChartData, userQuesAnswerTable, groupInfo
+from .models import imageModel, imageComment, Message, brainstormNote,userLogTable, tableChartData, userQuesAnswerTable, groupInfo, userLogTable
 from django.contrib.auth import authenticate
 from django.http.response import JsonResponse
 from django.contrib.auth import login as auth_login
@@ -94,9 +94,15 @@ def login(request):
 
         if user:
             auth_login(request, user)
+            #add to user log table
+            userLog = userLogTable(username = request.user, action="user click login button", type="login", input=request.POST.get('username'), pagenumber=0000)
+            userLog.save();
             return HttpResponseRedirect('/index/')
         else:
             #return invalid login message
+            userLog = userLogTable(username=request.user, action="user click login button", type="invalid login",
+                                   input=request.POST.get('username'), pagenumber=0000)
+            userLog.save();
             return render(request, 'app/login.html', {})
     else:
         return render(request, 'app/login.html', {})
@@ -306,7 +312,7 @@ def createUser(request):
         else:
             # return invalid login message
             return render(request, 'app/login.html', {})
-
+    #
     # user = User.objects.create_user('ant', '', 'ant');
     # user.save();
     # user = User.objects.create_user('bee', '', 'bee');
@@ -331,12 +337,12 @@ def createUser(request):
     return HttpResponse('')
 
 #temp solution for pilot-1 -- start
-# def groupAdd(request):
-#
-#     member = groupInfo(activityType='gallery', activityID=1, group=3, users=request.user)
-#     member.save();
-#
-#     return HttpResponse('')
+def groupAdd(request):
+
+    member = groupInfo(activityType='gallery', activityID=1, group=0, users=request.user)
+    member.save();
+
+    return HttpResponse('')
 
 def getGroupID(request):
     groupID = groupInfo.objects.get(users_id = request.user)
@@ -349,10 +355,10 @@ def getGroupID(request):
 
 def deleteAllItems(request):
     # brainstormNote.objects.all().delete()
-    imageModel.objects.all().delete()
+    # imageModel.objects.all().delete()
     # Message.objects.all().delete()
     # imageComment.objects.all().delete();
-    # userLogTable.objects.all().delete();
+    userLogTable.objects.all().delete();
 
     return HttpResponse('')
 
