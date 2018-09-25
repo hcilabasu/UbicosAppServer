@@ -376,27 +376,17 @@ def userLogFromExtenstion(request):
     #https://stackoverflow.com/questions/35474259/django-middleware-making-post-request-blank
     body = request.body.decode('utf-8')  # in python 3 json.loads only accepts unicode strings
     body = json.loads(body)
-    content = body['action']
-    print('from extension?', content)
+    action = body['action']
+    type = body['type']
+    data = body['input']
+    pagenumber = body['pagenumber']
+
+    print('from extension?', action, type, data, pagenumber)
+
+    log = userLogTable(username=request.user, action=body['action'], type=body['type'],
+                       input=body['input'], pagenumber=body['pagenumber'])
+    log.save()
 
     return HttpResponse('')
-# #@method_decorator(csrf_exempt)
-# class htmlParse(APIView):
-#
-#     def post(self, request, format=None):
-#         print('in the server from extension')
-#         extenstion_data = request.data
-#         print('from content.js', extenstion_data)
-#
-#         # log = userLogTable(username=request.user, action=request.POST.get('action'), type=request.POST.get('type'),
-#         #                    input=request.POST.get('input'), pagenumber=request.POST.get('pagenumber'))
-#
-#         return HttpResponse('')
-#
-#     def get(self, request):
-#         print('I am get method', request.GET.get('action'));
-#         print('I am get method', self.request.GET.get('action'));
-#
-#
-#         return HttpResponse('')
+
 
