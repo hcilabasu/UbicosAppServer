@@ -11,8 +11,7 @@ from django.contrib.auth.models import User
 from django.core import serializers
 from .parser import parser
 import json
-from django.views.decorators.csrf import csrf_protect
-from django.utils.decorators import method_decorator
+
 
 
 
@@ -251,6 +250,11 @@ def brainstormDelete(request,note_id):
 
 
 def userlog(request):
+    # action = ''
+    # #very STUPID hack - FIX THIS
+    # if request.method == 'GET':
+    #     print('this is not fair', request.GET.urlencode().replace("%22", "").replace("%3A",":").
+    #           replace("%2C", ",").replace("%7B", "").replace("%7D=", "").replace("+", " ").split(",")[0].split(":"))
 
     log = userLogTable(username=request.user, action=request.POST.get('action'), type=request.POST.get('type'),
                        input=request.POST.get('input'), pagenumber=request.POST.get('pagenumber'))
@@ -367,19 +371,32 @@ def camera(request):
     return render(request, 'app/camera.html', {})
 
 
-@method_decorator(csrf_exempt)
-class htmlParse(APIView):
+@csrf_exempt
+def userLogFromExtenstion(request):
+    #https://stackoverflow.com/questions/35474259/django-middleware-making-post-request-blank
+    body = request.body.decode('utf-8')  # in python 3 json.loads only accepts unicode strings
+    body = json.loads(body)
+    content = body['action']
+    print('from extension?', content)
 
-    def post(self, request, format=None):
-        print('in the server from extension')
-        extenstion_data = request.data
-        print('from content.js', extenstion_data)
+    return HttpResponse('')
+# #@method_decorator(csrf_exempt)
+# class htmlParse(APIView):
+#
+#     def post(self, request, format=None):
+#         print('in the server from extension')
+#         extenstion_data = request.data
+#         print('from content.js', extenstion_data)
+#
+#         # log = userLogTable(username=request.user, action=request.POST.get('action'), type=request.POST.get('type'),
+#         #                    input=request.POST.get('input'), pagenumber=request.POST.get('pagenumber'))
+#
+#         return HttpResponse('')
+#
+#     def get(self, request):
+#         print('I am get method', request.GET.get('action'));
+#         print('I am get method', self.request.GET.get('action'));
+#
+#
+#         return HttpResponse('')
 
-        # log = userLogTable(username=request.user, action=request.POST.get('action'), type=request.POST.get('type'),
-        #                    input=request.POST.get('input'), pagenumber=request.POST.get('pagenumber'))
-
-        return HttpResponse('')
-
-    def get(self, request):
-        print('I am get method');
-        return HttpResponse('')

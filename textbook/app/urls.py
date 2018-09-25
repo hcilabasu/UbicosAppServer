@@ -21,7 +21,7 @@ urlpatterns = [
     url('updateImageFeed/(?P<img_id>\d+)', views.updateImageFeed),
     url('getUsername', views.getUsername),
     url('userlog',views.userlog),
-    url(r'^extensionlog/$', views.htmlParse.as_view()),
+    url(r'^extensionlog/$', views.userLogFromExtenstion),
     url('brainstorm/del/(?P<note_id>\d+)',views.brainstormDelete),
     url('gallery/del/(?P<img_id>\d+)',views.imageDelete),
     url('parser',views.pageParser),
