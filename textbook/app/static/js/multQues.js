@@ -23,7 +23,7 @@ var getAnswers = function(){
         $.each([1,2,3,4,5], function(index, value){
 
             //console.log($("input[name='page6-input"+value+"']").val());
-            var answer = $("input[name='page6-input"+value+"']").val();
+            var answer = $("textarea[name='page6-input"+value+"']").val();
 
             //handle empty input
             if(!answer){
@@ -41,7 +41,7 @@ var getAnswers = function(){
         //console.log(jQuery.type(jsonObj));
 
         //make an ajax call into database
-        console.log('isAnswerNull value :: ', isNull)
+        console.log('isAnswerNull value :: ', isAnswerNull)
         if(isAnswerNull == 1){
 
             console.log('one of the inputs is empty');
@@ -68,9 +68,19 @@ var getAnswers = function(){
 
         //clear the input texts
         $.each([1,2,3,4,5], function(index, value){
-            $("input[name='page6-input"+value+"']").val('');
+            $("textarea[name='page6-input"+value+"']").val('');
         })
 
+    });
+
+    $('#page4-submit1').click(function(e){
+         var answer = $("textarea[name='page4-input1']").val();
+         console.log(answer);
+    });
+
+     $('#page4-submit2').click(function(e){
+         var answer = $("textarea[name='page4-input2']").val();
+         console.log(answer);
     });
 
 

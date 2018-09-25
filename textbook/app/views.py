@@ -10,8 +10,10 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.core import serializers
 from .parser import parser
-from rest_framework.decorators import api_view
 import json
+from django.views.decorators.csrf import csrf_protect
+from django.utils.decorators import method_decorator
+
 
 
 # activity feed code -- start
@@ -250,7 +252,6 @@ def brainstormDelete(request,note_id):
 
 def userlog(request):
 
-
     log = userLogTable(username=request.user, action=request.POST.get('action'), type=request.POST.get('type'),
                        input=request.POST.get('input'), pagenumber=request.POST.get('pagenumber'))
     log.save()
@@ -364,3 +365,21 @@ def deleteAllItems(request):
 
 def camera(request):
     return render(request, 'app/camera.html', {})
+
+
+@method_decorator(csrf_exempt)
+class htmlParse(APIView):
+
+    def post(self, request, format=None):
+        print('in the server from extension')
+        extenstion_data = request.data
+        print('from content.js', extenstion_data)
+
+        # log = userLogTable(username=request.user, action=request.POST.get('action'), type=request.POST.get('type'),
+        #                    input=request.POST.get('input'), pagenumber=request.POST.get('pagenumber'))
+
+        return HttpResponse('')
+
+    def get(self, request):
+        print('I am get method');
+        return HttpResponse('')
