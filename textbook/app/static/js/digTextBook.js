@@ -184,7 +184,7 @@ var bindActivityButtons = function(){
         if(type == 'video'){
             $('.card.active').removeClass('active');
             var video_url = activityButton.attr('data-video-url');
-            window.open(video_url, '_blank');
+            window.open(video_url, '_blank'); //open paint splash game in a new window
         }
 //        if($('.card.video').hasClass('active')){
 //
@@ -235,7 +235,14 @@ var bindActivityButtons = function(){
 //
 //            //get which question is clicked and activate that div for question
 //            var quesno = activityButton.attr('data-quesid');
-//            $('div[data-quesno="'+quesno+'"]').show
+//            $('div[data-quesno="'+quesno+'"]').show()
+            //get which question clicked.
+            console.log('#'+id)
+            //hide its siblings
+            $('#'+id).siblings().hide();
+            //show the div
+            $('#'+id).show();
+
 //
 //            //TODO: call loadHTML() from here
 
