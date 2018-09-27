@@ -5,6 +5,13 @@
 
     getAnswers();
 
+    $('#page4-submit1').click(function(e){
+         var answer = $("textarea[name='page4-input1']").val();
+         console.log(answer);
+    });
+
+
+
 
 
   } ); //end of page load function
@@ -13,7 +20,7 @@ var isAnswerNull = 0;
 
 var getAnswers = function(){
 
-    $('#page6-submit').click(function(e){
+    $('#page7-submit').click(function(e){
 
 
         var jsonObj = [];
@@ -23,7 +30,7 @@ var getAnswers = function(){
         $.each([1,2,3,4,5], function(index, value){
 
             //console.log($("input[name='page6-input"+value+"']").val());
-            var answer = $("textarea[name='page6-input"+value+"']").val();
+            var answer = $("textarea[name='page7-input"+value+"']").val();
 
             //handle empty input
             if(!answer){
@@ -65,7 +72,6 @@ var getAnswers = function(){
         }
 
 
-
         //clear the input texts
         $.each([1,2,3,4,5], function(index, value){
             $("textarea[name='page6-input"+value+"']").val('');
@@ -73,16 +79,17 @@ var getAnswers = function(){
 
     });
 
-    $('#page4-submit1').click(function(e){
-         var answer = $("textarea[name='page4-input1']").val();
-         console.log(answer);
-    });
+
 
      $('#page4-submit2').click(function(e){
          var answer = $("textarea[name='page4-input2']").val();
          console.log(answer);
     });
 
+
+    $('#page8-submit').click(function(e){
+        console.log("page 8")
+    });
 
 
 }

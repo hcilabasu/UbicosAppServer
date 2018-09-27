@@ -250,7 +250,9 @@ var bindActivityButtons = function(){
 
         if($('.card.brainstorm').hasClass('active')){
 
+            $('.card.' + type + ' h1').text('Vocabulary'); //update the title of each page
             $('input[name="brainstorm-id"]').attr('value', id)
+
 
             loadIdeaToWorkspace();
         }
