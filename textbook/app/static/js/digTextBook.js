@@ -72,7 +72,7 @@ var movePage = function(moveToNext){
     }
     // Replace page number
     current_pagenumber = currentPageNum
-    $("#page-control-number").text('Page ' + currentPageNum + '/7');
+    $("#page-control-number").text('Page ' + currentPageNum + '/10');
     //user logging
     enterLogIntoDatabase('click', 'page change' , 'none', current_pagenumber)
 
@@ -150,10 +150,16 @@ var loadHTML = function(url, successFn, errorFn){
 
 var bindActivityButtons = function(){
 
-    $('#day1-showTable').off().on("click", function(e) {
-            e.preventDefault();
-            console.log("hide show clicked");
-            $('#day1-table').toggle();
+    $('input#page4-submit1').off().click(function(e){
+         var answer = $("textarea[name='page4-input1']").val();
+         console.log(answer);
+         //TODO: save to db
+        });
+
+     $('#page4-submit2').off().click(function(e){
+         var answer = $("textarea[name='page4-input2']").val();
+         console.log(answer);
+         //TODO: save to db
     });
 
     $('.page a').off().on('touch click', function(){
@@ -184,7 +190,7 @@ var bindActivityButtons = function(){
         if(type == 'video'){
             $('.card.active').removeClass('active');
             var video_url = activityButton.attr('data-video-url');
-            window.open(video_url, '_blank');
+            window.open(video_url, '_blank'); //open paint splash game in a new window
         }
 //        if($('.card.video').hasClass('active')){
 //
@@ -203,6 +209,13 @@ var bindActivityButtons = function(){
 
         // if gallery div is active, load the gallery
         if($('.card.gallery').hasClass('active')){
+
+            console.log(activityButton.attr('data-heading'));
+            if(activityButton.attr('data-heading')){
+                $('.card.' + type + ' h1').text(type + ' #'+id + ' '+ activityButton.attr('data-heading'));
+            }
+
+
 
             // pass id to gallery activity - to upload image form in gallery.html
             $('#upload-img input[name="act-id"]').attr('value', id)
@@ -224,26 +237,38 @@ var bindActivityButtons = function(){
 
         if($('.card.multQues').hasClass('active')){
 
-            //hide questions previously added in the DOM
-            $('.act2ques').hide()
+//            //hide questions previously added in the DOM
+//            $('.act2ques').hide()
+//
+//            //get which question is clicked and activate that div for question
+//            var quesno = activityButton.attr('data-quesid');
+//            $('div[data-quesno="'+quesno+'"]').show()
+            //get which question clicked.
+            console.log('#'+id)
+            //hide its siblings
+            $('#'+id).siblings().hide();
+            //show the div
+            $('#'+id).show();
 
-            //get which question is clicked and activate that div for question
-            var quesno = activityButton.attr('data-quesid');
-            $('div[data-quesno="'+quesno+'"]').show
-
-            //TODO: call loadHTML() from here
+//
+//            //TODO: call loadHTML() from here
 
         }
 
         if($('.card.brainstorm').hasClass('active')){
 
+            $('.card.' + type + ' h1').text('Vocabulary'); //update the title of each page
             $('input[name="brainstorm-id"]').attr('value', id)
+
 
             loadIdeaToWorkspace();
         }
 
         //user logging
-        enterLogIntoDatabase('click', type , 'none', current_pagenumber)
+        enterLogIntoDatabase('click', type , 'id'+id, current_pagenumber)
+
+
+
 
     });
 };

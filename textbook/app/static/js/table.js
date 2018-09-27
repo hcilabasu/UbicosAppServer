@@ -246,7 +246,7 @@ function drawLine(){
             async: false,
            url:'/tableData/save/', //save table data
            data: {
-                'table_id': $("input[name='table-id']").val(), //TODO: pass values
+                'table_id': $("input[name='table-id']").val(),
                 'plot_type': type ,
                 'plot_data': pointsAsJSON
                 },

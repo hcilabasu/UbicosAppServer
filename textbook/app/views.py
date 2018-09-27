@@ -2,7 +2,7 @@
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render, render_to_response
 from rest_framework.views import APIView
-from .models import imageModel, imageComment, Message, brainstormNote,userLogTable, tableChartData, userQuesAnswerTable
+from .models import imageModel, imageComment, Message, brainstormNote,userLogTable, tableChartData, userQuesAnswerTable, groupInfo, userLogTable
 from django.contrib.auth import authenticate
 from django.http.response import JsonResponse
 from django.contrib.auth import login as auth_login
@@ -10,8 +10,9 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.core import serializers
 from .parser import parser
-from rest_framework.decorators import api_view
 import json
+
+
 
 
 # activity feed code -- start
@@ -94,9 +95,15 @@ def login(request):
 
         if user:
             auth_login(request, user)
+            #add to user log table
+            userLog = userLogTable(username = request.user, action="user click login button", type="login", input=request.POST.get('username'), pagenumber=0000)
+            userLog.save();
             return HttpResponseRedirect('/index/')
         else:
             #return invalid login message
+            userLog = userLogTable(username=request.user, action="user click login button", type="invalid login",
+                                   input=request.POST.get('username'), pagenumber=0000)
+            userLog.save();
             return render(request, 'app/login.html', {})
     else:
         return render(request, 'app/login.html', {})
@@ -162,10 +169,15 @@ def uploadImage(request):
 
 def getImage(request, gallery_id,group_id):
 
-    print('view.py line 164 ', gallery_id);
+    if(int(gallery_id) == 1): #different filter :P
+        print('view.py line 168 ', gallery_id, group_id)
+        images = imageModel.objects.exclude(group_id=group_id)
+        images = images.filter(gallery_id=gallery_id)
+    else:
+        print('inside else', gallery_id, group_id)
+        images = imageModel.objects.filter(group_id=group_id)
+        images = images.filter(gallery_id=gallery_id)
 
-    images = imageModel.objects.filter(group_id=group_id)
-    images = images.filter(gallery_id=gallery_id)
     image_data = serializers.serialize('json', images, use_natural_foreign_keys=True)
     #print(image_data)
     return JsonResponse({'success': image_data,  'errorMsg': True})
@@ -238,7 +250,11 @@ def brainstormDelete(request,note_id):
 
 
 def userlog(request):
-
+    # action = ''
+    # #very STUPID hack - FIX THIS
+    # if request.method == 'GET':
+    #     print('this is not fair', request.GET.urlencode().replace("%22", "").replace("%3A",":").
+    #           replace("%2C", ",").replace("%7B", "").replace("%7D=", "").replace("+", " ").split(",")[0].split(":"))
 
     log = userLogTable(username=request.user, action=request.POST.get('action'), type=request.POST.get('type'),
                        input=request.POST.get('input'), pagenumber=request.POST.get('pagenumber'))
@@ -301,7 +317,7 @@ def createUser(request):
         else:
             # return invalid login message
             return render(request, 'app/login.html', {})
-
+    #
     # user = User.objects.create_user('ant', '', 'ant');
     # user.save();
     # user = User.objects.create_user('bee', '', 'bee');
@@ -325,14 +341,56 @@ def createUser(request):
 
     return HttpResponse('')
 
+#temp solution for pilot-1 -- start
+def groupAdd(request):
+
+    member = groupInfo(activityType='gallery', activityID=3, group=3, users=request.user)
+    member.save();
+
+    return HttpResponse('')
+
+def getGroupID(request, act_id):
+    print('From server', act_id)
+    groupID = groupInfo.objects.all().filter(activityID = act_id)
+    print(groupID)
+    groupID = groupID.filter(users_id = request.user)
+    print(type(groupID))
+    print('line 358',groupID[0].group)
+
+    return HttpResponse(groupID[0].group)
+
+# temp solution for pilot-1 -- start
+
+
 def deleteAllItems(request):
     # brainstormNote.objects.all().delete()
-    imageModel.objects.all().delete()
+    # imageModel.objects.all().delete()
     # Message.objects.all().delete()
-    #imageComment.objects.all().delete();
-    #userLogTable.objects.all().delete();
+    # imageComment.objects.all().delete();
+    userLogTable.objects.all().delete();
 
     return HttpResponse('')
 
 def camera(request):
     return render(request, 'app/camera.html', {})
+
+
+@csrf_exempt
+def userLogFromExtenstion(request):
+    #https://stackoverflow.com/questions/35474259/django-middleware-making-post-request-blank
+    body = request.body.decode('utf-8')  # in python 3 json.loads only accepts unicode strings
+    body = json.loads(body)
+    action = body['action']
+    type = body['type']
+    data = body['input']
+    pagenumber = body['pagenumber']
+
+    print('from extension?', action, type, data, pagenumber)
+
+    log = userLogTable(username=request.user, action=body['action'], type=body['type'],
+                       input=body['input'], pagenumber=body['pagenumber'])
+    log.save()
+
+    return HttpResponse('')
+
+

@@ -71,6 +71,7 @@ $(function(){
                 enterLogIntoDatabase('click', 'activity-feed empty message input' , message, current_pagenumber)
             }else{
 
+                enterLogIntoDatabase('click', 'activity-feed message input' , message, current_pagenumber)
                 //triggers the event in views.py
                 $.post({
                     url: '/ajax/chat/',
@@ -82,6 +83,7 @@ $(function(){
 
                         //empty the message pane
                         $('#msg-text').val('');
+
 
                         //console.log(data)
 

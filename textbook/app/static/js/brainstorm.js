@@ -142,12 +142,14 @@ var addIdeaToWorkspace = function(idea, color, name, position, noteID, animate, 
 
 
            closeBtn.click(function(e){
-               console.log('i am clicked')
+
                e.preventDefault();
+
                //get ID of the deleted note
                var deletedNoteID = $(this).parent().data('noteid');
                console.log(deletedNoteID);
                $(this).parent().remove();
+               enterLogIntoDatabase('image delete click', 'image delete' , deletedNoteID , current_pagenumber)
 
 
               //delete note from database
@@ -165,8 +167,6 @@ var addIdeaToWorkspace = function(idea, color, name, position, noteID, animate, 
 
                         }
             })
-
-
                return false;
            });
 

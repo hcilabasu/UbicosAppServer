@@ -78,9 +78,10 @@
 
                 if(message == ""){
                     console.log('empty input gallery')
+                    enterLogIntoDatabase('input button click', 'image-feed empty message input' , message, current_pagenumber)
                 }
                 else{
-
+                      enterLogIntoDatabase('input button click', 'image-feed message input' , message, current_pagenumber)
                      //posts student comment in database - can be extracted using image primary key.
                     $.post({
                         url: '/ajax/imageComment/',
@@ -106,6 +107,8 @@
 
 
             $("#file-upload").change(function(event){
+
+                    enterLogIntoDatabase('click', 'image upload attempted' , '', current_pagenumber)
 
                     console.log("file changed");
 
@@ -182,7 +185,8 @@
                     var prev_img = $('#gallery li').eq(val).children('img')[0]
                     //console.log($(prev_img))
                     openImageView($('#gallery-panel'), $(prev_img));
-                    //TODO: add user log
+
+                    enterLogIntoDatabase('image navigation click', 'previous image view click' , 'total photo '+totalPhoto, current_pagenumber)
 
                 })
 
@@ -191,6 +195,7 @@
                     e.preventDefault();
 
                     var val = eval($('input[name=image-index]').val()) + 1
+                    enterLogIntoDatabase('image navigation click', 'next image view click' , 'total photo'+totalPhoto, current_pagenumber)
                     //console.log('total photo :: ', totalPhoto);
                      if(val>=totalPhoto)  return !$(this).attr('disabled'); //disable when reached to last image
                     $('.section input[name="image-index"]').attr('value', val)
@@ -198,16 +203,17 @@
                     var prev_img = $('#gallery li').eq(val).children('img')[0]
                     //console.log($(prev_img))
                     openImageView($('#gallery-panel'), $(prev_img));
-                    //TODO: add user log
+
+                    enterLogIntoDatabase('image navigation click', 'next image view click' , 'total photo '+totalPhoto, current_pagenumber)
 
                 })
 
                 //back to gallery from single image view
                 $("#backToGallery").click(function(e){
                     e.preventDefault();
+                    enterLogIntoDatabase('back to gallery button click', 'next image view click' , 'total photo '+totalPhoto, current_pagenumber)
                     $("#single-image-view").hide()
                     $("#gallery-panel").show()
-                    //TODO: add user log
                 })
 
 
@@ -222,6 +228,7 @@
                     }
                     reader.readAsDataURL(input.files[0]);
             }
+             $('#default').attr('src', "{% static 'pics/default.png' %}");
     }
 
     //function called from digTextBook.js
@@ -229,12 +236,26 @@
 
         if(view == "class"){
             $('#gallery-user-submission').show();
+            console.log("which group?? ", number_of_group)
             displayGallery(number_of_group);
 
 
         }else if(view == "comment"){
             $('#gallery-user-submission').hide();
-            displayGallery(number_of_group);
+
+            console.log($('input[name="act-id"]').val())
+            var group_id_user
+            //get the group id of the user
+            $.ajax({
+                type:'GET',
+                url:'http://'+ host_url +'/getGroupID/'+$('input[name="act-id"]').val(),
+                async: false, //wait for ajax call to finish, else logged_in is null in the following if condition
+                success: function(e){
+                    group_id_user = e;
+                }
+            })
+
+            displayGallery(group_id_user);
 
         }
 
