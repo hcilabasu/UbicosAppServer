@@ -72,7 +72,7 @@ var movePage = function(moveToNext){
     }
     // Replace page number
     current_pagenumber = currentPageNum
-    $("#page-control-number").text('Page ' + currentPageNum + '/7');
+    $("#page-control-number").text('Page ' + currentPageNum + '/10');
     //user logging
     enterLogIntoDatabase('click', 'page change' , 'none', current_pagenumber)
 
