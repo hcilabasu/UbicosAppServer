@@ -344,16 +344,20 @@ def createUser(request):
 #temp solution for pilot-1 -- start
 def groupAdd(request):
 
-    member = groupInfo(activityType='gallery', activityID=1, group=0, users=request.user)
+    member = groupInfo(activityType='gallery', activityID=3, group=3, users=request.user)
     member.save();
 
     return HttpResponse('')
 
-def getGroupID(request):
-    groupID = groupInfo.objects.get(users_id = request.user)
-    #print(groupID.group)
+def getGroupID(request, act_id):
+    print('From server', act_id)
+    groupID = groupInfo.objects.all().filter(activityID = act_id)
+    print(groupID)
+    groupID = groupID.filter(users_id = request.user)
+    print(type(groupID))
+    print('line 358',groupID[0].group)
 
-    return HttpResponse(groupID.group)
+    return HttpResponse(groupID[0].group)
 
 # temp solution for pilot-1 -- start
 

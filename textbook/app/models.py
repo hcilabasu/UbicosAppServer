@@ -76,6 +76,9 @@ class groupInfo(models.Model):
     group = models.IntegerField(null=True)
     users = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
+    def __str__(self):
+        return '%s %s' % (self.activityID, self.group)
+
 #temp solution for pilot-1 -- end
 
 class userLogTable(models.Model):

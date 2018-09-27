@@ -217,8 +217,6 @@ var bindActivityButtons = function(){
 
 
 
-
-
             // pass id to gallery activity - to upload image form in gallery.html
             $('#upload-img input[name="act-id"]').attr('value', id)
 

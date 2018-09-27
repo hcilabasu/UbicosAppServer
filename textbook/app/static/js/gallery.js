@@ -243,12 +243,12 @@
         }else if(view == "comment"){
             $('#gallery-user-submission').hide();
 
-
+            console.log($('input[name="act-id"]').val())
             var group_id_user
             //get the group id of the user
             $.ajax({
                 type:'GET',
-                url:'http://'+ host_url +'/getGroupID',
+                url:'http://'+ host_url +'/getGroupID/'+$('input[name="act-id"]').val(),
                 async: false, //wait for ajax call to finish, else logged_in is null in the following if condition
                 success: function(e){
                     group_id_user = e;
