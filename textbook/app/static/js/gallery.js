@@ -228,6 +228,7 @@
                     }
                     reader.readAsDataURL(input.files[0]);
             }
+             $('#default').attr('src', "{% static 'pics/default.png' %}");
     }
 
     //function called from digTextBook.js
@@ -235,6 +236,7 @@
 
         if(view == "class"){
             $('#gallery-user-submission').show();
+            console.log("which group?? ", number_of_group)
             displayGallery(number_of_group);
 
 

@@ -150,10 +150,16 @@ var loadHTML = function(url, successFn, errorFn){
 
 var bindActivityButtons = function(){
 
-    $('#day1-showTable').off().on("click", function(e) {
-            e.preventDefault();
-            console.log("hide show clicked");
-            $('#day1-table').toggle();
+    $('input#page4-submit1').off().click(function(e){
+         var answer = $("textarea[name='page4-input1']").val();
+         console.log(answer);
+         //TODO: save to db
+        });
+
+     $('#page4-submit2').off().click(function(e){
+         var answer = $("textarea[name='page4-input2']").val();
+         console.log(answer);
+         //TODO: save to db
     });
 
     $('.page a').off().on('touch click', function(){
@@ -210,6 +216,9 @@ var bindActivityButtons = function(){
             }
 
 
+
+
+
             // pass id to gallery activity - to upload image form in gallery.html
             $('#upload-img input[name="act-id"]').attr('value', id)
 
@@ -259,6 +268,9 @@ var bindActivityButtons = function(){
 
         //user logging
         enterLogIntoDatabase('click', type , 'id'+id, current_pagenumber)
+
+
+
 
     });
 };
