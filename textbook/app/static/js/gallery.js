@@ -392,7 +392,11 @@
 
                             var p = $('<p/>', {
                                     text: value.fields['content']}).appendTo(li);
-                    });
+                            });
+
+                            // Scroll panel to bottom
+                            var imageFeedParent = $('#image-feed').closest('.row');
+                            imageFeedParent.scrollTop(imageFeedParent[0].scrollHeight);
                  }
          });
 

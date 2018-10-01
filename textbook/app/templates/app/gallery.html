@@ -38,22 +38,27 @@
     </div>
 
     <div id="single-image-view" class="gallery-panel" style="display:none">
-        <a id="backToGallery" href="">BackToGallery</a>
-        <div class="section">
-            <a href="" class="previous-image">&lt;</a>
-            <a href="" class="next-image">&gt;</a>
-            <input type="hidden" name="image-index" value=""/>
-            <input type="hidden" name="image-db-pk" value=""/>
+        <div class="verticalDivider">
+            <div class="row">
+                <a id="backToGallery" href="">BackToGallery</a>
+                <div class="section">
+                    <a href="" class="previous-image"></a>
+                    <a href="" class="next-image"></a>
+                    <input type="hidden" name="image-index" value=""/>
+                    <input type="hidden" name="image-db-pk" value=""/>
+                </div>
+            </div>
+
+            <div class="row">
+                <ul id="image-feed" class="feed">
+                </ul> 
+                    
+            </div>
         </div>
-
-        <ul id="image-feed" class="feed">
-
-        </ul> 
-            
-        <div class="message-input" style="position: fixed;">
-                <input type="text" name="image-msg-text" placeholder="Type a message to your class here">
-                <input type="hidden" name="username" value={{ user.get_username }}>
-                <a href="" id="image-msg-send-btn"></a>
+        <div class="message-input">
+            <input type="text" name="image-msg-text" placeholder="Comment on this picture">
+            <input type="hidden" name="username" value={{ user.get_username }}>
+            <a href="" id="image-msg-send-btn"></a>
         </div>
     </div>
 </div>
