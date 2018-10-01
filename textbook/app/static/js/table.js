@@ -10,6 +10,27 @@ $(function(){
 });
 
 /*
+    Takes a string and returns a number if it is an int, float, or fraction. Otherwise, return NaN
+*/
+function checkNumber(str){
+    if(str.indexOf('/') > -1){
+        // There is a '/', so treat as a fraction
+        var fraction = str.split('/');
+        console.dir(str);
+        console.dir(fraction);
+        if(fraction.length !== 2){
+            // Not a fraction
+            return num;
+        } else {
+            // A fraction
+            return parseFloat(fraction[0]) / parseFloat(fraction[1])
+        }
+    } else {
+        return parseFloat(str);
+    }
+};
+
+/*
     Updates the table visual status based on the points input into it
 */
 function updateTableStatus(){
@@ -33,7 +54,7 @@ function updateTableStatus(){
             // Enable point
             toggleColumn(tdX, tdY, tdClear, true);
             // Check if the next point needs to be disabled
-            var point = {x: parseInt($('input', tdX).val()), y: parseInt($('input', tdY).val())};
+            var point = {x: checkNumber($('input', tdX).val()), y: checkNumber($('input', tdY).val())};
             if (!(!isNaN(point.x) && !isNaN(point.y))) {
                 /* 
                 If either point is not present, or if one of the points is not numeric,
