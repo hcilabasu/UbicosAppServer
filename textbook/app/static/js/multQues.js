@@ -37,7 +37,7 @@ var getAnswers = function(){
 
         }
 
-        jsonObj.push(answer);
+        jsonObj.push(answer.trim());
 
     });
 
@@ -50,8 +50,17 @@ var getAnswers = function(){
     console.log('isAnswerNull value :: ', isAnswerNull)
     if(isAnswerNull == 1){
 
-        console.log('one of the inputs is empty');
-        alert('one of the inputs is empty');
+        modal = $("#myModal")
+        console.log(modal)
+
+        $("#myModal").css({ display: "block" });
+        $("#myModal h2").text("one of the inputs is empty");
+
+        $(".modal-close").click(function(e){
+             $("#myModal").css({ display: "none" });
+        });
+
+        isAnswerNull = 0;
 
 
     }else{
@@ -64,8 +73,19 @@ var getAnswers = function(){
                 'answer': jsonObj
                 },
            success: function(response){
-                //TODO: better success message
-                alert('your response is submitted');
+
+                //open success modal here.
+            modal = $("#myModal")
+            console.log(modal)
+
+            $("#myModal").css({ display: "block" });
+            $("#myModal h2").text("Your response was recorded");
+
+            $(".modal-close").click(function(e){
+                 $("#myModal").css({ display: "none" });
+            });
+
+
         }
 
         });
@@ -102,7 +122,7 @@ var getAnswers = function(){
 
             }
 
-            jsonObj.push(answer);
+            jsonObj.push(answer.trim());
 
         });
 
@@ -115,8 +135,14 @@ var getAnswers = function(){
         console.log('isAnswerNull value :: ', isAnswerNull)
         if(isAnswerNull == 1){
 
-            console.log('one of the inputs is empty');
-            alert('one of the inputs is empty');
+            $("#myModal").css({ display: "block" });
+            $("#myModal h2").text("one of the inputs is empty");
+
+            $(".modal-close").click(function(e){
+                 $("#myModal").css({ display: "none" });
+            });
+
+            isAnswerNull = 0;
 
 
         }else{
@@ -129,8 +155,13 @@ var getAnswers = function(){
                     'answer': jsonObj
                     },
                success: function(response){
-                    //TODO: better success message
-                    alert('your response is submitted');
+
+                    $("#myModal").css({ display: "block" });
+                    $("#myModal h2").text("Your response was recorded");
+
+                    $(".modal-close").click(function(e){
+                         $("#myModal").css({ display: "none" });
+                    });
             }
 
             });
