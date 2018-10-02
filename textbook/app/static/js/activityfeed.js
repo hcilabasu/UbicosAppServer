@@ -54,49 +54,54 @@ $(function(){
 
     //add event listener to the chat button click
     $("#msg-send-btn").click(function(e){
-
-        //stop page refreshing with click
-            e.preventDefault();
-
-        //get the user name who posted
-            var user_name = $("input[name='username']").val()
-            console.log(user_name);
-
-        //get the currently typed message
-            var message = $("input[name='msg-text']").val();
-            console.log('user message :: '+message)
-
-            if(message == ""){
-                console.log('empty input activity feed')
-                enterLogIntoDatabase('click', 'activity-feed empty message input' , message, current_pagenumber)
-            }else{
-
-                enterLogIntoDatabase('click', 'activity-feed message input' , message, current_pagenumber)
-                //triggers the event in views.py
-                $.post({
-                    url: '/ajax/chat/',
-                    data: {
-                    'username': user_name,
-                    'message': message
-                    },
-                    success: function (data) {
-
-                        //empty the message pane
-                        $('#msg-text').val('');
-
-
-                        //console.log(data)
-
-                    }
-                });
-
-            }
-
-
-
-        })
+        e.preventDefault();
+        postMessage();
+    });
+    $('#msg-text').keypress(function (e) {
+        if (e.which == 13) {
+          postMessage();
+          return false;
+        }
+      });
 
 })
+
+function postMessage(){
+    //get the user name who posted
+    var user_name = $("input[name='username']").val()
+
+    //get the currently typed message
+    var inputEl = $("input[name='msg-text']");
+    inputEl.prop('disabled', true);
+    var message = inputEl.val();
+    console.log('user message :: '+message)
+
+        if(message == ""){
+            console.log('empty input activity feed')
+            enterLogIntoDatabase('click', 'activity-feed empty message input' , message, current_pagenumber)
+        }else{
+
+            enterLogIntoDatabase('click', 'activity-feed message input' , message, current_pagenumber)
+            //triggers the event in views.py
+            $.post({
+                url: '/ajax/chat/',
+                data: {
+                'username': user_name,
+                'message': message
+                },
+                success: function (data) {
+                    //empty the message pane
+                    inputEl.val('');
+                    inputEl.prop('disabled', false);
+                },
+                error: function(){
+                    inputEl.prop('disabled', false);
+                }
+            });
+
+        }
+
+}
 
 function loadFeed(){
     $.ajax({
