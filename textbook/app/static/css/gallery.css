@@ -139,7 +139,7 @@ button {
 /* The Modal (background) */
 .modal {
     display: none; /* Hidden by default */
-    position: fixed; /* Stay in place */
+    position: absolute; /* Stay in place */
     z-index: 1; /* Sit on top */
     padding-top: 10px; /* Location of the box */
     left: 10px;
@@ -161,7 +161,6 @@ button {
     top: 130px;
     width: 80%;
     /*box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);*/
-
 }
 
 /* The Close Button */

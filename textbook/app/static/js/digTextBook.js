@@ -51,7 +51,9 @@ $(function(){
 });
 
 
-var movePage = function(moveToNext){
+var movePage = function(moveToNext, pg){
+
+        pg = pg || 1;
 
     var container = $('#textbook-content'),
         pageToHide = $('.page:not(.previous):not(.next)', container), // This the current page, which will be hidden
@@ -79,6 +81,7 @@ var movePage = function(moveToNext){
         noMoreClass = 'first';
     }
     // Replace page number
+    console.log("current page", currentPageNum)
     current_pagenumber = currentPageNum
     $("#page-control-number").text('Page ' + currentPageNum + '/10');
     //user logging
@@ -109,7 +112,7 @@ var movePage = function(moveToNext){
 };
 
 var loadPage = function(pageNum, pageContainer, successFn, notFoundFn){
-    //console.log('loadPage Function', pageNum)
+    console.log('next page (loadPage Function)', pageNum)
 
     loadHTML(
         API_URL.pagesBase + '/' + pageNum + '.html',
@@ -159,19 +162,146 @@ var loadHTML = function(url, successFn, errorFn){
 var bindActivityButtons = function(){
 
     $('input#page4-submit1').off().click(function(e){
+
+         //change the button appearance
          $(this).css('background-color', '#A0A0A0'); //change the border to show that button is clicked.
          $(this).css('outline', 'none');
+
+         //get the user response
          var answer = $("textarea[name='page4-input1']").val();
-         console.log(answer);
-         //TODO: save to db
-        });
+         $("textarea[name='page4-input1']").attr('value', answer)
+         //console.log(answer);
+
+         var jsonObj = [];
+
+        //handle empty input
+        if(!answer.trim()){
+            console.log('answer is empty')
+            isAnswerNull = 1;
+        }
+
+        jsonObj.push(answer.trim());
+
+        jsonObj = JSON.stringify(jsonObj);
+        //console.log(jQuery.type(jsonObj));
+
+        //make an ajax call into database
+        console.log('isAnswerNull value :: ', isAnswerNull)
+        if(isAnswerNull == 1){
+
+            modal = $("#myModal")
+            console.log(modal)
+
+            $("#myModal").css({ display: "block"});
+
+            $("#myModal h2").text("one of the inputs is empty");
+
+            $(".modal-close").click(function(e){
+                 $("#myModal").css({ display: "none" });
+            });
+
+            isAnswerNull = 0;
+
+
+        }else{
+               $.post({
+
+               async: false,
+               url:'/submitAnswer',
+               data: {
+                    'page': 4,
+                    'answer': jsonObj
+                    },
+               success: function(response){
+
+                    //open success modal here.
+                modal = $("#myModal")
+                console.log(modal)
+
+                $("#myModal").css({ display: "block" });
+                $("#myModal h2").text("Your response was recorded");
+
+                $(".modal-close").click(function(e){
+                     $("#myModal").css({ display: "none" });
+                });
+
+
+            }
+
+            });
+        }
+
+
+    });
 
      $('#page4-submit2').off().click(function(e){
+         //change the button appearance
          $(this).css('background-color', '#A0A0A0'); //change the border to show that button is clicked.
          $(this).css('outline', 'none');
+
+         //get the user response
          var answer = $("textarea[name='page4-input2']").val();
-         console.log(answer);
-         //TODO: save to db
+         $("textarea[name='page4-input2']").attr('value', answer)
+         //console.log(answer);
+
+         var jsonObj = [];
+
+        //handle empty input
+        if(!answer.trim()){
+            console.log('answer is empty')
+            isAnswerNull = 1;
+        }
+
+        jsonObj.push(answer.trim());
+
+        jsonObj = JSON.stringify(jsonObj);
+        //console.log(jQuery.type(jsonObj));
+
+        //make an ajax call into database
+        console.log('isAnswerNull value :: ', isAnswerNull)
+        if(isAnswerNull == 1){
+
+            modal = $("#myModal")
+            console.log(modal)
+
+            $("#myModal").css({ display: "block"});
+
+            $("#myModal h2").text("one of the inputs is empty");
+
+            $(".modal-close").click(function(e){
+                 $("#myModal").css({ display: "none" });
+            });
+
+            isAnswerNull = 0;
+
+
+        }else{
+               $.post({
+
+               async: false,
+               url:'/submitAnswer',
+               data: {
+                    'page': 4,
+                    'answer': jsonObj
+                    },
+               success: function(response){
+
+                    //open success modal here.
+                modal = $("#myModal")
+                console.log(modal)
+
+                $("#myModal").css({ display: "block" });
+                $("#myModal h2").text("Your response was recorded");
+
+                $(".modal-close").click(function(e){
+                     $("#myModal").css({ display: "none" });
+                });
+
+
+            }
+
+            });
+        }
     });
 
     $('.page a').off().on('touch click', function(){

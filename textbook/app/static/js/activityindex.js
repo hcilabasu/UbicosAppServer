@@ -1,3 +1,5 @@
+
+
 $(function(){
 
     $('#activity-index a').off().on('touch click', function(){
@@ -74,3 +76,4 @@ $(function(){
 
    });
 })
+

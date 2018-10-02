@@ -92,9 +92,9 @@ var getAnswers = function(){
     }
 
     //clear the input texts
-    $.each([1,2,3,4], function(index, value){
-        $("textarea[name='page7-input"+value+"']").val('');
-    })
+//    $.each([1,2,3,4], function(index, value){
+//        $("textarea[name='page7-input"+value+"']").val('');
+//    })
 
 });
 
@@ -169,9 +169,9 @@ var getAnswers = function(){
 
 
         //clear the input texts
-        $.each([1,2,3,4,5], function(index, value){
-            $("textarea[name='page8-input"+value+"']").val('');
-        })
+//        $.each([1,2,3,4,5], function(index, value){
+//            $("textarea[name='page8-input"+value+"']").val('');
+//        })
     });
 
 
