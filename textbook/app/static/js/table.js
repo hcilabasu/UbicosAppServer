@@ -1,4 +1,5 @@
 var POINTS = [];
+var EQUATION_POINTS = [];
 
 $(function(){
     fixVerticalTabindex('#TimeDistance', 2);
@@ -7,7 +8,39 @@ $(function(){
     handleClear();
     createGraph();
     handleDrawLine();
+    handleDrawEquation();
+
+    $('#sourceOptions a').click(function(){
+        // Toggle li
+        var li = $('#graphSources .' + $(this).data('li'));
+        $('#graphSources li').hide();
+        li.show();
+        // Change button
+        $('#sourceOptions .active').removeClass('active');
+        $(this).addClass('active');
+    });
 });
+
+/*
+    Takes a string and returns a number if it is an int, float, or fraction. Otherwise, return NaN
+*/
+function checkNumber(str){
+    if(str.indexOf('/') > -1){
+        // There is a '/', so treat as a fraction
+        var fraction = str.split('/');
+        console.dir(str);
+        console.dir(fraction);
+        if(fraction.length !== 2){
+            // Not a fraction
+            return num;
+        } else {
+            // A fraction
+            return parseFloat(fraction[0]) / parseFloat(fraction[1])
+        }
+    } else {
+        return parseFloat(str);
+    }
+};
 
 /*
     Updates the table visual status based on the points input into it
@@ -33,14 +66,14 @@ function updateTableStatus(){
             // Enable point
             toggleColumn(tdX, tdY, tdClear, true);
             // Check if the next point needs to be disabled
-            var point = {x: parseInt($('input', tdX).val()), y: parseInt($('input', tdY).val())};
+            var point = {x: checkNumber($('input', tdX).val()), y: checkNumber($('input', tdY).val())};
             if (!(!isNaN(point.x) && !isNaN(point.y))) {
                 /* 
                 If either point is not present, or if one of the points is not numeric,
                 set flag to disable next columns
                 */
                 disableNext = true;
-                if(i == 0){
+                if(i == 0 && EQUATION_POINTS.length == 0){ // If this is the first point and there is no equation plotted
                     toggleGraph(false);
                 }
             } else {
@@ -139,6 +172,40 @@ function handleDrawLine(){
     $('#plot_table').click(drawLine);
 }
 
+function handleDrawEquation(){
+    $('#plot_equation').click(function(){
+        // Generate range for x
+        XRANGE = 10;
+        EQUATION_POINTS = [];
+        var xList = [];
+        var equationLi = $('li.equation');
+        var m =  checkNumber($('[name=m]', equationLi).val());
+        var b = checkNumber($('[name=b]', equationLi).val());
+        // If there are points, use those for x instead
+        if(POINTS.length > 0){
+            // There are points. Display equation in the x range
+            for (let i = 0; i < POINTS.length; i++) {
+                const point = POINTS[i];
+                xList.push(point[0]);
+            }
+        } else {
+            // There are no points. Use XRANGE
+            for (let x = 0; x < XRANGE; x++) {
+                xList.push(x+1);            
+            }
+        }
+        // Create points
+        for (let i = 0; i < xList.length; i++) {
+            const x = xList[i];
+            y = m * x + b;
+            EQUATION_POINTS.push([x, y]);
+        };
+        // Update and display graph
+        createGraph();
+        toggleGraph(true);
+    });
+}
+
 function createGraph(){
 
     var margin = {top: 20, right: 15, bottom: 45, left: 45}
@@ -146,8 +213,8 @@ function createGraph(){
     , height = 340 - margin.top - margin.bottom;
   
     var maxPoints = d3.max([
-        d3.max(POINTS, function(d) { return d[0]; }),
-        d3.max(POINTS, function(d) { return d[1]; })
+        d3.max(POINTS.concat(EQUATION_POINTS), function(d) { return d[0]; }),
+        d3.max(POINTS.concat(EQUATION_POINTS), function(d) { return d[1]; })
     ])
     var x = d3.scaleLinear()
                 .domain([0, maxPoints])
@@ -207,23 +274,30 @@ function createGraph(){
 
     var g = main.append("svg:g"); 
 
+    // Draw both
+    drawPointsAndLine(POINTS, g, x, y, 'table-points');
+    drawPointsAndLine(EQUATION_POINTS, g, x, y, 'equation-points');
+}
+
+function drawPointsAndLine(points, g, x, y, cssClass){
     // Draw lines
     var line = d3.line()
         .x(function (d) { return x(d[0]); })
         .y(function (d) { return y(d[1]); });
-    for (let i = 0; i < POINTS.length-1; i++) {
-        var point1 = POINTS[i];
-        var point2 = POINTS[i+1];
+    for (let i = 0; i < points.length-1; i++) {
+        var point1 = points[i];
+        var point2 = points[i+1];
         g.append('path')
-            .attr('class', 'graph-line')
+            .attr('class', cssClass)
             .datum([point1,point2])
             .attr('d', line);
     }
 
     // Draw points
     g.selectAll("scatter-dots")
-        .data(POINTS)
+        .data(points)
         .enter().append("svg:circle")
+            .attr('class', cssClass)
             .attr("cx", function (d,i) { return x(d[0]); } )
             .attr("cy", function (d) { return y(d[1]); } )
             .attr("r", 8);
@@ -231,11 +305,11 @@ function createGraph(){
 
 function drawLine(){
     // Show lines
-    $('.graph-line').css('visibility', 'visible');
+    $('path').css('visibility', 'visible');
 
     console.log(jQuery.type(POINTS));
     //save the data points in database
-    tableDataInsert('table', POINTS)
+    tableDataInsert('table', POINTS);
 }
 
  var tableDataInsert = function(type, points){

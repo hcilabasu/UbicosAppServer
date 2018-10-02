@@ -1,9 +1,12 @@
 <h1>Graph</h1>
 
-<div class="center-container">
+<div class="center-container sources">
     <input type="hidden" name="table-id" value=""/>
+    <div id="sourceOptions">
+        <a class="btn active" data-li="table">Table</a><a class="btn" data-li="equation">Equation</a>
+    </div>
     <ul id="graphSources">
-        <li class="table">
+        <li class="table active">
             <table class="tableInput" id="TimeDistance">
                 <tr>
                     <th></th>
@@ -18,25 +21,25 @@
                 </tr>
                 <tr class="x-row">
                     <th>X</th>
-                    <td><input type="number"></td>
-                    <td><input type="number"></td>
-                    <td><input type="number"></td>
-                    <td><input type="number"></td>
-                    <td><input type="number"></td>
-                    <td><input type="number"></td>
-                    <td><input type="number"></td>
-                    <td><input type="number"></td>
+                    <td><input type="text"></td>
+                    <td><input type="text"></td>
+                    <td><input type="text"></td>
+                    <td><input type="text"></td>
+                    <td><input type="text"></td>
+                    <td><input type="text"></td>
+                    <td><input type="text"></td>
+                    <td><input type="text"></td>
                 </tr>
                 <tr class="y-row">
                     <th>Y</th>
-                    <td><input type="number"></td>
-                    <td><input type="number"></td>
-                    <td><input type="number"></td>
-                    <td><input type="number"></td>
-                    <td><input type="number"></td>
-                    <td><input type="number"></td>
-                    <td><input type="number"></td>
-                    <td><input type="number"></td>
+                    <td><input type="text"></td>
+                    <td><input type="text"></td>
+                    <td><input type="text"></td>
+                    <td><input type="text"></td>
+                    <td><input type="text"></td>
+                    <td><input type="text"></td>
+                    <td><input type="text"></td>
+                    <td><input type="text"></td>
                 </tr>
                 <tr class="clear-row">
                     <th></th>
@@ -51,6 +54,12 @@
                 </tr>
             </table>
             <a id="plot_table" class="btn">Plot Line</a>
+        </li>
+        <li class="equation">
+            <div>
+                Y = <input type="text" name="m" placeholder="m"> X + <input type="text" name="b" placeholder="b">
+            </div>
+            <a id="plot_equation" class="btn">Plot Equation</a>
         </li>
     </ul>
 </div>
