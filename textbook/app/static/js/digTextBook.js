@@ -83,7 +83,7 @@ var movePage = function(moveToNext, pg){
     // Replace page number
     console.log("current page", currentPageNum)
     current_pagenumber = currentPageNum
-    $("#page-control-number").text('Page ' + currentPageNum + '/10');
+    $("#page-control-number").text('Page ' + currentPageNum + '/2');
     //user logging
     enterLogIntoDatabase('click', 'page change' , 'none', current_pagenumber)
 
