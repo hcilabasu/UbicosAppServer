@@ -1,5 +1,13 @@
 var current_pagenumber = 1 //initial page number; gets updated with page change
 var type = '' //card type
+
+
+window.onerror = function(message, file, line) {
+  //console.log('An error occured at line ' + line + ' of ' + file + ': ' + message);
+  alert('an error')
+  return false;
+};
+
 $(function(){
 
     var host_url = window.location.host
@@ -151,12 +159,16 @@ var loadHTML = function(url, successFn, errorFn){
 var bindActivityButtons = function(){
 
     $('input#page4-submit1').off().click(function(e){
+         $(this).css('background-color', '#A0A0A0'); //change the border to show that button is clicked.
+         $(this).css('outline', 'none');
          var answer = $("textarea[name='page4-input1']").val();
          console.log(answer);
          //TODO: save to db
         });
 
      $('#page4-submit2').off().click(function(e){
+         $(this).css('background-color', '#A0A0A0'); //change the border to show that button is clicked.
+         $(this).css('outline', 'none');
          var answer = $("textarea[name='page4-input2']").val();
          console.log(answer);
          //TODO: save to db
@@ -277,3 +289,4 @@ var loadActivityIndex = function(){
     //TODO: call the parser here using ajax request, parse the files and build activity index
 
 }
+
