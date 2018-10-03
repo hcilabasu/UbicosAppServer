@@ -198,22 +198,20 @@ def uploadImage(request):
 
         return JsonResponse({'success': image_data, 'errorMsg': True})
 
-def getImage(request, gallery_id,group_id):
-
+def getImage(request, view_id, gallery_id,group_id):
+    
     # for pilot/study
-    # if(int(gallery_id) == 1): #different filter :P
-    #     print('view.py line 168 ', gallery_id, group_id)
-    #     images = imageModel.objects.exclude(group_id=group_id)
-    #     images = images.filter(gallery_id=gallery_id)
-    # else:
-    #     print('inside else', gallery_id, group_id)
-    #     images = imageModel.objects.filter(group_id=group_id)
-    #     images = images.filter(gallery_id=gallery_id)
+    if(int(view_id) == 1): #view_id = 1 means comment view
+        images = imageModel.objects.exclude(group_id=group_id)
+        images = images.filter(gallery_id=gallery_id)
+    else:
+
+        images = imageModel.objects.filter(gallery_id=gallery_id)
+        images = images.filter(group_id=group_id)
 
     # for workshop
-
-    images = imageModel.objects.filter(group_id=group_id)
-    images = images.filter(gallery_id=gallery_id)
+    # images = imageModel.objects.filter(group_id=group_id)
+    # images = images.filter(gallery_id=gallery_id)
 
     image_data = serializers.serialize('json', images, use_natural_foreign_keys=True)
     #print(image_data)
@@ -392,7 +390,7 @@ def getGroupID(request, act_id):
 
     return HttpResponse(groupID[0].group)
 
-# temp solution for pilot-1 -- start
+# temp solution for pilot-1 -- end
 
 
 def deleteAllItems(request):
@@ -413,6 +411,8 @@ def userLogFromExtenstion(request):
     #https://stackoverflow.com/questions/35474259/django-middleware-making-post-request-blank
     body = request.body.decode('utf-8')  # in python 3 json.loads only accepts unicode strings
     body = json.loads(body)
+
+    print(body)
     action = body['action']
     type = body['type']
     data = body['input']

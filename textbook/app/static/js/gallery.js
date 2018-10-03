@@ -292,18 +292,20 @@ $(function(){
 
 
 function viewDiv(view, number_of_group){
+
+    //class means user upload - specific user will click - so we know the id
     if(view == "class"){
-        //$('#gallery-user-submission').show();
+        $('#gallery-user-submission').show();
         console.log("which group?? ", number_of_group)
-        displayGallery(number_of_group);
+        displayGallery(0, number_of_group);
 
-
+    //comment means user accessing other groups image, should not see their own - any user will click it - so we need to know the id
     }else if(view == "comment"){
-        //$('#gallery-user-submission').hide();
+        $('#gallery-user-submission').hide();
 
-        console.log($('input[name="act-id"]').val())
+        //console.log($('input[name="act-id"]').val())
         var group_id_user
-        //get the group id of the user
+        //get the group id based on the user
         $.ajax({
             type:'GET',
             url:'http://'+ host_url +'/getGroupID/'+$('input[name="act-id"]').val(),
@@ -312,8 +314,8 @@ function viewDiv(view, number_of_group){
                 group_id_user = e;
             }
         })
-
-        displayGallery(group_id_user);
+        //1 means comment view
+        displayGallery(1, group_id_user);
 
 
     }
@@ -480,11 +482,11 @@ var openImageView = function(galleryView, image){
 
 };
 
-function displayGallery(groupValue){
+function displayGallery(view, groupValue){
 
         //get the gallery ID - passed from digTextBook.js to input field
         //console.log('gallery-id, ', $("input[name='act-id").val());
-        var gallery_id = $("input[name='act-id").val();
+        var gallery_id = $("input[name='act-id']").val();
         console.log("displaying gallery #gallery id", gallery_id, groupValue)
 
 
@@ -492,7 +494,7 @@ function displayGallery(groupValue){
         $.ajax({
 
            type:'GET',
-           url:'http://'+ host_url +'/getImage/'+gallery_id+'/'+groupValue, //get all the image for the particular group
+           url:'http://'+ host_url +'/getImage/'+view+'/'+gallery_id+'/'+groupValue, //get all the image for the particular group
            success: function(response){
 
            //TODO: update user with a 'success' message on the screen
