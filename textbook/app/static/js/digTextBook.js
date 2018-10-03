@@ -3,8 +3,9 @@ var type = '' //card type
 
 
 window.onerror = function(message, file, line) {
-  //console.log('An error occured at line ' + line + ' of ' + file + ': ' + message);
-  alert('an error')
+  console.log('An error occured at line ' + line + ' of ' + file + ': ' + message);
+  enterLogIntoDatabase('error', 'error' , 'An error occured at line ' + line + ' of ' + file + ': ' + message, 9999)
+  //alert('an error')
   return false;
 };
 

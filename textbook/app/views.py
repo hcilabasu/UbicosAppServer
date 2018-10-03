@@ -25,6 +25,9 @@ pusher = Pusher(app_id=u'525110', key=u'ea517de8755ddb1edd03', secret=u'be2bf8ae
 # instantiate the pusher class - this is used for inidividual image message
 pusher1 = Pusher(app_id=u'525110', key=u'f6bea936b66e4ad47f97', secret=u'ed3e9509fce91430fcac', cluster=u'us2')
 
+# instantiate the pusher class - this is used for brainstorm note
+pusher2 = Pusher(app_id=u'525110', key=u'5da367936aa67ecdf673', secret=u'e43f21c19211c9738d6b', cluster=u'us2')
+
 @csrf_exempt
 def broadcast(request):
 
@@ -57,6 +60,27 @@ def broadcastImageComment(request):
 
     return JsonResponse({'success': '', 'errorMsg': True})
 
+@csrf_exempt
+def broadcastBrainstormNote(request):
+
+    #pusher2.trigger(u'c_channel', u'cn_event', {u'name': request.POST['username'], u'message': request.POST['message']})
+    pusher2.trigger(u'c_channel', u'cn_event', {u'noteID': request.POST.get('brainstormID'), u'idea': request.POST.get('idea'),
+                          u'color': request.POST.get('color'), u'posTop': request.POST.get('posTop'), u'posLeft': request.POST.get('posLeft'),
+                          u'posted_by':request.POST['username']})
+
+    note = brainstormNote(brainstormID=request.POST.get('brainstormID'), ideaText=request.POST.get('idea'),
+                          color=request.POST.get('color'),
+                          position_top=request.POST.get('posTop'), position_left=request.POST.get('posLeft'),
+                          posted_by=request.user)
+    note.save()
+
+    note = brainstormNote.objects.last()
+    print(note.id)
+    return JsonResponse({'id': note.id, 'errorMsg': True})
+
+
+
+    #return JsonResponse({'success': '', 'errorMsg': True})
 #in the browser: http://127.0.0.1:8000/app/
 
 def getUsername(request):
@@ -98,12 +122,19 @@ def login(request):
             #add to user log table
             userLog = userLogTable(username = request.user, action="user click login button", type="login", input=request.POST.get('username'), pagenumber=0000)
             userLog.save();
+
+            member = groupInfo(activityType='gallery', activityID=1, group=0, users=request.user)
+            member.save();
+
             return HttpResponseRedirect('/index/')
         else:
             #return invalid login message
             userLog = userLogTable(username=request.user, action="user click login button", type="invalid login",
                                    input=request.POST.get('username'), pagenumber=0000)
             userLog.save();
+
+
+
             return render(request, 'app/login.html', {})
     else:
         return render(request, 'app/login.html', {})
@@ -169,14 +200,20 @@ def uploadImage(request):
 
 def getImage(request, gallery_id,group_id):
 
-    if(int(gallery_id) == 1): #different filter :P
-        print('view.py line 168 ', gallery_id, group_id)
-        images = imageModel.objects.exclude(group_id=group_id)
-        images = images.filter(gallery_id=gallery_id)
-    else:
-        print('inside else', gallery_id, group_id)
-        images = imageModel.objects.filter(group_id=group_id)
-        images = images.filter(gallery_id=gallery_id)
+    # for pilot/study
+    # if(int(gallery_id) == 1): #different filter :P
+    #     print('view.py line 168 ', gallery_id, group_id)
+    #     images = imageModel.objects.exclude(group_id=group_id)
+    #     images = images.filter(gallery_id=gallery_id)
+    # else:
+    #     print('inside else', gallery_id, group_id)
+    #     images = imageModel.objects.filter(group_id=group_id)
+    #     images = images.filter(gallery_id=gallery_id)
+
+    # for workshop
+
+    images = imageModel.objects.filter(group_id=group_id)
+    images = images.filter(gallery_id=gallery_id)
 
     image_data = serializers.serialize('json', images, use_natural_foreign_keys=True)
     #print(image_data)
@@ -250,11 +287,7 @@ def brainstormDelete(request,note_id):
 
 
 def userlog(request):
-    # action = ''
-    # #very STUPID hack - FIX THIS
-    # if request.method == 'GET':
-    #     print('this is not fair', request.GET.urlencode().replace("%22", "").replace("%3A",":").
-    #           replace("%2C", ",").replace("%7B", "").replace("%7D=", "").replace("+", " ").split(",")[0].split(":"))
+
 
     log = userLogTable(username=request.user, action=request.POST.get('action'), type=request.POST.get('type'),
                        input=request.POST.get('input'), pagenumber=request.POST.get('pagenumber'))
@@ -350,9 +383,9 @@ def groupAdd(request):
     return HttpResponse('')
 
 def getGroupID(request, act_id):
-    print('From server', act_id)
+    print('From server activity id', act_id)
     groupID = groupInfo.objects.all().filter(activityID = act_id)
-    print(groupID)
+    print('from server group id', groupID)
     groupID = groupID.filter(users_id = request.user)
     print(type(groupID))
     print('line 358',groupID[0].group)
@@ -363,7 +396,7 @@ def getGroupID(request, act_id):
 
 
 def deleteAllItems(request):
-    # brainstormNote.objects.all().delete()
+    brainstormNote.objects.all().delete()
     # imageModel.objects.all().delete()
     # Message.objects.all().delete()
     # imageComment.objects.all().delete();
