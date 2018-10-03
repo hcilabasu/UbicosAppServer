@@ -199,7 +199,7 @@ def uploadImage(request):
         return JsonResponse({'success': image_data, 'errorMsg': True})
 
 def getImage(request, view_id, gallery_id,group_id):
-    
+
     # for pilot/study
     if(int(view_id) == 1): #view_id = 1 means comment view
         images = imageModel.objects.exclude(group_id=group_id)
