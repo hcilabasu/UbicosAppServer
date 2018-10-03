@@ -48,62 +48,25 @@
 
                 var p = $('<p/>', {
                         text: data.message}).appendTo(li);
+
+                // Scroll panel to bottom
+                var imageFeedParent = $('#image-feed').closest('.row');
+                imageFeedParent.scrollTop(imageFeedParent[0].scrollHeight);
             }
-
-
 
         });
 
-         //add event listener to the chat button click
+        //add event listener to the chat button click
         $("#image-msg-send-btn").click(function(e){
-
-            //stop page refreshing with click
-                e.preventDefault();
-
-            //get the user name who posted
-                var user_name = $("input[name='username']").val()
-                console.log(user_name);
-
-            //get the currently typed message
-                var message = $("input[name='image-msg-text']").val();
-                console.log('user message :: '+message)
-
-            //get the gallery id of the image
-                var gallery_id = $("input[name='act-id']").val();
-                console.log('image gallery id :: ', gallery_id)
-
-                var imagePk = $("input[name='image-db-pk']").val();
-                console.log('image pk :: ',imagePk)
-
-
-                if(message == ""){
-                    console.log('empty input gallery')
-                    enterLogIntoDatabase('input button click', 'image-feed empty message input' , message, current_pagenumber)
-                }
-                else{
-                      enterLogIntoDatabase('input button click', 'image-feed message input' , message, current_pagenumber)
-                     //posts student comment in database - can be extracted using image primary key.
-                    $.post({
-                        url: '/ajax/imageComment/',
-                        data: {
-                        'username': user_name,
-                        'message':  message,
-                        'imagePk': imagePk
-                        },
-                        success: function (data) {
-
-                            //empty the message pane
-                            $("input[name='image-msg-text']").val('');
-
-                            //console.log(data)
-
-                        }
-                    });
-
-                }
-
-
-            })
+            e.preventDefault();
+            postImageMessage();
+        });
+        $('#image-msg-text').keypress(function(e){
+            if (e.which == 13) {
+                postImageMessage();
+                return false; 
+            }
+        });
 
 
             $("#file-upload").change(function(event){
@@ -218,6 +181,51 @@
 
 
      })
+
+     function postImageMessage(){
+        //get the user name who posted
+        var user_name = $("input[name='username']").val()
+        console.log(user_name);
+
+        //get the currently typed message
+        var inputEl = $("#image-msg-text");
+        var message = inputEl.val();
+        inputEl.prop('disabled', true);
+        console.log('user message :: '+message)
+
+        //get the gallery id of the image
+        var gallery_id = $("input[name='act-id']").val();
+        console.log('image gallery id :: ', gallery_id)
+
+        var imagePk = $("input[name='image-db-pk']").val();
+        console.log('image pk :: ',imagePk)
+
+        if(message == ""){
+            console.log('empty input gallery')
+            enterLogIntoDatabase('input button click', 'image-feed empty message input' , message, current_pagenumber)
+        }
+        else{
+            enterLogIntoDatabase('input button click', 'image-feed message input' , message, current_pagenumber)
+            
+            //posts student comment in database - can be extracted using image primary key.
+            $.post({
+                url: '/ajax/imageComment/',
+                data: {
+                'username': user_name,
+                'message':  message,
+                'imagePk': imagePk
+                },
+                success: function (data) {
+                    //empty the message pane
+                    $("input[name='image-msg-text']").val('');
+                    inputEl.prop('disabled', false);
+                },
+                error: function(data){
+                    inputEl.prop('disabled', false);
+                }
+            });
+        }
+    }
 
     function readURL(input) {
 
