@@ -303,11 +303,10 @@ function drawPointsAndLine(points, g, x, y, cssClass){
             .attr("r", 8);
 }
 
-function drawLine(){
+function drawLine(draw){
     // Show lines
-    $('path').css('visibility', 'visible');
-
-    console.log(jQuery.type(POINTS));
+    var visibility = draw ? 'visible' : 'hidden';
+    $('path').css('visibility', visibility);
     //save the data points in database
     tableDataInsert('table', POINTS);
 }
