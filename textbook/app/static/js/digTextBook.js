@@ -60,9 +60,8 @@ $(function(){
 });
 
 
-var movePage = function(moveToNext, pg){
+var movePage = function(moveToNext){
 
-        pg = pg || 1;
 
     var container = $('#textbook-content'),
         pageToHide = $('.page:not(.previous):not(.next)', container), // This the current page, which will be hidden
