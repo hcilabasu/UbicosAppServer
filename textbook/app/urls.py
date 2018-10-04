@@ -12,7 +12,7 @@ urlpatterns = [
     url('getGroupID/(?P<act_id>\d+)', views.getGroupID),
     url('getUserList',views.getUserList),
     url('createUser',views.createUser),
-    url('addMembertoGroups', views.groupAdd),
+    url('groupAdd', views.groupAdd),
     url('uploadImage', views.uploadImage, name='uploadImage'),
     url('getImage/(?P<view_id>\d+)/(?P<gallery_id>\d+)/(?P<group_id>\d+)/', views.getImage, name='getImg'),
     url('getImageID/(?P<img_filename>[\w+._^%$#!~@,-]+)/', views.getImageID), #regular expression checker: https://regex101.com/r/iQ8gG4/1

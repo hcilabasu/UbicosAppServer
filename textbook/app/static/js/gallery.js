@@ -487,7 +487,9 @@ function displayGallery(view, groupValue){
         //get the gallery ID - passed from digTextBook.js to input field
         //console.log('gallery-id, ', $("input[name='act-id").val());
         var gallery_id = $("input[name='act-id']").val();
-        console.log("displaying gallery #gallery id", gallery_id, groupValue)
+        console.log("displaying gallery #gallery id", gallery_id)
+        console.log("displaying gallery #group id",groupValue)
+        console.log('/getImage/'+view+'/'+gallery_id+'/'+groupValue)
 
 
         //get images from database for a specific gallery for specific group - 0 means whole class

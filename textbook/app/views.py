@@ -123,8 +123,8 @@ def login(request):
             userLog = userLogTable(username = request.user, action="user click login button", type="login", input=request.POST.get('username'), pagenumber=0000)
             userLog.save();
 
-            member = groupInfo(activityType='gallery', activityID=1, group=0, users=request.user)
-            member.save();
+            # member = groupInfo(activityType='gallery', activityID=1, group=0, users=request.user)
+            # member.save();
 
             return HttpResponseRedirect('/index/')
         else:
@@ -201,7 +201,9 @@ def uploadImage(request):
 def getImage(request, view_id, gallery_id,group_id):
 
     # for pilot/study
+    print("@@@@", view_id)
     if(int(view_id) == 1): #view_id = 1 means comment view
+        print("@@@@inside if", view_id)
         images = imageModel.objects.exclude(group_id=group_id)
         images = images.filter(gallery_id=gallery_id)
     else:
@@ -329,8 +331,8 @@ def getUserList(request):
 # create superuser
 # https://docs.djangoproject.com/en/2.1/topics/auth/default/
 def createUser(request):
-    if request.method == "POST":
 
+    if request.method == "POST":
         #get username/password from the form
         username = request.POST.get('username')
         password = request.POST.get('password')
@@ -348,7 +350,9 @@ def createUser(request):
         else:
             # return invalid login message
             return render(request, 'app/login.html', {})
-    #
+
+
+
     # user = User.objects.create_user('ant', '', 'ant');
     # user.save();
     # user = User.objects.create_user('bee', '', 'bee');
@@ -375,13 +379,19 @@ def createUser(request):
 #temp solution for pilot-1 -- start
 def groupAdd(request):
 
+    member = groupInfo(activityType='gallery', activityID=1, group=3, users=request.user)
+    member.save();
+    member = groupInfo(activityType='gallery', activityID=2, group=3, users=request.user)
+    member.save();
     member = groupInfo(activityType='gallery', activityID=3, group=3, users=request.user)
     member.save();
+
+
 
     return HttpResponse('')
 
 def getGroupID(request, act_id):
-    print('From server activity id', act_id)
+    print('line 384 From server activity id', act_id)
     groupID = groupInfo.objects.all().filter(activityID = act_id)
     print('from server group id', groupID)
     groupID = groupID.filter(users_id = request.user)
@@ -394,11 +404,12 @@ def getGroupID(request, act_id):
 
 
 def deleteAllItems(request):
-    brainstormNote.objects.all().delete()
+    # brainstormNote.objects.all().delete()
     # imageModel.objects.all().delete()
     # Message.objects.all().delete()
     # imageComment.objects.all().delete();
-    userLogTable.objects.all().delete();
+    # userLogTable.objects.all().delete();
+    groupInfo.objects.all().delete()
 
     return HttpResponse('')
 
