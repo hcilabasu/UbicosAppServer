@@ -1,5 +1,13 @@
 var current_pagenumber = 1 //initial page number; gets updated with page change
 var type = '' //card type
+
+/*
+    This variable is key in the functioning of the page navigation functionality.
+    It is also used in:
+    * activityindex.js
+*/
+var NUM_PAGES = 10;
+
 $(function(){
 
     var host_url = window.location.host
@@ -72,7 +80,7 @@ var movePage = function(moveToNext){
     }
     // Replace page number
     current_pagenumber = currentPageNum
-    $("#page-control-number").text('Page ' + currentPageNum + '/10');
+    $("#page-control-number").text('Page ' + currentPageNum + '/' + NUM_PAGES);
     //user logging
     enterLogIntoDatabase('click', 'page change' , 'none', current_pagenumber)
 

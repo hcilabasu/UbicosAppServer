@@ -1,5 +1,30 @@
 $(function(){
 
+    // Move to a given page if header is clicked
+    $("#activity-index h2").click(function(){
+        // Get page number
+        var header = $(this);
+        var gotoPage = parseInt(header.data('page'));
+        var container = $('#textbook-content');
+        
+        // Update current page
+        loadPage(
+            gotoPage, 
+            $('.page:not(.previous):not(.next)'),
+            function(){
+                // Update container class if this is the last or the first page
+                var containerClass = ''
+                if(gotoPage == 1) containerClass = 'first';
+                else if(gotoPage == NUM_PAGES) containerClass = 'last'; // NUM_PAGES is defined in digTtextBook.js
+                container.attr('class',containerClass);
+                // Change page number
+                $("#page-control-number").text('Page ' + gotoPage + '/' + NUM_PAGES);
+            });
+        // Update previous and next
+        loadPage(gotoPage+1, $('.page.next'));
+        loadPage(gotoPage-1, $('.page.previous'));
+    });
+
     $('#activity-index a').off().on('touch click', function(){
 
         // Get button type to open appropriate view
