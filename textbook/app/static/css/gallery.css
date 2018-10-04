@@ -188,4 +188,18 @@ button {
 /* modal css ends here */
 
 
+table {
+  border-collapse: collapse;
+  width: 50%;
+  height: 50%;
+}
+
+th, td {
+    border: 1px solid black;
+}
+
+td .test {
+	border-bottom: 1px solid black;
+}
+
 
