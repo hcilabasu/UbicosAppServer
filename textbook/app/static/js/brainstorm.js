@@ -1,24 +1,37 @@
- var logged_in='';
- var host_url = window.location.host;
- var brainstormID
 
- $( function() {
+var host_url = window.location.host;
+var brainstormID
+
+$( function() {
+
+    //channel for brainstorm note
+     var pusher_brainstorm = new Pusher('5da367936aa67ecdf673',{
+        cluster: 'us2',
+        encrypted: true
+     });
+
+    //subscribe to the channel you want to listen to
+    var my_channel_brainstorm = pusher_brainstorm.subscribe('c_channel');
+
+    my_channel_brainstorm.bind("cn_event", function (data) {
+
+       console.log('broadcasted data :: ',data)
+
+      if(logged_in == data.posted_by){
+           addIdeaToWorkspace(data.idea, data.color, data.posted_by, {top:data.posTop,left:data.posLeft}, data.noteID, true, true);
+        }else{
+           addIdeaToWorkspace(data.idea, data.color, data.posted_by, {top:data.posTop,left:data.posLeft}, data.noteID, true, false);
+        }
 
 
 
-     //get the logged in user
-        $.ajax({
-            type:'GET',
-            url:'http://'+ host_url +'/getUsername/',
-            async: false, //wait for ajax call to finish, else logged_in is null in the following if condition
-            success: function(e){
-                logged_in  = e.name
-                //console.log('logged in username (inside) :: ', logged_in)
-            }
-        })
+
+    });
 
 
-  } ); //end of page load function
+
+
+} ); //end of page load function
 
 var draggableConfig = {
     scroll: true
@@ -40,7 +53,7 @@ var setupBrainstorm = function(){
     });
 
     // Handle current submission
-    $('#new-idea form .btn').click(function(){
+    $('#new-idea form .btn').off().click(function(){
 
         // TODO validate
 
@@ -66,10 +79,11 @@ var setupBrainstorm = function(){
             //TODO: add user log here
         }else{
              //send to database
-            //saveBrainstormNote(idea, color, hideName, posTop, posLeft);
+             //saveBrainstormNote(idea, color, hideName, posTop, posLeft);
               $.post({
                     url: '/brainstorm/save/',
                     data: {
+                    'username': logged_in,
                     'brainstormID': $("input[name='brainstorm-id']").val(),
                     'idea': idea,
                     'color': color,
@@ -79,7 +93,7 @@ var setupBrainstorm = function(){
                     success: function (data) {
 
                         noteID = data.id
-                        addIdeaToWorkspace(idea, color, logged_in, {top:posTop,left:posLeft}, noteID, true, true);
+                        //addIdeaToWorkspace(idea, color, logged_in, {top:posTop,left:posLeft}, noteID, true, true);
                         //clear the input field
                         $('textarea', form).val('');
                         //user logging
@@ -89,15 +103,6 @@ var setupBrainstorm = function(){
             });
         }
 
-
-//        $('.object_delete').on('click', function(e){
-//                    e.preventDefault();
-//                    console.log($(this).parent()
-//                    .data('noteid'))
-//                    $(this).parent().remove();
-//                    //TODO: remove from database as well
-//                    return false;
-//                });
 
         return false; //why return false?
     });

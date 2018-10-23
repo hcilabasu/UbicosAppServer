@@ -1,8 +1,12 @@
+
+
 $(function(){
 
     // Move to a given page if header is clicked
     $("#activity-index h2").click(function(){
         // Get page number
+        console.log("clicked activity index header");
+
         var header = $(this);
         var gotoPage = parseInt(header.data('page'));
         var container = $('#textbook-content');
@@ -99,3 +103,4 @@ $(function(){
 
    });
 })
+

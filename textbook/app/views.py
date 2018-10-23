@@ -25,6 +25,9 @@ pusher = Pusher(app_id=u'525110', key=u'ea517de8755ddb1edd03', secret=u'be2bf8ae
 # instantiate the pusher class - this is used for inidividual image message
 pusher1 = Pusher(app_id=u'525110', key=u'f6bea936b66e4ad47f97', secret=u'ed3e9509fce91430fcac', cluster=u'us2')
 
+# instantiate the pusher class - this is used for brainstorm note
+pusher2 = Pusher(app_id=u'525110', key=u'5da367936aa67ecdf673', secret=u'e43f21c19211c9738d6b', cluster=u'us2')
+
 @csrf_exempt
 def broadcast(request):
 
@@ -57,6 +60,27 @@ def broadcastImageComment(request):
 
     return JsonResponse({'success': '', 'errorMsg': True})
 
+@csrf_exempt
+def broadcastBrainstormNote(request):
+
+    #pusher2.trigger(u'c_channel', u'cn_event', {u'name': request.POST['username'], u'message': request.POST['message']})
+    pusher2.trigger(u'c_channel', u'cn_event', {u'noteID': request.POST.get('brainstormID'), u'idea': request.POST.get('idea'),
+                          u'color': request.POST.get('color'), u'posTop': request.POST.get('posTop'), u'posLeft': request.POST.get('posLeft'),
+                          u'posted_by':request.POST['username']})
+
+    note = brainstormNote(brainstormID=request.POST.get('brainstormID'), ideaText=request.POST.get('idea'),
+                          color=request.POST.get('color'),
+                          position_top=request.POST.get('posTop'), position_left=request.POST.get('posLeft'),
+                          posted_by=request.user)
+    note.save()
+
+    note = brainstormNote.objects.last()
+    print(note.id)
+    return JsonResponse({'id': note.id, 'errorMsg': True})
+
+
+
+    #return JsonResponse({'success': '', 'errorMsg': True})
 #in the browser: http://127.0.0.1:8000/app/
 
 def getUsername(request):
@@ -98,12 +122,19 @@ def login(request):
             #add to user log table
             userLog = userLogTable(username = request.user, action="user click login button", type="login", input=request.POST.get('username'), pagenumber=0000)
             userLog.save();
+
+            # member = groupInfo(activityType='gallery', activityID=1, group=0, users=request.user)
+            # member.save();
+
             return HttpResponseRedirect('/index/')
         else:
             #return invalid login message
             userLog = userLogTable(username=request.user, action="user click login button", type="invalid login",
                                    input=request.POST.get('username'), pagenumber=0000)
             userLog.save();
+
+
+
             return render(request, 'app/login.html', {})
     else:
         return render(request, 'app/login.html', {})
@@ -167,16 +198,22 @@ def uploadImage(request):
 
         return JsonResponse({'success': image_data, 'errorMsg': True})
 
-def getImage(request, gallery_id,group_id):
+def getImage(request, view_id, gallery_id,group_id):
 
-    if(int(gallery_id) == 1): #different filter :P
-        print('view.py line 168 ', gallery_id, group_id)
+    # for pilot/study
+    print("@@@@", view_id)
+    if(int(view_id) == 1): #view_id = 1 means comment view
+        print("@@@@inside if", view_id)
         images = imageModel.objects.exclude(group_id=group_id)
         images = images.filter(gallery_id=gallery_id)
     else:
-        print('inside else', gallery_id, group_id)
-        images = imageModel.objects.filter(group_id=group_id)
-        images = images.filter(gallery_id=gallery_id)
+
+        images = imageModel.objects.filter(gallery_id=gallery_id)
+        images = images.filter(group_id=group_id)
+
+    # for workshop
+    # images = imageModel.objects.filter(group_id=group_id)
+    # images = images.filter(gallery_id=gallery_id)
 
     image_data = serializers.serialize('json', images, use_natural_foreign_keys=True)
     #print(image_data)
@@ -250,11 +287,7 @@ def brainstormDelete(request,note_id):
 
 
 def userlog(request):
-    # action = ''
-    # #very STUPID hack - FIX THIS
-    # if request.method == 'GET':
-    #     print('this is not fair', request.GET.urlencode().replace("%22", "").replace("%3A",":").
-    #           replace("%2C", ",").replace("%7B", "").replace("%7D=", "").replace("+", " ").split(",")[0].split(":"))
+
 
     log = userLogTable(username=request.user, action=request.POST.get('action'), type=request.POST.get('type'),
                        input=request.POST.get('input'), pagenumber=request.POST.get('pagenumber'))
@@ -298,8 +331,8 @@ def getUserList(request):
 # create superuser
 # https://docs.djangoproject.com/en/2.1/topics/auth/default/
 def createUser(request):
-    if request.method == "POST":
 
+    if request.method == "POST":
         #get username/password from the form
         username = request.POST.get('username')
         password = request.POST.get('password')
@@ -317,7 +350,9 @@ def createUser(request):
         else:
             # return invalid login message
             return render(request, 'app/login.html', {})
-    #
+
+
+
     # user = User.objects.create_user('ant', '', 'ant');
     # user.save();
     # user = User.objects.create_user('bee', '', 'bee');
@@ -344,22 +379,28 @@ def createUser(request):
 #temp solution for pilot-1 -- start
 def groupAdd(request):
 
+    member = groupInfo(activityType='gallery', activityID=1, group=3, users=request.user)
+    member.save();
+    member = groupInfo(activityType='gallery', activityID=2, group=3, users=request.user)
+    member.save();
     member = groupInfo(activityType='gallery', activityID=3, group=3, users=request.user)
     member.save();
+
+
 
     return HttpResponse('')
 
 def getGroupID(request, act_id):
-    print('From server', act_id)
+    print('line 384 From server activity id', act_id)
     groupID = groupInfo.objects.all().filter(activityID = act_id)
-    print(groupID)
+    print('from server group id', groupID)
     groupID = groupID.filter(users_id = request.user)
     print(type(groupID))
     print('line 358',groupID[0].group)
 
     return HttpResponse(groupID[0].group)
 
-# temp solution for pilot-1 -- start
+# temp solution for pilot-1 -- end
 
 
 def deleteAllItems(request):
@@ -367,7 +408,8 @@ def deleteAllItems(request):
     # imageModel.objects.all().delete()
     # Message.objects.all().delete()
     # imageComment.objects.all().delete();
-    userLogTable.objects.all().delete();
+    # userLogTable.objects.all().delete();
+    groupInfo.objects.all().delete()
 
     return HttpResponse('')
 
@@ -380,6 +422,8 @@ def userLogFromExtenstion(request):
     #https://stackoverflow.com/questions/35474259/django-middleware-making-post-request-blank
     body = request.body.decode('utf-8')  # in python 3 json.loads only accepts unicode strings
     body = json.loads(body)
+
+    print(body)
     action = body['action']
     type = body['type']
     data = body['input']
