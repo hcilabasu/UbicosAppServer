@@ -63,7 +63,7 @@ $(function(){
 
 
      //add event listener to the chat button click
-    $("#image-msg-send-btn").click(function(e){
+    $("#image-msg-send-btn").off().click(function(e){
 
         //stop page refreshing with click
             e.preventDefault();
@@ -113,11 +113,11 @@ $(function(){
 
         })
 
-        //add event listener to the chat button click
-        $("#image-msg-send-btn").click(function(e){
-            e.preventDefault();
-            postImageMessage();
-        });
+//        //add event listener to the chat button click - this was causing double post of the message
+//        $("#image-msg-send-btn").click(function(e){
+//            e.preventDefault();
+//            postImageMessage();
+//        });
         $('#image-msg-text').keypress(function(e){
             if (e.which == 13) {
                 postImageMessage();
