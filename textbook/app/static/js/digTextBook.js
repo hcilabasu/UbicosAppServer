@@ -31,6 +31,14 @@ $(function(){
         $(this).closest('.card').removeClass('active');
     });
 
+    $('.extend-card').on('touch click', function(){
+
+        $('.card').css({'width':'100%'});
+
+    });
+
+
+
 
     //update activity feed with history of messages
     loadFeed(); //call function from activity.js
