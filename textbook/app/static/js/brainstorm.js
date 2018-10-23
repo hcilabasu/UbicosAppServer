@@ -230,6 +230,20 @@ var ideaDragPositionUpdate = function(){
 
      } );
 
+       //when idea is hovered, differentiate with other notes to the user
+     $( ".idea" ).off().hover(function() {
+          $(this).css('border', '3px solid black')
+        }, function() {
+            $(this).css('border', '');
+        });
+
+        $( ".idea" ).click(function() {
+          $(this).css('z-index', '1')
+//        }, function() {
+//            $(this).css('z-index', '');
+
+      });
+
 }
 
 
@@ -256,7 +270,7 @@ var loadIdeaToWorkspace = function(){
                     var isItYours = ''
 
                     if(logged_in == value.fields['posted_by'][0]) {
-                        console.log(logged_in)
+                        //console.log(logged_in)
                         isItYours = true
                     }else isItYours = false
 
