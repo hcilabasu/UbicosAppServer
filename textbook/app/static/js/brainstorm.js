@@ -219,7 +219,8 @@ var ideaDragPositionUpdate = function(){
            url:'/brainstorm/update/'+noteID+'/', //update location of the dragged note
            data: {
                 'left': ui.position.left,
-                'top': ui.position.top
+                'top': ui.position.top,
+                'username': logged_in
                 },
            success: function(response){
 
@@ -231,18 +232,18 @@ var ideaDragPositionUpdate = function(){
      } );
 
        //when idea is hovered, differentiate with other notes to the user
-     $( ".idea" ).off().hover(function() {
+     $( ".idea" ).hover(function() {
           $(this).css('border', '3px solid black')
         }, function() {
             $(this).css('border', '');
         });
 
-        $( ".idea" ).click(function() {
-          $(this).css('z-index', '1')
-//        }, function() {
-//            $(this).css('z-index', '');
-
-      });
+//        $( ".idea" ).click(function() {
+//          $(this).css('z-index', '1')
+////        }, function() {
+////            $(this).css('z-index', '');
+//
+//      });
 
 }
 

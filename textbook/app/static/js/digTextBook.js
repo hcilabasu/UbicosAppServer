@@ -14,7 +14,7 @@ window.onerror = function(message, file, line) {
     It is also used in:
     * activityindex.js
 */
-var NUM_PAGES = 10;
+var NUM_PAGES = 15;
 
 
 $(function(){
@@ -33,7 +33,18 @@ $(function(){
 
     $('.extend-card').on('touch click', function(){
 
-        $('.card').css({'width':'100%'});
+
+        var width = $(".card").width() / $('.card').parent().width() * 100
+        width = width/2;
+
+        if (width == 50){
+            $('.card').css({'width':'100%'});
+        }else{
+            $('.card').css({'width':'50%'});
+        }
+
+
+
 
     });
 

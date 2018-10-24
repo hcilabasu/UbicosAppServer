@@ -269,6 +269,14 @@ def brainstormGet(request,brainstorm_id):
 
 def brainstormUpdate(request, note_id):
 
+    note = brainstormNote.objects.filter(id=note_id)
+
+    # pusher2.trigger(u'c_channel', u'cn_event',
+    #                 {u'noteID': note_id, u'idea': note[0].ideaText,
+    #                  u'color': note[0].color, u'posTop': request.POST.get('top'),
+    #                  u'posLeft': request.POST.get('left'),
+    #                  u'posted_by': request.POST.get('username')})
+
     brainstormNote.objects.filter(id=note_id).update(position_top=request.POST.get('top'),
                                                      position_left=request.POST.get('left'))
     return HttpResponse('')
