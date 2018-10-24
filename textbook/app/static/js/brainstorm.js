@@ -15,7 +15,8 @@ $( function() {
 
     my_channel_brainstorm.bind("cn_event", function (data) {
 
-       console.log('broadcasted data :: ',data)
+
+
 
       if(logged_in == data.posted_by){
            addIdeaToWorkspace(data.idea, data.color, data.posted_by, {top:data.posTop,left:data.posLeft}, data.noteID, true, true);
@@ -28,7 +29,7 @@ $( function() {
 
     });
 
-
+ ideaDragPositionUpdate();
 
 
 } ); //end of page load function
@@ -197,19 +198,20 @@ var addIdeaToWorkspace = function(idea, color, name, position, noteID, animate, 
 
 var ideaDragPositionUpdate = function(){
 
+
     //detect when an idea is stopped dragging to get the final location
     //and save it into the database
     //http://api.jqueryui.com/draggable/#event-start
     //console.log('total idea divs',$(".idea").length) //debug purpose - remove later
 
-    $( ".idea" ).on( "dragstop", function( event, ui ) {
+    $( ".idea" ).on( "dragstop", function( evt, ui ) {
+        //https://stackoverflow.com/questions/14969960/jquery-click-events-firing-multiple-times
+        evt.stopImmediatePropagation();
 
         //find the id of the note - which is used to update the note in the database
         noteID = $(this).data('noteid')
         console.log('dragged note :: ',noteID)
 
-
-        //user logging - printing log multiple times why?
         enterLogIntoDatabase('note dragged', 'brainstorm' , JSON.stringify(ui.position) , current_pagenumber)
 
 
@@ -280,10 +282,12 @@ var loadIdeaToWorkspace = function(){
 
                 })
 
-                ideaDragPositionUpdate();
+                //ideaDragPositionUpdate();
 
             }
 
         });
+
+        //ideaDragPositionUpdate();
 
 }

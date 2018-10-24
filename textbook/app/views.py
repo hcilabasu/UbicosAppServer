@@ -416,8 +416,8 @@ def deleteAllItems(request):
     # imageModel.objects.all().delete()
     # Message.objects.all().delete()
     # imageComment.objects.all().delete();
-    # userLogTable.objects.all().delete();
-    groupInfo.objects.all().delete()
+    userLogTable.objects.all().delete();
+    #groupInfo.objects.all().delete()
 
     return HttpResponse('')
 
