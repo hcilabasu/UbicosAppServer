@@ -16,8 +16,6 @@ $( function() {
     my_channel_brainstorm.bind("cn_event", function (data) {
 
 
-
-
       if(logged_in == data.posted_by){
            addIdeaToWorkspace(data.idea, data.color, data.posted_by, {top:data.posTop,left:data.posLeft}, data.noteID, true, true);
         }else{
@@ -240,12 +238,13 @@ var ideaDragPositionUpdate = function(){
             $(this).css('border', '');
         });
 
-//        $( ".idea" ).click(function() {
-//          $(this).css('z-index', '1')
-////        }, function() {
-////            $(this).css('z-index', '');
-//
-//      });
+        $( ".idea" ).click(function(evt) {
+          //https://stackoverflow.com/questions/31891612/how-can-bring-to-front-clicked-div-in-jquery
+          evt.stopImmediatePropagation();
+          $(this).css('z-index', '20');
+          $(this).siblings().css('z-index', '1');
+          //console.log($(this).contents())
+        });
 
 }
 
