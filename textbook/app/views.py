@@ -432,14 +432,19 @@ def userLogFromExtenstion(request):
     body = json.loads(body)
 
     print(body)
+    username = body['username'].split(' ')[0].lower()
     action = body['action']
     type = body['type']
     data = body['input']
     pagenumber = body['pagenumber']
 
-    print('from extension?', action, type, data, pagenumber)
+    print(username)
+    user_pk_id = User.objects.get(username=username).pk
+    print (user_pk_id)
 
-    log = userLogTable(username=request.user, action=body['action'], type=body['type'],
+    #print('from extension?', username, action, type, data, pagenumber)
+
+    log = userLogTable(username=User.objects.get(pk=user_pk_id), action=body['action'], type=body['type'],
                        input=body['input'], pagenumber=body['pagenumber'])
     log.save()
 
