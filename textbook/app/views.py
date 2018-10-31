@@ -442,7 +442,11 @@ def userLogFromExtenstion(request):
     user_pk_id = User.objects.get(username=username).pk
     print (user_pk_id)
 
-    #print('from extension?', username, action, type, data, pagenumber)
+    print('from extension?', username, action, type, data, pagenumber)
+    log = body
+    f = open("extensionLOGfile.txt", "a")
+    f.write(str(log))
+    f.write('\n')
 
     log = userLogTable(username=User.objects.get(pk=user_pk_id), action=body['action'], type=body['type'],
                        input=body['input'], pagenumber=body['pagenumber'])
