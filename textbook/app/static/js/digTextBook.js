@@ -2,6 +2,7 @@ var current_pagenumber = 1 //initial page number; gets updated with page change
 var type = '' //card type
 
 
+
 window.onerror = function(message, file, line) {
   console.log('An error occured at line ' + line + ' of ' + file + ': ' + message);
   enterLogIntoDatabase('error', 'error' , 'An error occured at line ' + line + ' of ' + file + ': ' + message, 9999)
@@ -14,7 +15,7 @@ window.onerror = function(message, file, line) {
     It is also used in:
     * activityindex.js
 */
-var NUM_PAGES = 10;
+var NUM_PAGES = 15;
 
 
 $(function(){
@@ -30,6 +31,20 @@ $(function(){
         enterLogIntoDatabase('card close', classNameWhichisClosed, 'none', current_pagenumber)
         $(this).closest('.card').removeClass('active');
     });
+
+    $('.extend-card').on('touch click', function(){
+
+        var width = $(".card").width() / $('.card').parent().width() * 100
+        width = width/2;
+
+        if (width == 50){
+            $('.card').css({'width':'100%'});
+        }else{
+            $('.card').css({'width':'50%'});
+        }
+
+    });
+
 
 
     //update activity feed with history of messages
@@ -54,6 +69,39 @@ $(function(){
         $(this).toggleClass('pressed');
         //TODO: add user log
     });
+
+    //check localstorage - used for refresh
+
+      if(localStorage.getItem("pageToBeRefreshed")){
+
+        var pageToBeRefreshed = localStorage.getItem("pageToBeRefreshed");
+
+        var gotoPage = pageToBeRefreshed;
+        var container = $('#textbook-content');
+
+        // Update current page
+        loadPage(
+            gotoPage,
+            $('.page:not(.previous):not(.next)'),
+            function(){
+                // Update container class if this is the last or the first page
+                var containerClass = ''
+                if(gotoPage == 1) containerClass = 'first';
+                else if(gotoPage == NUM_PAGES) containerClass = 'last'; // NUM_PAGES is defined in digTtextBook.js
+                container.attr('class',containerClass);
+                // Change page number
+                $("#page-control-number").text('Page ' + gotoPage + '/' + NUM_PAGES);
+            });
+        // Update previous and next
+        loadPage(parseInt(gotoPage)+1, $('.page.next'));
+        loadPage(gotoPage-1, $('.page.previous'));
+
+      }else{
+
+      }
+
+
+
 
 
 
@@ -91,6 +139,7 @@ var movePage = function(moveToNext){
     // Replace page number
     console.log("current page", currentPageNum)
     current_pagenumber = currentPageNum
+    localStorage.setItem("pageToBeRefreshed", currentPageNum);
     $("#page-control-number").text('Page ' + currentPageNum + '/' + NUM_PAGES);
     //user logging
     enterLogIntoDatabase('click', 'page change' , 'none', current_pagenumber)

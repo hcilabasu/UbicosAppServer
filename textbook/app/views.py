@@ -269,6 +269,14 @@ def brainstormGet(request,brainstorm_id):
 
 def brainstormUpdate(request, note_id):
 
+    note = brainstormNote.objects.filter(id=note_id)
+
+    # pusher2.trigger(u'c_channel', u'cn_event',
+    #                 {u'noteID': note_id, u'idea': note[0].ideaText,
+    #                  u'color': note[0].color, u'posTop': request.POST.get('top'),
+    #                  u'posLeft': request.POST.get('left'),
+    #                  u'posted_by': request.POST.get('username')})
+
     brainstormNote.objects.filter(id=note_id).update(position_top=request.POST.get('top'),
                                                      position_left=request.POST.get('left'))
     return HttpResponse('')
@@ -408,8 +416,8 @@ def deleteAllItems(request):
     # imageModel.objects.all().delete()
     # Message.objects.all().delete()
     # imageComment.objects.all().delete();
-    # userLogTable.objects.all().delete();
-    groupInfo.objects.all().delete()
+    userLogTable.objects.all().delete();
+    #groupInfo.objects.all().delete()
 
     return HttpResponse('')
 
@@ -424,14 +432,23 @@ def userLogFromExtenstion(request):
     body = json.loads(body)
 
     print(body)
+    username = body['username'].split(' ')[0].lower()
     action = body['action']
     type = body['type']
     data = body['input']
     pagenumber = body['pagenumber']
 
-    print('from extension?', action, type, data, pagenumber)
+    print(username)
+    user_pk_id = User.objects.get(username=username).pk
+    print (user_pk_id)
 
-    log = userLogTable(username=request.user, action=body['action'], type=body['type'],
+    print('from extension?', username, action, type, data, pagenumber)
+    log = body
+    f = open("extensionLOGfile.txt", "a")
+    f.write(str(log))
+    f.write('\n')
+
+    log = userLogTable(username=User.objects.get(pk=user_pk_id), action=body['action'], type=body['type'],
                        input=body['input'], pagenumber=body['pagenumber'])
     log.save()
 

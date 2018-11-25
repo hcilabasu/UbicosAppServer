@@ -15,7 +15,6 @@ $( function() {
 
     my_channel_brainstorm.bind("cn_event", function (data) {
 
-       console.log('broadcasted data :: ',data)
 
       if(logged_in == data.posted_by){
            addIdeaToWorkspace(data.idea, data.color, data.posted_by, {top:data.posTop,left:data.posLeft}, data.noteID, true, true);
@@ -28,7 +27,7 @@ $( function() {
 
     });
 
-
+ ideaDragPositionUpdate();
 
 
 } ); //end of page load function
@@ -197,19 +196,20 @@ var addIdeaToWorkspace = function(idea, color, name, position, noteID, animate, 
 
 var ideaDragPositionUpdate = function(){
 
+
     //detect when an idea is stopped dragging to get the final location
     //and save it into the database
     //http://api.jqueryui.com/draggable/#event-start
     //console.log('total idea divs',$(".idea").length) //debug purpose - remove later
 
-    $( ".idea" ).on( "dragstop", function( event, ui ) {
+    $( ".idea" ).on( "dragstop", function( evt, ui ) {
+        //https://stackoverflow.com/questions/14969960/jquery-click-events-firing-multiple-times
+        evt.stopImmediatePropagation();
 
         //find the id of the note - which is used to update the note in the database
         noteID = $(this).data('noteid')
         console.log('dragged note :: ',noteID)
 
-
-        //user logging - printing log multiple times why?
         enterLogIntoDatabase('note dragged', 'brainstorm' , JSON.stringify(ui.position) , current_pagenumber)
 
 
@@ -219,7 +219,8 @@ var ideaDragPositionUpdate = function(){
            url:'/brainstorm/update/'+noteID+'/', //update location of the dragged note
            data: {
                 'left': ui.position.left,
-                'top': ui.position.top
+                'top': ui.position.top,
+                'username': logged_in
                 },
            success: function(response){
 
@@ -229,6 +230,21 @@ var ideaDragPositionUpdate = function(){
 
 
      } );
+
+       //when idea is hovered, differentiate with other notes to the user
+     $( ".idea" ).hover(function() {
+          $(this).css('border', '3px solid black')
+        }, function() {
+            $(this).css('border', '');
+        });
+
+        $( ".idea" ).click(function(evt) {
+          //https://stackoverflow.com/questions/31891612/how-can-bring-to-front-clicked-div-in-jquery
+          evt.stopImmediatePropagation();
+          $(this).css('z-index', '20');
+          $(this).siblings().css('z-index', '1');
+          //console.log($(this).contents())
+        });
 
 }
 
@@ -256,7 +272,7 @@ var loadIdeaToWorkspace = function(){
                     var isItYours = ''
 
                     if(logged_in == value.fields['posted_by'][0]) {
-                        console.log(logged_in)
+                        //console.log(logged_in)
                         isItYours = true
                     }else isItYours = false
 
@@ -265,10 +281,12 @@ var loadIdeaToWorkspace = function(){
 
                 })
 
-                ideaDragPositionUpdate();
+                //ideaDragPositionUpdate();
 
             }
 
         });
+
+        //ideaDragPositionUpdate();
 
 }
