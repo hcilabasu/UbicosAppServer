@@ -1,0 +1,105 @@
+{% load static %}
+<!DOCTYPE html>
+
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <title>LOGIN</title>
+          <link rel="stylesheet" type="text/css" href="{% static 'css/gallery.css' %}">
+        <style>
+            .dropbtn {
+                background-color: #4CAF50;
+                color: white;
+                padding: 16px;
+                font-size: 16px;
+                border: none;
+                cursor: pointer;
+            }
+
+            .dropdown {
+                position: relative;
+                display: inline-block;
+            }
+
+            .dropdown-content {
+                display: none;
+                position: absolute;
+                background-color: #f9f9f9;
+                min-width: 160px;
+                box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+                z-index: 1;
+            }
+
+            .dropdown-content a {
+                color: black;
+                padding: 12px 16px;
+                text-decoration: none;
+                display: block;
+            }
+
+            .dropdown-content a:hover {background-color: #f1f1f1}
+
+            .dropdown:hover .dropdown-content {
+                display: block;
+            }
+
+            .dropdown:hover .dropbtn {
+                background-color: #3e8e41;
+            }
+</style>
+    </head>
+
+    <body>
+
+        <form id="login-form" method="post"
+               class="center">
+            {% csrf_token %}
+            <table class="container">
+                <tr>
+                    <td><label for="id_username">Username</label></td>
+                    <td><input id="id_username" name="username"
+                               type="text" class="page6-input"></td>
+                </tr>
+                <tr>
+                    <td><label for="id_password">Password</label></td>
+                    <td><input id="id_password" name="password"
+                               type="password" class="page6-input"></td>
+                </tr>
+                <tr>
+                    <td><label for="id_group">Group</label></td>
+                     <td>
+                         <select id="id_group" class="page6-input">
+                              <option value="A">1</option>
+                              <option value="B">2</option>
+                              <option value="C">3</option>
+                              <option value="D">4</option>
+                              <option value="E">5</option>
+                              <option value="F">6</option>
+                              <option value="G">7</option>
+                              <option value="H">8</option>
+                              <option value="I">9</option>
+                              <option value="J">10</option>
+                         </select>
+
+                     </td>
+
+                </div>
+
+                </tr>
+
+
+            </table>
+
+
+
+            <!--https://stackoverflow.com/questions/2753308/different-form-action-depending-on-button-pressed-->
+            <button id="create-user" type="submit" formaction="/createUser"value="create-user"  style="display: block; margin: 0 auto;">Create User</button>
+            <input type="hidden" name="next" value="{{ next }}"/>
+        </form>
+
+
+
+    </body>
+
+</html>

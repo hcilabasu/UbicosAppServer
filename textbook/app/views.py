@@ -338,6 +338,9 @@ def getUserList(request):
 
 # create superuser
 # https://docs.djangoproject.com/en/2.1/topics/auth/default/
+def registerUser(request):
+    return render(request, 'app/register.html', {})
+
 def createUser(request):
 
     if request.method == "POST":
