@@ -256,7 +256,6 @@ $(function(){
                 $("#gallery-panel").show()
             })
 
-
  })
 
 

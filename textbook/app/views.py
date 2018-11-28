@@ -66,7 +66,8 @@ def broadcastBrainstormNote(request):
     #pusher2.trigger(u'c_channel', u'cn_event', {u'name': request.POST['username'], u'message': request.POST['message']})
     pusher2.trigger(u'c_channel', u'cn_event', {u'noteID': request.POST.get('brainstormID'), u'idea': request.POST.get('idea'),
                           u'color': request.POST.get('color'), u'posTop': request.POST.get('posTop'), u'posLeft': request.POST.get('posLeft'),
-                          u'posted_by':request.POST['username']})
+                          u'posted_by':request.POST['username'],
+                          u'update': 'false'})
 
     note = brainstormNote(brainstormID=request.POST.get('brainstormID'), ideaText=request.POST.get('idea'),
                           color=request.POST.get('color'),
@@ -271,11 +272,12 @@ def brainstormUpdate(request, note_id):
 
     note = brainstormNote.objects.filter(id=note_id)
 
-    # pusher2.trigger(u'c_channel', u'cn_event',
-    #                 {u'noteID': note_id, u'idea': note[0].ideaText,
-    #                  u'color': note[0].color, u'posTop': request.POST.get('top'),
-    #                  u'posLeft': request.POST.get('left'),
-    #                  u'posted_by': request.POST.get('username')})
+    pusher2.trigger(u'c_channel', u'cn_event',
+                    {u'noteID': note_id, u'idea': note[0].ideaText,
+                     u'color': note[0].color, u'posTop': request.POST.get('top'),
+                     u'posLeft': request.POST.get('left'),
+                     u'posted_by': request.POST.get('username'),
+                     u'update': 'true'})
 
     brainstormNote.objects.filter(id=note_id).update(position_top=request.POST.get('top'),
                                                      position_left=request.POST.get('left'))
