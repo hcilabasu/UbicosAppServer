@@ -186,6 +186,8 @@ $(function(){
                             .addClass('object_delete')
                             .appendTo(li);
 
+
+
                         var img = $('<img/>', {
                                 src : 'http://'+ host_url + obj.url }).css({opacity:1.0}).appendTo(li);
 
