@@ -16,13 +16,17 @@ $( function() {
     my_channel_brainstorm.bind("cn_event", function (data) {
 
 
-      if(logged_in == data.posted_by){
+      if(data.update === "true"){
+            console.log("@@inside here")
+            loadIdeaToWorkspace();
+
+      }else{
+         if(logged_in == data.posted_by){
            addIdeaToWorkspace(data.idea, data.color, data.posted_by, {top:data.posTop,left:data.posLeft}, data.noteID, true, true);
         }else{
            addIdeaToWorkspace(data.idea, data.color, data.posted_by, {top:data.posTop,left:data.posLeft}, data.noteID, true, false);
         }
-
-
+      }
 
 
     });
@@ -175,10 +179,8 @@ var addIdeaToWorkspace = function(idea, color, name, position, noteID, animate, 
            });
 
            idea.append(closeBtn);
-
-
-
         }
+
 
 
     // Add to workspace
@@ -223,6 +225,8 @@ var ideaDragPositionUpdate = function(){
                 'username': logged_in
                 },
            success: function(response){
+
+            loadIdeaToWorkspace()
 
         }
 
@@ -277,7 +281,7 @@ var loadIdeaToWorkspace = function(){
                     }else isItYours = false
 
                     addIdeaToWorkspace(value.fields['ideaText'], value.fields['color'], value.fields['posted_by'][0], {top:value.fields['position_top'],
-                            left:value.fields['position_left']}, value.pk, true,  isItYours);
+                            left:value.fields['position_left']}, value.pk, false,  isItYours);
 
                 })
 

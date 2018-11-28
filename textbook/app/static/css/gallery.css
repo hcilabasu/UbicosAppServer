@@ -101,13 +101,20 @@ input[type="file"] {
 
 .page6-input{
 
-    width: 100%;
-    padding: 12px 20px;
+    width: 90%;
+    padding: 12px 12px;
     margin: 8px 0;
     display: inline-block;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box;
+    border-radius: 20px;
+    font-family:"Times New Roman", Times, serif;
+    font-size: 15px;
+}
+
+.user-input-submit-button {
+    display: block;
+    margin: 0 auto;
+    border-radius: 20px;
+    padding: 10px 22px;
 
 }
 
