@@ -132,6 +132,23 @@ $(function(){
 
         });
 
+        $("#gallery-group-heading").click(function(e){
+            console.log("all submission clicked")
+
+           var get_user_group_id
+            $.ajax({
+                type:'GET',
+                url:'http://'+ host_url +'/getGroupID/'+$('input[name="act-id"]').val(),
+                async: false, //wait for ajax call to finish, else logged_in is null in the following if condition
+                success: function(e){
+                    get_user_group_id = e;
+                    console.log("@@@@,", e)
+                }
+            });
+
+            viewDiv("comment", get_user_group_id);
+        });
+
 //        //add event listener to the chat button click - this was causing double post of the message
 //        $("#image-msg-send-btn").click(function(e){
 //            e.preventDefault();
