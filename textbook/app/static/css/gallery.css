@@ -199,14 +199,12 @@ button {
 
 .index-table {
   border-collapse: collapse;
-  width: 50%;
-  height: 50%;
-
-     th, td {
-        border: 1px solid black;
-    }
+  width: 100%;
+  height: 50px;
+  cursor: pointer;
 
 }
+
 
 
 
