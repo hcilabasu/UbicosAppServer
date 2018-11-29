@@ -439,7 +439,7 @@ var bindActivityButtons = function(){
 //            var quesno = activityButton.attr('data-quesid');
 //            $('div[data-quesno="'+quesno+'"]').show()
             //get which question clicked.
-            console.log('#'+id)
+            console.log(id)
             //hide its siblings
             $('#'+id).siblings().hide();
             //show the div
