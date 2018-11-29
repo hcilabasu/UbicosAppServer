@@ -11,8 +11,8 @@
 @table2: #5151C8;
 @convert1: magenta;
 @convert2: yellow;
-@multQues1: #0099FF;
-@multQues2: #0066cc;
+@multQues1: #33cccc; /* #0099FF; */
+@multQues2: #0099ff; /* #0066cc; */
 
 // Other colors
 @linkColor: #007BFF;
@@ -131,6 +131,7 @@ a {
     border-radius: 20px;
     text-decoration: none;
     box-shadow: 0 0 5px rgba(0,0,0,0.2);
+    outline:0;
 }
 
 a {
@@ -1157,7 +1158,7 @@ a {
 
 /* Multiple Question Card rgba(153, 187, 255, 1), rgba(102, 102, 255, 1)*/
 .card.multQues {
-   background: linear-gradient(rgba(109, 155, 192, 1), rgba(105, 120, 129, 1));
+   background: linear-gradient(rgba(51, 204, 204, 1), rgba(0, 153, 255, 1));
 }
 
 
@@ -1190,7 +1191,7 @@ a {
     cursor: pointer;
 }
 
-#mySubmission {
+.gallery-submission {
     background-color: #2DB872;
     border: #56EF2C;
     color: white;
@@ -1203,4 +1204,12 @@ a {
     margin: 4px 2px;
     border-radius: 20px;
     cursor: pointer;
+}
+
+.gallery-submission:hover{
+    background-color:#006600;
+}
+
+.gallery-submission:active{
+    background-color:#006600;
 }

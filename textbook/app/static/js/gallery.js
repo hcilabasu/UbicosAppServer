@@ -114,6 +114,7 @@ $(function(){
         })
 
         $("#mySubmission").click(function(e){
+         $('#gallery-group-heading').text('My Submissions')
             //steps: get group id;
             //get the group id based on the user
             var get_user_group_id
@@ -132,8 +133,8 @@ $(function(){
 
         });
 
-        $("#gallery-group-heading").click(function(e){
-            console.log("all submission clicked")
+        $("#allSubmission").click(function(e){
+           $('#gallery-group-heading').text('All Submissions')
 
            var get_user_group_id
             $.ajax({
@@ -334,6 +335,7 @@ function viewDiv(view, number_of_group){
     if(view == "class"){
         $('#gallery-user-submission').show();
         $('#openCamera').show();
+        $('#gallery-view-only').hide();
         console.log("which group?? ", number_of_group)
         displayGallery(0, number_of_group);
 
@@ -341,6 +343,7 @@ function viewDiv(view, number_of_group){
     }else if(view == "comment"){
         $('#gallery-user-submission').hide();
         $('#openCamera').hide();
+        $('#gallery-view-only').show();
 
         //console.log($('input[name="act-id"]').val())
         var group_id_user

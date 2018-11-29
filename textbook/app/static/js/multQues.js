@@ -5,11 +5,6 @@
 
     getAnswers();
 
-
-
-
-
-
   } ); //end of page load function
 
 var isAnswerNull = 0;
@@ -18,8 +13,7 @@ var getAnswers = function(){
 
     $('#page7-submit').off().click(function(e){
 
-     $(this).css('background-color', '#A0A0A0'); //change the border to show that button is clicked.
-     $(this).css('outline', 'none');
+
 
      var jsonObj = [];
 
