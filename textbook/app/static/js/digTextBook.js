@@ -410,8 +410,19 @@ var bindActivityButtons = function(){
         if($('.card.gallery').hasClass('active')){
 
             console.log(activityButton.attr('data-heading'));
+
+            //update the heading
             if(activityButton.attr('data-heading')){
                 $('.card.' + type + ' h1').text(type + ' #'+id + ' '+ activityButton.attr('data-heading'));
+            }
+
+           //update the description
+           console.log(activityButton.attr('data-description'));
+           if(activityButton.attr('data-description')){
+                $('.card.' + type + ' p#gallery-description').text(activityButton.attr('data-description'));
+            }
+            else{
+                $('.card.' + type + ' p#gallery-description').text('Take a picture of your solution. Upload the picture in your gallery.');
             }
 
 
@@ -432,12 +443,6 @@ var bindActivityButtons = function(){
 
         if($('.card.multQues').hasClass('active')){
 
-//            //hide questions previously added in the DOM
-//            $('.act2ques').hide()
-//
-//            //get which question is clicked and activate that div for question
-//            var quesno = activityButton.attr('data-quesid');
-//            $('div[data-quesno="'+quesno+'"]').show()
             //get which question clicked.
             console.log(id)
             //hide its siblings
@@ -445,8 +450,8 @@ var bindActivityButtons = function(){
             //show the div
             $('#'+id).show();
 
-//
-//            //TODO: call loadHTML() from here
+
+            //TODO: call loadHTML() from here
 
         }
 
@@ -457,7 +462,16 @@ var bindActivityButtons = function(){
 
         if($('.card.brainstorm').hasClass('active')){
 
-            $('.card.' + type + ' h1').text('Vocabulary'); //update the title of each page
+            //update the heading
+            console.log('brainstorm heading:: ', activityButton.attr('data-heading'))
+            $('.card.' + type + ' h1').text(activityButton.attr('data-heading')); //update the title of each page
+
+            //update the description
+           console.log(activityButton.attr('data-description'));
+           if(activityButton.attr('data-description')){
+                $('.card.' + type + ' p#brainstorm-description').text(activityButton.attr('data-description'));
+            }
+
             $('input[name="brainstorm-id"]').attr('value', id)
 
             loadIdeaToWorkspace();
