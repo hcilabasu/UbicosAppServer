@@ -3,6 +3,8 @@
 @video2: #e45882;
 @brainstorm1: #F4AB4D;
 @brainstorm2: #F9C82C;
+@brainstorm3: #ff9933; /* brainstorm model so far */
+@brainstorm4: #e67300; /* brainstorm model so far */
 @gallery1: #2DB872;
 @gallery2: #56EF2C;
 @moreInfo1: rgb(105, 119, 128);
@@ -264,6 +266,17 @@ a {
 }
 .activity-button.brainstorm:hover {
     box-shadow: 0 0 30px @brainstorm1;
+    transition: all 0.4s;
+}
+
+.activity-button.brainstorm.msf {
+    background-image: url('/static/pics/msf.png');
+}
+.activity-button.brainstorm.msf:after {
+    background: linear-gradient(@brainstorm3, @brainstorm4);
+}
+.activity-button.brainstorm.msf:hover {
+    box-shadow: 0 0 30px @brainstorm3;
     transition: all 0.4s;
 }
 

@@ -372,6 +372,13 @@ var bindActivityButtons = function(){
         type = activityButton.attr('class').replace('activity-button','').trim();
         console.log('type', type)
 
+        //different types of brainstorm instances; each instance different color.
+        //so checking if brainstorm is selected by user
+        if(type.indexOf("brainstorm")>=0){
+            console.log("@@@@ brainstorm", type.split(" ")[0])
+            type = type.split(" ")[0]
+        }
+
         //id of each each activity - based on page no
         var id = activityButton.attr('data-id');
         console.log('id', id)
