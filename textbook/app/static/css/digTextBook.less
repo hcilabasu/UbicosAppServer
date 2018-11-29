@@ -11,6 +11,8 @@
 @table2: #5151C8;
 @convert1: magenta;
 @convert2: yellow;
+@multQues1: #0099FF;
+@multQues2: #0066cc;
 
 // Other colors
 @linkColor: #007BFF;
@@ -248,6 +250,8 @@ a {
     cursor: pointer;
 }
 
+/* brainstorm class color + activity button color */
+
 .brainstorm {
     color: @brainstorm1;
 }
@@ -261,6 +265,8 @@ a {
     box-shadow: 0 0 30px @brainstorm1;
     transition: all 0.4s;
 }
+
+/* video class color + activity button color */
 
 .video {
     color: @video1;
@@ -276,6 +282,8 @@ a {
     transition: all 0.4s;
 }
 
+/* gallery class color + activity button color */
+
 .gallery {
     color: @gallery1;
 }
@@ -289,6 +297,8 @@ a {
     box-shadow: 0 0 30px @gallery1;
     transition: all 0.4s;
 }
+
+/* moreinfo class color + activity button color */
 
 .moreinfo {
     color: @moreInfo1;
@@ -304,6 +314,8 @@ a {
     transition: all 0.4s;
 }
 
+/* table class color + activity button color */
+
 .table {
     color: @table1;
 }
@@ -317,6 +329,8 @@ a {
     box-shadow: 0 0 30px @table1;
     transition: all 0.4s;
 }
+
+/* convert class color + activity button color */
 
 .convert {
     color: @convert1;
@@ -332,9 +346,22 @@ a {
     transition: all 0.4s;
 }
 
+/* multQues class color + activity button color */
+
 .multQues{
-    color: #FF738C;
+    color: @multQues2;
 }
+.activity-button.multQues {
+    background-image: url('/static/pics/answer.png');
+}
+.activity-button.multQues:after {
+    background: linear-gradient(@multQues1,@multQues2);
+}
+.activity-button.multQues:hover {
+    box-shadow: 0 0 30px @multQues1;
+    transition: all 0.4s;
+}
+
 
 /*
     DYNAMIC CONTENT STYLING
@@ -935,6 +962,7 @@ a {
     background: linear-gradient(rgba(140, 191, 255, 1), rgba(249, 198, 46, 1));
 }
 
+
 .card.table {
     background: linear-gradient(@table1, @table2);
 
@@ -1105,18 +1133,22 @@ a {
     }
 }
 
-/* Convert */
+/* Convert Card*/
 .card.convert {
     background: linear-gradient(rgba(255, 188, 4, 1), rgba(175, 60, 175, 1));
 }
 
+/* More Info Card*/
 .card.moreinfo {
     background: linear-gradient(rgba(109, 155, 192, 1), rgba(105, 120, 129, 1));
 }
 
+/* Multiple Question Card */
 .card.multQues {
-    background: linear-gradient(rgba(109, 155, 192, 1), rgba(105, 120, 129, 1));
+    background: linear-gradient(rgba(0, 102, 204, 1), rgba(0, 51, 153, 1));
 }
+
+
 .convert-input input[type="text"] {
     width: 100%;
     padding: 12px 20px;

@@ -316,12 +316,14 @@ function viewDiv(view, number_of_group){
     //class means user upload - specific user will click - so we know the id
     if(view == "class"){
         $('#gallery-user-submission').show();
+        $('#openCamera').show();
         console.log("which group?? ", number_of_group)
         displayGallery(0, number_of_group);
 
     //comment means user accessing other groups image, should not see their own - any user will click it - so we need to know the id
     }else if(view == "comment"){
         $('#gallery-user-submission').hide();
+        $('#openCamera').hide();
 
         //console.log($('input[name="act-id"]').val())
         var group_id_user
