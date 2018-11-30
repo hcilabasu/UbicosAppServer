@@ -273,10 +273,10 @@ a {
     background-image: url('/static/pics/msf.png');
 }
 .activity-button.brainstorm.msf:after {
-    background: linear-gradient(@brainstorm3, @brainstorm4);
+    background: linear-gradient(@brainstorm1, @brainstorm2);
 }
 .activity-button.brainstorm.msf:hover {
-    box-shadow: 0 0 30px @brainstorm3;
+    box-shadow: 0 0 30px @brainstorm1;
     transition: all 0.4s;
 }
 
@@ -601,6 +601,10 @@ a {
         cursor: pointer;
     }
 
+    p{
+        cursor: pointer;
+    }
+
     ul {
         padding-left: 100px;
         margin-bottom: 50px;
@@ -630,6 +634,9 @@ a {
             &.video span { .bg-color-image(@video1, url(../pics/video.png)); }
             &.gallery span { .bg-color-image(@gallery1, url(../pics/gallery.png)); }
             &.brainstorm span { .bg-color-image(@brainstorm1, url(../pics/brainstorm.png)); }
+            &.table span { .bg-color-image(@table1, url(../pics/graph.png)); }
+            &.moreinfo span { .bg-color-image(@moreInfo1, url(../pics/more.png)); }
+            &.multQues span { .bg-color-image(@multQues1, url(../pics/answer.png)); }
         }
     }
 }
@@ -1201,6 +1208,15 @@ a {
     margin: 4px 2px;
     border-radius: 20px;
     cursor: pointer;
+
+}
+
+#openCamera:hover{
+    background-color:#006600;
+}
+
+#openCamera:active{
+    background-color:#006600;
 }
 
 .gallery-submission {

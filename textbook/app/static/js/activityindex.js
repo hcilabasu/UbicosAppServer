@@ -3,7 +3,7 @@
 $(function(){
 
     // Move to a given page if header is clicked
-    $("#activity-index p").click(function(){
+    $("#activity-index p, #activity-index ul li").click(function(){
         // Get page number
         console.log("clicked activity index header");
 

@@ -390,6 +390,8 @@ var bindActivityButtons = function(){
         // based on the activity type, update titles in html
         $('.card.' + type + ' h1').text(type + ' #'+id); //update the title of each page
 
+
+//        ------------------------------based on different tools-----------------------
         // TODO: make the following if dynamic
         // if video tab is active get the video url and display in video.html
         //display the video url in a new tab instead of the card
@@ -398,19 +400,12 @@ var bindActivityButtons = function(){
             var video_url = activityButton.attr('data-video-url');
             window.open(video_url, '_blank'); //open paint splash game in a new window
         }
-//        if($('.card.video').hasClass('active')){
-//
-//            var video_url = activityButton.attr('data-video-url');
-//            console.log(video_url);
-//            //$('#videoFrame').attr('src', video_url); //display in video.html
-//            window.open(video_url, '_blank');
-//
-//            //update h1
-//
-//        }
-         if($('.card.table').hasClass('active')){
+
+        //if the table tab is active
+        if($('.card.table').hasClass('active')){
 
              $('input[name="table-id"]').attr('value', id)
+             $('.card.' + type + ' h1').text('Data');
         }
 
         // if gallery div is active, load the gallery
