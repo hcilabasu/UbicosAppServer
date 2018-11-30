@@ -295,22 +295,13 @@ function drawPointsAndLine(points, g, x, y, cssClass){
     }
 
     // Draw points
-//    g.selectAll("scatter-dots")
-//        .data(points)
-//        .enter().append("svg:circle")
-//            .attr('class', cssClass)
-//            .attr("cx", function (d,i) { return x(d[0]); } )
-//            .attr("cy", function (d) { return y(d[1]); } )
-//            .attr("r", 8);
-
-     g
-     .selectAll("circle")
-     .data(points)
-     .enter().append("circle")
-     .attr("fill", "#0b8da0")
-     .attr("r", 5)
-     .attr("cx", function(d) { return x(d[0]); })
-     .attr("cy", function(d) { return y(d[1]); });
+    g.selectAll("scatter-dots")
+        .data(points)
+        .enter().append("svg:circle")
+            .attr('class', cssClass)
+            .attr("cx", function (d,i) { return x(d[0]); } )
+            .attr("cy", function (d) { return y(d[1]); } )
+            .attr("r", 8);
 
 }
 

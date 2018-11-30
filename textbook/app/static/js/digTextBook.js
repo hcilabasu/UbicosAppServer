@@ -465,6 +465,7 @@ var bindActivityButtons = function(){
         if($('.card.moreinfo').hasClass('active')){
 
              //$('input[name="table-id"]').attr('value', id)
+             $('.card.' + type + ' h1').text("Talk Moves"); //update the title of each page
         }
 
         if($('.card.brainstorm').hasClass('active')){

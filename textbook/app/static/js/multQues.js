@@ -11,6 +11,13 @@ var isAnswerNull = 0;
 
 var getAnswers = function(){
 
+    if(localStorage.getItem("page5input1")){
+        console.log("i am present I am present")
+        $('#page5-input1').attr('disabled',true);
+        $("textarea[name='page5-input1']").val(localStorage.getItem("page5input1"))
+
+    }
+
     //page 5 input
     $("#page5-input1").off().click(function(e){
 
@@ -36,6 +43,7 @@ var getAnswers = function(){
         }else{
 
             //send to db and disable the submit button
+            localStorage.setItem("page5input1", answer);
             sendUserInputToDB(5, answer);
             $('#page5-input1').attr('disabled',true);
 

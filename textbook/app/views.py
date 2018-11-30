@@ -398,7 +398,7 @@ def groupAdd(request):
     usernames_array = ["alligator", "ant", "bat", "bear", "bee", "buffalo", "camel", "dog", "dolphin", "duck", "deer",
                        "elephant", "eagle", "fox", "fish", "frog",
                        "giraffe", "hippo", "lion", "kangaroo", "leopard", "tiger", "monkey", "panda", "penguin",
-                       "rabbit", "raccoon", "rhino", "sheep", "squirrel", "liger", "turtle", "wolf", "zebra"];
+                       "rabbit", "raccoon", "rhino", "sheep", "squirrel", "liger", "turtle", "wolf", "zebra","user","foxy"];
 
     #28 - upto rhino
     print(len(usernames_array))
@@ -406,7 +406,9 @@ def groupAdd(request):
     for username in users_list:
         print(usernames_array.index(username))
 
-    username_groupID = ['1','2','3','4','5','6','7','8','9','10','1','2','3','4','5','6','7','8','9','10','1','2','3','4','5','6','7','8']
+    #username_groupID = ['1','2','3','4','5','6','7','8','9','10','1','2','3','4','5','6','7','8','9','10','1','2','3','4','5','6','7','8']
+    username_groupID = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '1', '2', '3', '4', '5', '6', '7', '8', '9',
+                        '10', '1', '2', '3', '4', '5', '6', '7', '8','9', '10', '1', '2', '3', '4', '5', '6']
 
     # #create group id for all the users
     # # groupID_alligator = 1
