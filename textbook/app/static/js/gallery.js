@@ -115,6 +115,14 @@ $(function(){
 
         //show submissions based on the user group
         $("#mySubmission").click(function(e){
+
+         //highlight the selected button
+         $(this).css('background-color', '#006600');
+         //unhighlight the other
+         $("#allSubmission").css('background-color', '#2DB872');
+
+
+
          $('#gallery-group-heading').text('My Submissions')
             //steps: get group id;
             //get the group id based on the user
@@ -136,6 +144,13 @@ $(function(){
 
         //show all submissions except the user group
         $("#allSubmission").click(function(e){
+
+           //highlight the selected button
+           $(this).css('background-color', '#006600');
+           //unhighlight the other
+           $("#mySubmission").css('background-color', '#2DB872');
+
+           //update the heading
            $('#gallery-group-heading').text('All Submissions')
 
            var get_user_group_id

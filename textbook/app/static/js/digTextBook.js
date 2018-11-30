@@ -436,6 +436,11 @@ var bindActivityButtons = function(){
             // pass id to gallery activity - to upload image form in gallery.html
             $('#upload-img input[name="act-id"]').attr('value', id)
 
+            //highlight the all submission  button and unhighlight the my submission
+            $("#allSubmission").css('background-color', '#006600');
+            $("#mySubmission").css('background-color', '#2DB872');
+
+
             var view = activityButton.attr('data-view');
             console.log('view: ', view)
 
