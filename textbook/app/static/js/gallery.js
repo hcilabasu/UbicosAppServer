@@ -197,7 +197,8 @@ $(function(){
                         //update gallery with newly uploaded image
                         img_data = response.success;
                         var obj = jQuery.parseJSON(img_data);
-                     
+
+
                         var groupID = groupArray[obj.group_id];
                         var li = $("<li/>").appendTo("#gallery"); //<ul id=gallery>
 
