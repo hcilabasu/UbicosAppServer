@@ -133,6 +133,7 @@ input[type="file"] {
     padding: 10px 22px;
     font-family: verdana;
     font-size: 16px;
+    background-color: #edf1f2;
     color: #336699;
     outline:0; /* blue border around it */
 }

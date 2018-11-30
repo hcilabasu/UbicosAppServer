@@ -1,6 +1,6 @@
 {% load static %}
-<h2> User Inputs </h2>
-<p> Answer your responses in the text box below. Answer all the questions that you see. After you are done, hit Submit. </p>
+<h2> Answer Questions </h2>
+<p> Answer the questions and hit Submit when you are done.  </p>
 <div>
     <!--page 5 input div-->
     <div id="user-input-page5-input">
@@ -105,7 +105,7 @@
      <div id="user-input-page12-input1">
         <p> Explain here: </p>
         <textarea class="user-answer-input" rows="4" cols="50" name="page12-input" required> </textarea> <br/><br/>
-        <input id="page12-input" type="submit" value="Submit" class="user-input-submit-button">
+        <input id="page12-input1" type="submit" value="Submit" class="user-input-submit-button">
     </div>
 
 
@@ -114,29 +114,40 @@
 
        <ol>
            <li>
-                What does this table mean? <br/>
+                What does this table mean? <br/><br/>
                <textarea class="user-answer-input" rows="4" cols="50" name="page12-input1" required> </textarea>
-           </li>
+           </li><br/>
            <li>
-               What does the graph mean? <br/>
+               What does the graph mean? <br/><br/>
                 <textarea class="user-answer-input" rows="4" cols="50" name="page12-input2" required> </textarea>
            </li>
+
+       </ol>
+
+        <!--https://stackoverflow.com/questions/7560832/how-to-center-a-button-within-a-div-->
+        <input id="page12-submit2" type="submit" value="Submit" class="user-input-submit-button">
+
+    </div>
+
+    <div id="user-input-page12-input3" style='display:none'>
+       <ol>
+
            <li>
-               Why have we chosen to organize our data in this way? <br/>
+               Why have we chosen to organize our data in this way? <br/><br/>
                 <textarea class="user-answer-input" rows="4" cols="50" name="page12-input3" required> </textarea>
-           </li>
+           </li><br/>
            <li>
-                How does this help us understand our data? <br/>
+                How does this help us understand our data? <br/><br/>
                 <textarea class="user-answer-input" rows="4" cols="50" name="page12-input4" required> </textarea>
-            </li>
+            </li><br/>
             <li>
-                How do you know if you’re looking at a proportional relationship? <br/>
+                How do you know if you’re looking at a proportional relationship? <br/><br/>
                  <textarea class="user-answer-input" rows="4" cols="50" name="page12-input5" required> </textarea>
             </li>
        </ol>
 
         <!--https://stackoverflow.com/questions/7560832/how-to-center-a-button-within-a-div-->
-        <input id="page12-submit" type="submit" value="Submit" class="user-input-submit-button">
+        <input id="page12-submit3" type="submit" value="Submit" class="user-input-submit-button">
 
     </div>
 

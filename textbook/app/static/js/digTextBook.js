@@ -485,7 +485,7 @@ var bindActivityButtons = function(){
         }
 
         //user logging
-        enterLogIntoDatabase('click', type , 'id'+id, current_pagenumber)
+        enterLogIntoDatabase('click', type , 'activity-id-'+id, current_pagenumber)
 
 
 
