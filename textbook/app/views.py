@@ -392,12 +392,59 @@ def createUser(request):
 #temp solution for pilot-1 -- start
 def groupAdd(request):
 
-    member = groupInfo(activityType='gallery', activityID=1, group=3, users=request.user)
-    member.save();
-    member = groupInfo(activityType='gallery', activityID=2, group=3, users=request.user)
-    member.save();
-    member = groupInfo(activityType='gallery', activityID=3, group=3, users=request.user)
-    member.save();
+    users_list = [str(user) for user in User.objects.all()]
+    print(len(users_list))
+
+    usernames_array = ["alligator", "ant", "bat", "bear", "bee", "buffalo", "camel", "dog", "dolphin", "duck", "deer",
+                       "elephant", "eagle", "fox", "fish", "frog",
+                       "giraffe", "hippo", "lion", "kangaroo", "leopard", "tiger", "monkey", "panda", "penguin",
+                       "rabbit", "raccoon", "rhino", "sheep", "squirrel", "liger", "turtle", "wolf", "zebra"];
+
+    #28 - upto rhino
+    print(len(usernames_array))
+
+    for username in users_list:
+        print(usernames_array.index(username))
+
+    username_groupID = ['1','2','3','4','5','6','7','8','9','10','1','2','3','4','5','6','7','8','9','10','1','2','3','4','5','6','7','8']
+
+    # #create group id for all the users
+    # # groupID_alligator = 1
+    # groupID_ant = 2;
+    # #
+    # #
+    # for i in range(1, 5):
+    #     print(i)
+    #
+
+    for username in users_list:
+        for i in range(1, 5):
+
+            # member = groupInfo(activityType='gallery', activityID=i, group=groupID_ant,
+            #                    users=User.objects.get(username=username))
+            member = groupInfo(activityType='gallery', activityID=i, group=username_groupID[usernames_array.index(username)],
+                               users=User.objects.get(username=username))
+            member.save();
+
+    # #insert statement for each gallery, right now number of gallery = 4
+
+
+
+    # #for user - ant
+    # member = groupInfo(activityType='gallery', activityID=1, group=groupID_ant, users=User.objects.get(username="ant"))
+    # member.save();
+    # member = groupInfo(activityType='gallery', activityID=2, group=groupID_ant, users=User.objects.get(username="ant"))
+    # member.save();
+    # member = groupInfo(activityType='gallery', activityID=3, group=groupID_ant, users=User.objects.get(username="ant"))
+    # member.save();
+    # member = groupInfo(activityType='gallery', activityID=4, group=groupID_ant, users=User.objects.get(username="ant"))
+    # member.save();
+
+
+    # # member = groupInfo(activityType='gallery', activityID=2, group=3, users=request.user)
+    # # member.save();
+    # # member = groupInfo(activityType='gallery', activityID=3, group=3, users=request.user)
+    # # member.save();
 
 
 
@@ -449,6 +496,7 @@ def userLogFromExtenstion(request):
     return HttpResponse('')
 
 # hacks - start
+
 
 def createThirtyUser(request):
 
@@ -526,12 +574,15 @@ def createThirtyUser(request):
 # hacks - end
 
 
+def addUserToGroupsForm(request):
+    return render(request, 'app/group.html', {})
+
 def deleteAllItems(request):
     # brainstormNote.objects.all().delete()
     # imageModel.objects.all().delete()
     Message.objects.all().delete()
     # imageComment.objects.all().delete();
     userLogTable.objects.all().delete();
-    #groupInfo.objects.all().delete()
+    groupInfo.objects.all().delete()
 
     return HttpResponse('')

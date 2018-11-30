@@ -13,6 +13,7 @@ urlpatterns = [
     url('getUserList',views.getUserList),
     url('createUser',views.createUser),
     url('createThirtyUser',views.createThirtyUser),
+    url('addUserToGroups',views.addUserToGroupsForm),
     url('registerUser',views.registerUser),
     url('groupAdd', views.groupAdd),
     url('uploadImage', views.uploadImage, name='uploadImage'),

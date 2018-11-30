@@ -488,8 +488,6 @@ var bindActivityButtons = function(){
         enterLogIntoDatabase('click', type , 'activity-id-'+id, current_pagenumber)
 
 
-
-
     });
 };
 

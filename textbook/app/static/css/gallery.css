@@ -1,8 +1,9 @@
 
+/* .center used to format login-form*/
 .center {
   position: absolute;
-	width: 300px; /*size of the div */
-	height: 200px;
+	width: 340px; /*size of the div */
+	height: 230px;
     left: 550px; /*location of the div */
     top: 110px;
 	background: #F0F8FF;
@@ -152,6 +153,30 @@ input[type="file"] {
    border-color: #33cccc;
    outline:0;
 }
+
+
+.user-login-input{
+    border: none;
+    outline: 0;
+    padding: 12px 12px;
+    background: #edf1f2;
+    border-radius: 20px;
+    width: 90%;
+    height: 20px;
+    margin:0;
+    font-family:verdana;
+    font-size: 20px;
+ }
+
+ .user-login-input:focus{
+    border: #009900 solid;
+    box-shadow: 0 0 5px rgba(0, 153, 0, 1);
+    width: 90%;
+    height: 20px;
+    outline: 0 !important;
+    font-family:verdana;
+    font-size: 14px;
+ }
 
 /* Bordered form */
 form {
