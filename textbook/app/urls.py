@@ -12,6 +12,7 @@ urlpatterns = [
     url('getGroupID/(?P<act_id>\d+)', views.getGroupID),
     url('getUserList',views.getUserList),
     url('createUser',views.createUser),
+    url('createThirtyUser',views.createThirtyUser),
     url('registerUser',views.registerUser),
     url('groupAdd', views.groupAdd),
     url('uploadImage', views.uploadImage, name='uploadImage'),

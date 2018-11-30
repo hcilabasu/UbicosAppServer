@@ -415,17 +415,6 @@ def getGroupID(request, act_id):
 
 # temp solution for pilot-1 -- end
 
-
-def deleteAllItems(request):
-    # brainstormNote.objects.all().delete()
-    # imageModel.objects.all().delete()
-    # Message.objects.all().delete()
-    # imageComment.objects.all().delete();
-    userLogTable.objects.all().delete();
-    #groupInfo.objects.all().delete()
-
-    return HttpResponse('')
-
 def camera(request):
     return render(request, 'app/camera.html', {})
 
@@ -459,4 +448,90 @@ def userLogFromExtenstion(request):
 
     return HttpResponse('')
 
+# hacks - start
 
+def createThirtyUser(request):
+
+    user = User.objects.create_user('alligator', '', 'alligator');
+    user.save();
+    user = User.objects.create_user('ant', '', 'ant');
+    user.save();
+    user = User.objects.create_user('bat', '', 'bat');
+    user.save();
+    user = User.objects.create_user('bear', '', 'bear');
+    user.save();
+    user = User.objects.create_user('bee', '', 'bee');
+    user.save();
+    user = User.objects.create_user('buffalo', '', 'buffalo');
+    user.save();
+    user = User.objects.create_user('camel', '', 'camel');
+    user.save();
+    user = User.objects.create_user('dog', '', 'dog');
+    user.save();
+    user = User.objects.create_user('dolphin', '', 'dolphin');
+    user.save();
+    user = User.objects.create_user('duck', '', 'duck');
+    user.save();
+    user = User.objects.create_user('deer', '', 'deer');
+    user.save();
+    user = User.objects.create_user('elephant', '', 'elephant');
+    user.save();
+    user = User.objects.create_user('eagle', '', 'eagle');
+    user.save();
+    user = User.objects.create_user('fox', '', 'fox');
+    user.save();
+    user = User.objects.create_user('fish', '', 'fish');
+    user.save();
+    user = User.objects.create_user('frog', '', 'frog');
+    user.save();
+    user = User.objects.create_user('giraffe', '', 'giraffe');
+    user.save();
+    user = User.objects.create_user('hippo', '', 'hippo');
+    user.save();
+    user = User.objects.create_user('lion', '', 'lion');
+    user.save();
+    user = User.objects.create_user('kangaroo', '', 'kangaroo');
+    user.save();
+    user = User.objects.create_user('leopard', '', 'leopard');
+    user.save();
+    user = User.objects.create_user('tiger', '', 'tiger');
+    user.save();
+    user = User.objects.create_user('monkey', '', 'monkey');
+    user.save();
+    user = User.objects.create_user('panda', '', 'panda');
+    user.save();
+    user = User.objects.create_user('penguin', '', 'penguin');
+    user.save();
+    user = User.objects.create_user('rabbit', '', 'rabbit');
+    user.save();
+    user = User.objects.create_user('raccoon', '', 'raccoon');
+    user.save();
+    user = User.objects.create_user('rhino', '', 'rhino');
+    user.save();
+    user = User.objects.create_user('sheep', '', 'sheep');
+    user.save();
+    user = User.objects.create_user('squirrel', '', 'squirrel');
+    user.save();
+    user = User.objects.create_user('liger', '', 'liger');
+    user.save();
+    user = User.objects.create_user('turtle', '', 'turtle');
+    user.save();
+    user = User.objects.create_user('wolf', '', 'wolf');
+    user.save();
+    user = User.objects.create_user('zebra', '', 'zebra');
+    user.save();
+
+    return HttpResponse('')
+
+# hacks - end
+
+
+def deleteAllItems(request):
+    # brainstormNote.objects.all().delete()
+    # imageModel.objects.all().delete()
+    Message.objects.all().delete()
+    # imageComment.objects.all().delete();
+    userLogTable.objects.all().delete();
+    #groupInfo.objects.all().delete()
+
+    return HttpResponse('')
