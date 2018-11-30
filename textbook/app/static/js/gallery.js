@@ -2,6 +2,7 @@
 var host_url = window.location.host
 var logged_in = ''
 var totalPhoto
+var groupArray = ['A', 'B','C']
 
 $(function(){
 
@@ -22,41 +23,39 @@ $(function(){
         //console.log(data);
 
 
-        console.log('(server)', data.imageid)
-        console.log('(local)', $("input[name='image-db-pk']").val())
+    console.log('(server)', data.imageid)
+    console.log('(local)', $("input[name='image-db-pk']").val())
 
-        //if student commenting on one image is the same as the other user is viewing show the comment else don't show
-        if(data.imageid == $("input[name='image-db-pk']").val())
-        {
-            //  add in the individual image discussion thread itself
-            var li = $("<li/>").appendTo("#image-feed");
+    //if student commenting on one image is the same as the other user is viewing show the comment else don't show
+    if(data.imageid == $("input[name='image-db-pk']").val())
+    {
+        //  add in the individual image discussion thread itself
+        var li = $("<li/>").appendTo("#image-feed");
 
-            //console.log ('message posted by', data.name);
-            //console.log('logged in username (outside):: ', logged_in);
+        //console.log ('message posted by', data.name);
+        //console.log('logged in username (outside):: ', logged_in);
 
-            if(logged_in == data.name){
-                   li.addClass('message self');
-            }else{
-                   li.addClass('message');
-            }
-
-            var div = $("<div/>").appendTo(li);
-            div.addClass('user-image');
-
-            var span = $('<span/>', {
-                text: data.name}).appendTo(div);
-
-
-            var p = $('<p/>', {
-                    text: data.message}).appendTo(li);
+        if(logged_in == data.name){
+               li.addClass('message self');
+        }else{
+               li.addClass('message');
         }
 
-//                var p = $('<p/>', {
-//                        text: data.message}).appendTo(li);
+        var div = $("<div/>").appendTo(li);
+        div.addClass('user-image');
 
-                // Scroll panel to bottom
-                var imageFeedParent = $('#image-feed').closest('.row');
-                imageFeedParent.scrollTop(imageFeedParent[0].scrollHeight);
+        var span = $('<span/>', {
+            text: data.name}).appendTo(div);
+
+
+        var p = $('<p/>', {
+                text: data.message}).appendTo(li);
+    }
+
+
+    // Scroll panel to bottom
+    var imageFeedParent = $('#image-feed').closest('.row');
+    imageFeedParent.scrollTop(imageFeedParent[0].scrollHeight);
 
 
     });
@@ -113,6 +112,8 @@ $(function(){
 
         })
 
+
+        //show submissions based on the user group
         $("#mySubmission").click(function(e){
          $('#gallery-group-heading').text('My Submissions')
             //steps: get group id;
@@ -133,6 +134,7 @@ $(function(){
 
         });
 
+        //show all submissions except the user group
         $("#allSubmission").click(function(e){
            $('#gallery-group-heading').text('All Submissions')
 
@@ -195,8 +197,8 @@ $(function(){
                         //update gallery with newly uploaded image
                         img_data = response.success;
                         var obj = jQuery.parseJSON(img_data);
-
-
+                     
+                        var groupID = groupArray[obj.group_id];
                         var li = $("<li/>").appendTo("#gallery"); //<ul id=gallery>
 
                          //adding image delete span
@@ -204,10 +206,13 @@ $(function(){
                             .addClass('object_delete')
                             .appendTo(li);
 
-
-
                         var img = $('<img/>', {
                                 src : 'http://'+ host_url + obj.url }).css({opacity:1.0}).appendTo(li);
+
+                         var span_badge = $('<span/>')
+                            .addClass('badge')
+                            .text(groupID)
+                            .appendTo(li);
 
 
                          img.on('click', function(event){
@@ -278,9 +283,19 @@ $(function(){
 
  })
 
+    function readURL(input) {
 
- //function called from digTextBook.js
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#default').attr('src', e.target.result);
+                }
+                reader.readAsDataURL(input.files[0]);
+        }
+         $('#default').attr('src', "{% static 'pics/default.png' %}");
+}
 
+    //function called from digTextBook.js
 
      function postImageMessage(){
         //get the user name who posted
@@ -361,17 +376,7 @@ function viewDiv(view, number_of_group){
     }
 }
 
-function readURL(input) {
 
-        if (input.files && input.files[0]) {
-            var reader = new FileReader();
-                reader.onload = function (e) {
-                    $('#default').attr('src', e.target.result);
-                }
-                reader.readAsDataURL(input.files[0]);
-        }
-         $('#default').attr('src', "{% static 'pics/default.png' %}");
-}
 
 
 //    function viewDiv(view, number_of_group){
@@ -550,13 +555,15 @@ function displayGallery(view, groupValue){
 
            $.each(obj, function(key,value) {
 
-               // console.log(value.fields) //gives all the value
+               //console.log(value.fields) //gives all the value
                // console.log(value.fields['image']); //image field in the model
+               //console.log(groupArray[value.fields['group_id']-1]); //group id of the user who uploaded it
 
                // console.log(logged_in, value.fields['posted_by'][0])
                // console.log('primary id::',value.pk)
                // console.log('total number of images: ', obj.length)
 
+               var groupID = groupArray[value.fields['group_id']-1];
                var li = $("<li/>").appendTo("#gallery"); //<ul id=gallery>
 
                if(logged_in == value.fields['posted_by'][0]){
@@ -566,12 +573,15 @@ function displayGallery(view, groupValue){
                         .addClass('object_delete')
                         .appendTo(li);
 
-
-
                    var img = $('<img/>', {
                    src : 'http://'+ host_url +'/media/'+value.fields['image'] })
                    .css({opacity:1.0})
                    .appendTo(li);
+
+                   var span_badge = $('<span/>')
+                            .addClass('badge')
+                            .text(groupID)
+                            .appendTo(li);
 
                   //add delete button functionality
                    var closeBtn = $('<span class="object_delete"></span>');
@@ -609,6 +619,11 @@ function displayGallery(view, groupValue){
                    //just add others image to the gallery
                    var img = $('<img/>', {
                    src : 'http://'+ host_url +'/media/'+value.fields['image'] }).appendTo(li);
+
+                    var span_badge = $('<span/>')
+                            .addClass('badge')
+                            .text(groupID)
+                            .appendTo(li);
 
                 }
 
