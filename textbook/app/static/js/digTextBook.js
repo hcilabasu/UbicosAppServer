@@ -255,6 +255,9 @@ var bindActivityButtons = function(){
 
              $('input[name="table-id"]').attr('value', id)
              $('.card.' + type + ' h1').text('Data #' +id );
+
+             //used to clear the table for different instance of the table
+             clearTableStatus();
         }
 
         // if gallery div is active, load the gallery
