@@ -277,6 +277,15 @@ var bindActivityButtons = function(){
             }
 
 
+            //gallery 1 card stays open if explicitly not closed and you go to gallery 2.
+            //with each click hide the single image view
+            $('#gallery-panel').show();
+            $('#single-image-view').hide();
+            //https://stackoverflow.com/questions/52430558/dynamic-html-image-loading-using-javascript-and-django-templates
+            $('img#default').attr('src', API_URL.picsBase + "/default.png");
+            // end of the solution
+
+
             // pass id to gallery activity - to upload image form in gallery.html
             $('#upload-img input[name="act-id"]').attr('value', id)
 
