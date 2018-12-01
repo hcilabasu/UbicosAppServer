@@ -196,6 +196,9 @@ def uploadImage(request):
         image_data = json.dumps(data)
 
         # print(image_data)
+        #real time pic transfer
+        # pusher1.trigger(u'b_channel', u'bn_event',
+        #                 { u'new_image':image_data})
 
         return JsonResponse({'success': image_data, 'errorMsg': True})
 
@@ -203,8 +206,6 @@ def getImage(request, view_id, gallery_id,group_id):
 
     # for pilot/study
     print("@@@@", view_id)
-    if(int(view_id) == 2):
-        images = imageModel.objects.filter(gallery_id=gallery_id)
 
 
     if(int(view_id) == 1): #view_id = 1 means comment view
@@ -250,7 +251,7 @@ def updateImageFeed(request, img_id):
     print('updateImageFeed (image_id) :: ' + img_id)
     img_msg = imageComment.objects.filter(imageId_id=img_id)
     img_msg = serializers.serialize('json', img_msg, use_natural_foreign_keys=True, use_natural_primary_keys=True)
-    print('hojoborolo :: ', img_msg)
+
     return JsonResponse({'success': img_msg, 'username': request.user.get_username(),'errorMsg': True})
 
 def brainstormSave(request):
@@ -399,47 +400,33 @@ def groupAdd(request):
     users_list = [str(user) for user in User.objects.all()]
     print(len(users_list))
 
-    usernames_array = ["alligator", "ant", "bat", "bear", "bee", "buffalo", "camel", "dog", "dolphin", "duck", "deer",
-                       "elephant", "eagle", "fox", "fish", "frog",
-                       "giraffe", "hippo", "lion", "kangaroo", "leopard", "tiger", "monkey", "panda", "penguin",
-                       "rabbit", "raccoon", "rhino", "sheep", "squirrel", "liger", "turtle", "wolf", "zebra"];
+    usernames_array = ["ant", "giraffe", "penguin", "sheep", "hippo", "lion", "dolphin", "eagle", "frog", "duck", "bee", "bat",
+                       "elephant", "leopard", "panda", "fish", "fox", "alligator", "kangaroo", "liger", "squirrel", "zebra", "bear",
+                       "deer", "dog", "tiger", "monkey", "rabbit"];
 
-    #28 - upto rhino
-    # print(len(usernames_array))
-    #
+
     # for username in users_list:
     #     print(usernames_array.index(username))
 
-    #username_groupID = ['1','2','3','4','5','6','7','8','9','10','1','2','3','4','5','6','7','8','9','10','1','2','3','4','5','6','7','8']
-    username_groupID = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '1', '2', '3', '4', '5', '6', '7', '8', '9',
-                        '10', '1', '2', '3', '4', '5', '6', '7', '8','9', '10', '1', '2', '3', '4']
+    username_groupID = ['1', '1', '1', '2', '2', '2', '3', '3', '3', '4', '4', '4', '5', '5', '5', '6', '6', '7', '7',
+                        '7', '8', '8', '8', '9', '9', '10', '10', '10']
 
-    # #create group id for all the users
-    # # groupID_alligator = 1
-    # groupID_ant = 2;
-    # #
-    # #
-    # for i in range(1, 5):
-    #     print(i)
-    #
+    for i in range(len(usernames_array)):
+        print (usernames_array[i], ' ----- ', username_groupID[usernames_array.index(usernames_array[i])]);
 
+
+    # 4 gallery activities so range is from 1 to 5
     for username in users_list:
         for i in range(1, 5):
 
-            # member = groupInfo(activityType='gallery', activityID=i, group=groupID_ant,
-            #                    users=User.objects.get(username=username))
             member = groupInfo(activityType='gallery', activityID=i, group=username_groupID[usernames_array.index(username)],
                                users=User.objects.get(username=username))
             member.save();
 
-            # member = groupInfo(activityType='gallery', activityID=5, group=0, users=User.objects.get(username=username))
-            # member.save();
 
-    # #insert statement for each gallery, right now number of gallery = 4
+    # insert statement for each gallery, right now number of gallery = 4
 
-    #add this statement for all users
-    # member = groupInfo(activityType='gallery', activityID=5, group=0, users=request.user)
-    # member.save();
+
 
 
     # #for user - ant
@@ -509,75 +496,84 @@ def userLogFromExtenstion(request):
 # hacks - start
 
 
-def createThirtyUser(request):
+def createBulkUser(request):
 
-    user = User.objects.create_user('alligator', '', 'alligator');
-    user.save();
+    # 28 user for the study
+
+    #group 1
     user = User.objects.create_user('ant', '', 'ant');
     user.save();
-    user = User.objects.create_user('bat', '', 'bat');
-    user.save();
-    user = User.objects.create_user('bear', '', 'bear');
-    user.save();
-    user = User.objects.create_user('bee', '', 'bee');
-    user.save();
-    user = User.objects.create_user('buffalo', '', 'buffalo');
-    user.save();
-    user = User.objects.create_user('camel', '', 'camel');
-    user.save();
-    user = User.objects.create_user('dog', '', 'dog');
-    user.save();
-    user = User.objects.create_user('dolphin', '', 'dolphin');
-    user.save();
-    user = User.objects.create_user('duck', '', 'duck');
-    user.save();
-    user = User.objects.create_user('deer', '', 'deer');
-    user.save();
-    user = User.objects.create_user('elephant', '', 'elephant');
-    user.save();
-    user = User.objects.create_user('eagle', '', 'eagle');
-    user.save();
-    user = User.objects.create_user('fox', '', 'fox');
-    user.save();
-    user = User.objects.create_user('fish', '', 'fish');
-    user.save();
-    user = User.objects.create_user('frog', '', 'frog');
-    user.save();
     user = User.objects.create_user('giraffe', '', 'giraffe');
+    user.save();
+    user = User.objects.create_user('penguin', '', 'penguin');
+    user.save();
+
+    #group 2
+    user = User.objects.create_user('sheep', '', 'sheep');
     user.save();
     user = User.objects.create_user('hippo', '', 'hippo');
     user.save();
     user = User.objects.create_user('lion', '', 'lion');
     user.save();
-    user = User.objects.create_user('kangaroo', '', 'kangaroo');
+
+    # group 3
+    user = User.objects.create_user('dolphin', '', 'dolphin');
+    user.save();
+    user = User.objects.create_user('eagle', '', 'eagle');
+    user.save();
+    user = User.objects.create_user('frog', '', 'frog');
+    user.save();
+
+    # group 4
+    user = User.objects.create_user('duck', '', 'duck');
+    user.save();
+    user = User.objects.create_user('bee', '', 'bee');
+    user.save();
+    user = User.objects.create_user('bat', '', 'bat');
+    user.save();
+
+    #group 5
+    user = User.objects.create_user('elephant', '', 'elephant');
     user.save();
     user = User.objects.create_user('leopard', '', 'leopard');
     user.save();
+    user = User.objects.create_user('panda', '', 'panda');
+    user.save();
+
+    #group 6
+    user = User.objects.create_user('fish', '', 'fish');
+    user.save();
+    user = User.objects.create_user('fox', '', 'fox');
+    user.save();
+
+    #group 7
+    user = User.objects.create_user('alligator', '', 'alligator');
+    user.save();
+    user = User.objects.create_user('kangaroo', '', 'kangaroo');
+    user.save();
+    user = User.objects.create_user('liger', '', 'liger');
+    user.save();
+
+    #group 8
+    user = User.objects.create_user('squirrel', '', 'squirrel');
+    user.save();
+    user = User.objects.create_user('zebra', '', 'zebra');
+    user.save();
+    user = User.objects.create_user('bear', '', 'bear');
+    user.save();
+
+    #group 9
+    user = User.objects.create_user('deer', '', 'deer');
+    user.save();
+    user = User.objects.create_user('dog', '', 'dog');
+    user.save();
+
+    #group 10
     user = User.objects.create_user('tiger', '', 'tiger');
     user.save();
     user = User.objects.create_user('monkey', '', 'monkey');
     user.save();
-    user = User.objects.create_user('panda', '', 'panda');
-    user.save();
-    user = User.objects.create_user('penguin', '', 'penguin');
-    user.save();
     user = User.objects.create_user('rabbit', '', 'rabbit');
-    user.save();
-    user = User.objects.create_user('raccoon', '', 'raccoon');
-    user.save();
-    user = User.objects.create_user('rhino', '', 'rhino');
-    user.save();
-    user = User.objects.create_user('sheep', '', 'sheep');
-    user.save();
-    user = User.objects.create_user('squirrel', '', 'squirrel');
-    user.save();
-    user = User.objects.create_user('liger', '', 'liger');
-    user.save();
-    user = User.objects.create_user('turtle', '', 'turtle');
-    user.save();
-    user = User.objects.create_user('wolf', '', 'wolf');
-    user.save();
-    user = User.objects.create_user('zebra', '', 'zebra');
     user.save();
 
     return HttpResponse('')

@@ -19,43 +19,45 @@ $(function(){
 
     my_channel.bind("bn_event", function (data) {
 
+
+
         //message entered by the user
-        //console.log(data);
 
 
-    console.log('(server)', data.imageid)
-    console.log('(local)', $("input[name='image-db-pk']").val())
 
-    //if student commenting on one image is the same as the other user is viewing show the comment else don't show
-    if(data.imageid == $("input[name='image-db-pk']").val())
-    {
-        //  add in the individual image discussion thread itself
-        var li = $("<li/>").appendTo("#image-feed");
+        console.log('(server)', data.imageid)
+        console.log('(local)', $("input[name='image-db-pk']").val())
 
-        //console.log ('message posted by', data.name);
-        //console.log('logged in username (outside):: ', logged_in);
+        //if student commenting on one image is the same as the other user is viewing show the comment else don't show
+        if(data.imageid == $("input[name='image-db-pk']").val())
+        {
+            //  add in the individual image discussion thread itself
+            var li = $("<li/>").appendTo("#image-feed");
 
-        if(logged_in == data.name){
-               li.addClass('message self');
-        }else{
-               li.addClass('message');
+            //console.log ('message posted by', data.name);
+            //console.log('logged in username (outside):: ', logged_in);
+
+            if(logged_in == data.name){
+                   li.addClass('message self');
+            }else{
+                   li.addClass('message');
+            }
+
+            var div = $("<div/>").appendTo(li);
+            div.addClass('user-image');
+
+            var span = $('<span/>', {
+                text: data.name}).appendTo(div);
+
+
+            var p = $('<p/>', {
+                    text: data.message}).appendTo(li);
         }
 
-        var div = $("<div/>").appendTo(li);
-        div.addClass('user-image');
 
-        var span = $('<span/>', {
-            text: data.name}).appendTo(div);
-
-
-        var p = $('<p/>', {
-                text: data.message}).appendTo(li);
-    }
-
-
-    // Scroll panel to bottom
-    var imageFeedParent = $('#image-feed').closest('.row');
-    imageFeedParent.scrollTop(imageFeedParent[0].scrollHeight);
+        // Scroll panel to bottom
+        var imageFeedParent = $('#image-feed').closest('.row');
+        imageFeedParent.scrollTop(imageFeedParent[0].scrollHeight);
 
 
     });
@@ -232,6 +234,38 @@ $(function(){
                             .appendTo(li);
 
 
+                        var closeBtn = $('<span class="object_delete"></span>');
+
+                        closeBtn.click(function(e){
+
+                                e.preventDefault();
+                                //get ID of the deleted note
+                                var deletedImageID = value.pk;
+                                console.log('deleted image id :: ', deletedImageID);
+                                $(this).parent().remove(); //remove item from html
+
+                                enterLogIntoDatabase('click', 'gallery' , 'image-delete-'+deletedImageID, 111)
+
+
+                              //delete note from database
+                                $.ajax({
+                                    type:'POST',
+                                    url:'/gallery/del/'+deletedImageID,
+                                    async: false, //wait for ajax call to finish,
+                                    success: function(e){
+                                        console.log(e)
+                                        //TODO: add user log
+
+                                    }
+                                })
+
+
+                                return false;
+                            });
+
+                        li.append(closeBtn);
+
+
                          img.on('click', function(event){
                            enterLogIntoDatabase('image click', 'gallery' , obj.url , 111)
                            totalPhoto = $(this).parent().siblings().length+1;
@@ -391,14 +425,9 @@ function viewDiv(view, number_of_group){
         })
         //1 means comment view
         displayGallery(1, group_id_user);
-    }else if(view == "all-class"){
-        $('#gallery-user-submission').show();
-        $('#openCamera').show();
-        $('#gallery-view-only').hide();
-
-        displayGallery(2,1);
     }
-}
+ }
+
 
 function displayGallery(view, groupValue){
 
