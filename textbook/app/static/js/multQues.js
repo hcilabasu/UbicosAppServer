@@ -11,12 +11,77 @@ var isAnswerNull = 0;
 
 var getAnswers = function(){
 
+    //handling persistence - start
     if(localStorage.getItem("page5input1")){
-        console.log("i am present I am present")
+
         $('#page5-input1').attr('disabled',true);
         $("textarea[name='page5-input1']").val(localStorage.getItem("page5input1"))
 
     }
+
+    if(localStorage.getItem("page7input1")){
+        answer = JSON.parse(localStorage.getItem("page7input1"))
+
+        $('#page7-input1').attr('disabled',true);
+        $("textarea[name='page7-input1']").val(answer[0])
+        $("textarea[name='page7-input2']").val(answer[1])
+
+    }
+
+    if(localStorage.getItem("page7input2")){
+        answer = JSON.parse(localStorage.getItem("page7input2"))
+
+        $('#page7-input2').attr('disabled',true);
+        $("textarea[name='page7-input3']").val(answer[0])
+        $("textarea[name='page7-input4']").val(answer[1])
+
+    }
+
+    if(localStorage.getItem("page10input1")){
+        answer = JSON.parse(localStorage.getItem("page10input1"))
+
+        $('#page10-input1').attr('disabled',true);
+        $("textarea[name='page10-input1']").val(answer[0])
+        $("textarea[name='page10-input2']").val(answer[1])
+
+    }
+
+    if(localStorage.getItem("page10input2")){
+        answer = JSON.parse(localStorage.getItem("page10input2"))
+
+        $('#page10-input2').attr('disabled',true);
+        $("textarea[name='page10-input3']").val(answer[0])
+        $("textarea[name='page10-input4']").val(answer[1])
+
+    }
+
+    if(localStorage.getItem("page12input1")){
+
+        $('#page12-input1').attr('disabled',true);
+        $("textarea[name='page12-input1']").val(localStorage.getItem("page12input1"))
+
+    }
+
+    if(localStorage.getItem("page12input2")){
+        answer = JSON.parse(localStorage.getItem("page12input2"))
+
+        $('#page12-input2').attr('disabled',true);
+        $("textarea[name='page12-input2']").val(answer[0])
+        $("textarea[name='page12-input3']").val(answer[1])
+
+    }
+
+    if(localStorage.getItem("page12input3")){
+        answer = JSON.parse(localStorage.getItem("page12input3"))
+
+        $('#page12-input3').attr('disabled',true);
+        $("textarea[name='page12-input4']").val(answer[0])
+        $("textarea[name='page12-input5']").val(answer[1])
+        $("textarea[name='page12-input6']").val(answer[2])
+
+    }
+
+     //handling persistence - end
 
     //page 5 input
     $("#page5-input1").off().click(function(e){
@@ -102,6 +167,7 @@ var getAnswers = function(){
 
             //send to db and disable the submit button
             sendUserInputToDB(7, answerJson);
+            localStorage.setItem("page7input1", answerJson);
             $('#page7-input1').attr('disabled',true);
 
         }
@@ -157,6 +223,7 @@ var getAnswers = function(){
 
             //send to db and disable the submit button
             sendUserInputToDB(7, answerJson);
+            localStorage.setItem("page7input2", answerJson);
             $('#page7-input2').attr('disabled',true);
 
         }
@@ -212,6 +279,7 @@ var getAnswers = function(){
 
             //send to db and disable the submit button
             sendUserInputToDB(10, answerJson);
+            localStorage.setItem("page10input1", answerJson);
             $('#page10-input1').attr('disabled',true);
 
         }
@@ -267,6 +335,7 @@ var getAnswers = function(){
 
             //send to db and disable the submit button
             sendUserInputToDB(10, answerJson);
+            localStorage.setItem("page10input2", answerJson);
             $('#page10-input2').attr('disabled',true);
 
         }
@@ -299,6 +368,7 @@ var getAnswers = function(){
 
             //send to db and disable the submit button
             sendUserInputToDB(12, answer);
+            localStorage.setItem("page12input1", answer);
             $('#page12-input1').attr('disabled',true);
 
         }
@@ -355,6 +425,7 @@ var getAnswers = function(){
 
             //send to db and disable the submit button
             sendUserInputToDB(12, answerJson);
+            localStorage.setItem("page12input2", answerJson);
             $('#page12-input2').attr('disabled',true);
 
         }
@@ -410,6 +481,7 @@ var getAnswers = function(){
 
             //send to db and disable the submit button
             sendUserInputToDB(12, answerJson);
+            localStorage.setItem("page12input3", answerJson);
             $('#page12-input3').attr('disabled',true);
 
         }

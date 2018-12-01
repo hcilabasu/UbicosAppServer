@@ -20,6 +20,8 @@ var NUM_PAGES = 22;
 
 $(function(){
 
+    //localstorage.clear();
+
     var host_url = window.location.host
 
     console.log('page load');
@@ -143,8 +145,7 @@ var movePage = function(moveToNext){
     current_pagenumber = currentPageNum
     localStorage.setItem("pageToBeRefreshed", currentPageNum);
     $("#page-control-number").text('Page ' + currentPageNum + '/' + NUM_PAGES);
-    //user logging
-    enterLogIntoDatabase('click', 'page change' , 'none', current_pagenumber)
+
 
     //close any card with page navigation
     if(type!=''){
