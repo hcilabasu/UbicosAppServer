@@ -20,7 +20,7 @@ var NUM_PAGES = 22;
 
 $(function(){
 
-    //localstorage.clear();
+    //localStorage.clear();
 
     var host_url = window.location.host
 
@@ -256,8 +256,20 @@ var bindActivityButtons = function(){
              $('input[name="table-id"]').attr('value', id)
              $('.card.' + type + ' h1').text('Data #' +id );
 
-             //used to clear the table for different instance of the table
-             clearTableStatus();
+              //persistence checker and populate or clear the table according to that
+              $('#graph-container').hide();
+              if(localStorage.getItem('table'+$('input[name="table-id"]').val())){
+                var points = localStorage.getItem('table'+$('input[name="table-id"]').val());
+
+                //table already populated before, so display them in the table
+                persistTableStatus(points)
+
+              }else{
+                //used to clear the table for different instance of the table
+                clearTableStatus();
+              }
+
+
         }
 
         // if gallery div is active, load the gallery

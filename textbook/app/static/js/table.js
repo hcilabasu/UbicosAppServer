@@ -100,8 +100,7 @@ function clearTableStatus(){
 
     xRow = $('.x-row td');
     $.each(xRow, function(index, value){
-        console.log(index);
-        console.log(value);
+
         var inputX = $($('.x-row input')[index]);
         var inputY = $($('.y-row input')[index]);
         inputX.val('');
@@ -111,6 +110,25 @@ function clearTableStatus(){
 
     updateTableStatus();
 
+}
+
+
+
+function persistTableStatus(points){
+
+        points = JSON.parse(points)
+        xRow = $('.x-row td');
+
+        $.each(points, function(index, value){
+            console.log(value[0])
+
+            var inputX = $($('.x-row input')[index]);
+            var inputY = $($('.y-row input')[index]);
+            inputX.val(value[0]);
+            inputY.val(value[1]);
+        })
+
+        updateTableStatus();
 }
 
 function tableUpdated(){
@@ -331,12 +349,14 @@ function drawLine(draw){
     var visibility = draw ? 'visible' : 'hidden';
     $('path').css('visibility', visibility);
     //save the data points in database
+
+    localStorage.setItem('table'+$("input[name='table-id']").val(), JSON.stringify(POINTS))
     tableDataInsert('table', POINTS);
 }
 
  var tableDataInsert = function(type, points){
          var pointsAsJSON = JSON.stringify(points);
-        console.log(pointsAsJSON)
+         console.log(pointsAsJSON)
         //send to database
            $.post({
             async: false,
