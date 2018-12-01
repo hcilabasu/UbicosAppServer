@@ -231,13 +231,6 @@ var bindActivityButtons = function(){
         type = activityButton.attr('class').replace('activity-button','').trim();
         console.log('type', type)
 
-        //different types of brainstorm instances; each instance different color.
-        //so checking if brainstorm is selected by user
-        if(type.indexOf("brainstorm")>=0){
-            console.log("@@@@ brainstorm", type.split(" ")[0])
-            type = type.split(" ")[0]
-        }
-
         //id of each each activity - based on page no
         var id = activityButton.attr('data-id');
         console.log('id', id)
@@ -263,25 +256,9 @@ var bindActivityButtons = function(){
         //if the table tab is active
         if($('.card.table').hasClass('active')){
 
-            //check for table persistent - table.js not working
-            var table_id = $("input[name='table-id']").val();
-            if(localStorage.getItem("tableVal"+table_id)){
-                console.log("table 1 i am present i am present")
-                console.log(localStorage.getItem("tableVal"+table_id))
-                var tableVal = localStorage.getItem("tableVal"+table_id);
-                tableVal = JSON.parse(tableVal);
-
-                $.each( tableVal, function( key, value ) {
-                          console.log( key + ": " + value );
-                          //update the table
-
-                        });
-
-            }
-
 
              $('input[name="table-id"]').attr('value', id)
-             $('.card.' + type + ' h1').text('Data');
+             $('.card.' + type + ' h1').text('Data #' +id );
         }
 
         // if gallery div is active, load the gallery

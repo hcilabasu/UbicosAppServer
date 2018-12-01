@@ -113,6 +113,7 @@ $(function(){
         })
 
 
+
         //show submissions based on the user group
         $("#mySubmission").click(function(e){
 

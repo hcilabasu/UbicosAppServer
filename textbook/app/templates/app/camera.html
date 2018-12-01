@@ -40,8 +40,9 @@
         <button id="snap" class="btn">Snap Photo</button>
         <canvas id="canvas" width="640" height="480"></canvas>
         <br>
-        <a href="#" style="font-size: 50px;" class="button" id="btn-download" download="Picture.png">Download Image</a>
+        <a href="#" style="font-size: 50px;" class="button" id="btn-download" download="Picture-CURRENT-USER-TIME-HERE.png" onclick="this.download='Picture-' + getFormattedTime() + '.png'">Download Image</a>
 
+        <!--https://stackoverflow.com/questions/44484882/download-with-current-user-time-as-filename-->
         <script src="{% static 'js/jquery.min.js' %}"></script>
         <script>
             // Put event listeners into place
@@ -92,10 +93,24 @@
                 button.addEventListener('click', function (e) {
                     var dataURL = canvas.toDataURL('image/png');
                     button.href = dataURL;
+
+
                 });
 
 
             }, false);
+
+            function getFormattedTime() {
+                        var today = new Date();
+                        var y = today.getFullYear();
+                        // JavaScript months are 0-based.
+                        var m = today.getMonth() + 1;
+                        var d = today.getDate();
+                        var h = today.getHours();
+                        var mi = today.getMinutes();
+                        var s = today.getSeconds();
+                        return y + "-" + m + "-" + d + "-" + h + "-" + mi + "-" + s;
+                }
         </script>
     </body>
 </html>
