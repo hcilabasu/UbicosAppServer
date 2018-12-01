@@ -32,6 +32,7 @@ $(function(){
         //user logging
         enterLogIntoDatabase('card close', classNameWhichisClosed, 'none', current_pagenumber)
         $(this).closest('.card').removeClass('active');
+
     });
 
     $('.extend-card').on('touch click', function(){
@@ -101,12 +102,6 @@ $(function(){
       }else{
 
       }
-
-
-
-
-
-
 
 
 });

@@ -205,8 +205,8 @@ $(function(){
                       data : form_data,
                       success: function(response){
 
-                        //clear default image
-                        $('#default').attr('src', "{% static 'pics/default.png' %}");
+                        //clear default image - not working here
+                        //$('#default').attr('src', "pics/default.png");
 
                         //TODO: update user with a 'success' message on the screen
 
@@ -309,7 +309,7 @@ $(function(){
                 }
                 reader.readAsDataURL(input.files[0]);
         }
-         $('#default').attr('src', "{% static 'pics/default.png' %}");
+
 }
 
     //function called from digTextBook.js
