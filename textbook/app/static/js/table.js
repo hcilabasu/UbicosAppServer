@@ -193,6 +193,8 @@ function handleDrawEquation(){
             for (let x = 0; x < XRANGE; x++) {
                 xList.push(x+1);
             }
+            xList.push(0);
+            xList.push(XRANGE);
         }
         // Create points
         for (let i = 0; i < xList.length; i++) {
