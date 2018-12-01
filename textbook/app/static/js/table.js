@@ -19,6 +19,9 @@ $(function(){
         $('#sourceOptions .active').removeClass('active');
         $(this).addClass('active');
     });
+
+
+
 });
 
 /*
@@ -311,6 +314,11 @@ function drawLine(draw){
     $('path').css('visibility', visibility);
     //save the data points in database
     tableDataInsert('table', POINTS);
+
+    //save the data in localstorage to make it persistent
+    var table_id = $("input[name='table-id']").val();
+    
+    localStorage.setItem("tableVal"+table_id, JSON.stringify(POINTS));
 }
 
  var tableDataInsert = function(type, points){

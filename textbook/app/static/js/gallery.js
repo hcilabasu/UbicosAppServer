@@ -2,7 +2,7 @@
 var host_url = window.location.host
 var logged_in = ''
 var totalPhoto
-var groupArray = ['A', 'B','C']
+var groupArray = ['A', 'B','C', 'D', 'E', 'F', 'G', 'H', 'I', 'J']
 
 $(function(){
 
@@ -133,7 +133,7 @@ $(function(){
                 async: false, //wait for ajax call to finish, else logged_in is null in the following if condition
                 success: function(e){
                     get_user_group_id = e;
-                    console.log("@@@@,", e)
+                    console.log("my group id (gallery.js),", e)
                 }
             });
             displayGallery(0, get_user_group_id);
@@ -214,7 +214,7 @@ $(function(){
                         var obj = jQuery.parseJSON(img_data);
 
 
-                        var groupID = groupArray[obj.group_id];
+                        var groupID = groupArray[obj.group_id-1];
                         var li = $("<li/>").appendTo("#gallery"); //<ul id=gallery>
 
                          //adding image delete span
@@ -360,6 +360,7 @@ $(function(){
 
 
 
+
 function viewDiv(view, number_of_group){
 
     //class means user upload - specific user will click - so we know the id
@@ -367,7 +368,7 @@ function viewDiv(view, number_of_group){
         $('#gallery-user-submission').show();
         $('#openCamera').show();
         $('#gallery-view-only').hide();
-        console.log("which group?? ", number_of_group)
+        console.log("my group is (gallery.js) ", number_of_group)
         displayGallery(0, number_of_group);
 
     //comment means user accessing other groups image, should not see their own - any user will click it - so we need to know the id
@@ -389,164 +390,21 @@ function viewDiv(view, number_of_group){
         })
         //1 means comment view
         displayGallery(1, group_id_user);
+    }else if(view == "all-class"){
+        $('#gallery-user-submission').show();
+        $('#openCamera').show();
+        $('#gallery-view-only').hide();
+
+        displayGallery(2,1);
     }
 }
-
-
-
-
-//    function viewDiv(view, number_of_group){
-//
-//        //console.log('value pass to gallery.js', view)
-//        if(view == 'class'){
-//
-//            $('#gallery-user-submission').show();
-//
-//            //$('#upload-img input[name="group-id"]').attr('value', 0)
-//            $('.card.gallery #gallery-group-heading').text('All Submission'); //update the sub-title of gallery page
-//
-//            displayGallery(0)
-//            displayGallery($("input[name='group-id']").val())
-//
-//        }else if(view == 'comment'){
-//                $('#gallery-user-submission').hide();
-//
-//                $('#upload-img input[name="group-id"]').attr('value', 0)
-//                $('.card.gallery #gallery-group-heading').text('All Submission'); //update the sub-title of gallery page
-//
-//                 displayGallery(0)
-//            }
-//            else{
-//
-//            //TODO: check if 'group' was selected before
-//
-//            console.log('total number of group (gallery.js): ', number_of_group)
-//
-//            $('.card.active').removeClass('active');
-//            $('.card.group').addClass('active');
-//
-//            //clear previous items
-//            $('#group-view').empty();
-//
-//            //add radio button dynamically
-//            for (i = 1; i <= number_of_group; i++) {
-//                $('<input type="radio" name="radiogroup" value="'+i+'"/> Group '+ i +'</br>').appendTo('#group-view');
-//             }
-//
-//            //get group id from the radio button
-//            var groupValue
-//            $("input[name='radiogroup']").change(function(){
-//                groupValue = $("input[name='radiogroup']:checked").val();
-//                if(groupValue){
-//                        //pass group value in the form so it can be added into the database
-//                        $('#upload-img input[name="group-id"]').attr('value', groupValue)
-//
-//                        console.log('group ID :: ', groupValue) //debug
-//                        $('.card.group').removeClass('active');
-//                        $('.card.gallery').addClass('active');
-//
-//                        //update the sub-title of gallery page
-//                        $('.card.gallery #gallery-group-heading').text('Group #'+groupValue+' Submission');
-//
-//                }
-//
-//                displayGallery(groupValue)
-//            })
-//        }
-//    }
-
-var openImageView = function(galleryView, image){
-
-    var singleImageViewer = $('#single-image-view');
-
-    // Toggle views: Display or hide the matched elements.
-    $('.gallery-panel', galleryView).toggle();
-
-    // Get image element and add it to the DOM
-    var image = image.clone();
-
-    //remove previous single image before adding new one
-    $('.section').children('img').remove();
-
-    $('.section', singleImageViewer).append(image);
-
-    //get image location from image object
-    var image_location = image.attr('src').toString();
-
-    //get image file name
-    image_filename = image_location.split('/').pop()
-    console.log(image_filename)
-
-    //get ID using filename
-    var imageID='';
-    $.ajax({
-        type:'GET',
-        async: false,
-        url:'/getImageID/'+image_filename+'/',
-        success: function(data){
-            imageID = data.imageID;
-            console.log('image primary id :: ',data.imageID);
-        }
-    })
-
-    //with each click update the input
-    $('.section input[name="image-db-pk"]').attr('value', imageID)
-   //update feed
-   //clear update feed with new image
-   $('#image-feed').empty();
-   //update feed with each image
-     $.ajax({
-             type: 'GET',
-             url: '/updateImageFeed/'+imageID, //get image comment using primary id
-             success: function(response){
-                      console.log(response)
-
-
-                    var logged_in_user = response.username //passed from views.py - updateFeed
-
-                    msg_data = response.success
-                    var obj = jQuery.parseJSON(msg_data);
-
-                    //console.log(obj)
-
-                    $.each(obj, function(key, value){
-
-                        //  add in the thread itself
-                        var li = $("<li/>").appendTo("#image-feed");
-                        if(value.fields['posted_by'][0] == logged_in_user){
-                            li.addClass('message self');
-                        }else{
-                            li.addClass('message');
-                        }
-
-                        var div = $("<div/>").appendTo(li);
-                        div.addClass('user-image');
-
-                        var span = $('<span/>', {
-                            text: value.fields['posted_by'][0]}).appendTo(div);
-
-                        var p = $('<p/>', {
-                                text: value.fields['content']}).appendTo(li);
-                        });
-
-                        // Scroll panel to bottom
-                        var imageFeedParent = $('#image-feed').closest('.row');
-                        imageFeedParent.scrollTop(imageFeedParent[0].scrollHeight);
-             }
-     });
-
-    //debug
-    //console.log('openImageView (passed to ) :: ',$('input[name="image-db-pk"]').val())
-
-
-
-};
 
 function displayGallery(view, groupValue){
 
         //get the gallery ID - passed from digTextBook.js to input field
         //console.log('gallery-id, ', $("input[name='act-id").val());
         var gallery_id = $("input[name='act-id']").val();
+
         console.log("displaying gallery #gallery id", gallery_id)
         console.log("displaying gallery #group id",groupValue)
         console.log('/getImage/'+view+'/'+gallery_id+'/'+groupValue)
@@ -580,6 +438,7 @@ function displayGallery(view, groupValue){
                // console.log('total number of images: ', obj.length)
 
                var groupID = groupArray[value.fields['group_id']-1];
+
                var li = $("<li/>").appendTo("#gallery"); //<ul id=gallery>
 
                if(logged_in == value.fields['posted_by'][0]){
@@ -674,6 +533,96 @@ function displayGallery(view, groupValue){
 }
 
 
+var openImageView = function(galleryView, image){
+
+    var singleImageViewer = $('#single-image-view');
+
+    // Toggle views: Display or hide the matched elements.
+    $('.gallery-panel', galleryView).toggle();
+
+    // Get image element and add it to the DOM
+    var image = image.clone();
+
+    //remove previous single image before adding new one
+    $('.section').children('img').remove();
+
+    $('.section', singleImageViewer).append(image);
+
+    //get image location from image object
+    var image_location = image.attr('src').toString();
+
+    //get image file name
+    image_filename = image_location.split('/').pop()
+    console.log(image_filename)
+
+    //get ID using filename
+    var imageID='';
+    $.ajax({
+        type:'GET',
+        async: false,
+        url:'/getImageID/'+image_filename+'/',
+        success: function(data){
+            imageID = data.imageID;
+            console.log('image primary id :: ',data.imageID);
+        }
+    })
+
+    //with each click update the input
+    $('.section input[name="image-db-pk"]').attr('value', imageID)
+   //update feed
+   //clear update feed with new image
+   $('#image-feed').empty();
+   //update feed with each image
+     $.ajax({
+             type: 'GET',
+             url: '/updateImageFeed/'+imageID, //get image comment using primary id
+             success: function(response){
+                      console.log(response)
+
+
+                    var logged_in_user = response.username //passed from views.py - updateFeed
+
+                    msg_data = response.success
+                    var obj = jQuery.parseJSON(msg_data);
+
+                    //console.log(obj)
+
+                    $.each(obj, function(key, value){
+
+                        //  add in the thread itself
+                        var li = $("<li/>").appendTo("#image-feed");
+                        if(value.fields['posted_by'][0] == logged_in_user){
+                            li.addClass('message self');
+                        }else{
+                            li.addClass('message');
+                        }
+
+                        var div = $("<div/>").appendTo(li);
+                        div.addClass('user-image');
+
+                        var span = $('<span/>', {
+                            text: value.fields['posted_by'][0]}).appendTo(div);
+
+                        var p = $('<p/>', {
+                                text: value.fields['content']}).appendTo(li);
+                        });
+
+                        // Scroll panel to bottom
+                        var imageFeedParent = $('#image-feed').closest('.row');
+                        imageFeedParent.scrollTop(imageFeedParent[0].scrollHeight);
+             }
+     });
+
+    //debug
+    //console.log('openImageView (passed to ) :: ',$('input[name="image-db-pk"]').val())
+
+
+
+};
+
+
+
+
 function getLoggedUserName(){
 
 //get the logged in user
@@ -688,4 +637,66 @@ function getLoggedUserName(){
         })
 
 }
+
+
+
+//    function viewDiv(view, number_of_group){
+//
+//        //console.log('value pass to gallery.js', view)
+//        if(view == 'class'){
+//
+//            $('#gallery-user-submission').show();
+//
+//            //$('#upload-img input[name="group-id"]').attr('value', 0)
+//            $('.card.gallery #gallery-group-heading').text('All Submission'); //update the sub-title of gallery page
+//
+//            displayGallery(0)
+//            displayGallery($("input[name='group-id']").val())
+//
+//        }else if(view == 'comment'){
+//                $('#gallery-user-submission').hide();
+//
+//                $('#upload-img input[name="group-id"]').attr('value', 0)
+//                $('.card.gallery #gallery-group-heading').text('All Submission'); //update the sub-title of gallery page
+//
+//                 displayGallery(0)
+//            }
+//            else{
+//
+//            //TODO: check if 'group' was selected before
+//
+//            console.log('total number of group (gallery.js): ', number_of_group)
+//
+//            $('.card.active').removeClass('active');
+//            $('.card.group').addClass('active');
+//
+//            //clear previous items
+//            $('#group-view').empty();
+//
+//            //add radio button dynamically
+//            for (i = 1; i <= number_of_group; i++) {
+//                $('<input type="radio" name="radiogroup" value="'+i+'"/> Group '+ i +'</br>').appendTo('#group-view');
+//             }
+//
+//            //get group id from the radio button
+//            var groupValue
+//            $("input[name='radiogroup']").change(function(){
+//                groupValue = $("input[name='radiogroup']:checked").val();
+//                if(groupValue){
+//                        //pass group value in the form so it can be added into the database
+//                        $('#upload-img input[name="group-id"]').attr('value', groupValue)
+//
+//                        console.log('group ID :: ', groupValue) //debug
+//                        $('.card.group').removeClass('active');
+//                        $('.card.gallery').addClass('active');
+//
+//                        //update the sub-title of gallery page
+//                        $('.card.gallery #gallery-group-heading').text('Group #'+groupValue+' Submission');
+//
+//                }
+//
+//                displayGallery(groupValue)
+//            })
+//        }
+//    }
 

@@ -105,6 +105,8 @@ $(function(){
 
 
 
+
+
 });
 
 
@@ -218,149 +220,6 @@ var loadHTML = function(url, successFn, errorFn){
 
 var bindActivityButtons = function(){
 
-    $('input#page4-submit1').off().click(function(e){
-
-         //change the button appearance
-         $(this).css('background-color', '#A0A0A0'); //change the border to show that button is clicked.
-         $(this).css('outline', 'none');
-
-         //get the user response
-         var answer = $("textarea[name='page4-input1']").val();
-         $("textarea[name='page4-input1']").attr('value', answer)
-         //console.log(answer);
-
-         var jsonObj = [];
-
-        //handle empty input
-        if(!answer.trim()){
-            console.log('answer is empty')
-            isAnswerNull = 1;
-        }
-
-        jsonObj.push(answer.trim());
-
-        jsonObj = JSON.stringify(jsonObj);
-        //console.log(jQuery.type(jsonObj));
-
-        //make an ajax call into database
-        console.log('isAnswerNull value :: ', isAnswerNull)
-        if(isAnswerNull == 1){
-
-            modal = $("#myModal")
-            console.log(modal)
-
-            $("#myModal").css({ display: "block"});
-
-            $("#myModal h2").text("one of the inputs is empty");
-
-            $(".modal-close").click(function(e){
-                 $("#myModal").css({ display: "none" });
-            });
-
-            isAnswerNull = 0;
-
-
-        }else{
-               $.post({
-
-               async: false,
-               url:'/submitAnswer',
-               data: {
-                    'page': 4,
-                    'answer': jsonObj
-                    },
-               success: function(response){
-
-                    //open success modal here.
-                modal = $("#myModal")
-                console.log(modal)
-
-                $("#myModal").css({ display: "block" });
-                $("#myModal h2").text("Your response was recorded");
-
-                $(".modal-close").click(function(e){
-                     $("#myModal").css({ display: "none" });
-                });
-
-
-            }
-
-            });
-        }
-
-
-    });
-
-     $('#page4-submit2').off().click(function(e){
-         //change the button appearance
-         $(this).css('background-color', '#A0A0A0'); //change the border to show that button is clicked.
-         $(this).css('outline', 'none');
-
-         //get the user response
-         var answer = $("textarea[name='page4-input2']").val();
-         $("textarea[name='page4-input2']").attr('value', answer)
-         //console.log(answer);
-
-         var jsonObj = [];
-
-        //handle empty input
-        if(!answer.trim()){
-            console.log('answer is empty')
-            isAnswerNull = 1;
-        }
-
-        jsonObj.push(answer.trim());
-
-        jsonObj = JSON.stringify(jsonObj);
-        //console.log(jQuery.type(jsonObj));
-
-        //make an ajax call into database
-        console.log('isAnswerNull value :: ', isAnswerNull)
-        if(isAnswerNull == 1){
-
-            modal = $("#myModal")
-            console.log(modal)
-
-            $("#myModal").css({ display: "block"});
-
-            $("#myModal h2").text("one of the inputs is empty");
-
-            $(".modal-close").click(function(e){
-                 $("#myModal").css({ display: "none" });
-            });
-
-            isAnswerNull = 0;
-
-
-        }else{
-               $.post({
-
-               async: false,
-               url:'/submitAnswer',
-               data: {
-                    'page': 4,
-                    'answer': jsonObj
-                    },
-               success: function(response){
-
-                    //open success modal here.
-                modal = $("#myModal")
-                console.log(modal)
-
-                $("#myModal").css({ display: "block" });
-                $("#myModal h2").text("Your response was recorded");
-
-                $(".modal-close").click(function(e){
-                     $("#myModal").css({ display: "none" });
-                });
-
-
-            }
-
-            });
-        }
-    });
-
     $('.page a').off().on('touch click', function(){
         // Get button type to open appropriate view
         //console.log('this', this)
@@ -404,6 +263,23 @@ var bindActivityButtons = function(){
         //if the table tab is active
         if($('.card.table').hasClass('active')){
 
+            //check for table persistent - table.js not working
+            var table_id = $("input[name='table-id']").val();
+            if(localStorage.getItem("tableVal"+table_id)){
+                console.log("table 1 i am present i am present")
+                console.log(localStorage.getItem("tableVal"+table_id))
+                var tableVal = localStorage.getItem("tableVal"+table_id);
+                tableVal = JSON.parse(tableVal);
+
+                $.each( tableVal, function( key, value ) {
+                          console.log( key + ": " + value );
+                          //update the table
+
+                        });
+
+            }
+
+
              $('input[name="table-id"]').attr('value', id)
              $('.card.' + type + ' h1').text('Data');
         }
@@ -439,12 +315,24 @@ var bindActivityButtons = function(){
             var view = activityButton.attr('data-view');
             console.log('view: ', view)
 
-            var number_of_group = activityButton.attr('data-group');
+            //var user_group_id = activityButton.attr('data-group');
+
+
+            var user_group_id
+            $.ajax({
+                type:'GET',
+                url:'http://'+ host_url +'/getGroupID/'+$('input[name="act-id"]').val(),
+                async: false, //wait for ajax call to finish, else logged_in is null in the following if condition
+                success: function(e){
+                    user_group_id = e;
+                    console.log("my group id (digtextBook.js),", e)
+                }
+            });
 
 
             //call function from gallery.js
-            $("input[name='group-id']").attr('value', number_of_group);
-            viewDiv(view, number_of_group);
+            $("input[name='group-id']").attr('value', user_group_id);
+            viewDiv(view, user_group_id);
         }
 
 

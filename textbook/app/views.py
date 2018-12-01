@@ -203,6 +203,10 @@ def getImage(request, view_id, gallery_id,group_id):
 
     # for pilot/study
     print("@@@@", view_id)
+    if(int(view_id) == 2):
+        images = imageModel.objects.filter(gallery_id=gallery_id)
+
+
     if(int(view_id) == 1): #view_id = 1 means comment view
         print("@@@@inside if", view_id)
         images = imageModel.objects.exclude(group_id=group_id)
@@ -398,17 +402,17 @@ def groupAdd(request):
     usernames_array = ["alligator", "ant", "bat", "bear", "bee", "buffalo", "camel", "dog", "dolphin", "duck", "deer",
                        "elephant", "eagle", "fox", "fish", "frog",
                        "giraffe", "hippo", "lion", "kangaroo", "leopard", "tiger", "monkey", "panda", "penguin",
-                       "rabbit", "raccoon", "rhino", "sheep", "squirrel", "liger", "turtle", "wolf", "zebra","user","foxy"];
+                       "rabbit", "raccoon", "rhino", "sheep", "squirrel", "liger", "turtle", "wolf", "zebra"];
 
     #28 - upto rhino
-    print(len(usernames_array))
-
-    for username in users_list:
-        print(usernames_array.index(username))
+    # print(len(usernames_array))
+    #
+    # for username in users_list:
+    #     print(usernames_array.index(username))
 
     #username_groupID = ['1','2','3','4','5','6','7','8','9','10','1','2','3','4','5','6','7','8','9','10','1','2','3','4','5','6','7','8']
     username_groupID = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '1', '2', '3', '4', '5', '6', '7', '8', '9',
-                        '10', '1', '2', '3', '4', '5', '6', '7', '8','9', '10', '1', '2', '3', '4', '5', '6']
+                        '10', '1', '2', '3', '4', '5', '6', '7', '8','9', '10', '1', '2', '3', '4']
 
     # #create group id for all the users
     # # groupID_alligator = 1
@@ -428,8 +432,14 @@ def groupAdd(request):
                                users=User.objects.get(username=username))
             member.save();
 
+            # member = groupInfo(activityType='gallery', activityID=5, group=0, users=User.objects.get(username=username))
+            # member.save();
+
     # #insert statement for each gallery, right now number of gallery = 4
 
+    #add this statement for all users
+    # member = groupInfo(activityType='gallery', activityID=5, group=0, users=request.user)
+    # member.save();
 
 
     # #for user - ant
@@ -445,8 +455,7 @@ def groupAdd(request):
 
     # # member = groupInfo(activityType='gallery', activityID=2, group=3, users=request.user)
     # # member.save();
-    # # member = groupInfo(activityType='gallery', activityID=3, group=3, users=request.user)
-    # # member.save();
+
 
 
 
@@ -455,7 +464,7 @@ def groupAdd(request):
 def getGroupID(request, act_id):
     print('line 384 From server activity id', act_id)
     groupID = groupInfo.objects.all().filter(activityID = act_id)
-    print('from server group id', groupID)
+    print('from server group id', groupID[0].group)
     groupID = groupID.filter(users_id = request.user)
     print(type(groupID))
     print('line 358',groupID[0].group)
