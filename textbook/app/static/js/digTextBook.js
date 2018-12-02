@@ -1,6 +1,6 @@
 var current_pagenumber = 1 //initial page number; gets updated with page change
 var type = '' //card type
-
+var groupArray = ['A', 'B','C', 'D', 'E', 'F', 'G', 'H', 'I', 'J']
 
 
 window.onerror = function(message, file, line) {
@@ -241,6 +241,8 @@ var bindActivityButtons = function(){
 
 //        ------------------------------based on different tools-----------------------
         // TODO: make the following if dynamic
+
+//        ------------------------------VIDEO-----------------------
         // if video tab is active get the video url and display in video.html
         //display the video url in a new tab instead of the card
         if(type == 'video'){
@@ -248,7 +250,7 @@ var bindActivityButtons = function(){
             var video_url = activityButton.attr('data-video-url');
             window.open(video_url, '_blank'); //open paint splash game in a new window
         }
-
+//        ------------------------------TABLE-----------------------
         //if the table tab is active
         if($('.card.table').hasClass('active')){
 
@@ -257,7 +259,7 @@ var bindActivityButtons = function(){
              $('.card.' + type + ' h1').text('Data #' +id );
 
               //persistence checker and populate or clear the table according to that
-              $('#graph-container').hide();
+
               if(localStorage.getItem('table'+$('input[name="table-id"]').val())){
                 var points = localStorage.getItem('table'+$('input[name="table-id"]').val());
 
@@ -271,16 +273,29 @@ var bindActivityButtons = function(){
 
 
         }
-
+//        ------------------------------GALLERY-----------------------
         // if gallery div is active, load the gallery
         if($('.card.gallery').hasClass('active')){
+
+            // pass id to gallery activity - to upload image form in gallery.html
+            $('#upload-img input[name="act-id"]').attr('value', id)
+
+            var user_group_id
+            $.ajax({
+                type:'GET',
+                url:'http://'+ host_url +'/getGroupID/'+$('input[name="act-id"]').val(),
+                async: false, //wait for ajax call to finish, else logged_in is null in the following if condition
+                success: function(e){
+                    user_group_id = e;
+                    console.log("my group id (digtextBook.js),", e)
+                }
+            });
 
             console.log(activityButton.attr('data-heading'));
 
             //update the heading
-            if(activityButton.attr('data-heading')){
-                $('.card.' + type + ' h1').text(type + ' #'+id + ' '+ activityButton.attr('data-heading'));
-            }
+
+            $('.card.' + type + ' h1').text(type + ' #'+id + ' Group ' + groupArray[user_group_id-1]);
 
            //update the description
            console.log(activityButton.attr('data-description'));
@@ -301,8 +316,7 @@ var bindActivityButtons = function(){
             // end of the solution
 
 
-            // pass id to gallery activity - to upload image form in gallery.html
-            $('#upload-img input[name="act-id"]').attr('value', id)
+
 
             //highlight the all submission  button and unhighlight the my submission
             $("#allSubmission").css('background-color', '#006600');
@@ -314,25 +328,12 @@ var bindActivityButtons = function(){
 
             //var user_group_id = activityButton.attr('data-group');
 
-
-            var user_group_id
-            $.ajax({
-                type:'GET',
-                url:'http://'+ host_url +'/getGroupID/'+$('input[name="act-id"]').val(),
-                async: false, //wait for ajax call to finish, else logged_in is null in the following if condition
-                success: function(e){
-                    user_group_id = e;
-                    console.log("my group id (digtextBook.js),", e)
-                }
-            });
-
-
             //call function from gallery.js
             $("input[name='group-id']").attr('value', user_group_id);
             viewDiv(view, user_group_id);
         }
 
-
+//        ------------------------------ANSWER-----------------------
         if($('.card.multQues').hasClass('active')){
 
             //get which question clicked.
@@ -347,12 +348,14 @@ var bindActivityButtons = function(){
 
         }
 
+//        ------------------------------MORE INFO (TALK MOVES)-----------------------
         if($('.card.moreinfo').hasClass('active')){
 
              //$('input[name="table-id"]').attr('value', id)
              $('.card.' + type + ' h1').text("Talk Moves"); //update the title of each page
         }
 
+//        ------------------------------BRAINSTORM-----------------------
         if($('.card.brainstorm').hasClass('active')){
 
             //update the heading

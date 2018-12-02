@@ -129,6 +129,7 @@ function persistTableStatus(points){
         })
 
         updateTableStatus();
+        $('#graph-container').hide();
 }
 
 function tableUpdated(){
@@ -353,6 +354,7 @@ function drawLine(draw){
     localStorage.setItem('table'+$("input[name='table-id']").val(), JSON.stringify(POINTS))
     tableDataInsert('table', POINTS);
 }
+
 
  var tableDataInsert = function(type, points){
          var pointsAsJSON = JSON.stringify(points);
