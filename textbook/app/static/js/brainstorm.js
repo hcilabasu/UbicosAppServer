@@ -66,12 +66,18 @@ var setupBrainstorm = function(){
         var color = $('.colorpicker.active', form).css('background-color');
         //var hideName = $('#hidename', form).is(':checked');
 
+        //random generator
+        var randomModifier = Math.floor(Math.random() * 401) - 100;
+        console.log('randomModifier', randomModifier)
+
         // Calculate center position:
         var workspace = $('#idea-workspace');
         height = workspace.height();
         width = workspace.width();
-        posTop = height / 2 - 85; // These modifier (85) should probably be calculated dynamically
-        posLeft = width / 2 - 85;
+
+
+        posTop = height / 2 - randomModifier; // These modifier (85) should probably be calculated dynamically
+        posLeft = width / 2 - randomModifier;
 
         // Submit idea
         toggleNewIdeaButton();

@@ -227,26 +227,39 @@ function handleDrawEquation(){
         var m =  checkNumber($('[name=m]', equationLi).val());
         var b = checkNumber($('[name=b]', equationLi).val());
         // If there are points, use those for x instead
-        if(POINTS.length > 0){
-            // There are points. Display equation in the x range
-            for (let i = 0; i < POINTS.length; i++) {
-                const point = POINTS[i];
-                xList.push(point[0]);
-            }
-        } else {
-            // There are no points. Use XRANGE
-            for (let x = 0; x < XRANGE; x++) {
+//        if(POINTS.length > 0){
+//            // There are points. Display equation in the x range
+//            for (let i = 0; i < POINTS.length; i++) {
+//                const point = POINTS[i];
+//                xList.push(point[0]);
+//            }
+//        } else {
+//            // There are no points. Use XRANGE
+//            for (let x = 0; x < XRANGE; x++) {
+//                xList.push(x+1);
+//            }
+//            xList.push(0);
+//            xList.push(XRANGE);
+//        }
+
+// go through the origin - start
+        for (let x = 0; x < XRANGE; x++) {
                 xList.push(x+1);
             }
             xList.push(0);
             xList.push(XRANGE);
-        }
+// go through the origin - start
+
         // Create points
         for (let i = 0; i < xList.length; i++) {
             const x = xList[i];
             y = m * x + b;
             EQUATION_POINTS.push([x, y]);
         };
+
+        //change started here - IA
+
+        //change ended here - IA
         // Update and display graph
         createGraph();
         toggleGraph(true);
