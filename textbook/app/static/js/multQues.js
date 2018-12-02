@@ -99,7 +99,7 @@ var getAnswers = function(){
              console.log(modal)
 
              $("#myModal").css({ display: "block" });
-             $("#myModal h2").text("one of the inputs is empty");
+             $("#myModal h2").text("You’re missing one or more answers.");
 
              $(".modal-close").click(function(e){
                  $("#myModal").css({ display: "none" });
@@ -155,7 +155,7 @@ var getAnswers = function(){
             console.log(modal)
 
             $("#myModal").css({ display: "block" });
-            $("#myModal h2").text("one of the inputs is empty");
+            $("#myModal h2").text("You’re missing one or more answers.");
 
             $(".modal-close").click(function(e){
                  $("#myModal").css({ display: "none" });
@@ -211,7 +211,7 @@ var getAnswers = function(){
             console.log(modal)
 
             $("#myModal").css({ display: "block" });
-            $("#myModal h2").text("one of the inputs is empty");
+            $("#myModal h2").text("You’re missing one or more answers.");
 
             $(".modal-close").click(function(e){
                  $("#myModal").css({ display: "none" });
@@ -267,7 +267,7 @@ var getAnswers = function(){
             console.log(modal)
 
             $("#myModal").css({ display: "block" });
-            $("#myModal h2").text("one of the inputs is empty");
+            $("#myModal h2").text("You’re missing one or more answers.");
 
             $(".modal-close").click(function(e){
                  $("#myModal").css({ display: "none" });
@@ -323,7 +323,7 @@ var getAnswers = function(){
             console.log(modal)
 
             $("#myModal").css({ display: "block" });
-            $("#myModal h2").text("one of the inputs is empty");
+            $("#myModal h2").text("You’re missing one or more answers.");
 
             $(".modal-close").click(function(e){
                  $("#myModal").css({ display: "none" });
@@ -358,7 +358,7 @@ var getAnswers = function(){
              console.log(modal)
 
              $("#myModal").css({ display: "block" });
-             $("#myModal h2").text("one of the inputs is empty");
+             $("#myModal h2").text("You’re missing one or more answers.");
 
              $(".modal-close").click(function(e){
                  $("#myModal").css({ display: "none" });
@@ -413,7 +413,7 @@ var getAnswers = function(){
             console.log(modal)
 
             $("#myModal").css({ display: "block" });
-            $("#myModal h2").text("one of the inputs is empty");
+            $("#myModal h2").text("You’re missing one or more answers.");
 
             $(".modal-close").click(function(e){
                  $("#myModal").css({ display: "none" });
@@ -469,7 +469,7 @@ var getAnswers = function(){
             console.log(modal)
 
             $("#myModal").css({ display: "block" });
-            $("#myModal h2").text("one of the inputs is empty");
+            $("#myModal h2").text("You’re missing one or more answers.");
 
             $(".modal-close").click(function(e){
                  $("#myModal").css({ display: "none" });

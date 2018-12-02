@@ -216,6 +216,7 @@ button {
     /* overflow: auto;  Enable scroll if needed */
     background-color: rgb(0,0,0); /* Fallback color */
     background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    border-radius: 60px; /* round the edges */
 }
 
 /* Modal Content */
@@ -227,6 +228,7 @@ button {
     border: 1px solid #888;
     top: 130px;
     width: 80%;
+    border-radius: 50px;
     /*box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);*/
 }
 
@@ -248,6 +250,7 @@ button {
 .modal-header {
     padding: 2px 16px;
     background-color: #33cccc;
+    border-radius: 50px;
 
 
 }
