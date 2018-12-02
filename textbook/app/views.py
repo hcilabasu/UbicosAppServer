@@ -188,6 +188,7 @@ def uploadImage(request):
 
         # using data from database
         data = {}
+        data['image_id'] = images.pk
         data['gallery_id'] = images.gallery_id
         data['group_id'] = images.group_id
         data['posted_by'] = images.posted_by.get_username()

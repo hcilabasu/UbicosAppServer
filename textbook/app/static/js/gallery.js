@@ -210,11 +210,14 @@ $(function(){
                         //clear default image - not working here
                         //$('#default').attr('src', "pics/default.png");
 
+
+
                         //TODO: update user with a 'success' message on the screen
 
                         //update gallery with newly uploaded image
                         img_data = response.success;
                         var obj = jQuery.parseJSON(img_data);
+                        console.log(obj.image_id)
 
 
                         var groupID = groupArray[obj.group_id-1];
@@ -240,7 +243,7 @@ $(function(){
 
                                 e.preventDefault();
                                 //get ID of the deleted note
-                                var deletedImageID = value.pk;
+                                var deletedImageID = obj.image_id;
                                 console.log('deleted image id :: ', deletedImageID);
                                 $(this).parent().remove(); //remove item from html
 
@@ -255,6 +258,7 @@ $(function(){
                                     success: function(e){
                                         console.log(e)
                                         //TODO: add user log
+                                        enterLogIntoDatabase('upload image', 'image delete right after upload' , 'image-delete-' + obj.image_id, current_pagenumber)
 
                                     }
                                 })
@@ -278,6 +282,8 @@ $(function(){
                         var list = $('#gallery');
                         var listItems = list.children('li');
                         list.append(listItems.get().reverse());
+
+                        enterLogIntoDatabase('upload image', 'image upload successful' , 'image-upload-' + obj.image_id, current_pagenumber)
 
                     }
 
