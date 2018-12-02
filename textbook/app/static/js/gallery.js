@@ -295,7 +295,10 @@ $(function(){
                 e.preventDefault();
 
                 var val = $('input[name=image-index]').val() - 1
-                if(val<0)  return !$(this).attr('disabled'); //disable when reached to last image
+                if(val<0)  {
+
+                    return !$(this).attr('disabled'); //disable when reached to last image
+                }
                 $('.section input[name="image-index"]').attr('value', val)
                 //console.log('previous image index:: ', val)
                 var prev_img = $('#gallery li').eq(val).children('img')[0]
@@ -313,7 +316,10 @@ $(function(){
                 var val = eval($('input[name=image-index]').val()) + 1
                 enterLogIntoDatabase('image navigation click', 'next image view click' , 'total photo'+totalPhoto, current_pagenumber)
                 //console.log('total photo :: ', totalPhoto);
-                 if(val>=totalPhoto)  return !$(this).attr('disabled'); //disable when reached to last image
+                if(val>=totalPhoto){
+
+                    return !$(this).attr('disabled'); //disable when reached to last image
+                }
                 $('.section input[name="image-index"]').attr('value', val)
                 //console.log('previous image index:: ', val)
                 var prev_img = $('#gallery li').eq(val).children('img')[0]

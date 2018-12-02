@@ -9,6 +9,7 @@ $(function(){
     createGraph();
     handleDrawLine();
     handleDrawEquation();
+    checkIfEquationTextboxSelected();
 
     $('#sourceOptions a').click(function(){
         // Toggle li
@@ -120,7 +121,7 @@ function persistTableStatus(points){
         xRow = $('.x-row td');
 
         $.each(points, function(index, value){
-            console.log(value[0])
+            //console.log(value[0])
 
             var inputX = $($('.x-row input')[index]);
             var inputY = $($('.y-row input')[index]);
@@ -212,6 +213,16 @@ function handleDrawLine(){
     $('#plot_table').click(drawLine);
 }
 
+function checkIfEquationTextboxSelected(){
+        //error displayed when m or b was empty, clear that message
+        //when they attempt to fill in m or b
+        $('[name=m]').focus(function(){
+            $('#equation-error-message-p').text('');
+        })
+        $('[name=b]').focus(function(){
+            $('#equation-error-message-p').text('');
+        })
+}
 function handleDrawEquation(){
     $('#plot_equation').click(function(){
         // Generate range for x
@@ -221,6 +232,13 @@ function handleDrawEquation(){
         var equationLi = $('li.equation');
         var m =  checkNumber($('[name=m]', equationLi).val());
         var b = checkNumber($('[name=b]', equationLi).val());
+        //check if m and b are empty
+        console.log(m)
+        if(isNaN(m) || isNaN(b)){
+            console.log("empty input")
+            $('#equation-error-message-p').text("You need to fill in both m and b before the line can be plotted.")
+            return;
+        }
         // If there are points, use those for x instead
         if(POINTS.length > 0){
             // There are points. Display equation in the x range
