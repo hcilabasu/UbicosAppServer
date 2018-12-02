@@ -24,6 +24,8 @@ $(function(){
                 // Change page number
                 $("#page-control-number").text('Page ' + gotoPage + '/' + NUM_PAGES);
             });
+
+        localStorage.setItem("pageToBeRefreshed", gotoPage);
         // Update previous and next
         loadPage(gotoPage+1, $('.page.next'));
         loadPage(gotoPage-1, $('.page.previous'));
