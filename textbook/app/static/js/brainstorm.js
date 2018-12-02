@@ -79,7 +79,7 @@ var setupBrainstorm = function(){
         if(!idea){
             console.log('enter values');
             alert('enter values');
-            //TODO: add user log here
+
         }else{
              //send to database
              //saveBrainstormNote(idea, color, hideName, posTop, posLeft);
@@ -100,7 +100,7 @@ var setupBrainstorm = function(){
                         //clear the input field
                         $('textarea', form).val('');
                         //user logging
-                        enterLogIntoDatabase('add note', 'brainstorm' , idea , current_pagenumber)
+                        enterLogIntoDatabase('Add Note', 'brainstorm add note '  , idea , current_pagenumber)
 
                     }
             });
@@ -157,7 +157,7 @@ var addIdeaToWorkspace = function(idea, color, name, position, noteID, animate, 
                var deletedNoteID = $(this).parent().data('noteid');
                console.log(deletedNoteID);
                $(this).parent().remove();
-               enterLogIntoDatabase('image delete click', 'image delete' , deletedNoteID , current_pagenumber)
+
 
 
               //delete note from database
@@ -167,11 +167,11 @@ var addIdeaToWorkspace = function(idea, color, name, position, noteID, animate, 
                     async: false, //wait for ajax call to finish,
                     success: function(e){
                         console.log(e)
-                        enterLogIntoDatabase('note delete', 'brainstorm' , deletedNoteID+"" , 3333);
+                        enterLogIntoDatabase('Delete Note', 'brainstorm delete note' , deletedNoteID , 3333)
                 },
                 error: function(XMLHttpRequest, textStatus, errorThrown) {
                             alert(XMLHttpRequest.status+" "+XMLHttpRequest.statusText);
-                            enterLogIntoDatabase('attempted note delete', 'error' , XMLHttpRequest.status+" "+XMLHttpRequest.statusText, 3333);
+                            enterLogIntoDatabase('Attempted delete note', 'error' , XMLHttpRequest.status+" "+XMLHttpRequest.statusText, 3333);
 
                         }
             })
@@ -212,7 +212,7 @@ var ideaDragPositionUpdate = function(){
         noteID = $(this).data('noteid')
         console.log('dragged note :: ',noteID)
 
-        enterLogIntoDatabase('note dragged', 'brainstorm' , JSON.stringify(ui.position) , current_pagenumber)
+        enterLogIntoDatabase('Dragged Note', 'brainstorm note dragged' , JSON.stringify(ui.position) , current_pagenumber)
 
 
          $.post({

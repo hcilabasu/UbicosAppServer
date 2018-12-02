@@ -465,7 +465,10 @@ var getAnswers = function(){
 }
 
 var sendUserInputToDB = function(page, value){
+
+
         $.post({
+
 
                async: false,
                url:'/submitAnswer',
@@ -484,6 +487,10 @@ var sendUserInputToDB = function(page, value){
             }
 
             });
+
+
+            //send to user log as well
+            enterLogIntoDatabase('submit pressed', 'answer question' , value, current_pagenumber)
 }
 
 var showErrorMsg = function(){

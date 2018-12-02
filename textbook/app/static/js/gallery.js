@@ -124,8 +124,6 @@ $(function(){
          //unhighlight the other
          $("#allSubmission").css('background-color', '#2DB872');
 
-
-
          $('#gallery-group-heading').text('My Submissions')
             //steps: get group id;
             //get the group id based on the user
@@ -141,7 +139,7 @@ $(function(){
             });
             displayGallery(0, get_user_group_id);
 
-
+           enterLogIntoDatabase('activity select', 'gallery my submission' , $('input[name="act-id"]').val(), current_pagenumber)
 
         });
 
@@ -168,6 +166,9 @@ $(function(){
             });
 
             viewDiv("comment", get_user_group_id);
+
+            //enter log
+            enterLogIntoDatabase('activity select', 'gallery all submission' , $('input[name="act-id"]').val(), current_pagenumber)
         });
 
 //        //add event listener to the chat button click - this was causing double post of the message
@@ -186,7 +187,7 @@ $(function(){
 
         $("#file-upload").change(function(event){
 
-                enterLogIntoDatabase('click', 'image upload attempted' , '', current_pagenumber)
+                enterLogIntoDatabase('upload image', 'gallery image upload attempted' , '', current_pagenumber)
 
                 console.log("file changed");
 
@@ -247,9 +248,6 @@ $(function(){
                                 console.log('deleted image id :: ', deletedImageID);
                                 $(this).parent().remove(); //remove item from html
 
-                                enterLogIntoDatabase('click', 'gallery' , 'image-delete-'+deletedImageID, 111)
-
-
                               //delete note from database
                                 $.ajax({
                                     type:'POST',
@@ -258,7 +256,7 @@ $(function(){
                                     success: function(e){
                                         console.log(e)
                                         //TODO: add user log
-                                        enterLogIntoDatabase('upload image', 'image delete right after upload' , 'image-delete-' + obj.image_id, current_pagenumber)
+                                        enterLogIntoDatabase('delete image', 'image delete right after upload' , 'image-delete-' + obj.image_id, current_pagenumber)
 
                                     }
                                 })
@@ -271,7 +269,7 @@ $(function(){
 
 
                          img.on('click', function(event){
-                           enterLogIntoDatabase('image click', 'gallery' , obj.url , 111)
+                           enterLogIntoDatabase('gallery image view', 'gallery individual image view' , 'image-select-id-'+obj.image_id , 111)
                            totalPhoto = $(this).parent().siblings().length+1;
                            $('.section input[name="image-index"]').attr('value', $(this).parent().index())
                            openImageView($('#gallery-view'), $(this));
@@ -283,7 +281,7 @@ $(function(){
                         var listItems = list.children('li');
                         list.append(listItems.get().reverse());
 
-                        enterLogIntoDatabase('upload image', 'image upload successful' , 'image-upload-' + obj.image_id, current_pagenumber)
+                        enterLogIntoDatabase('upload image', 'gallery image upload successful' , 'image-upload-' + obj.image_id, current_pagenumber)
 
                     }
 
@@ -311,7 +309,7 @@ $(function(){
                 //console.log($(prev_img))
                 openImageView($('#gallery-panel'), $(prev_img));
 
-                enterLogIntoDatabase('image navigation click', 'previous image view click' , 'total photo '+totalPhoto, current_pagenumber)
+                enterLogIntoDatabase('image navigation click', 'gallery previous image view click' , 'total photo '+totalPhoto, current_pagenumber)
 
             })
 
@@ -320,7 +318,7 @@ $(function(){
                 e.preventDefault();
 
                 var val = eval($('input[name=image-index]').val()) + 1
-                enterLogIntoDatabase('image navigation click', 'next image view click' , 'total photo'+totalPhoto, current_pagenumber)
+
                 //console.log('total photo :: ', totalPhoto);
                 if(val>=totalPhoto){
 
@@ -332,16 +330,21 @@ $(function(){
                 //console.log($(prev_img))
                 openImageView($('#gallery-panel'), $(prev_img));
 
-                enterLogIntoDatabase('image navigation click', 'next image view click' , 'total photo '+totalPhoto, current_pagenumber)
+                enterLogIntoDatabase('image navigation click', 'gallery next image view click' , 'total photo '+totalPhoto, current_pagenumber)
 
             })
 
             //back to gallery from single image view
             $("#backToGallery").click(function(e){
                 e.preventDefault();
-                enterLogIntoDatabase('back to gallery button click', 'next image view click' , 'total photo '+totalPhoto, current_pagenumber)
+                enterLogIntoDatabase('back to gallery button click', 'gallery back view click' , 'total photo '+totalPhoto, current_pagenumber)
                 $("#single-image-view").hide()
                 $("#gallery-panel").show()
+            })
+
+            //camera click user log
+            $('#openCamera').click(function(e){
+                enterLogIntoDatabase('camera select', 'camera to take photo' , 'none', current_pagenumber)
             })
 
  })
@@ -510,7 +513,7 @@ function displayGallery(view, groupValue){
                         console.log('deleted image id :: ', deletedImageID);
                         $(this).parent().remove(); //remove item from html
 
-                        enterLogIntoDatabase('click', 'gallery' , 'image-delete-'+deletedImageID, 111)
+                        enterLogIntoDatabase('delete image', 'image delete from gallery' , 'image-delete-'+deletedImageID, 111)
 
 
                       //delete note from database
@@ -547,7 +550,7 @@ function displayGallery(view, groupValue){
                // Add clickhandler to open the single image view
                img.on('click', function(event){
 
-                   enterLogIntoDatabase('image click', 'gallery' , 'image click id TODO' , 111)
+                   enterLogIntoDatabase('gallery image view', 'gallery individual image view' , 'image-select-id-'+value.pk , 111)
 
                    //console.log($(this).parent().siblings().length); //+1 gives me the total number of images in the gallery
                    totalPhoto = $(this).parent().siblings().length+1;
@@ -658,11 +661,7 @@ var openImageView = function(galleryView, image){
     //debug
     //console.log('openImageView (passed to ) :: ',$('input[name="image-db-pk"]').val())
 
-
-
 };
-
-
 
 
 function getLoggedUserName(){
@@ -680,65 +679,4 @@ function getLoggedUserName(){
 
 }
 
-
-
-//    function viewDiv(view, number_of_group){
-//
-//        //console.log('value pass to gallery.js', view)
-//        if(view == 'class'){
-//
-//            $('#gallery-user-submission').show();
-//
-//            //$('#upload-img input[name="group-id"]').attr('value', 0)
-//            $('.card.gallery #gallery-group-heading').text('All Submission'); //update the sub-title of gallery page
-//
-//            displayGallery(0)
-//            displayGallery($("input[name='group-id']").val())
-//
-//        }else if(view == 'comment'){
-//                $('#gallery-user-submission').hide();
-//
-//                $('#upload-img input[name="group-id"]').attr('value', 0)
-//                $('.card.gallery #gallery-group-heading').text('All Submission'); //update the sub-title of gallery page
-//
-//                 displayGallery(0)
-//            }
-//            else{
-//
-//            //TODO: check if 'group' was selected before
-//
-//            console.log('total number of group (gallery.js): ', number_of_group)
-//
-//            $('.card.active').removeClass('active');
-//            $('.card.group').addClass('active');
-//
-//            //clear previous items
-//            $('#group-view').empty();
-//
-//            //add radio button dynamically
-//            for (i = 1; i <= number_of_group; i++) {
-//                $('<input type="radio" name="radiogroup" value="'+i+'"/> Group '+ i +'</br>').appendTo('#group-view');
-//             }
-//
-//            //get group id from the radio button
-//            var groupValue
-//            $("input[name='radiogroup']").change(function(){
-//                groupValue = $("input[name='radiogroup']:checked").val();
-//                if(groupValue){
-//                        //pass group value in the form so it can be added into the database
-//                        $('#upload-img input[name="group-id"]').attr('value', groupValue)
-//
-//                        console.log('group ID :: ', groupValue) //debug
-//                        $('.card.group').removeClass('active');
-//                        $('.card.gallery').addClass('active');
-//
-//                        //update the sub-title of gallery page
-//                        $('.card.gallery #gallery-group-heading').text('Group #'+groupValue+' Submission');
-//
-//                }
-//
-//                displayGallery(groupValue)
-//            })
-//        }
-//    }
 

@@ -46,6 +46,9 @@ $(function(){
             $('.card').css({'width':'50%'});
         }
 
+        var classNameWhichisExtended = $(this).offsetParent()[0].className.split(" ")[1]
+        enterLogIntoDatabase('card extend', classNameWhichisExtended, 'none', current_pagenumber)
+
     });
 
 
@@ -71,6 +74,7 @@ $(function(){
         });
         $(this).toggleClass('pressed');
         //TODO: add user log
+        enterLogIntoDatabase('click', 'activity index', 'none', current_pagenumber)
     });
 
     //check localstorage - used for refresh
@@ -167,7 +171,7 @@ var movePage = function(moveToNext){
 };
 
 var loadPage = function(pageNum, pageContainer, successFn, notFoundFn){
-    console.log('next page (loadPage Function)', pageNum)
+    //console.log('next page (loadPage Function)', pageNum)
 
     loadHTML(
         API_URL.pagesBase + '/' + pageNum + '.html',
@@ -299,7 +303,6 @@ var bindActivityButtons = function(){
             console.log(activityButton.attr('data-heading'));
 
             //update the heading
-
             $('.card.' + type + ' h1').text(type + ' #'+id + ' Group ' + groupArray[user_group_id-1]);
 
            //update the description
@@ -311,6 +314,12 @@ var bindActivityButtons = function(){
                 $('.card.' + type + ' p#gallery-description').text('Take a picture of your solution using "Open Camera". It will be downloaded to the "Downloads" folder. Upload the picture in your gallery.');
             }
 
+            //update the submission heading
+            $('#gallery-group-heading').text('All Submissions')
+
+            //highlight the all submission  button and unhighlight the my submission
+            $("#allSubmission").css('background-color', '#006600');
+            $("#mySubmission").css('background-color', '#2DB872');
 
             //gallery 1 card stays open if explicitly not closed and you go to gallery 2.
             //with each click hide the single image view
@@ -321,11 +330,6 @@ var bindActivityButtons = function(){
             // end of the solution
 
 
-
-
-            //highlight the all submission  button and unhighlight the my submission
-            $("#allSubmission").css('background-color', '#006600');
-            $("#mySubmission").css('background-color', '#2DB872');
 
 
             var view = activityButton.attr('data-view');
@@ -389,7 +393,7 @@ var bindActivityButtons = function(){
         }
 
         //user logging
-        enterLogIntoDatabase('click', type , 'activity-id-'+id, current_pagenumber)
+        enterLogIntoDatabase('activity select', type , 'activity-id-'+id, current_pagenumber)
 
 
     });
