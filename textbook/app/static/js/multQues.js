@@ -21,10 +21,12 @@ var getAnswers = function(){
 
     if(localStorage.getItem("page7input1")){
         answer = JSON.parse(localStorage.getItem("page7input1"))
+        //console.log(JSON.parse(localStorage.getItem("page7input1")));
 
-        $('#page7-input1').attr('disabled',true);
-        $("textarea[name='page7-input1']").val(answer[0])
-        $("textarea[name='page7-input2']").val(answer[1])
+        //$('#page7-input1').attr('disabled',true);
+
+        $("textarea[name='page7-input1']").val(answer[0].answer)
+        $("textarea[name='page7-input2']").val(answer[1].answer)
 
     }
 
@@ -32,8 +34,8 @@ var getAnswers = function(){
         answer = JSON.parse(localStorage.getItem("page7input2"))
 
         $('#page7-input2').attr('disabled',true);
-        $("textarea[name='page7-input3']").val(answer[0])
-        $("textarea[name='page7-input4']").val(answer[1])
+        $("textarea[name='page7-input3']").val(answer[0].answer)
+        $("textarea[name='page7-input4']").val(answer[1].answer)
 
     }
 
@@ -41,8 +43,8 @@ var getAnswers = function(){
         answer = JSON.parse(localStorage.getItem("page10input1"))
 
         $('#page10-input1').attr('disabled',true);
-        $("textarea[name='page10-input1']").val(answer[0])
-        $("textarea[name='page10-input2']").val(answer[1])
+        $("textarea[name='page10-input1']").val(answer[0].answer)
+        $("textarea[name='page10-input2']").val(answer[1].answer)
 
     }
 
@@ -50,8 +52,8 @@ var getAnswers = function(){
         answer = JSON.parse(localStorage.getItem("page10input2"))
 
         $('#page10-input2').attr('disabled',true);
-        $("textarea[name='page10-input3']").val(answer[0])
-        $("textarea[name='page10-input4']").val(answer[1])
+        $("textarea[name='page10-input3']").val(answer[0].answer)
+        $("textarea[name='page10-input4']").val(answer[1].answer)
 
     }
 
@@ -66,8 +68,8 @@ var getAnswers = function(){
         answer = JSON.parse(localStorage.getItem("page12input2"))
 
         $('#page12-input2').attr('disabled',true);
-        $("textarea[name='page12-input2']").val(answer[0])
-        $("textarea[name='page12-input3']").val(answer[1])
+        $("textarea[name='page12-input2']").val(answer[0].answer)
+        $("textarea[name='page12-input3']").val(answer[1].answer)
 
     }
 
@@ -75,9 +77,9 @@ var getAnswers = function(){
         answer = JSON.parse(localStorage.getItem("page12input3"))
 
         $('#page12-input3').attr('disabled',true);
-        $("textarea[name='page12-input4']").val(answer[0])
-        $("textarea[name='page12-input5']").val(answer[1])
-        $("textarea[name='page12-input6']").val(answer[2])
+        $("textarea[name='page12-input4']").val(answer[0].answer)
+        $("textarea[name='page12-input5']").val(answer[1].answer)
+        $("textarea[name='page12-input6']").val(answer[2].answer)
 
     }
 
@@ -95,27 +97,21 @@ var getAnswers = function(){
         //send to database if the answer is not null
         if(!answer.trim()){
 
-             modal = $("#myModal")
-             console.log(modal)
-
-             $("#myModal").css({ display: "block" });
-             $("#myModal h2").text("You’re missing one or more answers.");
-
-             $(".modal-close").click(function(e){
-                 $("#myModal").css({ display: "none" });
-             });
+             showErrorMsg();
 
         }else{
 
-            //send to db and disable the submit button
-            localStorage.setItem("page5input1", answer);
-            sendUserInputToDB(5, answer);
-            $('#page5-input1').attr('disabled',true);
-
+                 //send to db and disable the submit button
+                localStorage.setItem("page5input1", answer);
+                sendUserInputToDB(5, answer);
+                //$('#page5-input1').attr('disabled',true);
         }
 
 
     })
+
+
+
 
 
     //page 7 input1
@@ -138,7 +134,13 @@ var getAnswers = function(){
                 isAnswerNull = 1;
 
             }else{
-                answerArray.push(answer.trim());
+                //add question so its easier to understand which answer refers to which question
+                var temp = {
+                    question: 'page7-input'+value,
+                    answer: answer.trim()
+                }
+
+                answerArray.push(temp);
             }
 
         });
@@ -151,15 +153,7 @@ var getAnswers = function(){
         //send to database if the answer is not null
         if(isAnswerNull == 1){
 
-            modal = $("#myModal")
-            console.log(modal)
-
-            $("#myModal").css({ display: "block" });
-            $("#myModal h2").text("You’re missing one or more answers.");
-
-            $(".modal-close").click(function(e){
-                 $("#myModal").css({ display: "none" });
-            });
+            showErrorMsg();
 
             isAnswerNull = 0;
 
@@ -168,7 +162,7 @@ var getAnswers = function(){
             //send to db and disable the submit button
             sendUserInputToDB(7, answerJson);
             localStorage.setItem("page7input1", answerJson);
-            $('#page7-input1').attr('disabled',true);
+            //$('#page7-input1').attr('disabled',true);
 
         }
 
@@ -194,7 +188,14 @@ var getAnswers = function(){
                 isAnswerNull = 1;
 
             }else{
-                answerArray.push(answer.trim());
+
+                //add question so its easier to understand which answer refers to which question
+                var temp = {
+                    question: 'page7-input'+value,
+                    answer: answer.trim()
+                }
+
+                answerArray.push(temp);
             }
 
         });
@@ -207,15 +208,7 @@ var getAnswers = function(){
         //send to database if the answer is not null
         if(isAnswerNull == 1){
 
-            modal = $("#myModal")
-            console.log(modal)
-
-            $("#myModal").css({ display: "block" });
-            $("#myModal h2").text("You’re missing one or more answers.");
-
-            $(".modal-close").click(function(e){
-                 $("#myModal").css({ display: "none" });
-            });
+            showErrorMsg();
 
             isAnswerNull = 0;
 
@@ -224,7 +217,7 @@ var getAnswers = function(){
             //send to db and disable the submit button
             sendUserInputToDB(7, answerJson);
             localStorage.setItem("page7input2", answerJson);
-            $('#page7-input2').attr('disabled',true);
+            //$('#page7-input2').attr('disabled',true);
 
         }
 
@@ -250,7 +243,11 @@ var getAnswers = function(){
                 isAnswerNull = 1;
 
             }else{
-                answerArray.push(answer.trim());
+                var temp = {
+                    question: 'page7-input'+value,
+                    answer: answer.trim()
+                }
+                answerArray.push(temp);
             }
 
         });
@@ -263,15 +260,7 @@ var getAnswers = function(){
         //send to database if the answer is not null
         if(isAnswerNull == 1){
 
-            modal = $("#myModal")
-            console.log(modal)
-
-            $("#myModal").css({ display: "block" });
-            $("#myModal h2").text("You’re missing one or more answers.");
-
-            $(".modal-close").click(function(e){
-                 $("#myModal").css({ display: "none" });
-            });
+            showErrorMsg();
 
             isAnswerNull = 0;
 
@@ -280,7 +269,7 @@ var getAnswers = function(){
             //send to db and disable the submit button
             sendUserInputToDB(10, answerJson);
             localStorage.setItem("page10input1", answerJson);
-            $('#page10-input1').attr('disabled',true);
+            //$('#page10-input1').attr('disabled',true);
 
         }
 
@@ -306,7 +295,11 @@ var getAnswers = function(){
                 isAnswerNull = 1;
 
             }else{
-                answerArray.push(answer.trim());
+                var temp = {
+                    question: 'page7-input'+value,
+                    answer: answer.trim()
+                }
+                answerArray.push(temp);
             }
 
         });
@@ -319,16 +312,7 @@ var getAnswers = function(){
         //send to database if the answer is not null
         if(isAnswerNull == 1){
 
-            modal = $("#myModal")
-            console.log(modal)
-
-            $("#myModal").css({ display: "block" });
-            $("#myModal h2").text("You’re missing one or more answers.");
-
-            $(".modal-close").click(function(e){
-                 $("#myModal").css({ display: "none" });
-            });
-
+            showErrorMsg();
             isAnswerNull = 0;
 
         }else{
@@ -336,7 +320,7 @@ var getAnswers = function(){
             //send to db and disable the submit button
             sendUserInputToDB(10, answerJson);
             localStorage.setItem("page10input2", answerJson);
-            $('#page10-input2').attr('disabled',true);
+            //$('#page10-input2').attr('disabled',true);
 
         }
 
@@ -354,22 +338,14 @@ var getAnswers = function(){
         //send to database if the answer is not null
         if(!answer.trim()){
 
-             modal = $("#myModal")
-             console.log(modal)
-
-             $("#myModal").css({ display: "block" });
-             $("#myModal h2").text("You’re missing one or more answers.");
-
-             $(".modal-close").click(function(e){
-                 $("#myModal").css({ display: "none" });
-             });
+             showErrorMsg();
 
         }else{
 
             //send to db and disable the submit button
             sendUserInputToDB(12, answer);
             localStorage.setItem("page12input1", answer);
-            $('#page12-input1').attr('disabled',true);
+            //$('#page12-input1').attr('disabled',true);
 
         }
 
@@ -396,7 +372,11 @@ var getAnswers = function(){
                 isAnswerNull = 1;
 
             }else{
-                answerArray.push(answer.trim());
+                var temp = {
+                    question: 'page7-input'+value,
+                    answer: answer.trim()
+                }
+                answerArray.push(temp);
             }
 
         });
@@ -409,16 +389,7 @@ var getAnswers = function(){
         //send to database if the answer is not null
         if(isAnswerNull == 1){
 
-            modal = $("#myModal")
-            console.log(modal)
-
-            $("#myModal").css({ display: "block" });
-            $("#myModal h2").text("You’re missing one or more answers.");
-
-            $(".modal-close").click(function(e){
-                 $("#myModal").css({ display: "none" });
-            });
-
+            showErrorMsg();
             isAnswerNull = 0;
 
         }else{
@@ -426,7 +397,7 @@ var getAnswers = function(){
             //send to db and disable the submit button
             sendUserInputToDB(12, answerJson);
             localStorage.setItem("page12input2", answerJson);
-            $('#page12-input2').attr('disabled',true);
+            //$('#page12-input2').attr('disabled',true);
 
         }
 
@@ -452,7 +423,12 @@ var getAnswers = function(){
                 isAnswerNull = 1;
 
             }else{
-                answerArray.push(answer.trim());
+                var temp = {
+                    question: 'page7-input'+value,
+                    answer: answer.trim()
+                }
+
+                answerArray.push(temp);
             }
 
         });
@@ -465,24 +441,15 @@ var getAnswers = function(){
         //send to database if the answer is not null
         if(isAnswerNull == 1){
 
-            modal = $("#myModal")
-            console.log(modal)
-
-            $("#myModal").css({ display: "block" });
-            $("#myModal h2").text("You’re missing one or more answers.");
-
-            $(".modal-close").click(function(e){
-                 $("#myModal").css({ display: "none" });
-            });
-
-            isAnswerNull = 0;
+           showErrorMsg();
+           isAnswerNull = 0;
 
         }else{
 
             //send to db and disable the submit button
             sendUserInputToDB(12, answerJson);
             localStorage.setItem("page12input3", answerJson);
-            $('#page12-input3').attr('disabled',true);
+            //$('#page12-input3').attr('disabled',true);
 
         }
 
@@ -517,4 +484,17 @@ var sendUserInputToDB = function(page, value){
             }
 
             });
+}
+
+var showErrorMsg = function(){
+
+     modal = $("#myModal")
+
+     $("#myModal").css({ display: "block" });
+     $("#myModal h2").text("You’re missing one or more answers.");
+
+     $(".modal-close").click(function(e){
+         $("#myModal").css({ display: "none" });
+     });
+
 }
