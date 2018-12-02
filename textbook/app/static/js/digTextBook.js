@@ -260,9 +260,13 @@ var bindActivityButtons = function(){
 
               //persistence checker and populate or clear the table according to that
 
+
               if(localStorage.getItem('table'+$('input[name="table-id"]').val())){
                 var points = localStorage.getItem('table'+$('input[name="table-id"]').val());
 
+                //if table 3 has 3 pairs, and table 2 has 2 pairs, coming back to table 2 from table 3 shows the third coloumn from table3
+                //so clear everything and populate with the values
+                clearTableStatus();
                 //table already populated before, so display them in the table
                 persistTableStatus(points)
 

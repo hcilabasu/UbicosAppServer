@@ -211,7 +211,7 @@ function handleClear(){
 }
 
 function handleDrawLine(){
-    $('#plot_table, #plot_equation').click(drawLine);
+    $('#plot_table').click(drawLine);
 }
 
 function checkIfEquationTextboxSelected(){
