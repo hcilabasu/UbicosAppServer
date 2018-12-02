@@ -109,7 +109,7 @@ function clearTableStatus(){
 
     });
 
-    updateTableStatus();
+    updateTableStatus(); //if point is present it will draw the graph
 
 }
 
@@ -129,8 +129,9 @@ function persistTableStatus(points){
             inputY.val(value[1]);
         })
 
+
         updateTableStatus();
-        $('#graph-container').hide();
+
 }
 
 function tableUpdated(){
@@ -210,7 +211,7 @@ function handleClear(){
 }
 
 function handleDrawLine(){
-    $('#plot_table').click(drawLine);
+    $('#plot_table, #plot_equation').click(drawLine);
 }
 
 function checkIfEquationTextboxSelected(){
@@ -224,7 +225,9 @@ function checkIfEquationTextboxSelected(){
         })
 }
 function handleDrawEquation(){
-    $('#plot_equation').click(function(){
+
+
+    $('#plot_equation').click( function(){
         // Generate range for x
         XRANGE = 10;
         EQUATION_POINTS = [];
@@ -240,20 +243,20 @@ function handleDrawEquation(){
             return;
         }
         // If there are points, use those for x instead
-        if(POINTS.length > 0){
-            // There are points. Display equation in the x range
-            for (let i = 0; i < POINTS.length; i++) {
-                const point = POINTS[i];
-                xList.push(point[0]);
-            }
-        } else {
+//        if(POINTS.length > 0){
+//            // There are points. Display equation in the x range
+//            for (let i = 0; i < POINTS.length; i++) {
+//                const point = POINTS[i];
+//                xList.push(point[0]);
+//            }
+//        } else {
             // There are no points. Use XRANGE
-            for (let x = 0; x < XRANGE; x++) {
-                xList.push(x+1);
-            }
-            xList.push(0);
-            xList.push(XRANGE);
+        for (let x = 0; x < XRANGE; x++) {
+            xList.push(x+1);
         }
+        xList.push(0);
+        xList.push(XRANGE);
+        //}
         // Create points
         for (let i = 0; i < xList.length; i++) {
             const x = xList[i];

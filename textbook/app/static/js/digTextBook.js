@@ -266,6 +266,7 @@ var bindActivityButtons = function(){
                 //table already populated before, so display them in the table
                 persistTableStatus(points)
 
+
               }else{
                 //used to clear the table for different instance of the table
                 clearTableStatus();
