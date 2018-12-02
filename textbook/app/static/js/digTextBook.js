@@ -1,6 +1,6 @@
 var current_pagenumber = 1 //initial page number; gets updated with page change
 var type = '' //card type
-var groupArray = ['A', 'B','C', 'D', 'E', 'F', 'G', 'H', 'I', 'J']
+var groupArray = ['A', 'B','C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K']
 
 
 window.onerror = function(message, file, line) {
@@ -308,7 +308,7 @@ var bindActivityButtons = function(){
                 $('.card.' + type + ' p#gallery-description').text(activityButton.attr('data-description'));
             }
             else{
-                $('.card.' + type + ' p#gallery-description').text('Take a picture of your solution. Upload the picture in your gallery.');
+                $('.card.' + type + ' p#gallery-description').text('Take a picture of your solution using "Open Camera". It will be downloaded to the "Downloads" folder. Upload the picture in your gallery.');
             }
 
 

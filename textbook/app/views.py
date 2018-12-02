@@ -402,14 +402,14 @@ def groupAdd(request):
 
     usernames_array = ["ant", "giraffe", "penguin", "sheep", "hippo", "lion", "dolphin", "eagle", "frog", "duck", "bee", "bat",
                        "elephant", "leopard", "panda", "fish", "fox", "alligator", "kangaroo", "liger", "squirrel", "zebra", "bear",
-                       "deer", "dog", "tiger", "monkey", "rabbit"];
+                       "deer", "dog", "tiger", "monkey", "rabbit", "AW", "user1", "user2"];
 
 
     # for username in users_list:
     #     print(usernames_array.index(username))
 
     username_groupID = ['1', '1', '1', '2', '2', '2', '3', '3', '3', '4', '4', '4', '5', '5', '5', '6', '6', '7', '7',
-                        '7', '8', '8', '8', '9', '9', '10', '10', '10']
+                        '7', '8', '8', '8', '9', '9', '10', '10', '10', '11', '11', '11']
 
     for i in range(len(usernames_array)):
         print (usernames_array[i], ' ----- ', username_groupID[usernames_array.index(usernames_array[i])]);
@@ -498,7 +498,7 @@ def userLogFromExtenstion(request):
 
 def createBulkUser(request):
 
-    # 28 user for the study
+    # 28 user for the study + 3 user
 
     #group 1
     user = User.objects.create_user('ant', '', 'ant');
@@ -575,6 +575,15 @@ def createBulkUser(request):
     user.save();
     user = User.objects.create_user('rabbit', '', 'rabbit');
     user.save();
+
+    #group 11 - teacher/developers
+    user = User.objects.create_user('AW', '', 'AW');
+    user.save();
+    user = User.objects.create_user('user1', '', 'user1');
+    user.save();
+    user = User.objects.create_user('user2', '', 'user2');
+    user.save();
+
 
     return HttpResponse('')
 

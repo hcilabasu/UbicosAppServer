@@ -2,7 +2,7 @@
 var host_url = window.location.host
 var logged_in = ''
 var totalPhoto
-var groupArray = ['A', 'B','C', 'D', 'E', 'F', 'G', 'H', 'I', 'J']
+var groupArray = ['A', 'B','C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K']
 
 $(function(){
 
