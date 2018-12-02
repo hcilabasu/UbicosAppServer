@@ -344,6 +344,16 @@ var bindActivityButtons = function(){
             //get which question clicked.
             console.log(id)
             //hide its siblings
+
+            //if problem list - then hide the answer description and heading
+            if(id.indexOf('quest')>=0){
+                $('#multQuesDesc').hide();
+                $('.card.' + type + ' h1').text('Answer Questions');
+            }else{
+                $('#multQuesDesc').show();
+                $('.card.' + type + ' h1').text('Solve a Problem');
+            }
+
             $('#'+id).siblings().hide();
             //show the div
             $('#'+id).show();

@@ -342,18 +342,25 @@ function createGraph(){
     drawPointsAndLine(EQUATION_POINTS, g, x, y, 'equation-points');
 }
 
+//problem -
+// for table points : it draws the point but does not draw the line
+// for equation points: it does not draws the point but draws the line
+// to show points and line in the graph, the css is in digTexBook.less - IA
 function drawPointsAndLine(points, g, x, y, cssClass){
     // Draw lines
     var line = d3.line()
         .x(function (d) { return x(d[0]); })
         .y(function (d) { return y(d[1]); });
+
     for (let i = 0; i < points.length-1; i++) {
         var point1 = points[i];
         var point2 = points[i+1];
         g.append('path')
             .attr('class', cssClass)
+            //.style('visibility','visible')
             .datum([point1,point2])
             .attr('d', line);
+
     }
 
     // Draw points
