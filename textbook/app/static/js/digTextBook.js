@@ -292,6 +292,9 @@ var bindActivityButtons = function(){
                 clearTableStatus();
               }
 
+              //
+              //$('div#graph-container').css("display", "none");
+
 
         }
 //        ------------------------------GALLERY-----------------------

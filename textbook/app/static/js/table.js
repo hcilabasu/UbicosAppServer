@@ -1,6 +1,6 @@
 var POINTS = [];
 var EQUATION_POINTS = [];
-
+var isTableLineVisible = false;
 
 $(function(){
     fixVerticalTabindex('#TimeDistance', 2);
@@ -109,7 +109,15 @@ function clearTableStatus(){
 
     });
 
+
     updateTableStatus();
+
+    //clear equation
+    $('[name=m]').val('');
+    $('[name=b]').val('');
+
+     $('div#graph-container').css("display", "none");
+
 
 }
 
@@ -211,10 +219,21 @@ function handleClear(){
 function handleDrawLine(){
     $('#plot_table').click(drawLine);
     $('#plot_table').click(function(e){
-
+        isTableLineVisible = true;
     });
 
 
+}
+
+function checkIfEquationTextboxSelected(){
+        //error displayed when m or b was empty, clear that message
+        //when they attempt to fill in m or b
+        $('[name=m]').focus(function(){
+            $('#equation-error-message-p').text('');
+        })
+        $('[name=b]').focus(function(){
+            $('#equation-error-message-p').text('');
+        })
 }
 
 function handleDrawEquation(){
@@ -226,6 +245,15 @@ function handleDrawEquation(){
         var equationLi = $('li.equation');
         var m =  checkNumber($('[name=m]', equationLi).val());
         var b = checkNumber($('[name=b]', equationLi).val());
+
+  //check if m and b are empty
+        console.log(m)
+        if(isNaN(m) || isNaN(b)){
+            console.log("empty input")
+            $('#equation-error-message-p').text("You need to fill in both m and b before the line can be plotted.")
+            return;
+        }
+
         // If there are points, use those for x instead
 //        if(POINTS.length > 0){
 //            // There are points. Display equation in the x range
@@ -340,7 +368,13 @@ function createGraph(){
     var g = main.append("svg:g");
 
     // Draw both
-    drawPointsAndLine(POINTS, g, x, y, 'table-points');
+    if(isTableLineVisible){
+        drawPointsAndLine(POINTS, g, x, y, 'table-points1');
+    }else{
+        drawPointsAndLine(POINTS, g, x, y, 'table-points');
+    }
+
+    //drawPointsAndLine(POINTS, g, x, y, 'table-points');
     drawPointsAndLine(EQUATION_POINTS, g, x, y, 'equation-points');
 }
 
