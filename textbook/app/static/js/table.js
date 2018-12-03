@@ -358,8 +358,6 @@ function drawPointsAndLine(points, g, x, y, cssClass){
             .datum([point1,point2])
             .attr('d', line);
 
-
-
     }
 
     // Draw points

@@ -231,6 +231,18 @@ var bindActivityButtons = function(){
         type = activityButton.attr('class').replace('activity-button','').trim();
         console.log('type', type)
 
+        //for brainstorm different instances - start
+        if(type.indexOf("msf")>=0){
+            console.log(type)
+            type = type.split(" ")[0]
+        }
+        if(type.indexOf("bs")>=0){
+            console.log(type)
+            type = type.split(" ")[0]
+        }
+        //for brainstorm different instances - start
+
+
         //id of each each activity - based on page no
         var id = activityButton.attr('data-id');
         console.log('id', id)
@@ -376,12 +388,14 @@ var bindActivityButtons = function(){
             console.log('brainstorm heading:: ', activityButton.attr('data-heading'))
             $('.card.' + type + ' h1').text(activityButton.attr('data-heading')); //update the title of each page
 
+
             //update the description
            console.log(activityButton.attr('data-description'));
            if(activityButton.attr('data-description')){
                 $('.card.' + type + ' p#brainstorm-description').text(activityButton.attr('data-description'));
             }
 
+            console.log($(this))
             $('input[name="brainstorm-id"]').attr('value', id)
 
             loadIdeaToWorkspace();
