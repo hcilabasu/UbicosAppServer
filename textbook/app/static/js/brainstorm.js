@@ -218,7 +218,7 @@ var ideaDragPositionUpdate = function(){
         noteID = $(this).data('noteid')
         console.log('dragged note :: ',noteID)
 
-        enterLogIntoDatabase('Dragged Note', 'brainstorm note dragged' , JSON.stringify(ui.position) , current_pagenumber)
+        enterLogIntoDatabase('Dragged Note', 'brainstorm note ' +noteID +' dragged' , JSON.stringify(ui.position) , current_pagenumber)
 
 
          $.post({
