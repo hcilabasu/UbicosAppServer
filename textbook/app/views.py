@@ -66,7 +66,8 @@ def broadcastBrainstormNote(request):
     #pusher2.trigger(u'c_channel', u'cn_event', {u'name': request.POST['username'], u'message': request.POST['message']})
     pusher2.trigger(u'c_channel', u'cn_event', {u'noteID': request.POST.get('brainstormID'), u'idea': request.POST.get('idea'),
                           u'color': request.POST.get('color'), u'posTop': request.POST.get('posTop'), u'posLeft': request.POST.get('posLeft'),
-                          u'posted_by':request.POST['username']})
+                          u'posted_by':request.POST['username'],
+                          u'update': 'false'})
 
     note = brainstormNote(brainstormID=request.POST.get('brainstormID'), ideaText=request.POST.get('idea'),
                           color=request.POST.get('color'),
@@ -187,6 +188,7 @@ def uploadImage(request):
 
         # using data from database
         data = {}
+        data['image_id'] = images.pk
         data['gallery_id'] = images.gallery_id
         data['group_id'] = images.group_id
         data['posted_by'] = images.posted_by.get_username()
@@ -195,6 +197,9 @@ def uploadImage(request):
         image_data = json.dumps(data)
 
         # print(image_data)
+        #real time pic transfer
+        # pusher1.trigger(u'b_channel', u'bn_event',
+        #                 { u'new_image':image_data})
 
         return JsonResponse({'success': image_data, 'errorMsg': True})
 
@@ -202,6 +207,8 @@ def getImage(request, view_id, gallery_id,group_id):
 
     # for pilot/study
     print("@@@@", view_id)
+
+
     if(int(view_id) == 1): #view_id = 1 means comment view
         print("@@@@inside if", view_id)
         images = imageModel.objects.exclude(group_id=group_id)
@@ -245,7 +252,7 @@ def updateImageFeed(request, img_id):
     print('updateImageFeed (image_id) :: ' + img_id)
     img_msg = imageComment.objects.filter(imageId_id=img_id)
     img_msg = serializers.serialize('json', img_msg, use_natural_foreign_keys=True, use_natural_primary_keys=True)
-    print('hojoborolo :: ', img_msg)
+
     return JsonResponse({'success': img_msg, 'username': request.user.get_username(),'errorMsg': True})
 
 def brainstormSave(request):
@@ -271,11 +278,12 @@ def brainstormUpdate(request, note_id):
 
     note = brainstormNote.objects.filter(id=note_id)
 
-    # pusher2.trigger(u'c_channel', u'cn_event',
-    #                 {u'noteID': note_id, u'idea': note[0].ideaText,
-    #                  u'color': note[0].color, u'posTop': request.POST.get('top'),
-    #                  u'posLeft': request.POST.get('left'),
-    #                  u'posted_by': request.POST.get('username')})
+    pusher2.trigger(u'c_channel', u'cn_event',
+                    {u'noteID': note_id, u'idea': note[0].ideaText,
+                     u'color': note[0].color, u'posTop': request.POST.get('top'),
+                     u'posLeft': request.POST.get('left'),
+                     u'posted_by': request.POST.get('username'),
+                     u'update': 'true'})
 
     brainstormNote.objects.filter(id=note_id).update(position_top=request.POST.get('top'),
                                                      position_left=request.POST.get('left'))
@@ -338,6 +346,9 @@ def getUserList(request):
 
 # create superuser
 # https://docs.djangoproject.com/en/2.1/topics/auth/default/
+def registerUser(request):
+    return render(request, 'app/register.html', {})
+
 def createUser(request):
 
     if request.method == "POST":
@@ -387,12 +398,52 @@ def createUser(request):
 #temp solution for pilot-1 -- start
 def groupAdd(request):
 
-    member = groupInfo(activityType='gallery', activityID=1, group=3, users=request.user)
-    member.save();
-    member = groupInfo(activityType='gallery', activityID=2, group=3, users=request.user)
-    member.save();
-    member = groupInfo(activityType='gallery', activityID=3, group=3, users=request.user)
-    member.save();
+    users_list = [str(user) for user in User.objects.all()]
+    print(len(users_list))
+
+    usernames_array = ["ant", "giraffe", "penguin", "sheep", "hippo", "lion", "dolphin", "eagle", "frog", "duck", "bee", "bat",
+                       "elephant", "leopard", "panda", "fish", "fox", "alligator", "kangaroo", "liger", "squirrel", "zebra", "bear",
+                       "deer", "dog", "tiger", "monkey", "rabbit", "AW", "user1", "user2"];
+
+
+    # for username in users_list:
+    #     print(usernames_array.index(username))
+
+    username_groupID = ['1', '1', '1', '2', '2', '2', '3', '3', '3', '4', '4', '4', '5', '5', '5', '6', '6', '7', '7',
+                        '7', '8', '8', '8', '9', '9', '10', '10', '10', '11', '11', '11']
+
+    for i in range(len(usernames_array)):
+        print (usernames_array[i], ' ----- ', username_groupID[usernames_array.index(usernames_array[i])]);
+
+
+    # 4 gallery activities so range is from 1 to 5
+    for username in users_list:
+        for i in range(1, 5):
+
+            member = groupInfo(activityType='gallery', activityID=i, group=username_groupID[usernames_array.index(username)],
+                               users=User.objects.get(username=username))
+            member.save();
+
+
+    # insert statement for each gallery, right now number of gallery = 4
+
+
+
+
+    # #for user - ant
+    # member = groupInfo(activityType='gallery', activityID=1, group=groupID_ant, users=User.objects.get(username="ant"))
+    # member.save();
+    # member = groupInfo(activityType='gallery', activityID=2, group=groupID_ant, users=User.objects.get(username="ant"))
+    # member.save();
+    # member = groupInfo(activityType='gallery', activityID=3, group=groupID_ant, users=User.objects.get(username="ant"))
+    # member.save();
+    # member = groupInfo(activityType='gallery', activityID=4, group=groupID_ant, users=User.objects.get(username="ant"))
+    # member.save();
+
+
+    # # member = groupInfo(activityType='gallery', activityID=2, group=3, users=request.user)
+    # # member.save();
+
 
 
 
@@ -401,7 +452,7 @@ def groupAdd(request):
 def getGroupID(request, act_id):
     print('line 384 From server activity id', act_id)
     groupID = groupInfo.objects.all().filter(activityID = act_id)
-    print('from server group id', groupID)
+    print('from server group id', groupID[0].group)
     groupID = groupID.filter(users_id = request.user)
     print(type(groupID))
     print('line 358',groupID[0].group)
@@ -409,17 +460,6 @@ def getGroupID(request, act_id):
     return HttpResponse(groupID[0].group)
 
 # temp solution for pilot-1 -- end
-
-
-def deleteAllItems(request):
-    # brainstormNote.objects.all().delete()
-    # imageModel.objects.all().delete()
-    # Message.objects.all().delete()
-    # imageComment.objects.all().delete();
-    userLogTable.objects.all().delete();
-    #groupInfo.objects.all().delete()
-
-    return HttpResponse('')
 
 def camera(request):
     return render(request, 'app/camera.html', {})
@@ -454,4 +494,112 @@ def userLogFromExtenstion(request):
 
     return HttpResponse('')
 
+# hacks - start
 
+
+def createBulkUser(request):
+
+    # 28 user for the study + 3 user
+
+    #group 1
+    user = User.objects.create_user('ant', '', 'ant');
+    user.save();
+    user = User.objects.create_user('giraffe', '', 'giraffe');
+    user.save();
+    user = User.objects.create_user('penguin', '', 'penguin');
+    user.save();
+
+    #group 2
+    user = User.objects.create_user('sheep', '', 'sheep');
+    user.save();
+    user = User.objects.create_user('hippo', '', 'hippo');
+    user.save();
+    user = User.objects.create_user('lion', '', 'lion');
+    user.save();
+
+    # group 3
+    user = User.objects.create_user('dolphin', '', 'dolphin');
+    user.save();
+    user = User.objects.create_user('eagle', '', 'eagle');
+    user.save();
+    user = User.objects.create_user('frog', '', 'frog');
+    user.save();
+
+    # group 4
+    user = User.objects.create_user('duck', '', 'duck');
+    user.save();
+    user = User.objects.create_user('bee', '', 'bee');
+    user.save();
+    user = User.objects.create_user('bat', '', 'bat');
+    user.save();
+
+    #group 5
+    user = User.objects.create_user('elephant', '', 'elephant');
+    user.save();
+    user = User.objects.create_user('leopard', '', 'leopard');
+    user.save();
+    user = User.objects.create_user('panda', '', 'panda');
+    user.save();
+
+    #group 6
+    user = User.objects.create_user('fish', '', 'fish');
+    user.save();
+    user = User.objects.create_user('fox', '', 'fox');
+    user.save();
+
+    #group 7
+    user = User.objects.create_user('alligator', '', 'alligator');
+    user.save();
+    user = User.objects.create_user('kangaroo', '', 'kangaroo');
+    user.save();
+    user = User.objects.create_user('liger', '', 'liger');
+    user.save();
+
+    #group 8
+    user = User.objects.create_user('squirrel', '', 'squirrel');
+    user.save();
+    user = User.objects.create_user('zebra', '', 'zebra');
+    user.save();
+    user = User.objects.create_user('bear', '', 'bear');
+    user.save();
+
+    #group 9
+    user = User.objects.create_user('deer', '', 'deer');
+    user.save();
+    user = User.objects.create_user('dog', '', 'dog');
+    user.save();
+
+    #group 10
+    user = User.objects.create_user('tiger', '', 'tiger');
+    user.save();
+    user = User.objects.create_user('monkey', '', 'monkey');
+    user.save();
+    user = User.objects.create_user('rabbit', '', 'rabbit');
+    user.save();
+
+    #group 11 - teacher/developers
+    user = User.objects.create_user('AW', '', 'AW');
+    user.save();
+    user = User.objects.create_user('user1', '', 'user1');
+    user.save();
+    user = User.objects.create_user('user2', '', 'user2');
+    user.save();
+
+
+    return HttpResponse('')
+
+# hacks - end
+
+
+def addUserToGroupsForm(request):
+    return render(request, 'app/group.html', {})
+
+def deleteAllItems(request):
+    # brainstormNote.objects.all().delete()
+    # imageModel.objects.all().delete()
+    Message.objects.all().delete()
+    # imageComment.objects.all().delete();
+    userLogTable.objects.all().delete();
+    groupInfo.objects.all().delete()
+
+    return HttpResponse('')

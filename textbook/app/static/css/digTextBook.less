@@ -3,6 +3,8 @@
 @video2: #e45882;
 @brainstorm1: #F4AB4D;
 @brainstorm2: #F9C82C;
+@brainstorm3: #ff9933; /* brainstorm model so far */
+@brainstorm4: #e67300; /* brainstorm model so far */
 @gallery1: #2DB872;
 @gallery2: #56EF2C;
 @moreInfo1: rgb(105, 119, 128);
@@ -11,6 +13,8 @@
 @table2: #5151C8;
 @convert1: magenta;
 @convert2: yellow;
+@multQues1: #33cccc; /* #0099FF; */
+@multQues2: #0099ff; /* #0066cc; */
 
 // Other colors
 @linkColor: #007BFF;
@@ -129,6 +133,7 @@ a {
     border-radius: 20px;
     text-decoration: none;
     box-shadow: 0 0 5px rgba(0,0,0,0.2);
+    outline:0;
 }
 
 a {
@@ -248,6 +253,8 @@ a {
     cursor: pointer;
 }
 
+/* brainstorm class color + activity button color */
+
 .brainstorm {
     color: @brainstorm1;
 }
@@ -261,6 +268,30 @@ a {
     box-shadow: 0 0 30px @brainstorm1;
     transition: all 0.4s;
 }
+
+ .activity-button.brainstorm.msf {
+    background-image: url('/static/pics/msf.png');
+}
+.activity-button.brainstorm.msf:after {
+    background: linear-gradient(@brainstorm1, @brainstorm2);
+}
+.activity-button.brainstorm.msf:hover {
+    box-shadow: 0 0 30px @brainstorm1;
+    transition: all 0.4s;
+}
+
+ .activity-button.brainstorm.bs {
+    background-image: url('/static/pics/idea.png');
+}
+.activity-button.brainstorm.bs:after {
+    background: linear-gradient(@brainstorm1, @brainstorm2);
+}
+.activity-button.brainstorm.bs:hover {
+    box-shadow: 0 0 30px @brainstorm1;
+    transition: all 0.4s;
+}
+
+/* video class color + activity button color */
 
 .video {
     color: @video1;
@@ -276,6 +307,8 @@ a {
     transition: all 0.4s;
 }
 
+/* gallery class color + activity button color */
+
 .gallery {
     color: @gallery1;
 }
@@ -289,6 +322,8 @@ a {
     box-shadow: 0 0 30px @gallery1;
     transition: all 0.4s;
 }
+
+/* moreinfo class color + activity button color */
 
 .moreinfo {
     color: @moreInfo1;
@@ -304,6 +339,8 @@ a {
     transition: all 0.4s;
 }
 
+/* table class color + activity button color */
+
 .table {
     color: @table1;
 }
@@ -317,6 +354,8 @@ a {
     box-shadow: 0 0 30px @table1;
     transition: all 0.4s;
 }
+
+/* convert class color + activity button color */
 
 .convert {
     color: @convert1;
@@ -332,9 +371,22 @@ a {
     transition: all 0.4s;
 }
 
+/* multQues class color + activity button color */
+
 .multQues{
-    color: #FF738C;
+    color: @multQues2;
 }
+.activity-button.multQues {
+    background-image: url('/static/pics/answer.png');
+}
+.activity-button.multQues:after {
+    background: linear-gradient(@multQues1,@multQues2);
+}
+.activity-button.multQues:hover {
+    box-shadow: 0 0 30px @multQues1;
+    transition: all 0.4s;
+}
+
 
 /*
     DYNAMIC CONTENT STYLING
@@ -386,6 +438,7 @@ a {
     background-size: 100%;
     z-index: 2;
 }
+
 /* functionality added in digTextBook.js*/
 .extend-card {
     display: inline-block;
@@ -399,6 +452,17 @@ a {
     z-index: 2;
 }
 
+#backToGallery{
+    display: inline-block;
+    position: absolute;
+    top: 15px;
+    right: 100px;
+    height: 30px;
+    width: 30px;
+    background: url('/static/pics/back-arrow.png') no-repeat;
+    background-size: 100%;
+    z-index: 2;
+}
 /* ACTIVITY FEED AND INDEX */
 
 .message-input {
@@ -548,13 +612,18 @@ a {
         cursor: pointer;
     }
 
+    p{
+        cursor: pointer;
+    }
+
     ul {
-        padding-left: 100px;
-        margin-bottom: 50px;
+        padding-left: 70px;
+        margin-bottom: 0px;
         list-style-type: none;
 
         li {
-            padding-bottom: 10px;
+            padding-bottom: 3px;
+            cursor: pointer;
 
             a {
                 color: #1f87ff;
@@ -577,6 +646,9 @@ a {
             &.video span { .bg-color-image(@video1, url(../pics/video.png)); }
             &.gallery span { .bg-color-image(@gallery1, url(../pics/gallery.png)); }
             &.brainstorm span { .bg-color-image(@brainstorm1, url(../pics/brainstorm.png)); }
+            &.table span { .bg-color-image(@table1, url(../pics/graph.png)); }
+            &.moreinfo span { .bg-color-image(@moreInfo1, url(../pics/more.png)); }
+            &.multQues span { .bg-color-image(@multQues1, url(../pics/answer.png)); }
         }
     }
 }
@@ -609,6 +681,7 @@ a {
     align-items: center;
     margin: 0;
     position: relative;
+
 }
 
 .section > * {
@@ -641,7 +714,7 @@ a {
 #gallery li img {
     width: 100px;
     height: 80px;
-    opacity: 0.5;
+
     transform: scale(1);
     transition: transform 0.4s;
 
@@ -649,10 +722,8 @@ a {
         transform: scale(1.2);
         transition: transform 0.4s;
   }
+
 }
-
-
-
 
 
 .badge {
@@ -667,7 +738,7 @@ a {
     border-radius: 50%;
     text-align: center;
     line-height: 1rem;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    box-shadow: 0 2px 4px rgba(0,0,0,1);
 }
 
 #single-image-view { 
@@ -795,11 +866,11 @@ a {
 
     .brainstorm_name {
         position: absolute;
-        left:px;
+        left:5px;
         bottom:5px;
         font-size: 0.8rem;
-        opacity: 1;
-        background: cornflowerblue;
+        opacity: 0.4;
+       /* background: cornflowerblue; */
     }
 
     #brainstorm-header {
@@ -830,7 +901,7 @@ a {
             padding-bottom: 25px;
             opacity: 1;
             transform: scale(1);
-            transition: opacity 0.5s, transform 0.5s;
+            /*transition: opacity 0.5s, transform 0.5s;*/
         }
 
         #idea-workspace .idea.new {
@@ -935,6 +1006,7 @@ a {
 .card.group {
     background: linear-gradient(rgba(140, 191, 255, 1), rgba(249, 198, 46, 1));
 }
+
 
 .card.table {
     background: linear-gradient(@table1, @table2);
@@ -1091,6 +1163,18 @@ a {
         visibility: hidden;
     }
 
+    /* table hack - TODO fix later */
+     path.table-points1 {
+        stroke: #96a0ff !important;
+        stroke-width: 8;
+        visibility: visible;
+    }
+
+    circle.table-points1 {
+        fill: #FFA319;
+    }
+    /* table hack end */
+
     path.equation-points {
         stroke: #9ae6bf;
         stroke-width: 2;
@@ -1106,18 +1190,22 @@ a {
     }
 }
 
-/* Convert */
+/* Convert Card*/
 .card.convert {
     background: linear-gradient(rgba(255, 188, 4, 1), rgba(175, 60, 175, 1));
 }
 
+/* More Info Card*/
 .card.moreinfo {
     background: linear-gradient(rgba(109, 155, 192, 1), rgba(105, 120, 129, 1));
 }
 
+/* Multiple Question Card rgba(153, 187, 255, 1), rgba(102, 102, 255, 1)*/
 .card.multQues {
-    background: linear-gradient(rgba(109, 155, 192, 1), rgba(105, 120, 129, 1));
+   background: linear-gradient(rgba(51, 204, 204, 1), rgba(0, 153, 255, 1));
 }
+
+
 .convert-input input[type="text"] {
     width: 100%;
     padding: 12px 20px;
@@ -1128,4 +1216,53 @@ a {
 
 .floatRight {
     float: right;
+}
+
+/* camera */
+
+#openCamera {
+    background-color: #2DB872;
+    border: #56EF2C;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none; /* else it would show the usual link text decoration with underline */
+    display: inline-block;
+    font-family: verdana;
+    font-size: 16px;
+    margin: 4px 2px;
+    border-radius: 20px;
+    cursor: pointer;
+
+}
+
+#openCamera:hover{
+    background-color:#006600;
+}
+
+#openCamera:active{
+    background-color:#006600;
+}
+
+.gallery-submission {
+    background-color: #2DB872;
+    border: #56EF2C;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none; /* else it would show the usual link text decoration with underline */
+    display: inline-block;
+    font-family: verdana;
+    font-size: 16px;
+    margin: 4px 2px;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+.gallery-submission:hover{
+    background-color:#006600;
+}
+
+.gallery-submission:active{
+    background-color:#006600;
 }

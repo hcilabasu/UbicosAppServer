@@ -1,5 +1,6 @@
 var POINTS = [];
 var EQUATION_POINTS = [];
+var isTableLineVisible = false;
 
 $(function(){
     fixVerticalTabindex('#TimeDistance', 2);
@@ -51,7 +52,7 @@ function updateTableStatus(){
     clearRow = $('.clear-row td');
 
     previousPoints = POINTS.slice();
-    POINTS = [];   
+    POINTS = [];
 
     disableNext = false;
     for (let i = 0; i < xRow.length; i++) {
@@ -68,7 +69,7 @@ function updateTableStatus(){
             // Check if the next point needs to be disabled
             var point = {x: checkNumber($('input', tdX).val()), y: checkNumber($('input', tdY).val())};
             if (!(!isNaN(point.x) && !isNaN(point.y))) {
-                /* 
+                /*
                 If either point is not present, or if one of the points is not numeric,
                 set flag to disable next columns
                 */
@@ -90,6 +91,53 @@ function updateTableStatus(){
     }
 
 
+}
+
+// used to clear the table so that each click the table clears out;
+// values from one table dont show at other table
+// called from digtextbook.js when table card is clicked
+
+function clearTableStatus(){
+
+    xRow = $('.x-row td');
+    $.each(xRow, function(index, value){
+
+        var inputX = $($('.x-row input')[index]);
+        var inputY = $($('.y-row input')[index]);
+        inputX.val('');
+        inputY.val('');
+
+    });
+
+
+    updateTableStatus();
+
+    //clear equation
+    $('[name=m]').val('');
+    $('[name=b]').val('');
+
+     $('div#graph-container').css("display", "none");
+
+
+}
+
+
+
+function persistTableStatus(points){
+
+        points = JSON.parse(points)
+        xRow = $('.x-row td');
+
+        $.each(points, function(index, value){
+            //console.log(value[0])
+
+            var inputX = $($('.x-row input')[index]);
+            var inputY = $($('.y-row input')[index]);
+            inputX.val(value[0]);
+            inputY.val(value[1]);
+        })
+
+        updateTableStatus();
 }
 
 function tableUpdated(){
@@ -149,7 +197,7 @@ function fixVerticalTabindex(selector, nRows) {
                 });
                 row_i++;
             }
-        });      
+        });
     });
 }
 
@@ -170,6 +218,22 @@ function handleClear(){
 
 function handleDrawLine(){
     $('#plot_table').click(drawLine);
+    $('#plot_table').click(function(e){
+        isTableLineVisible = true;
+    });
+
+
+}
+
+function checkIfEquationTextboxSelected(){
+        //error displayed when m or b was empty, clear that message
+        //when they attempt to fill in m or b
+        $('[name=m]').focus(function(){
+            $('#equation-error-message-p').text('');
+        })
+        $('[name=b]').focus(function(){
+            $('#equation-error-message-p').text('');
+        })
 }
 
 function handleDrawEquation(){
@@ -181,28 +245,57 @@ function handleDrawEquation(){
         var equationLi = $('li.equation');
         var m =  checkNumber($('[name=m]', equationLi).val());
         var b = checkNumber($('[name=b]', equationLi).val());
-        // If there are points, use those for x instead
-        if(POINTS.length > 0){
-            // There are points. Display equation in the x range
-            for (let i = 0; i < POINTS.length; i++) {
-                const point = POINTS[i];
-                xList.push(point[0]);
-            }
-        } else {
-            // There are no points. Use XRANGE
-            for (let x = 0; x < XRANGE; x++) {
-                xList.push(x+1);            
-            }
+
+  //check if m and b are empty
+        console.log(m)
+        if(isNaN(m) || isNaN(b)){
+            console.log("empty input")
+            $('#equation-error-message-p').text("You need to fill in both m and b before the line can be plotted.")
+            return;
         }
+
+        // If there are points, use those for x instead
+//        if(POINTS.length > 0){
+//            // There are points. Display equation in the x range
+//            for (let i = 0; i < POINTS.length; i++) {
+//                const point = POINTS[i];
+//                xList.push(point[0]);
+//            }
+//        } else {
+//            // There are no points. Use XRANGE
+//            for (let x = 0; x < XRANGE; x++) {
+//                xList.push(x+1);
+//            }
+//            xList.push(0);
+//            xList.push(XRANGE);
+//        }
+
+// go through the origin - start
+        for (let x = 0; x < XRANGE; x++) {
+                xList.push(x+1);
+            }
+            xList.push(0);
+            xList.push(XRANGE);
+// go through the origin - start
+
         // Create points
         for (let i = 0; i < xList.length; i++) {
             const x = xList[i];
             y = m * x + b;
             EQUATION_POINTS.push([x, y]);
         };
+
+        //change started here - IA
+
+        //change ended here - IA
         // Update and display graph
         createGraph();
         toggleGraph(true);
+
+        //enter log
+        var inputEquationLine = 'y = ' + m + ' x + ' + b;
+        enterLogIntoDatabase('plot equation pressed', 'table plot equation' , inputEquationLine, current_pagenumber)
+
     });
 }
 
@@ -211,7 +304,7 @@ function createGraph(){
     var margin = {top: 20, right: 15, bottom: 45, left: 45}
     , width = 450 - margin.left - margin.right
     , height = 340 - margin.top - margin.bottom;
-  
+
     var maxPoints = d3.max([
         d3.max(POINTS.concat(EQUATION_POINTS), function(d) { return d[0]; }),
         d3.max(POINTS.concat(EQUATION_POINTS), function(d) { return d[1]; })
@@ -219,13 +312,13 @@ function createGraph(){
     var x = d3.scaleLinear()
                 .domain([0, maxPoints])
                 .range([ 0, width ]);
-    
+
     var y = d3.scaleLinear()
                 .domain([0, maxPoints])
                 .range([ height, 0 ]);
 
     d3.select('svg').remove(); // Ideally we should just update the data and animate
-            
+
     var chart = d3.select('#graph')
     .append('svg:svg')
     .attr('width', width + margin.right + margin.left)
@@ -236,8 +329,8 @@ function createGraph(){
     .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')')
     .attr('width', width)
     .attr('height', height)
-    .attr('class', 'main')   
-        
+    .attr('class', 'main')
+
     var maxTicks = 15;
     var numTicks = maxPoints <= maxTicks ? maxPoints : maxTicks;
 
@@ -272,10 +365,16 @@ function createGraph(){
         .style('fill', 'white')
         .text("X");
 
-    var g = main.append("svg:g"); 
+    var g = main.append("svg:g");
 
     // Draw both
-    drawPointsAndLine(POINTS, g, x, y, 'table-points');
+    if(isTableLineVisible){
+        drawPointsAndLine(POINTS, g, x, y, 'table-points1');
+    }else{
+        drawPointsAndLine(POINTS, g, x, y, 'table-points');
+    }
+
+    //drawPointsAndLine(POINTS, g, x, y, 'table-points');
     drawPointsAndLine(EQUATION_POINTS, g, x, y, 'equation-points');
 }
 
@@ -287,10 +386,12 @@ function drawPointsAndLine(points, g, x, y, cssClass){
     for (let i = 0; i < points.length-1; i++) {
         var point1 = points[i];
         var point2 = points[i+1];
+
         g.append('path')
             .attr('class', cssClass)
             .datum([point1,point2])
             .attr('d', line);
+
     }
 
     // Draw points
@@ -308,17 +409,22 @@ function drawLine(draw){
     var visibility = draw ? 'visible' : 'hidden';
     $('path').css('visibility', visibility);
     //save the data points in database
+
+    localStorage.setItem('table'+$("input[name='table-id']").val(), JSON.stringify(POINTS))
+    enterLogIntoDatabase('plot line pressed', 'table plot line' , JSON.stringify(POINTS), current_pagenumber)
     tableDataInsert('table', POINTS);
 }
 
  var tableDataInsert = function(type, points){
+        //log
+
          var pointsAsJSON = JSON.stringify(points);
-        console.log(pointsAsJSON)
-        //send to database
-           $.post({
-            async: false,
-           url:'/tableData/save/', //save table data
-           data: {
+         console.log(pointsAsJSON)
+          //send to database
+          $.post({
+          async: false,
+          url:'/tableData/save/', //save table data
+          data: {
                 'table_id': $("input[name='table-id']").val(),
                 'plot_type': type ,
                 'plot_data': pointsAsJSON

@@ -1,11 +1,142 @@
 
-<!--this page should be dynamic-->
-<p> Select your group to proceed </p>
-<div id="group-view">
 
-    <!--<input type="radio" name="group" value="1"> Group 1 <br>-->
-    <!--<input type="radio" name="group" value="2"> Group 2 <br>-->
-    <!--<input type="radio" name="group" value="3"> Group 3 <br>-->
-    <!--<input type="radio" name="group" value="4"> Group 4 <br>-->
+{% load static %}
+<!DOCTYPE html>
 
-</div>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <title>LOGIN</title>
+          <link rel="stylesheet" type="text/css" href="{% static 'css/gallery.css' %}">
+
+    </head>
+
+    <body>
+
+
+            {% csrf_token %}
+             <div id="group-view">
+
+                 <label class="user-username" value="alligator" style="font-family:verdana; font-size:16px">alligator</label>
+                 <input  name="name1" type="number" > <br/><br/>
+
+                 <label class="user-username" value="ant" style="font-family:verdana; font-size:16px">ant</label>
+                 <input  name="name2" type="number" > <br/><br/>
+
+                 <label class="user-username" value="bat" style="font-family:verdana; font-size:16px">bat</label>
+                 <input  name="name3" type="number" > <br/><br/>
+
+                 <label class="user-username" value="bear" style="font-family:verdana; font-size:16px">bear</label>
+                 <input  name="name4" type="number" > <br/><br/>
+
+                 <label class="user-username" value="bee" style="font-family:verdana; font-size:16px">bee</label>
+                 <input  name="name5" type="number" > <br/><br/>
+
+                 <label class="user-username" value="buffalo" style="font-family:verdana; font-size:16px">buffalo</label>
+                 <input  name="name6" type="number" > <br/><br/>
+
+                 <label class="user-username" value="camel" style="font-family:verdana; font-size:16px">camel</label>
+                 <input  name="name7" type="number" > <br/><br/>
+
+                 <label class="user-username" value="dog" style="font-family:verdana; font-size:16px">dog</label>
+                 <input  name="name8" type="number" > <br/><br/>
+
+                 <label class="user-username" value="dolphin" style="font-family:verdana; font-size:16px">dolphin</label>
+                 <input  name="name9" type="number" > <br/><br/>
+
+                 <label class="user-username" value="duck" style="font-family:verdana; font-size:16px">duck</label>
+                 <input  name="name10" type="number" > <br/><br/>
+
+                 <label class="user-username" value="deer" style="font-family:verdana; font-size:16px">deer</label>
+                 <input  name="name11" type="number" > <br/><br/>
+
+                 <label class="user-username" value="elephant" style="font-family:verdana; font-size:16px">elephant</label>
+                 <input  name="name12" type="number" > <br/><br/>
+
+                 <label class="user-username" value="eagle" style="font-family:verdana; font-size:16px">eagle</label>
+                 <input  name="name13" type="number" > <br/><br/>
+
+                 <label class="user-username" value="fox" style="font-family:verdana; font-size:16px">fox</label>
+                 <input  name="name14" type="number" > <br/><br/>
+
+                 <label class="user-username" value="fish" style="font-family:verdana; font-size:16px">fish</label>
+                 <input  name="name15" type="number" > <br/><br/>
+
+                 <label class="user-username" value="frog" style="font-family:verdana; font-size:16px">frog</label>
+                 <input  name="name16" type="number" > <br/><br/>
+
+                 <label class="user-username" value="giraffe" style="font-family:verdana; font-size:16px">giraffe</label>
+                 <input  name="name17" type="number" > <br/><br/>
+
+                 <label class="user-username" value="hippo" style="font-family:verdana; font-size:16px">hippo</label>
+                 <input  name="name18" type="number" > <br/><br/>
+
+                 <label class="user-username" value="lion" style="font-family:verdana; font-size:16px">lion</label>
+                 <input  name="name19" type="number" > <br/><br/>
+
+                 <label class="user-username" value="kangaroo" style="font-family:verdana; font-size:16px">kangaroo</label>
+                 <input  name="name20" type="number" > <br/><br/>
+
+                 <label class="user-username" value="leopard" style="font-family:verdana; font-size:16px">leopard</label>
+                 <input  name="name21" type="number" > <br/><br/>
+
+                 <label class="user-username" value="tiger" style="font-family:verdana; font-size:16px">tiger</label>
+                 <input  name="name22" type="number" > <br/><br/>
+
+                 <label class="user-username" value="monkey" style="font-family:verdana; font-size:16px">monkey</label>
+                 <input  name="name23" type="number" > <br/><br/>
+
+                 <label class="user-username" value="panda" style="font-family:verdana; font-size:16px">panda</label>
+                 <input  name="name24" type="number" > <br/><br/>
+
+                 <label class="user-username" value="penguin" style="font-family:verdana; font-size:16px">penguin</label>
+                 <input  name="name25" type="number" > <br/><br/>
+
+                 <label class="user-username" value="rabbit" style="font-family:verdana; font-size:16px">rabbit</label>
+                 <input  name="name26" type="number" > <br/><br/>
+
+                 <label class="user-username" value="raccoon" style="font-family:verdana; font-size:16px">raccoon</label>
+                 <input  name="name27" type="number" > <br/><br/>
+
+                 <label class="user-username" value="rhino" style="font-family:verdana; font-size:16px">rhino</label>
+                 <input  name="name28" type="number" > <br/><br/>
+
+                 <label class="user-username" value="sheep" style="font-family:verdana; font-size:16px">sheep</label>
+                 <input  name="name29" type="number" > <br/><br/>
+
+                 <label class="user-username" value="squirrel" style="font-family:verdana; font-size:16px">squirrel</label>
+                 <input  name="name30" type="number" > <br/><br/>
+
+                 <label class="user-username" value="liger" style="font-family:verdana; font-size:16px">liger</label>
+                 <input  name="name31" type="number" > <br/><br/>
+
+                 <label class="user-username" value="turtle" style="font-family:verdana; font-size:16px">turtle</label>
+                 <input  name="name32" type="number" > <br/><br/>
+
+                 <label class="user-username" value="wolf" style="font-family:verdana; font-size:16px">wolf</label>
+                 <input  name="name33" type="number" > <br/><br/>
+
+                 <label class="user-username" value="zebra" style="font-family:verdana; font-size:16px">zebra</label>
+                 <input  name="name34" type="number" > <br/><br/>
+
+
+
+            <button id="add-group-todb" type="submit" value="add-group-todb" class="user-input-submit-button" style="display: block; margin: 0 auto;" >Add User to Group</button>
+
+
+        </div>
+
+
+
+
+
+
+       <script src="{% static 'js/jquery.min.js' %}"></script>
+       <script src="{% static 'js/jquery-ui.min.js' %}"></script>
+       <script src="{% static 'js/group.js' %}"></script>
+
+    </body>
+
+</html><!--this page should be dynamic-->
+

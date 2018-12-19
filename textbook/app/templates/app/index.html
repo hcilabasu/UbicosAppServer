@@ -11,6 +11,7 @@
 
     <!-- Styles -->
     <link rel="stylesheet" type="text/css" href="{% static 'css/gallery.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/index.css' %}">
     <link rel="stylesheet/less" type="text/css" href="{% static 'css/digTextBook.less' %}">
     
     <!-- Fonts -->
@@ -49,7 +50,7 @@
             <div class="page next" data-page="2">
             </div>
             <div id="page-controls">
-                <span id="page-control-number">Page 1/15</span>
+                <span id="page-control-number">Page 1/22</span>
                 <a id="page-control-previous" onclick="movePage(false);">Previous page</a>
                 <a id="page-control-next" onclick="movePage(true);">Next page</a>
             </div>
@@ -80,6 +81,7 @@
             <div class="card gallery">
                 <a class="close-card"></a>
                 <a class="extend-card"></a>
+                <a class="back-to-gallery"></a>
                 {% include 'app/gallery.html' %}
             </div>
 
@@ -111,6 +113,7 @@
             
             <div class="card moreinfo">
                 <a class="close-card"></a>
+                {% include 'app/talkmoves.html' %}
             </div>
 
             <div class="card multQues">

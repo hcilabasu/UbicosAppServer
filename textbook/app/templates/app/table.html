@@ -1,5 +1,7 @@
 <h1>Graph</h1>
 
+<p>In the "Table" tab, you make a graph based on the data you add to the table.
+    In the "Equation" tab, you can make a graph based on the equation you write.</p> <br/>
 <div class="center-container sources">
     <input type="hidden" name="table-id" value=""/>
     <div id="sourceOptions">
@@ -59,26 +61,35 @@
             <div>
                 Y = <input type="text" name="m" placeholder="m"> X + <input type="text" name="b" placeholder="b">
             </div>
+
             <a id="plot_equation" class="btn">Plot Equation</a>
+
+            <p id="equation-error-message-p"></p>
         </li>
     </ul>
 </div>
 
 <div class="center-container">
-    
+
     <p id="message-container">
-        To get started, enter points into the table above.
+
     </p>
     <div id="graph-container">
         <h2>Data points</h2>
         <div id="graph"></div>
         <div id="legend">
-            <span>Table</span>
-            <span>Equation</span>
+            <span></span>
+            <span></span>
         </div>
     </div>
 </div>
 
 
+
+
 </body>
+
+
+
+
 

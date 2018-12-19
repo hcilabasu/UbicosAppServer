@@ -16,13 +16,17 @@ $( function() {
     my_channel_brainstorm.bind("cn_event", function (data) {
 
 
-      if(logged_in == data.posted_by){
+      if(data.update === "true"){
+            console.log("@@inside here")
+            loadIdeaToWorkspace();
+
+      }else{
+         if(logged_in == data.posted_by){
            addIdeaToWorkspace(data.idea, data.color, data.posted_by, {top:data.posTop,left:data.posLeft}, data.noteID, true, true);
         }else{
            addIdeaToWorkspace(data.idea, data.color, data.posted_by, {top:data.posTop,left:data.posLeft}, data.noteID, true, false);
         }
-
-
+      }
 
 
     });
@@ -62,12 +66,18 @@ var setupBrainstorm = function(){
         var color = $('.colorpicker.active', form).css('background-color');
         //var hideName = $('#hidename', form).is(':checked');
 
+        //random generator
+        var randomModifier = Math.floor(Math.random() * 401) - 100;
+        console.log('randomModifier', randomModifier)
+
         // Calculate center position:
         var workspace = $('#idea-workspace');
         height = workspace.height();
         width = workspace.width();
-        posTop = height / 2 - 85; // These modifier (85) should probably be calculated dynamically
-        posLeft = width / 2 - 85;
+
+
+        posTop = height / 2 - randomModifier; // These modifier (85) should probably be calculated dynamically
+        posLeft = width / 2 - randomModifier;
 
         // Submit idea
         toggleNewIdeaButton();
@@ -75,7 +85,7 @@ var setupBrainstorm = function(){
         if(!idea){
             console.log('enter values');
             alert('enter values');
-            //TODO: add user log here
+
         }else{
              //send to database
              //saveBrainstormNote(idea, color, hideName, posTop, posLeft);
@@ -96,7 +106,7 @@ var setupBrainstorm = function(){
                         //clear the input field
                         $('textarea', form).val('');
                         //user logging
-                        enterLogIntoDatabase('add note', 'brainstorm' , idea , current_pagenumber)
+                        enterLogIntoDatabase('Add Note', 'brainstorm add note '  , idea , current_pagenumber)
 
                     }
             });
@@ -153,7 +163,7 @@ var addIdeaToWorkspace = function(idea, color, name, position, noteID, animate, 
                var deletedNoteID = $(this).parent().data('noteid');
                console.log(deletedNoteID);
                $(this).parent().remove();
-               enterLogIntoDatabase('image delete click', 'image delete' , deletedNoteID , current_pagenumber)
+
 
 
               //delete note from database
@@ -163,11 +173,11 @@ var addIdeaToWorkspace = function(idea, color, name, position, noteID, animate, 
                     async: false, //wait for ajax call to finish,
                     success: function(e){
                         console.log(e)
-                        enterLogIntoDatabase('note delete', 'brainstorm' , deletedNoteID+"" , 3333);
+                        enterLogIntoDatabase('Delete Note', 'brainstorm delete note' , deletedNoteID , 3333)
                 },
                 error: function(XMLHttpRequest, textStatus, errorThrown) {
                             alert(XMLHttpRequest.status+" "+XMLHttpRequest.statusText);
-                            enterLogIntoDatabase('attempted note delete', 'error' , XMLHttpRequest.status+" "+XMLHttpRequest.statusText, 3333);
+                            enterLogIntoDatabase('Attempted delete note', 'error' , XMLHttpRequest.status+" "+XMLHttpRequest.statusText, 3333);
 
                         }
             })
@@ -175,10 +185,8 @@ var addIdeaToWorkspace = function(idea, color, name, position, noteID, animate, 
            });
 
            idea.append(closeBtn);
-
-
-
         }
+
 
 
     // Add to workspace
@@ -210,7 +218,7 @@ var ideaDragPositionUpdate = function(){
         noteID = $(this).data('noteid')
         console.log('dragged note :: ',noteID)
 
-        enterLogIntoDatabase('note dragged', 'brainstorm' , JSON.stringify(ui.position) , current_pagenumber)
+        enterLogIntoDatabase('Dragged Note', 'brainstorm note ' +noteID +' dragged' , JSON.stringify(ui.position) , current_pagenumber)
 
 
          $.post({
@@ -223,6 +231,8 @@ var ideaDragPositionUpdate = function(){
                 'username': logged_in
                 },
            success: function(response){
+
+            loadIdeaToWorkspace()
 
         }
 
@@ -277,7 +287,7 @@ var loadIdeaToWorkspace = function(){
                     }else isItYours = false
 
                     addIdeaToWorkspace(value.fields['ideaText'], value.fields['color'], value.fields['posted_by'][0], {top:value.fields['position_top'],
-                            left:value.fields['position_left']}, value.pk, true,  isItYours);
+                            left:value.fields['position_left']}, value.pk, false,  isItYours);
 
                 })
 

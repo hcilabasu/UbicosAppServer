@@ -3,7 +3,7 @@
 $(function(){
 
     // Move to a given page if header is clicked
-    $("#activity-index h2").click(function(){
+    $("#activity-index p, #activity-index ul li").click(function(){
         // Get page number
         console.log("clicked activity index header");
 
@@ -24,6 +24,8 @@ $(function(){
                 // Change page number
                 $("#page-control-number").text('Page ' + gotoPage + '/' + NUM_PAGES);
             });
+
+        localStorage.setItem("pageToBeRefreshed", gotoPage);
         // Update previous and next
         loadPage(gotoPage+1, $('.page.next'));
         loadPage(gotoPage-1, $('.page.previous'));

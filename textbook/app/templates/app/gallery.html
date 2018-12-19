@@ -3,12 +3,24 @@
 
     <div id="gallery-panel" class="gallery-panel">
          <h1></h1>
-    <p>
-        This is the description for this gallery activity. You are supposed to take pictures of your solution and upload in the gallery.
-    </p>
+
+        <p id="gallery-description">
+            Take a picture of your solution using "Open Camera". It will be downloaded to the "Downloads" folder. Upload the picture in your gallery.
+        </p>
 
         <!--<h2>Your submission</h2>-->
-        <a id="openCamera" href="https://hcilabasu.pythonanywhere.com/camera/">Open Camera</a>
+        <div style="right: 10px">
+            <a id="openCamera" href="https://hcilabasu.pythonanywhere.com/camera/" target="_blank">Open Camera</a>
+            <!--<a id="openCamera" href="http://127.0.0.1:8000/camera/" target="_blank">Open Camera</a>-->
+        </div>
+
+
+        <div id="gallery-view-only">
+            <a id="allSubmission" class="gallery-submission" href="#">All Submissions</a>  <!--<h2>defined in gallery.js</h2>-->
+            <a id="mySubmission" class="gallery-submission" href="#">My Submissions</a>  <!--<h2>defined in gallery.js</h2>-->
+        </div>
+
+
         <div id="gallery-user-submission" class="section">
             <div>
                 <img id="default" src="{% static 'pics/default.png' %}" alt="">
@@ -19,14 +31,14 @@
                 <label for="file-upload" class="btn">
                     Choose
                 </label>
-                <input type="file" name="gallery_img" class="btn" id="file-upload"/>
+                <input type="file" name="gallery_img" class="btn" id="file-upload" />
                 <input type="hidden" name="act-id" value=""/> <!--pass gallery id number from digTextBook.js-->
                 <input type="hidden" name="group-id" value=""/> <!--pass group id number from distextBook.js/gallery.js-->
             </form>
 
         </div>
 
-        <h2 id="gallery-group-heading">All submissions</h2>
+        <h2 id="gallery-group-heading">All Submissions</h2>
 
         <ul id="gallery">
             <!--<li>-->
@@ -40,7 +52,7 @@
     <div id="single-image-view" class="gallery-panel" style="display:none">
         <div class="verticalDivider">
             <div class="row">
-                <a id="backToGallery" href="">BackToGallery</a>
+                <a id="backToGallery" href=""></a> <!--functionality defined in gallery.js; css defined in digTextBook.less-->
                 <div class="section">
                     <a href="" class="previous-image"></a>
                     <a href="" class="next-image"></a>

@@ -1,6 +1,6 @@
 var current_pagenumber = 1 //initial page number; gets updated with page change
 var type = '' //card type
-
+var groupArray = ['A', 'B','C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K']
 
 
 window.onerror = function(message, file, line) {
@@ -15,10 +15,12 @@ window.onerror = function(message, file, line) {
     It is also used in:
     * activityindex.js
 */
-var NUM_PAGES = 15;
+var NUM_PAGES = 22;
 
 
 $(function(){
+
+    //localStorage.clear();
 
     var host_url = window.location.host
 
@@ -30,6 +32,7 @@ $(function(){
         //user logging
         enterLogIntoDatabase('card close', classNameWhichisClosed, 'none', current_pagenumber)
         $(this).closest('.card').removeClass('active');
+
     });
 
     $('.extend-card').on('touch click', function(){
@@ -42,6 +45,9 @@ $(function(){
         }else{
             $('.card').css({'width':'50%'});
         }
+
+        var classNameWhichisExtended = $(this).offsetParent()[0].className.split(" ")[1]
+        enterLogIntoDatabase('card extend', classNameWhichisExtended, 'none', current_pagenumber)
 
     });
 
@@ -68,6 +74,7 @@ $(function(){
         });
         $(this).toggleClass('pressed');
         //TODO: add user log
+        enterLogIntoDatabase('click', 'activity index', 'none', current_pagenumber)
     });
 
     //check localstorage - used for refresh
@@ -99,10 +106,6 @@ $(function(){
       }else{
 
       }
-
-
-
-
 
 
 });
@@ -141,8 +144,7 @@ var movePage = function(moveToNext){
     current_pagenumber = currentPageNum
     localStorage.setItem("pageToBeRefreshed", currentPageNum);
     $("#page-control-number").text('Page ' + currentPageNum + '/' + NUM_PAGES);
-    //user logging
-    enterLogIntoDatabase('click', 'page change' , 'none', current_pagenumber)
+
 
     //close any card with page navigation
     if(type!=''){
@@ -169,7 +171,7 @@ var movePage = function(moveToNext){
 };
 
 var loadPage = function(pageNum, pageContainer, successFn, notFoundFn){
-    console.log('next page (loadPage Function)', pageNum)
+    //console.log('next page (loadPage Function)', pageNum)
 
     loadHTML(
         API_URL.pagesBase + '/' + pageNum + '.html',
@@ -218,149 +220,6 @@ var loadHTML = function(url, successFn, errorFn){
 
 var bindActivityButtons = function(){
 
-    $('input#page4-submit1').off().click(function(e){
-
-         //change the button appearance
-         $(this).css('background-color', '#A0A0A0'); //change the border to show that button is clicked.
-         $(this).css('outline', 'none');
-
-         //get the user response
-         var answer = $("textarea[name='page4-input1']").val();
-         $("textarea[name='page4-input1']").attr('value', answer)
-         //console.log(answer);
-
-         var jsonObj = [];
-
-        //handle empty input
-        if(!answer.trim()){
-            console.log('answer is empty')
-            isAnswerNull = 1;
-        }
-
-        jsonObj.push(answer.trim());
-
-        jsonObj = JSON.stringify(jsonObj);
-        //console.log(jQuery.type(jsonObj));
-
-        //make an ajax call into database
-        console.log('isAnswerNull value :: ', isAnswerNull)
-        if(isAnswerNull == 1){
-
-            modal = $("#myModal")
-            console.log(modal)
-
-            $("#myModal").css({ display: "block"});
-
-            $("#myModal h2").text("one of the inputs is empty");
-
-            $(".modal-close").click(function(e){
-                 $("#myModal").css({ display: "none" });
-            });
-
-            isAnswerNull = 0;
-
-
-        }else{
-               $.post({
-
-               async: false,
-               url:'/submitAnswer',
-               data: {
-                    'page': 4,
-                    'answer': jsonObj
-                    },
-               success: function(response){
-
-                    //open success modal here.
-                modal = $("#myModal")
-                console.log(modal)
-
-                $("#myModal").css({ display: "block" });
-                $("#myModal h2").text("Your response was recorded");
-
-                $(".modal-close").click(function(e){
-                     $("#myModal").css({ display: "none" });
-                });
-
-
-            }
-
-            });
-        }
-
-
-    });
-
-     $('#page4-submit2').off().click(function(e){
-         //change the button appearance
-         $(this).css('background-color', '#A0A0A0'); //change the border to show that button is clicked.
-         $(this).css('outline', 'none');
-
-         //get the user response
-         var answer = $("textarea[name='page4-input2']").val();
-         $("textarea[name='page4-input2']").attr('value', answer)
-         //console.log(answer);
-
-         var jsonObj = [];
-
-        //handle empty input
-        if(!answer.trim()){
-            console.log('answer is empty')
-            isAnswerNull = 1;
-        }
-
-        jsonObj.push(answer.trim());
-
-        jsonObj = JSON.stringify(jsonObj);
-        //console.log(jQuery.type(jsonObj));
-
-        //make an ajax call into database
-        console.log('isAnswerNull value :: ', isAnswerNull)
-        if(isAnswerNull == 1){
-
-            modal = $("#myModal")
-            console.log(modal)
-
-            $("#myModal").css({ display: "block"});
-
-            $("#myModal h2").text("one of the inputs is empty");
-
-            $(".modal-close").click(function(e){
-                 $("#myModal").css({ display: "none" });
-            });
-
-            isAnswerNull = 0;
-
-
-        }else{
-               $.post({
-
-               async: false,
-               url:'/submitAnswer',
-               data: {
-                    'page': 4,
-                    'answer': jsonObj
-                    },
-               success: function(response){
-
-                    //open success modal here.
-                modal = $("#myModal")
-                console.log(modal)
-
-                $("#myModal").css({ display: "block" });
-                $("#myModal h2").text("Your response was recorded");
-
-                $(".modal-close").click(function(e){
-                     $("#myModal").css({ display: "none" });
-                });
-
-
-            }
-
-            });
-        }
-    });
-
     $('.page a').off().on('touch click', function(){
         // Get button type to open appropriate view
         //console.log('this', this)
@@ -371,6 +230,18 @@ var bindActivityButtons = function(){
         //type of activity - gallery/brainstorm/video etc
         type = activityButton.attr('class').replace('activity-button','').trim();
         console.log('type', type)
+
+        //for brainstorm different instances - start
+        if(type.indexOf("msf")>=0){
+            console.log(type)
+            type = type.split(" ")[0]
+        }
+        if(type.indexOf("bs")>=0){
+            console.log(type)
+            type = type.split(" ")[0]
+        }
+        //for brainstorm different instances - start
+
 
         //id of each each activity - based on page no
         var id = activityButton.attr('data-id');
@@ -383,7 +254,11 @@ var bindActivityButtons = function(){
         // based on the activity type, update titles in html
         $('.card.' + type + ' h1').text(type + ' #'+id); //update the title of each page
 
+
+//        ------------------------------based on different tools-----------------------
         // TODO: make the following if dynamic
+
+//        ------------------------------VIDEO-----------------------
         // if video tab is active get the video url and display in video.html
         //display the video url in a new tab instead of the card
         if(type == 'video'){
@@ -391,82 +266,146 @@ var bindActivityButtons = function(){
             var video_url = activityButton.attr('data-video-url');
             window.open(video_url, '_blank'); //open paint splash game in a new window
         }
-//        if($('.card.video').hasClass('active')){
-//
-//            var video_url = activityButton.attr('data-video-url');
-//            console.log(video_url);
-//            //$('#videoFrame').attr('src', video_url); //display in video.html
-//            window.open(video_url, '_blank');
-//
-//            //update h1
-//
-//        }
-         if($('.card.table').hasClass('active')){
+//        ------------------------------TABLE-----------------------
+        //if the table tab is active
+        if($('.card.table').hasClass('active')){
+
 
              $('input[name="table-id"]').attr('value', id)
-        }
+             $('.card.' + type + ' h1').text('Data #' +id );
 
+              //persistence checker and populate or clear the table according to that
+
+
+              if(localStorage.getItem('table'+$('input[name="table-id"]').val())){
+                var points = localStorage.getItem('table'+$('input[name="table-id"]').val());
+
+                //if table 3 has 3 pairs, and table 2 has 2 pairs, coming back to table 2 from table 3 shows the third coloumn from table3
+                //so clear everything and populate with the values
+                clearTableStatus();
+                //table already populated before, so display them in the table
+                persistTableStatus(points)
+
+
+              }else{
+                //used to clear the table for different instance of the table
+                clearTableStatus();
+              }
+
+              //
+              //$('div#graph-container').css("display", "none");
+
+
+        }
+//        ------------------------------GALLERY-----------------------
         // if gallery div is active, load the gallery
         if($('.card.gallery').hasClass('active')){
-
-            console.log(activityButton.attr('data-heading'));
-            if(activityButton.attr('data-heading')){
-                $('.card.' + type + ' h1').text(type + ' #'+id + ' '+ activityButton.attr('data-heading'));
-            }
-
-
 
             // pass id to gallery activity - to upload image form in gallery.html
             $('#upload-img input[name="act-id"]').attr('value', id)
 
+            var user_group_id
+            $.ajax({
+                type:'GET',
+                url:'http://'+ host_url +'/getGroupID/'+$('input[name="act-id"]').val(),
+                async: false, //wait for ajax call to finish, else logged_in is null in the following if condition
+                success: function(e){
+                    user_group_id = e;
+                    console.log("my group id (digtextBook.js),", e)
+                }
+            });
+
+            console.log(activityButton.attr('data-heading'));
+
+            //update the heading
+            $('.card.' + type + ' h1').text(type + ' #'+id + ' Group ' + groupArray[user_group_id-1]);
+
+           //update the description
+           console.log(activityButton.attr('data-description'));
+           if(activityButton.attr('data-description')){
+                $('.card.' + type + ' p#gallery-description').text(activityButton.attr('data-description'));
+            }
+            else{
+                $('.card.' + type + ' p#gallery-description').text('Take a picture of your solution using "Open Camera". It will be downloaded to the "Downloads" folder. Upload the picture in your gallery.');
+            }
+
+            //update the submission heading
+            $('#gallery-group-heading').text('All Submissions')
+
+            //highlight the all submission  button and unhighlight the my submission
+            $("#allSubmission").css('background-color', '#006600');
+            $("#mySubmission").css('background-color', '#2DB872');
+
+            //gallery 1 card stays open if explicitly not closed and you go to gallery 2.
+            //with each click hide the single image view
+            $('#gallery-panel').show();
+            $('#single-image-view').hide();
+            //https://stackoverflow.com/questions/52430558/dynamic-html-image-loading-using-javascript-and-django-templates
+            $('img#default').attr('src', API_URL.picsBase + "/default.png");
+            // end of the solution
+
+
+
+
             var view = activityButton.attr('data-view');
             console.log('view: ', view)
 
-            var number_of_group = activityButton.attr('data-group');
-//            if(view == 'group'){
-//                number_of_group = activityButton.attr('data-group-number');
-//               // console.log('number of group:' , number_of_group)
-//            }
+            //var user_group_id = activityButton.attr('data-group');
 
             //call function from gallery.js
-            $("input[name='group-id']").attr('value', number_of_group);
-            viewDiv(view, number_of_group);
+            $("input[name='group-id']").attr('value', user_group_id);
+            viewDiv(view, user_group_id);
         }
 
-
+//        ------------------------------ANSWER-----------------------
         if($('.card.multQues').hasClass('active')){
 
-//            //hide questions previously added in the DOM
-//            $('.act2ques').hide()
-//
-//            //get which question is clicked and activate that div for question
-//            var quesno = activityButton.attr('data-quesid');
-//            $('div[data-quesno="'+quesno+'"]').show()
             //get which question clicked.
-            console.log('#'+id)
+            console.log(id)
             //hide its siblings
+
+            //if problem list - then hide the answer description and heading
+            $('.card.' + type + ' h1').text('Answer Questions');
+
+
             $('#'+id).siblings().hide();
             //show the div
             $('#'+id).show();
 
-//
-//            //TODO: call loadHTML() from here
+
+            //TODO: call loadHTML() from here
 
         }
 
+//        ------------------------------MORE INFO (TALK MOVES)-----------------------
+        if($('.card.moreinfo').hasClass('active')){
+
+             //$('input[name="table-id"]').attr('value', id)
+             $('.card.' + type + ' h1').text("Talk Moves"); //update the title of each page
+        }
+
+//        ------------------------------BRAINSTORM-----------------------
         if($('.card.brainstorm').hasClass('active')){
 
-            $('.card.' + type + ' h1').text('Vocabulary'); //update the title of each page
-            $('input[name="brainstorm-id"]').attr('value', id)
+            //update the heading
+            console.log('brainstorm heading:: ', activityButton.attr('data-heading'))
+            $('.card.' + type + ' h1').text(activityButton.attr('data-heading')); //update the title of each page
 
+
+            //update the description
+           console.log(activityButton.attr('data-description'));
+           if(activityButton.attr('data-description')){
+                $('.card.' + type + ' p#brainstorm-description').text(activityButton.attr('data-description'));
+            }
+
+            console.log($(this))
+            $('input[name="brainstorm-id"]').attr('value', id)
 
             loadIdeaToWorkspace();
         }
 
         //user logging
-        enterLogIntoDatabase('click', type , 'id'+id, current_pagenumber)
-
-
+        enterLogIntoDatabase('activity select', type , 'activity-id-'+id, current_pagenumber)
 
 
     });

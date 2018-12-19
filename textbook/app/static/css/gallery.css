@@ -1,8 +1,9 @@
 
+/* .center used to format login-form*/
 .center {
   position: absolute;
-	width: 300px; /*size of the div */
-	height: 200px;
+	width: 340px; /*size of the div */
+	height: 230px;
     left: 550px; /*location of the div */
     top: 110px;
 	background: #F0F8FF;
@@ -22,10 +23,12 @@
 	font-size: 14px;
 	box-shadow: 0 2px 0 0 #498C25;
 	cursor: pointer;
+	outline:0;
+
 
 }
 
-.submit-btn {
+.submit-btnbtn {
 	position: absolute;
 	width: 100px;
 	height: 40px;
@@ -99,17 +102,81 @@ input[type="file"] {
         }
 }
 
-.page6-input{
+.user-answer-input{
 
-    width: 100%;
-    padding: 12px 20px;
-    margin: 8px 0;
-    display: inline-block;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box;
+    border: none;
+    outline: 0;
+    padding: 12px 12px;
+    background: #edf1f2;
+    border-radius: 20px;
+    width: 90%;
+    height: 70px;
+    margin:0;
+    font-family:verdana;
+    font-size: 20px;
+
+ }
+
+ .user-answer-input:focus{
+    border: #009900 solid;
+    box-shadow: 0 0 5px rgba(0, 153, 0, 1);
+    width: 90%;
+    height: 70px;
+    outline: 0 !important;
+    font-family:verdana;
+    font-size: 20px;
+}
+
+
+.user-input-submit-button {
+    display: block;
+    margin: 0 auto;
+    border-radius: 20px;
+    padding: 10px 22px;
+    font-family: verdana;
+    font-size: 16px;
+    background-color: #edf1f2;
+    color: #336699;
+    outline:0; /* blue border around it */
+    cursor: pointer;
+}
+
+.user-input-submit-button:hover {
+    background-color: #33cccc;
+    border-color: #33cccc;
+    outline:0;
 
 }
+
+.user-input-submit-button:active {
+   background-color: #33cccc;
+   border-color: #33cccc;
+   outline:0;
+}
+
+
+.user-login-input{
+    border: none;
+    outline: 0;
+    padding: 12px 12px;
+    background: #edf1f2;
+    border-radius: 20px;
+    width: 90%;
+    height: 20px;
+    margin:0;
+    font-family:verdana;
+    font-size: 20px;
+ }
+
+ .user-login-input:focus{
+    border: #009900 solid;
+    box-shadow: 0 0 5px rgba(0, 153, 0, 1);
+    width: 90%;
+    height: 20px;
+    outline: 0 !important;
+    font-family:verdana;
+    font-size: 14px;
+ }
 
 /* Bordered form */
 form {
@@ -149,6 +216,7 @@ button {
     /* overflow: auto;  Enable scroll if needed */
     background-color: rgb(0,0,0); /* Fallback color */
     background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    border-radius: 60px; /* round the edges */
 }
 
 /* Modal Content */
@@ -160,6 +228,7 @@ button {
     border: 1px solid #888;
     top: 130px;
     width: 80%;
+    border-radius: 50px;
     /*box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);*/
 }
 
@@ -180,24 +249,21 @@ button {
 
 .modal-header {
     padding: 2px 16px;
-    background-color: #5cb85c;
+    background-color: #33cccc;
+    border-radius: 50px;
 
 
 }
 
 /* modal css ends here */
 
-
-.index-table {
-  border-collapse: collapse;
-  width: 50%;
-  height: 50%;
-
-     th, td {
-        border: 1px solid black;
-    }
-
+#gallery-view-only{
+    display: flex;
+    justify-content: space-between;
 }
+
+
+
 
 
 
