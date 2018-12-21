@@ -1,0 +1,141 @@
+{% load static %}
+<!doctype html>
+<html lang="en-US">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>UbiCoS DT</title>
+
+    <!-- Styles -->
+    <link rel="stylesheet" type="text/css" href="{% static 'css/gallery.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/index.css' %}">
+    <link rel="stylesheet/less" type="text/css" href="{% static 'css/digTextBook.less' %}">
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans|Quicksand:300" rel="stylesheet">
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/less.js/3.0.2/less.min.js" ></script>
+
+    <!--script for pusher - message communication-->
+    <script src="//js.pusher.com/4.0/pusher.min.js"></script>
+
+
+    <!--script for jquery ui - brainstorm-->
+    <!--<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">-->
+    <!--<script src="https://code.jquery.com/jquery-1.12.4.js"></script>-->
+    <!--<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>-->
+
+
+    <script>
+        API_URL = {
+            pagesBase: "{% static 'pages' %}", // Base directory for pages
+            picsBase: "{% static 'pics' %}"
+        }
+    </script>
+
+</head>
+<body>
+    <div id="main-container">
+
+
+
+            <div class="teacherpage" data-page="1">
+                <h3>Student DashBoard</h3>
+
+                <a href="#" class="gallery" data-id="1" data-view="class">Upload a Picture to your Gallery</a>
+
+            </div>
+
+
+
+        <div id="dynamic-content">
+            <div class="user-login">
+                {% if user.is_authenticated %}
+                    Welcome, {{ user.get_username }}!
+                    <a href="/logout">Logout</a>
+                {% else %}
+                    <a href="/">Login</a>
+                {% endif %}
+            </div>
+        
+            <a id="main-view-toggle"></a>
+
+            <div id="activity-feed-view" class="main-view">
+                {% include 'app/activityfeed.html' %}
+            </div>
+            <div id="activity-index-view" class="main-view" style="display: none;">
+                {% include 'app/activityindex.html' %}
+            </div>
+            
+            <!-- 
+                Ideally we'd only have one div.card, whose content is loaded dynamically on click.
+            -->
+            <div class="card gallery">
+                <a class="close-card"></a>
+                <a class="extend-card"></a>
+                <a class="back-to-gallery"></a>
+                {% include 'app/gallery.html' %}
+            </div>
+
+            <div class="card video">
+                <a class="close-card"></a>
+                {% include 'app/video.html' %}
+            </div>
+
+            <div class="card brainstorm">
+                <a class="close-card"></a>
+                <a class="extend-card"></a>
+                {% include 'app/brainstorm.html' %}
+            </div>
+
+            <div class="card group">
+                <a class="close-card"></a>
+                {% include 'app/group.html' %}
+            </div>
+
+            <div class="card convert">
+                <a class="close-card"></a>
+                {% include 'app/convert.html' %}
+            </div>
+
+            <div class="card table">
+                <a class="close-card"></a>
+                {% include 'app/table.html' %}
+            </div>
+            
+            <div class="card moreinfo">
+                <a class="close-card"></a>
+                {% include 'app/talkmoves.html' %}
+            </div>
+
+            <div class="card multQues">
+                <a class="close-card"></a>
+                {% include 'app/multQues.html' %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+    <script src="{% static 'js/jquery-ui.min.js' %}"></script>
+    <script src="{% static 'js/jquery.ui.touch-punch.min.js' %}"></script>
+    <script src="{% static 'js/d3.min.js' %}"></script>
+    <script src="{% static 'js/utility.js' %}"></script>
+    <script src="{% static 'js/teacherindex.js' %}"></script>
+    <script src="{% static 'js/digTextBook.js' %}"></script>
+    <script src="{% static 'js/gallery.js' %}"></script>
+    <script src="{% static 'js/activityfeed.js' %}"></script>
+    <script src="{% static 'js/brainstorm.js' %}"></script>
+    <script src="{% static 'js/convert.js' %}"></script>
+    <script src="{% static 'js/table.js' %}"></script>
+    <script src="{% static 'js/userlog.js' %}"></script>
+    <script src="{% static 'js/activityindex.js' %}"></script>
+    <script src="{% static 'js/multQues.js' %}"></script>
+</body>
+</html>
+
