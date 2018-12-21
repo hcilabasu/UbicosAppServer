@@ -345,8 +345,13 @@ def pageParser(request):
 def getUserList(request):
     users = User.objects.all()
     print(users)
+    context = {'user_list': users}
+    return render(request, 'app/studentList.html', context)
 
-    return HttpResponse('')
+def getAllStudentInfo(request,std_id):
+    return HttpResponse(std_id)
+
+
 
 # create superuser
 # https://docs.djangoproject.com/en/2.1/topics/auth/default/

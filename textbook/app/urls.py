@@ -11,11 +11,13 @@ urlpatterns = [
     url('getUsername', views.getUsername),
     url('getGroupID/(?P<act_id>\d+)', views.getGroupID),
     url('getUserList',views.getUserList),
+    url('studentID/(?P<std_id>\d+)',views.getAllStudentInfo),
     url('createUser',views.createUser),
     url('createBulkUser',views.createBulkUser),
     url('addUserToGroups',views.addUserToGroupsForm),
     url('registerUser',views.registerUser),
     url('groupAdd', views.groupAdd),
+    #urls for different tool utility
     url('uploadImage', views.uploadImage, name='uploadImage'),
     url('getImage/(?P<view_id>\d+)/(?P<gallery_id>\d+)/(?P<group_id>\d+)/', views.getImage, name='getImg'),
     url('getImageID/(?P<img_filename>[\w+._^%$#!~@,-]+)/', views.getImageID), #regular expression checker: https://regex101.com/r/iQ8gG4/1

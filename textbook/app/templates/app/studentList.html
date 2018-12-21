@@ -1,0 +1,9 @@
+{% if user_list %}
+    <ul>
+    {% for user in user_list %}
+        <li><a href="/studentID/{{ user.id }}/">{{ user.username }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No students registered in this class.</p>
+{% endif %}
