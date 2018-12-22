@@ -234,8 +234,10 @@ def getImageID(request,img_filename):
     print('file name :: ' + img_filename);
 
     img = imageModel.objects.filter(image='images/'+img_filename)
+    image_data = serializers.serialize('json', img, use_natural_foreign_keys=True)
+    #print(image_data[0].fields)
     print(img[0].pk)
-    return JsonResponse({'imageID': img[0].pk})
+    return JsonResponse({'imageData': image_data})
 
 def imageDelete(request, img_id):
 

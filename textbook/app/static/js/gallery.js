@@ -8,6 +8,7 @@ $(function(){
 
     getLoggedUserName();
 
+
     //channel for individual image message
      var pusher_gallery = new Pusher('f6bea936b66e4ad47f97',{
         cluster: 'us2',
@@ -19,12 +20,7 @@ $(function(){
 
     my_channel.bind("bn_event", function (data) {
 
-
-
         //message entered by the user
-
-
-
         console.log('(server)', data.imageid)
         console.log('(local)', $("input[name='image-db-pk']").val())
 
@@ -413,6 +409,9 @@ $(function(){
 
 function viewDiv(view, number_of_group){
 
+    //clear the individual image username span text
+    $('span.gallery_image_user_name').text('');
+
     //class means user upload - specific user will click - so we know the id
     if(view == "class"){
         $('#gallery-user-submission').show();
@@ -584,12 +583,14 @@ var openImageView = function(galleryView, image){
 
     // Toggle views: Display or hide the matched elements.
     $('.gallery-panel', galleryView).toggle();
+    console.log('here i am with image', image)
 
     // Get image element and add it to the DOM
     var image = image.clone();
 
     //remove previous single image before adding new one
     $('.section').children('img').remove();
+
 
     $('.section', singleImageViewer).append(image);
 
@@ -601,23 +602,34 @@ var openImageView = function(galleryView, image){
     console.log(image_filename)
 
     //get ID using filename
-    var imageID='';
+    var imageID = '';
+    var imagePostedBy = ''
     $.ajax({
         type:'GET',
         async: false,
         url:'/getImageID/'+image_filename+'/',
         success: function(data){
-            imageID = data.imageID;
-            console.log('image primary id :: ',data.imageID);
+            var image_data = jQuery.parseJSON(data.imageData);
+            console.log('inside openImageView :: ',image_data)
+            imageID = image_data[0].pk;
+            console.log('image primary id (openImageView) :: ', imageID);
+            imagePostedBy = image_data[0].fields["posted_by"][0]
+            console.log('image posted by (openImageView) :: ', imagePostedBy);
         }
     })
 
+    //add image posted by name
+    //clear if any name added before
+    $('span.gallery_image_user_name').text('');
+    //now add the name
+    $('.section').append('<span class="gallery_image_user_name">Added by '+ imagePostedBy +'</span>');
+
     //with each click update the input
     $('.section input[name="image-db-pk"]').attr('value', imageID)
-   //update feed
-   //clear update feed with new image
-   $('#image-feed').empty();
-   //update feed with each image
+    //update feed
+    //clear update feed with new image
+    $('#image-feed').empty();
+    //update feed with each image
      $.ajax({
              type: 'GET',
              url: '/updateImageFeed/'+imageID, //get image comment using primary id
