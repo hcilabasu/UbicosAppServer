@@ -8,6 +8,7 @@ from django.http.response import JsonResponse
 from django.contrib.auth import login as auth_login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from django.db.models import Count
 from django.core import serializers
 from .parser import parser
 import json
@@ -601,6 +602,49 @@ def createBulkUser(request):
 
 # hacks - end
 
+def dataToCSV(request):
+    #get all the image objects and serialize to get the foreign key values
+    sql = imageModel.objects.all();
+    sql = serializers.serialize('json', sql, use_natural_foreign_keys=True)
+
+    # how many image posted by each user?
+    sql = imageModel.objects.values('posted_by_id').annotate(dcount=Count('posted_by_id'))
+    # TODO: unable to serialize this query with the following
+    #sql = serializers.serialize('json', sql, use_natural_foreign_keys=True)
+
+    #get imagecomment count grouped by image id but does not give the content
+    sql = imageComment.objects.values('imageId_id').annotate(dcount=Count('imageId_id'))
+    #print(sql) #print the result #print(len(sql[0]) #prints 2 - length of the first element
+    print(len(sql)) #get the length of total image group by count
+
+    #get distinct image id from imagecomment model
+    #https://stackoverflow.com/questions/10848809/django-model-get-distinct-value-list
+    sql = imageComment.objects.order_by('imageId_id').values('imageId_id').distinct()
+
+    #get the distinct image id in a list
+    image_id_list = [query['imageId_id'] for query in sql]
+    print(image_id_list)
+
+    #only get the content field for each image id
+    #http://books.agiliq.com/projects/django-orm-cookbook/en/latest/select_some_fields.html
+    imageContent = []
+    for image_id in image_id_list:
+        #print(imageComment.objects.filter(imageId_id = image_id).values('content'))
+        comments = imageComment.objects.filter(imageId_id = image_id).values('content')
+        # convert the query set into a list -- list(comments)
+        #process comments to remove content from each row
+        comment_list = [c['content'] for c in comments]
+        #print(comment_list)
+
+        #print(list(comments))
+        item = {}
+        item['imageID'] = image_id
+        item['comments'] = comment_list
+        imageContent.append(item)
+
+
+    print(json.dumps(imageContent))
+    return HttpResponse('')
 
 def addUserToGroupsForm(request):
     return render(request, 'app/group.html', {})

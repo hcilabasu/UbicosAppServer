@@ -48,6 +48,10 @@ $(function(){
 
             var p = $('<p/>', {
                     text: data.message}).appendTo(li);
+
+             //add timestamp to the message
+             var spanTimestamp = $('<span/>', {
+                text: 'timestamp'}).appendTo(div);
         }
 
 
@@ -663,6 +667,8 @@ var openImageView = function(galleryView, image){
                         var p = $('<p/>', {
                                 text: value.fields['content']}).appendTo(li);
                         });
+
+
 
                         // Scroll panel to bottom
                         var imageFeedParent = $('#image-feed').closest('.row');
