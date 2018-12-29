@@ -648,6 +648,21 @@ def dataToCSV(request):
     print(json.dumps(imageContent))
     return HttpResponse('')
 
+def perUserDataExtract(request):
+    #get all the user list
+    users_list = [str(user) for user in User.objects.all()]
+    users_list.insert(0,0) #to start indexing from 1 instead of 0 to match user pk
+    #print(users_list[1:])
+
+    for user in users_list[1:]:
+        #index and primary id is the same for user
+        imagecomment = imageComment.objects.filter(posted_by_id = users_list.index(user)).values('content','imageId_id')
+        comment_list = [dict(item) for item in imagecomment]
+        print(comment_list)
+
+    return HttpResponse('')
+
+
 def addUserToGroupsForm(request):
     return render(request, 'app/group.html', {})
 

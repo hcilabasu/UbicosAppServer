@@ -39,7 +39,8 @@ urlpatterns = [
     url(r'^extensionlog/$', views.userLogFromExtenstion),
     url('delete', views.deleteAllItems, name='activities'),
     #data analysis
-    url('dataToCSV',views.dataToCSV)
+    url('dataToCSV',views.dataToCSV),
+    url('perUserDataExtract',views.perUserDataExtract)
 
 
 ]
