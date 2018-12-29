@@ -654,11 +654,26 @@ def perUserDataExtract(request):
     users_list.insert(0,0) #to start indexing from 1 instead of 0 to match user pk
     #print(users_list[1:])
 
-    for user in users_list[1:]:
+    user_activity = []
+    for user in users_list[1:29]:
+        #get image comment
         #index and primary id is the same for user
         imagecomment = imageComment.objects.filter(posted_by_id = users_list.index(user)).values('content','imageId_id')
         comment_list = [dict(item) for item in imagecomment]
-        print(comment_list)
+        #print(comment_list)
+
+        item = {}
+        item['userID'] = users_list.index(user)
+        item['imagecomment'] = comment_list
+
+        #get activity feed message for each user
+        general_chat_message = Message.objects.filter(posted_by_id = users_list.index(user)).values('content')
+        general_chat_message = [gcm['content'] for gcm in general_chat_message]
+        item['generalmessage'] = general_chat_message
+        user_activity.append(item)
+
+
+    print(json.dumps(user_activity))
 
     return HttpResponse('')
 
