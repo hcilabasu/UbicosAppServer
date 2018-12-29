@@ -630,10 +630,12 @@ def dataToCSV(request):
     imageContent = []
     for image_id in image_id_list:
         #print(imageComment.objects.filter(imageId_id = image_id).values('content'))
-        comments = imageComment.objects.filter(imageId_id = image_id).values('content')
+        comments = imageComment.objects.filter(imageId_id = image_id).values('content','posted_by_id')
         # convert the query set into a list -- list(comments)
         #process comments to remove content from each row
-        comment_list = [c['content'] for c in comments]
+        # #https://stackoverflow.com/questions/7650448/django-serialize-queryset-values-into-json
+        #comment_list = json.dumps([dict(item) for item in comments])
+        comment_list = [dict(item) for item in comments]
         #print(comment_list)
 
         #print(list(comments))
