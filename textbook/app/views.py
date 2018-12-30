@@ -658,9 +658,8 @@ def perUserDataExtract(request):
     for user in users_list[1:29]:
         #get image comment
         #index and primary id is the same for user
-        imagecomment = imageComment.objects.filter(posted_by_id = users_list.index(user)).values('content','imageId_id')
+        imagecomment = imageComment.objects.filter(posted_by_id = users_list.index(user)).order_by('imageId_id').values('content','imageId_id')
         comment_list = [dict(item) for item in imagecomment]
-        #print(comment_list)
 
         item = {}
         item['userID'] = users_list.index(user)
