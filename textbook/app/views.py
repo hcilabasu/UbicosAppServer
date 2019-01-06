@@ -12,6 +12,7 @@ from django.db.models import Count
 from django.core import serializers
 from .parser import parser
 import json
+from datetime import datetime
 
 
 
@@ -252,7 +253,15 @@ def imageDelete(request, img_id):
 def updateFeed(request):
     msg = Message.objects.all()
     msg_data = serializers.serialize('json', msg, use_natural_foreign_keys=True)
-    return JsonResponse({'success': msg_data, 'username': request.user.get_username(),'errorMsg': True})
+    return JsonResponse({'success': msg_data, 'username': request.user.get_username(), 'errorMsg': True})
+
+    #separate message today vs other days
+    # msg = Message.objects.exclude(posted_at__contains = datetime.now().date()) #returns all the comment except from today
+    # msg_data = serializers.serialize('json', msg, use_natural_foreign_keys=True)
+    # print('msg :: ', msg_data)
+    # return HttpResponse('')
+
+
 
 def updateImageFeed(request, img_id):
 
