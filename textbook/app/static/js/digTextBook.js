@@ -404,6 +404,11 @@ var bindActivityButtons = function(){
             loadIdeaToWorkspace();
         }
 
+//        ------------------------------Khan Academy-----------------------
+        if($('.card.khanacademy').hasClass('active')){
+            $('.card.' + type + ' h1').text("Khan Academy");
+        }
+
         //user logging
         enterLogIntoDatabase('activity select', type , 'activity-id-'+id, current_pagenumber)
 
