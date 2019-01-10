@@ -681,9 +681,14 @@ def perUserDataExtract(request):
         user_activity.append(item)
 
 
-    print(json.dumps(user_activity))
+    #print(json.dumps(user_activity))
 
-    return HttpResponse('')
+
+    #https://stackoverflow.com/questions/42354001/python-json-object-must-be-str-bytes-or-bytearray-not-dict
+    context = {'user_activity': json.loads(json.dumps(user_activity))}
+    return render(request, 'app/studentList.html', context)
+
+    #return HttpResponse('')
 
 
 def addUserToGroupsForm(request):

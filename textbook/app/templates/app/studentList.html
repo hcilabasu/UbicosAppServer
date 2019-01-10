@@ -1,7 +1,25 @@
-{% if user_list %}
+<!--{% if user_list %}-->
+    <!--<ul>-->
+    <!--{% for user in user_list %}-->
+        <!--<li><a href="/studentID/{{ user.id }}/">{{ user.username }}</a></li>-->
+    <!--{% endfor %}-->
+    <!--</ul>-->
+<!--{% else %}-->
+    <!--<p>No students registered in this class.</p>-->
+<!--{% endif %}-->
+
+{% if user_activity %}
     <ul>
-    {% for user in user_list %}
-        <li><a href="/studentID/{{ user.id }}/">{{ user.username }}</a></li>
+    {% for user in user_activity %}
+        <li><a href="/studentID/{{ user.userID }}/">{{ user.userID }}</a></li>
+        <p>Image Comments</p>
+        <!--<p>{{ user.imagecomment}}</p>-->
+        <!--loop through image comment and get all the comments-->
+        {% for uic in user.imagecomment %}
+             <p>{{ uic.content }}</p>
+        {% endfor %}
+        <p>General Chat</p>
+        <p>{{ user.generalmessage}}</p>
     {% endfor %}
     </ul>
 {% else %}
