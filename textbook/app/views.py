@@ -95,10 +95,12 @@ def getUsername(request):
 @login_required
 def index(request):
     if request.user.is_authenticated:
+        return render(request, 'app/index.html')
         #if teacher then open up teacher portal, else student portal
-        if request.user.get_username() == 'AW':
-            return render(request, 'app/teacherindex.html')
-        else: return render(request, 'app/index.html')
+        # if request.user.get_username() == 'AW':
+        #     return render(request, 'app/teacherindex.html')
+        # else: return render(request, 'app/index.html')
+
 
 
 # def activityList(request):

@@ -73,8 +73,27 @@ $(function(){
             hidden.fadeIn('fast');
         });
         $(this).toggleClass('pressed');
+
         //TODO: add user log
         enterLogIntoDatabase('click', 'activity index', 'none', current_pagenumber)
+    });
+
+    $('#teacher-view-toggle').click(function(){
+
+        if ($("#teacher-index-view").is(":hidden")) {
+            $('.main-view').fadeOut('fast', function(){
+                $("#teacher-index-view").fadeIn('fast');
+            });
+        } else {
+            $('#teacher-index-view').fadeOut('fast', function(){
+                $("#activity-feed-view").fadeIn('fast');
+            });
+        }
+        $(this).toggleClass('pressedt');
+
+
+        //TODO: add user log
+        //enterLogIntoDatabase('click', 'activity index', 'none', current_pagenumber)
     });
 
     //check localstorage - used for refresh

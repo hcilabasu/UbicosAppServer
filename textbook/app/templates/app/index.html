@@ -43,6 +43,7 @@
     <div id="main-container">
 
         <div id="textbook-content" class="first">
+
             <div class="page previous">
             </div>
             <div class="page" data-page="1">
@@ -74,6 +75,16 @@
             <div id="activity-index-view" class="main-view" style="display: none;">
                 {% include 'app/activityindex.html' %}
             </div>
+
+            <!--display teacherdashboard if logged in as teacher-->
+            {% ifequal user.get_username 'AW' %}
+                <a id="teacher-view-toggle"></a>
+                <div id="teacher-index-view" class="" style="display: none;">
+                    {% include 'app/teacherindex.html' %}
+                </div>
+            {%  endifequal %}
+
+
             
             <!-- 
                 Ideally we'd only have one div.card, whose content is loaded dynamically on click.
@@ -140,7 +151,6 @@
     <script src="{% static 'js/brainstorm.js' %}"></script>
     <script src="{% static 'js/convert.js' %}"></script>
     <script src="{% static 'js/table.js' %}"></script>
-    <script src="{% static 'js/kaform.js' %}"></script>
     <script src="{% static 'js/userlog.js' %}"></script>
     <script src="{% static 'js/activityindex.js' %}"></script>
     <script src="{% static 'js/multQues.js' %}"></script>
