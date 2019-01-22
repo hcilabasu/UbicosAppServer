@@ -6,7 +6,7 @@ from . import views
 urlpatterns = [
     url(r'^$', views.login_form, name='login_form'),
     url('login', views.login, name='login'),
-    url('logout', auth_views.logout, {'next_page': '/'}, name='logout'),
+    url('logout', auth_views.LogoutView.as_view()),
     url('index', views.index, name='index'),
     url('getUsername', views.getUsername),
     url('getGroupID/(?P<act_id>\d+)', views.getGroupID),

@@ -31,6 +31,7 @@ ALLOWED_HOSTS = ['hcilabasu.pythonanywhere.com','127.0.0.1','localhost','192.168
 
 #URL for @login_required decorator to use
 LOGIN_URL = '/login'
+LOGOUT_REDIRECT_URL = '/'
 
 
 
