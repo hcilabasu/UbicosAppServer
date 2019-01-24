@@ -597,22 +597,23 @@ a {
 
 /* reference for &:: http://lesscss.org/features/#parent-selectors-feature */
 #teacher-view-toggle {
-    position: fixed;
-    top: 15px;
-    right: 65px;
     display: inline-block;
-    width: 50px;
+    position: absolute;
+    top: 0px;
+    right: 65px;
     height: 50px;
+    width: 50px;
+    background: url('/static/pics/dashboard.png') no-repeat;
+    background-size: 100%;
     z-index: 2;
-    background-image: url(../pics/dashboard.png);
-    background-size: cover;
+
     border-radius: 50%;
     transition: all 0.4s;
-
+/*
     &.pressedt {
-        box-shadow: inset 0 3px 25px rgba(0,0,0,0.3);
+        box-shadow: inset 0 3px 25px rgba(0,153,0,0.3);
         background-color: #C9DDE4;
-    }
+    } */
 }
 
 .main-view h1 {

@@ -273,7 +273,9 @@ var bindActivityButtons = function(){
         // based on the activity type, update titles in html
         $('.card.' + type + ' h1').text(type + ' #'+id); //update the title of each page
 
-
+        $('#teacher-view-toggle').off().on('click', function(){
+            alert(activityButton.attr('data-id'));
+        })
 //        ------------------------------based on different tools-----------------------
         // TODO: make the following if dynamic
 
