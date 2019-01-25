@@ -274,7 +274,14 @@ var bindActivityButtons = function(){
         $('.card.' + type + ' h1').text(type + ' #'+id); //update the title of each page
 
         $('#teacher-view-toggle').off().on('click', function(){
-            alert(activityButton.attr('data-id'));
+
+            var activity_id = activityButton.attr('data-id');
+
+            $('.card.active').removeClass('active');
+            $('.card.teacher').addClass('active');
+
+            loadtable(activity_id);
+
         })
 //        ------------------------------based on different tools-----------------------
         // TODO: make the following if dynamic
@@ -428,6 +435,8 @@ var bindActivityButtons = function(){
 //        ------------------------------Khan Academy-----------------------
         if($('.card.khanacademy').hasClass('active')){
             $('.card.' + type + ' h1').text("Khan Academy");
+
+
         }
 
         //user logging

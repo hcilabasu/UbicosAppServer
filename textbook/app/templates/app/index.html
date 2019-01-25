@@ -137,9 +137,14 @@
                 {% include 'app/multQues.html' %}
             </div>
 
-             <div class="card khanacademy" active>
+             <div class="card khanacademy">
                 <a class="close-card"></a>
                 {% include 'app/kaform.html' %}
+            </div>
+
+            <div class="card teacher">
+                <a class="close-card"></a>
+                {% include 'app/teacherindex.html' %}
             </div>
         </div>
     </div>
@@ -159,6 +164,7 @@
     <script src="{% static 'js/userlog.js' %}"></script>
     <script src="{% static 'js/activityindex.js' %}"></script>
     <script src="{% static 'js/multQues.js' %}"></script>
+    <script src="{% static 'js/teacherindex.js' %}"></script>
 </body>
 </html>
 

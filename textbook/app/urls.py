@@ -40,7 +40,9 @@ urlpatterns = [
     url('delete', views.deleteAllItems, name='activities'),
     #data analysis
     url('dataToCSV',views.dataToCSV),
-    url('perUserDataExtract',views.perUserDataExtract)
+    url('perUserDataExtract',views.perUserDataExtract),
+    #teacherdashboard
+    url('getGalleryTableTD/(?P<act_id>\d+)',views.getGalleryTableTD)
 
 
 ]

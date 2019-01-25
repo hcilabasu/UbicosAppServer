@@ -365,7 +365,27 @@ def getUserList(request):
 def getAllStudentInfo(request,std_id):
     return HttpResponse(std_id)
 
+def getGalleryTableTD(request, act_id):
 
+    #returns None if no object is returned from the query. handles exception/error.s
+    try:
+        images = imageModel.objects.filter(gallery_id=act_id)
+    except imageModel.DoesNotExist:
+        images = None
+
+    item = {}
+    image_list = []
+    for im in images:
+        item['image_id'] = im.pk
+        item['posted_by'] = im.posted_by.get_username()
+        image_comments = imageComment.objects.filter(imageId = im.pk)
+        item['comments'] = [im.content for im in image_comments]
+        item['comment_postedby'] = [im.posted_by.get_username() for im in image_comments]
+
+        image_list.append(item)
+
+    #print('ekhane ami?', json.dumps(image_list))
+    return JsonResponse({'success': json.dumps(image_list), 'errorMsg': True})
 
 # create superuser
 # https://docs.djangoproject.com/en/2.1/topics/auth/default/

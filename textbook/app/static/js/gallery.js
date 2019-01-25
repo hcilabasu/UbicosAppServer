@@ -684,7 +684,7 @@ var openImageView = function(galleryView, image){
 
 function getLoggedUserName(){
 
-//get the logged in user
+        //get the logged in user
         $.ajax({
             type:'GET',
             url:'http://'+ host_url +'/getUsername/',
