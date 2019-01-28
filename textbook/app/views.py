@@ -373,9 +373,10 @@ def getGalleryTableTD(request, act_id):
     except imageModel.DoesNotExist:
         images = None
 
-    item = {}
+
     image_list = []
     for im in images:
+        item = {}
         item['image_id'] = im.pk
         item['posted_by'] = im.posted_by.get_username()
         image_comments = imageComment.objects.filter(imageId = im.pk)
@@ -384,8 +385,8 @@ def getGalleryTableTD(request, act_id):
 
         image_list.append(item)
 
-    #print('ekhane ami?', json.dumps(image_list))
-    return JsonResponse({'success': json.dumps(image_list), 'errorMsg': True})
+
+    return JsonResponse({'success': json.loads(json.dumps(image_list)), 'errorMsg': True})
 
 # create superuser
 # https://docs.djangoproject.com/en/2.1/topics/auth/default/
