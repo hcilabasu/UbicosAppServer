@@ -4,6 +4,7 @@ $(function(){
 
     //loadtable();
     loadGraph();
+    detectTableClick();
 
 
 })
@@ -28,8 +29,8 @@ var loadtable = function (activity_id){
 
          rowHTML = '';
          rowHTML += '<td width=30%><a data-index=' + value.image_id + '>' + value.image_id + '</a></td>';
-         rowHTML += '<td width=70%><a data-index=' + value.posted_by + '>' + value.posted_by + '</a></td>';
-         rowHTML += '<td width=30%><a data-index=' + value.posted_by + '>' + value.comments.length + '</a></td>';
+         rowHTML += '<td width=70%><a class="cc" data-index=' + value.posted_by + '>' + value.posted_by + '</a></td>';
+         rowHTML += '<td width=30%><a class="cc" data-index=' + value.posted_by + '>' + value.comments.length + '</a></td>';
          $tableBody.append('<tr>' + rowHTML + '</tr>');
 
     })
@@ -89,4 +90,17 @@ var loadGraph = function(){
 
 
 }
+
+var detectTableClick = function(){
+
+        //detect when username in the table is clicked
+        //https://stackoverflow.com/questions/1359018/in-jquery-how-to-attach-events-to-dynamic-html-elements
+        $('body').on('click', 'a.cc', function() {
+            // get the username who link was clicked
+            var username = $(this).text();
+            
+        });
+}
+
+
 
