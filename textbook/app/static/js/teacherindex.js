@@ -3,7 +3,7 @@ $(function(){
 
 
     //loadtable();
-    loadGraph();
+    //loadGraph();
     detectTableClick();
 
 
@@ -14,28 +14,45 @@ var loadtable = function (activity_id){
     var $tableBody = $('#tbody'); // use a Id selector here
     var rowHTML = '';
 
-    dataFromServer = getGalleryInfo(activity_id);
-    console.log((dataFromServer))
-    var row_length = dataFromServer.length;
+    dataFromServer = getGalleryInfo(activity_id); //ajax method call
+    console.log(dataFromServer)
+    console.log(dataFromServer.length)
+    var row_cells = dataFromServer[0]; //list of users
+    var row_length = dataFromServer[0].length-3; //row length = student number; -3 removing teacher users
+    var col_length = dataFromServer.length - 1; //removing the user entry
+
+    console.log(row_length);
 
 
-     rowHTML = '';
-     rowHTML += '<td width=30%><a>Image Id</a></td>';
-     rowHTML += '<td width=70%><a>Posted By</a></td>';
-     rowHTML += '<td width=30%><a> Total Comments</a></td>';
-     $tableBody.append('<tr>' + rowHTML + '</tr>');
-
-    $.each(dataFromServer, function(key, value){
-
-         rowHTML = '';
-         rowHTML += '<td width=30%><a data-index=' + value.image_id + '>' + value.image_id + '</a></td>';
-         rowHTML += '<td width=70%><a class="cc" data-index=' + value.posted_by + '>' + value.posted_by + '</a></td>';
-         rowHTML += '<td width=30%><a class="cc" data-index=' + value.posted_by + '>' + value.comments.length + '</a></td>';
-         $tableBody.append('<tr>' + rowHTML + '</tr>');
-
-    })
+    for (var i = 0; i < row_length; i++) {
+      let row = $('<tr></tr>');
+      row.append('<td>'+row_cells[i]+'</td>');
+      for (col = 1; col <= col_length; col++) {
+        row.append('<td></td>');
+      }
+      //console.log(row)
+      $tableBody.append(row);
+    }
 
     $('#teacher-gallery-table').append($tableBody);
+
+//     rowHTML = '';
+//     rowHTML += '<td width=30%><a>Image Id</a></td>';
+//     rowHTML += '<td width=70%><a>Posted By</a></td>';
+//     rowHTML += '<td width=30%><a> Total Comments</a></td>';
+//     $tableBody.append('<tr>' + rowHTML + '</tr>');
+//
+//    $.each(dataFromServer, function(key, value){
+//
+//         rowHTML = '';
+//         rowHTML += '<td width=30%><a data-index=' + value.image_id + '>' + value.image_id + '</a></td>';
+//         rowHTML += '<td width=70%><a class="cc" data-index=' + value.posted_by + '>' + value.posted_by + '</a></td>';
+//         rowHTML += '<td width=30%><a class="cc" data-index=' + value.posted_by + '>' + value.comments + '</a></td>';
+//         $tableBody.append('<tr>' + rowHTML + '</tr>');
+//
+//    })
+//
+//    $('#teacher-gallery-table').append($tableBody);
 
 }
 
@@ -98,7 +115,7 @@ var detectTableClick = function(){
         $('body').on('click', 'a.cc', function() {
             // get the username who link was clicked
             var username = $(this).text();
-            
+
         });
 }
 

@@ -37,14 +37,7 @@ $(function(){
 
     $('.extend-card').on('touch click', function(){
 
-        var width = $(".card").width() / $('.card').parent().width() * 100
-        width = width/2;
-
-        if (width == 50){
-            $('.card').css({'width':'100%'});
-        }else{
-            $('.card').css({'width':'50%'});
-        }
+        card_extension();
 
         var classNameWhichisExtended = $(this).offsetParent()[0].className.split(" ")[1]
         enterLogIntoDatabase('card extend', classNameWhichisExtended, 'none', current_pagenumber)
@@ -273,6 +266,7 @@ var bindActivityButtons = function(){
         // based on the activity type, update titles in html
         $('.card.' + type + ' h1').text(type + ' #'+id); //update the title of each page
 
+//        ------------------------------teacher dashboard gallery-----------------------
         $('#teacher-view-toggle').off().on('click', function(){
 
             var activity_id = activityButton.attr('data-id');
@@ -281,6 +275,7 @@ var bindActivityButtons = function(){
             $('.card.teacher').addClass('active');
 
             loadtable(activity_id);
+            card_extension();
 
         })
 //        ------------------------------based on different tools-----------------------
@@ -323,6 +318,8 @@ var bindActivityButtons = function(){
               //
               //$('div#graph-container').css("display", "none");
 
+              //if the card is already extended, put it back to normal
+              card_extension_close();
 
         }
 //        ------------------------------GALLERY-----------------------
@@ -383,6 +380,9 @@ var bindActivityButtons = function(){
             //call function from gallery.js
             $("input[name='group-id']").attr('value', user_group_id);
             viewDiv(view, user_group_id);
+
+            //if the card is already extended, put it back to normal
+            card_extension_close();
         }
 
 //        ------------------------------ANSWER-----------------------
@@ -403,6 +403,9 @@ var bindActivityButtons = function(){
 
             //TODO: call loadHTML() from here
 
+            //if the card is already extended, put it back to normal
+            card_extension_close();
+
         }
 
 //        ------------------------------MORE INFO (TALK MOVES)-----------------------
@@ -410,6 +413,9 @@ var bindActivityButtons = function(){
 
              //$('input[name="table-id"]').attr('value', id)
              $('.card.' + type + ' h1').text("Talk Moves"); //update the title of each page
+
+            //if the card is already extended, put it back to normal
+             card_extension_close();
         }
 
 //        ------------------------------BRAINSTORM-----------------------
@@ -430,14 +436,20 @@ var bindActivityButtons = function(){
             $('input[name="brainstorm-id"]').attr('value', id)
 
             loadIdeaToWorkspace();
+
+            //if the card is already extended, put it back to normal
+            card_extension_close();
         }
 
 //        ------------------------------Khan Academy-----------------------
         if($('.card.khanacademy').hasClass('active')){
             $('.card.' + type + ' h1').text("Khan Academy");
 
+            card_extension();
 
-        }
+
+
+            }
 
         //user logging
         enterLogIntoDatabase('activity select', type , 'activity-id-'+id, current_pagenumber)
@@ -448,6 +460,30 @@ var bindActivityButtons = function(){
 
 var loadActivityIndex = function(){
     //TODO: call the parser here using ajax request, parse the files and build activity index
+
+}
+
+var card_extension = function(){
+
+    var width = $(".card").width() / $('.card').parent().width() * 100
+    width = width/2;
+
+    if (width == 50){
+        $('.card').css({'width':'100%'});
+    }else{
+        $('.card').css({'width':'50%'});
+    }
+
+}
+
+var card_extension_close = function(){
+
+    var width = $(".card").width() / $('.card').parent().width() * 100
+    width = width/2;
+
+    if (width == 100){
+        $('.card').css({'width':'50%'});
+    }
 
 }
 

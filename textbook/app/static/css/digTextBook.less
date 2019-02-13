@@ -393,6 +393,31 @@ a {
     color: @khanacademy1;
 }
 
+#ka-container {
+    display: grid;
+    height: 100%;
+    grid-template-columns: 50% 50%;
+}
+
+#ka-left,
+#ka-right {
+    overflow: auto;
+}
+
+#ka-left {
+    position: relative;
+    grid-column: 1;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+}
+
+#ka-right {
+    grid-column: 2;
+    position: relative;
+    overflow-x: hidden;
+}
+
+
 
 /*
     DYNAMIC CONTENT STYLING

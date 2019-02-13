@@ -1,7 +1,4 @@
 
-
-
-
 $(function(){
 
     $('#ka-showAnsweredQues').hide();
@@ -9,8 +6,30 @@ $(function(){
     ka_submit_button();
     copy_ka_text_button();
 
+
+    $('#ka_img_upload').on('change',function(){
+        console.log("here")
+        readURL_ka(this);
+    });
+
 })
 
+var readURL_ka = function(input) {
+
+
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $('#blah')
+                    .attr('src', e.target.result)
+                    .width(150)
+                    .height(200);
+            };
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
 
 var ka_submit_button = function(){
     $('#ka-submit').click(function(){
@@ -34,7 +53,24 @@ var copy_ka_text_button = function(){
 
         alert("Copied the text: " + copied_text);
 
-
-
     })
 }
+
+var readURL_ka = function(input) {
+
+        console.log("here")
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $('#blah')
+                    .attr('src', e.target.result)
+                    .width(150)
+                    .height(200);
+            };
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+

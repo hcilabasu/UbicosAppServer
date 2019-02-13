@@ -178,10 +178,10 @@ input[type="file"] {
     font-size: 14px;
  }
 
-/* Bordered form */
+/* Bordered form
 form {
     border: 3px solid #f1f1f1;
-}
+} */
 
 /* Set a style for all buttons
 button {

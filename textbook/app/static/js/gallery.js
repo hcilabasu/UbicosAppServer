@@ -293,6 +293,10 @@ $(function(){
             $("#file-upload").change(function(){
                 readURL(this);
             });
+ //update preview image
+            $("#file-upload").change(function(){
+                readURL(this);
+            });
 
             //previous image button
             $(".previous-image").click(function(e){

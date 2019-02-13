@@ -367,6 +367,8 @@ def getAllStudentInfo(request,std_id):
 
 def getGalleryTableTD(request, act_id):
 
+    #get all the users
+    users_list = [str(user) for user in User.objects.all()]
     #returns None if no object is returned from the query. handles exception/error.s
     try:
         images = imageModel.objects.filter(gallery_id=act_id)
@@ -375,6 +377,7 @@ def getGalleryTableTD(request, act_id):
 
 
     image_list = []
+    image_list.append(users_list);
     for im in images:
         item = {}
         item['image_id'] = im.pk
