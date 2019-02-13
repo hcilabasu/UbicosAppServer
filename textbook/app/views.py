@@ -13,6 +13,7 @@ from django.core import serializers
 from .parser import parser
 import json
 from datetime import datetime
+from collections import Counter
 
 
 
@@ -369,6 +370,7 @@ def getGalleryTableTD(request, act_id):
 
     #get all the users
     users_list = [str(user) for user in User.objects.all()]
+    print(users_list)
     #returns None if no object is returned from the query. handles exception/error.s
     try:
         images = imageModel.objects.filter(gallery_id=act_id)
@@ -376,19 +378,31 @@ def getGalleryTableTD(request, act_id):
         images = None
 
 
+
     image_list = []
-    image_list.append(users_list);
     for im in images:
+        comment_count_list = []
+        comment_count_list = [0] * 31
         item = {}
         item['image_id'] = im.pk
         item['posted_by'] = im.posted_by.get_username()
         image_comments = imageComment.objects.filter(imageId = im.pk)
         item['comments'] = [im.content for im in image_comments]
-        item['comment_postedby'] = [im.posted_by.get_username() for im in image_comments]
+        temp = [im.posted_by.get_username() for im in image_comments]
+        temp = Counter(temp)
+        for key, value in temp.items():
+            index = [users_list.index(key)] #returns a list of one item
+            print(index[0])
+            comment_count_list[index[0]] = value;
 
+            print('length - inside for??', len(comment_count_list))
+
+
+        item['comment_count'] = comment_count_list
+        print('length??', len( comment_count_list))
         image_list.append(item)
 
-
+    print(json.loads(json.dumps(image_list)))
     return JsonResponse({'success': json.loads(json.dumps(image_list)), 'errorMsg': True})
 
 # create superuser

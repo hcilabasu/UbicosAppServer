@@ -1,4 +1,5 @@
 
+var users_list=['ant', 'giraffe', 'penguin', 'sheep', 'hippo', 'lion', 'dolphin', 'eagle', 'frog', 'duck', 'bee', 'bat', 'elephant', 'leopard', 'panda', 'fish', 'fox', 'alligator', 'kangaroo', 'liger', 'squirrel', 'zebra', 'bear', 'deer', 'dog', 'tiger', 'monkey', 'rabbit', 'AW', 'user1', 'user2']
 $(function(){
 
 
@@ -17,42 +18,63 @@ var loadtable = function (activity_id){
     dataFromServer = getGalleryInfo(activity_id); //ajax method call
     console.log(dataFromServer)
     console.log(dataFromServer.length)
-    var row_cells = dataFromServer[0]; //list of users
-    var row_length = dataFromServer[0].length-3; //row length = student number; -3 removing teacher users
-    var col_length = dataFromServer.length - 1; //removing the user entry
+    console.log(dataFromServer[0].comment_count.length)
+    console.log(dataFromServer[1].comment_count.length)
 
-    console.log(row_length);
-
-
-    for (var i = 0; i < row_length; i++) {
-      let row = $('<tr></tr>');
-      row.append('<td>'+row_cells[i]+'</td>');
-      for (col = 1; col <= col_length; col++) {
-        row.append('<td></td>');
-      }
-      //console.log(row)
-      $tableBody.append(row);
-    }
-
-    $('#teacher-gallery-table').append($tableBody);
 
 //     rowHTML = '';
 //     rowHTML += '<td width=30%><a>Image Id</a></td>';
 //     rowHTML += '<td width=70%><a>Posted By</a></td>';
-//     rowHTML += '<td width=30%><a> Total Comments</a></td>';
 //     $tableBody.append('<tr>' + rowHTML + '</tr>');
 //
 //    $.each(dataFromServer, function(key, value){
 //
+//           console.log('image id ',value.image_id);
+//           console.log('comment ',value.comment_postedby[0].name)
+//
+//           rowvalue = ''
+//           $.each(value.comment_postedby, function(name, val){
+//                rowvalue += 'user: '+  val.name+', # comments: '+val.value+"\n";
+//
+//           })
+//           //console.log(rowvalue)
+//
 //         rowHTML = '';
 //         rowHTML += '<td width=30%><a data-index=' + value.image_id + '>' + value.image_id + '</a></td>';
-//         rowHTML += '<td width=70%><a class="cc" data-index=' + value.posted_by + '>' + value.posted_by + '</a></td>';
-//         rowHTML += '<td width=30%><a class="cc" data-index=' + value.posted_by + '>' + value.comments + '</a></td>';
+//         rowHTML += '<td width=70%><a class="cc" data-index=' + rowvalue + '>' + rowvalue + '</a></td>';
 //         $tableBody.append('<tr>' + rowHTML + '</tr>');
 //
 //    })
 //
 //    $('#teacher-gallery-table').append($tableBody);
+
+       //display first row
+       rowHTML = '';
+       rowHTML += '<td width=30%><a>Username</a></td>';
+       $.each(dataFromServer, function(key, value){
+            rowHTML += '<td width=30%><a>Image '+value.image_id+'</a></td>';
+       })
+       $tableBody.append('<tr>' + rowHTML + '</tr>');
+
+
+       //display the next rows
+       var current = 0
+       $.each(users_list, function(key,value){
+
+             rowHTML = '';
+             rowHTML += '<td width=30%><a data-index=' + value.image_id + '>' + users_list[current] + '</a></td>';
+
+             $.each(dataFromServer, function(key,value){
+                console.log(value.comment_count)
+                rowHTML += '<td width=30%><a data-index=' + value.image_id + '>' + value.comment_count[current] + '</a></td>';
+             })
+        $tableBody.append('<tr>' + rowHTML + '</tr>');
+        current++;
+
+    })
+
+     $('#teacher-gallery-table').append($tableBody);
+
 
 }
 
