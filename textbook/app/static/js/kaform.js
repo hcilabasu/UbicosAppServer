@@ -6,17 +6,19 @@ $(function(){
     ka_submit_button();
     copy_ka_text_button();
 
-
-    $('#ka_img_upload').on('change',function(){
-        console.log("here")
-        readURL_ka(this);
-    });
+     $('#ka_img_upload').change(function(event){
+         console.log('trying to upload photos')
+         var form_data = new FormData($('#ka-upload-img-form')[0]);
+         console.log('form_data', form_data);
+         readURL_ka(this);
+     })
 
 })
 
+
 var readURL_ka = function(input) {
 
-
+        $('#blah').attr('src', '').hide();
         if (input.files && input.files[0]) {
             var reader = new FileReader();
 
