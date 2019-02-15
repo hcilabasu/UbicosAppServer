@@ -1373,3 +1373,58 @@ a {
 .gallery-submission:active{
     background-color:#006600;
 }
+
+
+/* user prompt related css start*/
+.prompt {
+    background-color: #82C091;
+}
+
+.prompt-card {
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+    box-shadow: 0 0 5px rgba(30, 192, 145,1);
+    position: absolute;
+    top: 600px;
+    bottom: 60px;
+    width: 100%;
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    right: 0;
+    color:  white;
+    margin: 5px 0 5px 5px !important;
+    transform: translateX(100%);
+    transition: all 0.4s;
+    transition-timing-function: ease-out;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    z-index: 2;
+}
+
+.prompt-card.active {
+    transform: translateX(0);
+    transition: all 0.4s;
+    transition-timing-function: ease-out;
+    box-shadow: 4px 0 4px rgba(30, 192, 145,1);
+}
+
+#prompt-p{
+
+text-align: center;
+
+}
+
+.prompt-close-card {
+    display: inline-block;
+    position: absolute;
+    top: 10px;
+    right: 0px;
+    height: 15px;
+    width: 15px;
+    background: url('/static/pics/close-card.png') no-repeat;
+    background-size: 100%;
+    z-index: 2;
+}
+
+/* user prompt related css finish*/

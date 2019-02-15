@@ -69,47 +69,55 @@ $(function(){
         //stop page refreshing with click
             e.preventDefault();
 
-        //get the user name who posted
-            var user_name = $("input[name='username']").val()
-            console.log(user_name);
+            postImageMessage();
 
-        //get the currently typed message
-            var message = $("input[name='image-msg-text']").val();
-            console.log('user message :: '+message)
-
-        //get the gallery id of the image
-            var gallery_id = $("input[name='act-id']").val();
-            console.log('image gallery id :: ', gallery_id)
-
-            var imagePk = $("input[name='image-db-pk']").val();
-            console.log('image pk :: ',imagePk)
-
-
-            if(message == ""){
-                console.log('empty input gallery')
-                enterLogIntoDatabase('input button click', 'image-feed empty message input' , message, current_pagenumber)
-            }
-            else{
-                  enterLogIntoDatabase('input button click', 'image-feed message input' , message, current_pagenumber)
-                 //posts student comment in database - can be extracted using image primary key.
-                $.post({
-                    url: '/ajax/imageComment/',
-                    data: {
-                    'username': user_name,
-                    'message':  message,
-                    'imagePk': imagePk
-                    },
-                    success: function (data) {
-
-                        //empty the message pane
-                        $("input[name='image-msg-text']").val('');
-
-                        //console.log(data)
-
-                    }
-                });
-
-            }
+//remove this section if everything works fine.
+//        //get the user name who posted
+//            var user_name = $("input[name='username']").val()
+//            console.log(user_name);
+//
+//        //get the currently typed message
+//            var message = $("input[name='image-msg-text']").val();
+//            console.log('user message :: '+message)
+//
+//        //call the method to handle prompting
+//            console.log("call show prompt here")
+//            showPrompt(message);
+//
+//        //get the gallery id of the image
+//            var gallery_id = $("input[name='act-id']").val();
+//            console.log('image gallery id :: ', gallery_id)
+//
+//            var imagePk = $("input[name='image-db-pk']").val();
+//            console.log('image pk :: ',imagePk)
+//
+//
+//            if(message == ""){
+//                console.log('empty input gallery')
+//                enterLogIntoDatabase('input button click', 'image-feed empty message input' , message, current_pagenumber)
+//            }
+//            else{
+//                  enterLogIntoDatabase('input button click', 'image-feed message input' , message, current_pagenumber)
+//                 //posts student comment in database - can be extracted using image primary key.
+//                $.post({
+//                    url: '/ajax/imageComment/',
+//                    data: {
+//                    'username': user_name,
+//                    'message':  message,
+//                    'imagePk': imagePk
+//                    },
+//                    success: function (data) {
+//
+//                        //empty the message pane
+//                        $("input[name='image-msg-text']").val('');
+//
+//                        //console.log(data)
+//
+//                    }
+//                });
+//
+//            }
+//remove upto this if message sent works fine
 
 
         })
@@ -377,6 +385,9 @@ $(function(){
         var message = inputEl.val();
         inputEl.prop('disabled', true);
         console.log('user message :: '+message)
+
+        console.log("call show prompt here")
+        showPrompt(message);
 
         //get the gallery id of the image
         var gallery_id = $("input[name='act-id']").val();
@@ -701,4 +712,17 @@ function getLoggedUserName(){
 
 }
 
+function showPrompt(message){
+    console.log('from show prompt method', message);
+    if (message)
+        $('.prompt-card.prompt').addClass('active');
+        $('p#prompt-p').text("great response");
+
+}
+
+ $('.prompt-close-card').on('touch click', function(){
+
+        $(this).closest('.prompt-card').removeClass('active');
+
+    });
 

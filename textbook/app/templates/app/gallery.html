@@ -69,11 +69,18 @@
                     
             </div>
         </div>
-        <div class="message-input">
-            <input type="text" id="image-msg-text" name="image-msg-text" placeholder="Comment on this picture">
-            <input type="hidden" name="username" value={{ user.get_username }}>
-            <a href="" id="image-msg-send-btn"></a>
+
+        <div class="prompt-card prompt">
+            <a class="prompt-close-card"></a>
+            <p id="prompt-p"></p>
         </div>
+
+         <div class="message-input" id="gallery-msg-containter-bottom">
+                <input type="text" id="image-msg-text" name="image-msg-text" placeholder="Comment on this picture">
+                <input type="hidden" name="username" value={{ user.get_username }}>
+                <a href="" id="image-msg-send-btn"></a>
+         </div>
+
     </div>
 </div>
 
