@@ -47,7 +47,13 @@ $(function(){
 
 
     //update activity feed with history of messages
-    loadFeed(); //call function from activity.js
+    loadFeed(0); //call function from activity.js //0 means all; 1 means todays chat
+//
+//    $('#feed-toggle').click(function(){
+//         loadFeed(1);
+//    })
+
+
 
     // Load first pages
     // TODO the URL should indicate which page to be loaded instead of always loading pages 1 and 2
@@ -71,23 +77,34 @@ $(function(){
         enterLogIntoDatabase('click', 'activity index', 'none', current_pagenumber)
     });
 
-    $('#teacher-view-toggle').click(function(){
+    $('#feed-toggle').click(function() {
+            $(this).toggleClass('pressedf');
+            if ($(this).hasClass("pressedf")){
+                loadFeed(1);
+            }else{
+                loadFeed(0);
+            }
+     });
 
-        if ($("#teacher-index-view").is(":hidden")) {
-            $('.main-view').fadeOut('fast', function(){
-                $("#teacher-index-view").fadeIn('fast');
-            });
-        } else {
-            $('#teacher-index-view').fadeOut('fast', function(){
-                $("#activity-feed-view").fadeIn('fast');
-            });
-        }
-        $(this).toggleClass('pressedt');
-
-
-        //TODO: add user log
-        //enterLogIntoDatabase('click', 'activity index', 'none', current_pagenumber)
-    });
+//remove this - not needed anymore - IA
+//    $('#teacher-view-toggle').click(function(){
+//
+//        if ($("#teacher-index-view").is(":hidden")) {
+//            $('.main-view').fadeOut('fast', function(){
+//                $("#teacher-index-view").fadeIn('fast');
+//            });
+//        } else {
+//            $('#teacher-index-view').fadeOut('fast', function(){
+//                $("#activity-feed-view").fadeIn('fast');
+//            });
+//        }
+//        $(this).toggleClass('pressedt');
+//
+//
+//        //TODO: add user log
+//        //enterLogIntoDatabase('click', 'activity index', 'none', current_pagenumber)
+//    });
+//remove until this - not needed anymore - IA
 
     //check localstorage - used for refresh
 

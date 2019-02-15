@@ -713,10 +713,15 @@ function getLoggedUserName(){
 }
 
 function showPrompt(message){
-    console.log('from show prompt method', message);
-    if (message)
-        $('.prompt-card.prompt').addClass('active');
+    $('.prompt-card.prompt').addClass('active');
+    var lengthOfMsg = message.length;
+    console.log('message length :: ', lengthOfMsg)
+    if (lengthOfMsg < 3){
+         $('p#prompt-p').text("great response, do you want to add an example?");
+    }
+    else{
         $('p#prompt-p').text("great response");
+    }
 
 }
 

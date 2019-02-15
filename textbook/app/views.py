@@ -12,7 +12,7 @@ from django.db.models import Count
 from django.core import serializers
 from .parser import parser
 import json
-from datetime import datetime
+from datetime import datetime, timedelta
 from collections import Counter
 
 
@@ -253,16 +253,34 @@ def imageDelete(request, img_id):
 
     return HttpResponse('deleted?')
 
-def updateFeed(request):
-    msg = Message.objects.all()
-    msg_data = serializers.serialize('json', msg, use_natural_foreign_keys=True)
-    return JsonResponse({'success': msg_data, 'username': request.user.get_username(), 'errorMsg': True})
+def updateFeed(request, type):
 
-    #separate message today vs other days
+    # # message of all times
+    # msg = Message.objects.all()
+    # msg_data = serializers.serialize('json', msg, use_natural_foreign_keys=True)
+    # return JsonResponse({'success': msg_data, 'username': request.user.get_username(), 'errorMsg': True})
+
+
+    if int(type) == 0:
+        #message of all times
+        msg = Message.objects.all()
+        msg_data = serializers.serialize('json', msg, use_natural_foreign_keys=True)
+        return JsonResponse({'success': msg_data, 'username': request.user.get_username(), 'errorMsg': True})
+    elif int(type) == 1:
+        #separate message today vs other days
+        msg = Message.objects.filter(posted_at__gte = datetime.now() - timedelta(days=1)) #returns all the comment from today
+        msg_data = serializers.serialize('json', msg, use_natural_foreign_keys=True)
+        print('msg :: ', msg_data)
+        return JsonResponse({'success': msg_data, 'username': request.user.get_username(), 'errorMsg': True})
+
+    # #separate message today vs other days
     # msg = Message.objects.exclude(posted_at__contains = datetime.now().date()) #returns all the comment except from today
     # msg_data = serializers.serialize('json', msg, use_natural_foreign_keys=True)
     # print('msg :: ', msg_data)
     # return HttpResponse('')
+
+
+
 
 
 

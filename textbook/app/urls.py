@@ -30,7 +30,7 @@ urlpatterns = [
     url('brainstorm/update/(?P<note_id>\d+)/', views.brainstormUpdate),
     url('brainstorm/del/(?P<note_id>\d+)', views.brainstormDelete),
     url(r'^ajax/chat/$', views.broadcast),
-    url('updateFeed', views.updateFeed),
+    url('updateFeed/(?P<type>\d+)', views.updateFeed),
     url('tableData/save/',views.tableEntriesSave),
     url('submitAnswer',views.submitAnswer),
     url('parser',views.pageParser),

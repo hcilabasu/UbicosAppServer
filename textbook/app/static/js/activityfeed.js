@@ -1,6 +1,18 @@
+var host_url = window.location.host
+
 $(function(){
 
-    var host_url = window.location.host
+    loadActivityFeed();
+
+
+
+})
+
+
+
+function loadActivityFeed(){
+
+    //this part of the code shows messages instantly when a message is posted.
     //initiate puhser with your application key
     var pusher = new Pusher('ea517de8755ddb1edd03',{
       cluster: 'us2',
@@ -63,8 +75,7 @@ $(function(){
           return false;
         }
       });
-
-})
+}
 
 function postMessage(){
     //get the user name who posted
@@ -103,11 +114,14 @@ function postMessage(){
 
 }
 
-function loadFeed(){
+function loadFeed(type){
+    //clear existing html so the new ones dont get appended
+    $('#activity-feed').empty();
+
     $.ajax({
 
             type:'GET',
-            url:'http://'+ host_url +'/updateFeed/',
+            url:'http://'+ host_url +'/updateFeed/'+type,
 
             success: function(response){
 
