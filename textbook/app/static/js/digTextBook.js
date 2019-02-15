@@ -462,11 +462,9 @@ var bindActivityButtons = function(){
         if($('.card.khanacademy').hasClass('active')){
             $('.card.' + type + ' h1').text("Khan Academy");
 
-            card_extension();
-
-
-
-            }
+            //at all times the card will be expanded; so no call to card expansion method
+            $('.card').css({'width':'100%'});
+      }
 
         //user logging
         enterLogIntoDatabase('activity select', type , 'activity-id-'+id, current_pagenumber)

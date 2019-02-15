@@ -2,7 +2,7 @@
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render, render_to_response
 from rest_framework.views import APIView
-from .models import imageModel, imageComment, Message, brainstormNote,userLogTable, tableChartData, userQuesAnswerTable, groupInfo, userLogTable
+from .models import imageModel, imageComment, Message, brainstormNote,userLogTable, tableChartData, userQuesAnswerTable, groupInfo, userLogTable, khanAcademyAnswer
 from django.contrib.auth import authenticate
 from django.http.response import JsonResponse
 from django.contrib.auth import login as auth_login
@@ -367,6 +367,12 @@ def submitAnswer(request):
 
     return HttpResponse('')
 
+def submitKAAnswer(request):
+
+    ka_answer = khanAcademyAnswer(ka_id=request.POST.get('id'), response=request.POST.get('answer'), posted_by = request.user)
+    ka_answer.save()
+
+    return HttpResponse('from server')
 
 def pageParser(request):
     #CASE 4: static method - FAIL, not possible to call `cls.get` or `self.get`

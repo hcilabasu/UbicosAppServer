@@ -6,16 +6,19 @@ $(function(){
     ka_submit_button();
     copy_ka_text_button();
 
+    //handle KA image upload
      $('#ka_img_upload').change(function(event){
          console.log('trying to upload photos')
          var form_data = new FormData($('#ka-upload-img-form')[0]);
          console.log('form_data', form_data);
          readURL_ka(this);
+         //TODO: save the image in database
      })
 
 })
 
 
+//handle file upload
 var readURL_ka = function(input) {
 
         $('#blah').attr('src', '').hide();
@@ -33,14 +36,26 @@ var readURL_ka = function(input) {
         }
     }
 
+//handle user answer submit
 var ka_submit_button = function(){
-    $('#ka-submit').click(function(){
+    $('#ka-submit').click(function(e){
+        e.preventDefault();
 
+        console.log("user entered: ", $('#KAAnswer').val())
+        //TODO: save the answer in database
+        saveKAresponseToDB(1, $('#KAAnswer').val());
+
+        //hide one div and show the other
         $('#ka-form-containter').hide();
         $('#ka-showAnsweredQues').show();
+
+        //TODO: get the student response and set the answer to the p tag
+
+        $('.ka-answer-p').text($('#KAAnswer').val())
    })
 }
 
+//method to copy student answer using a button
 var copy_ka_text_button = function(){
     $('.ka-row-copy-button').click(function(){
         //https://jqueryhouse.com/copy-data-to-clipboard-using-jquery/
@@ -58,21 +73,26 @@ var copy_ka_text_button = function(){
     })
 }
 
-var readURL_ka = function(input) {
+var saveKAresponseToDB = function(id, answer_text){
 
-        console.log("here")
-        if (input.files && input.files[0]) {
-            var reader = new FileReader();
+        $.post({
 
-            reader.onload = function (e) {
-                $('#blah')
-                    .attr('src', e.target.result)
-                    .width(150)
-                    .height(200);
-            };
+               async: false,
+               url:'/submitKAAnswer',
+               data: {
+                    'id': id,
+                    'answer': answer_text
+                    },
+               success: function(response){
 
-            reader.readAsDataURL(input.files[0]);
-        }
-    }
+                    console.log(response)
+            }
+
+            });
+
+
+            //send to user log as well
+            //enterLogIntoDatabase('submit pressed', 'answer question' , value, current_pagenumber)
+}
 
 

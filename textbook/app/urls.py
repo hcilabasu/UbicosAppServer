@@ -33,6 +33,7 @@ urlpatterns = [
     url('updateFeed/(?P<type>\d+)', views.updateFeed),
     url('tableData/save/',views.tableEntriesSave),
     url('submitAnswer',views.submitAnswer),
+    url('submitKAAnswer',views.submitKAAnswer),
     url('parser',views.pageParser),
     url('camera',views.camera),
     url('userlog', views.userlog),

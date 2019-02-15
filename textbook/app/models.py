@@ -35,6 +35,15 @@ class imageComment(models.Model):
     def natural_key(self):
         return (self.posted_by.username)
 
+class khanAcademyAnswer(models.Model):
+    ka_id = models.IntegerField()
+    ka_image = models.ImageField(upload_to='ka_images')
+    posted_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    posted_at = models.DateTimeField(auto_now_add=True)
+    response = models.CharField(max_length=1000)
+
+    def natural_key(self):
+        return (self.posted_by.username)
 
 # activity feed message
 class Message(models.Model):
