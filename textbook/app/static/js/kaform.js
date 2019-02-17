@@ -3,7 +3,7 @@ $(function(){
 
     $('#ka-showAnsweredQues').hide();
 
-    ka_submit_button();
+    //ka_submit_button();
     copy_ka_text_button();
 
     //handle KA image upload
@@ -14,6 +14,22 @@ $(function(){
          readURL_ka(this);
          //TODO: save the image in database
      })
+
+    //handle textarea on focus out
+    $('#KAAnswer').blur(function() {
+
+            console.log("user entered: ", $('#KAAnswer').val())
+            //TODO: save the answer in database
+            saveKAresponseToDB(1, $('#KAAnswer').val());
+
+            //hide one div and show the other
+            $('#ka-form-containter').hide();
+            $('#ka-showAnsweredQues').show();
+
+            //TODO: get the student response and set the answer to the p tag
+
+            $('.ka-answer-p').text($('#KAAnswer').val())
+        });
 
 })
 
@@ -37,23 +53,23 @@ var readURL_ka = function(input) {
     }
 
 //handle user answer submit
-var ka_submit_button = function(){
-    $('#ka-submit').click(function(e){
-        e.preventDefault();
-
-        console.log("user entered: ", $('#KAAnswer').val())
-        //TODO: save the answer in database
-        saveKAresponseToDB(1, $('#KAAnswer').val());
-
-        //hide one div and show the other
-        $('#ka-form-containter').hide();
-        $('#ka-showAnsweredQues').show();
-
-        //TODO: get the student response and set the answer to the p tag
-
-        $('.ka-answer-p').text($('#KAAnswer').val())
-   })
-}
+//var ka_submit_button = function(){
+//    $('#ka-submit').click(function(e){
+//        e.preventDefault();
+//
+//        console.log("user entered: ", $('#KAAnswer').val())
+//        //TODO: save the answer in database
+//        saveKAresponseToDB(1, $('#KAAnswer').val());
+//
+//        //hide one div and show the other
+//        $('#ka-form-containter').hide();
+//        $('#ka-showAnsweredQues').show();
+//
+//        //TODO: get the student response and set the answer to the p tag
+//
+//        $('.ka-answer-p').text($('#KAAnswer').val())
+//   })
+//}
 
 //method to copy student answer using a button
 var copy_ka_text_button = function(){
