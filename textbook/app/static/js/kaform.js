@@ -19,14 +19,12 @@ $(function(){
     $('#KAAnswer').blur(function() {
 
             console.log("user entered: ", $('#KAAnswer').val())
-            //TODO: save the answer in database
-            saveKAresponseToDB(1, $('#KAAnswer').val());
+            //TODO: add user log event; user log event will capture multiple attempts but model will store the latest answer
+            saveKAresponseToDB(2, $('#KAAnswer').val());
 
             //hide one div and show the other
             $('#ka-form-containter').hide();
             $('#ka-showAnsweredQues').show();
-
-            //TODO: get the student response and set the answer to the p tag
 
             $('.ka-answer-p').text($('#KAAnswer').val())
         });
