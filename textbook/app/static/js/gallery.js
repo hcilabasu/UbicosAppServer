@@ -720,7 +720,7 @@ function showPrompt(message){
     //TODO: log these, student response vs prompts to analyze better later
     //TODO: come up with classification
     //https://www.tjvantoll.com/2013/03/14/better-ways-of-comparing-a-javascript-string-to-multiple-values/
-    
+
     var word = 'multiply,divide'
     //https://stackoverflow.com/questions/34198021/regex-exact-match-multiple-search-words-using-jquery
     var regexExactMatch = new RegExp('\\b' + word.split(",").join("|")+ '\\b');
@@ -733,6 +733,7 @@ function showPrompt(message){
     }
     else{
         $('p#prompt-p').text("great response");
+        $('#prompt-badge-img').attr('src','/static/pics/video.png');
     }
 
 }
