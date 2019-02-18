@@ -716,8 +716,20 @@ function showPrompt(message){
     $('.prompt-card.prompt').addClass('active');
     var lengthOfMsg = message.length;
     console.log('message length :: ', lengthOfMsg)
+
+    //TODO: log these, student response vs prompts to analyze better later
+    //TODO: come up with classification
+    //https://www.tjvantoll.com/2013/03/14/better-ways-of-comparing-a-javascript-string-to-multiple-values/
+    
+    var word = 'multiply,divide'
+    //https://stackoverflow.com/questions/34198021/regex-exact-match-multiple-search-words-using-jquery
+    var regexExactMatch = new RegExp('\\b' + word.split(",").join("|")+ '\\b');
+
     if (lengthOfMsg < 3){
-         $('p#prompt-p').text("great response, do you want to add an example?");
+         $('p#prompt-p').text("great response, but do you want to add an example?");
+    }//else if (RegExp( '\\b' + word + '\\b', 'i').test(message)){
+    else if(regexExactMatch.test(message)){
+        $('p#prompt-p').text("your response has multiply, add an example?");
     }
     else{
         $('p#prompt-p').text("great response");
