@@ -301,7 +301,7 @@ $(function(){
             $("#file-upload").change(function(){
                 readURL(this);
             });
- //update preview image
+             //update preview image
             $("#file-upload").change(function(){
                 readURL(this);
             });
@@ -359,6 +359,26 @@ $(function(){
                 enterLogIntoDatabase('camera select', 'camera to take photo' , 'none', current_pagenumber)
             })
 
+            //join-group-demo
+            $('.join-group').click(function(e){
+                //go to server and see if you can join the group
+                console.log('trying to join the group')
+                $.post({
+                    url: '/joingroup',
+                    data: {
+
+                    },
+                    success: function (data) {
+                        alert(data)
+
+                    },
+                    error: function(data){
+
+                    }
+                });
+
+            })
+
  })
 
     function readURL(input) {
@@ -371,7 +391,7 @@ $(function(){
                 reader.readAsDataURL(input.files[0]);
         }
 
-}
+    }
 
     //function called from digTextBook.js
 

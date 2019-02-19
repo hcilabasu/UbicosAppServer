@@ -2,7 +2,7 @@
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render, render_to_response
 from rest_framework.views import APIView
-from .models import imageModel, imageComment, Message, brainstormNote,userLogTable, tableChartData, userQuesAnswerTable, groupInfo, userLogTable, khanAcademyAnswer
+from .models import imageModel, imageComment, Message, brainstormNote,userLogTable, tableChartData, userQuesAnswerTable, groupInfo, userLogTable, khanAcademyAnswer, group_join_six
 from django.contrib.auth import authenticate
 from django.http.response import JsonResponse
 from django.contrib.auth import login as auth_login
@@ -241,7 +241,7 @@ def getImageID(request,img_filename):
     img = imageModel.objects.filter(image='images/'+img_filename)
     image_data = serializers.serialize('json', img, use_natural_foreign_keys=True)
     #print(image_data[0].fields)
-    print(img[0].pk)
+    #print(img[0].pk)
     return JsonResponse({'imageData': image_data})
 
 def imageDelete(request, img_id):
@@ -377,6 +377,29 @@ def submitKAAnswer(request):
         ka_answer.save()
 
     return HttpResponse('from server')
+
+def joingroup(request):
+    #TODO: pass the group number
+
+    # check if a user has joined a group or not; if not add him in a group if group has still empty place
+    # https://stackoverflow.com/questions/3090302/how-do-i-get-the-object-if-it-exists-or-none-if-it-does-not-exist
+    try:
+        isUserPresent = group_join_six.objects.get(users_id=request.user)
+        print('inside try', isUserPresent)
+        return HttpResponse('unable to join the group, already joined a group')
+    except group_join_six.DoesNotExist:
+        print('inside except')
+        isUserPresent = None
+        # count total number of members in the group
+        member_count = group_join_six.objects.filter(group='A').count()
+        print('total member count', member_count)
+        if member_count < 6: #allows 6 members
+            group_member = group_join_six(users = request.user, group='A')
+            group_member.save();
+            return HttpResponse('successfully joined the group')
+        else:
+            return HttpResponse('unable to join the group, group exceeded 6 members')
+
 
 def pageParser(request):
     #CASE 4: static method - FAIL, not possible to call `cls.get` or `self.get`
