@@ -11,7 +11,7 @@ from django.contrib.auth.models import User
 from django.db.models import Count
 from django.core import serializers
 from .parser import parser
-import json
+import json, random
 from datetime import datetime, timedelta
 from collections import Counter
 
@@ -379,26 +379,53 @@ def submitKAAnswer(request):
     return HttpResponse('from server')
 
 def joingroup(request):
-    #TODO: pass the group number
 
-    # check if a user has joined a group or not; if not add him in a group if group has still empty place
-    # https://stackoverflow.com/questions/3090302/how-do-i-get-the-object-if-it-exists-or-none-if-it-does-not-exist
-    try:
-        isUserPresent = group_join_six.objects.get(users_id=request.user)
-        print('inside try', isUserPresent)
-        return HttpResponse('unable to join the group, already joined a group')
-    except group_join_six.DoesNotExist:
-        print('inside except')
-        isUserPresent = None
-        # count total number of members in the group
-        member_count = group_join_six.objects.filter(group='A').count()
-        print('total member count', member_count)
-        if member_count < 6: #allows 6 members
-            group_member = group_join_six(users = request.user, group='A')
-            group_member.save();
-            return HttpResponse('successfully joined the group')
-        else:
-            return HttpResponse('unable to join the group, group exceeded 6 members')
+    users_list = [str(user) for user in User.objects.all()];
+    users_list = [n for n in users_list if n not in ['AW', 'user1', 'user2']]
+    print(users_list)
+    member_limit = 4;
+
+    users_list_copy = users_list
+    group_list = []
+    while len(users_list_copy) > 0:  # use all users
+        if (len(users_list_copy) < member_limit):
+            used_users = users_list_copy
+            username_list_2 = [n for n in users_list_copy if n not in used_users]
+            group_list.append(used_users)
+            #print('groups:: ', used_users)
+            break
+        used_users = random.sample(users_list_copy, member_limit)
+        group_list.append(used_users)
+        #print('groups:: ', used_users)
+        users_list_copy = [n for n in users_list_copy if n not in used_users]
+        #print(users_list_copy)
+
+    #print(group_list)
+
+    #iterate through the list and make entry
+    group_index = 0;
+    for group_index in range(len(group_list)):
+        print(group_list[group_index])
+    return HttpResponse('')
+
+    # # check if a user has joined a group or not; if not add him in a group if group has still empty place
+    # # https://stackoverflow.com/questions/3090302/how-do-i-get-the-object-if-it-exists-or-none-if-it-does-not-exist
+    # try:
+    #     isUserPresent = group_join_six.objects.get(users_id=request.user)
+    #     print('inside try', isUserPresent)
+    #     return HttpResponse('unable to join the group, already joined a group')
+    # except group_join_six.DoesNotExist:
+    #     print('inside except')
+    #     isUserPresent = None
+    #     # count total number of members in the group
+    #     member_count = group_join_six.objects.filter(group='A').count()
+    #     print('total member count', member_count)
+    #     if member_count < 6: #allows 6 members
+    #         group_member = group_join_six(users = request.user, group='A')
+    #         group_member.save();
+    #         return HttpResponse('successfully joined the group')
+    #     else:
+    #         return HttpResponse('unable to join the group, group exceeded 6 members')
 
 
 def pageParser(request):

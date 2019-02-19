@@ -369,7 +369,7 @@ $(function(){
 
                     },
                     success: function (data) {
-                        alert(data)
+
 
                     },
                     error: function(data){
