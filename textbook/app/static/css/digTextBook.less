@@ -393,6 +393,45 @@ a {
     color: @khanacademy1;
 }
 
+
+
+    .verticalDivider {
+        display: grid;
+        height: 100%;
+        width: 100%;
+        padding: 0;
+        margin: 0 !important;
+        grid-template-columns: 50% 50%;
+
+        .row {
+            display: block;
+            max-height: 50% !important;
+            width:100%;
+            overflow: hidden;
+
+        }
+        }
+
+    #row-left, #row-right{
+    overflow-x: auto;
+
+    }
+
+
+    #row-left{
+    overflow: hidden;
+    position: relative;
+    grid-column: 1;
+
+    }
+
+    #row-right{
+
+    grid-column: 2;
+    position: relative;
+
+    }
+
 #ka-container {
     display: grid;
     height: 100%;
@@ -499,7 +538,7 @@ a {
     display: inline-block;
     position: absolute;
     top: 15px;
-    right: 100px;
+    right: 150px;
     height: 30px;
     width: 30px;
     background: url('/static/pics/back-arrow.png') no-repeat;
@@ -595,6 +634,16 @@ a {
     display: inline-block;
     height: 58px;
     width: 58px !important;
+    background: #C9DDE4;
+    border-radius: 40px;
+    text-align: center;
+}
+
+.user-image-posted-by {
+    position: relative;
+    display: inline-block;
+    height: 40px;
+    width: 40px !important;
     background: #C9DDE4;
     border-radius: 40px;
     text-align: center;
@@ -772,6 +821,8 @@ a {
     margin: 0 20px;
 }
 
+
+
 #gallery-user-submission .btn {
     top: 50%;
 }
@@ -828,36 +879,33 @@ a {
 #single-image-view { 
 
     height: 100%;
+    width: 100%;
     
     #image-feed {
+
+        height: 85%;
         padding: 15px;
         margin-bottom: 0;
+        overflow-y:auto;
+        -webkit-overflow-scrolling: touch;
+
+
     }
 
     .section { 
-        height: 300px;
+        height: 100%;
+        padding: 0px;
 
         img {
             max-height: 80%;
             max-width: 80%;
             width: auto;
             height: auto;
-        }
-    }
-
-    .verticalDivider {
-        height: 95%;
-        width: 100%;
-        margin: 0 !important;
-    
-        .row {
-            display: block;
-            max-height: 50% !important;
-            width:100%;
-            overflow: auto;
 
         }
     }
+
+
 
     .message-input {
         position: absolute;
@@ -892,10 +940,11 @@ a {
     transform: translateY(-50%) scale(-1);
 }
 
-.gallery_image_user_name{
+.gallery-image-user-name{
     position: absolute;
-    top:290px;
-    left:150px;
+    bottom: 20%;
+    left: 35%;
+    color:black;
 }
 
 .gallery .feed {
@@ -1407,6 +1456,7 @@ a {
 }
 
 
+
 /* user prompt related css start*/
 .prompt {
     background-color: #82C091;
@@ -1471,3 +1521,16 @@ a {
 }
 
 /* user prompt related css finish*/
+
+.posted_by_image{
+    position: absolute;
+    top: 7px;
+    left: 125px;
+
+}
+
+.back-to-gallery{
+    display: none;
+}
+
+
