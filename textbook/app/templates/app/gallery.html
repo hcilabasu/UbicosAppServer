@@ -51,25 +51,24 @@
 
     <div id="single-image-view" class="gallery-panel" style="display:none">
         <div class="verticalDivider">
-            <div class="row">
-                <a id="backToGallery" href=""></a> <!--functionality defined in gallery.js; css defined in digTextBook.less-->
+            <div id="row-left">
+                 <!--functionality defined in gallery.js; css defined in digTextBook.less-->
                 <div class="section">
                     <a href="" class="previous-image"></a>
                     <a href="" class="next-image"></a>
                     <!--<a href="#" class="gallery_image_user_name">here i am</a>-->
                     <input type="hidden" name="image-index" value=""/>
                     <input type="hidden" name="image-db-pk" value=""/>
+                    <div class = "posted_by_image"></div>
 
                 </div>
             </div>
 
-            <div class="row">
+            <div id="row-right">
+                <a id="backToGallery" href=""></a>
                 <ul id="image-feed" class="feed">
                 </ul> 
                     
-            </div>
-        </div>
-
         <div class="prompt-card prompt">
             <a class="prompt-close-card"></a>
             <!--<span id="prompt-p"></span>-->
@@ -80,12 +79,14 @@
 
         </div>
 
-         <div class="message-input" id="gallery-msg-containter-bottom">
-                <input type="text" id="image-msg-text" name="image-msg-text" placeholder="Comment on this picture">
-                <input type="hidden" name="username" value={{ user.get_username }}>
-                <a href="" id="image-msg-send-btn"></a>
-         </div>
-
+        <div class="message-input">
+            <input type="text" id="image-msg-text" name="image-msg-text" placeholder="Comment on this picture">
+            <input type="hidden" name="username" value={{ user.get_username }}>
+            <a href="" id="image-msg-send-btn"></a>
+        </div>
+            </div>
     </div>
+    </div>
+
 </div>
 

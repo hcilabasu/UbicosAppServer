@@ -249,7 +249,7 @@ $(function(){
                         var closeBtn = $('<span class="object_delete"></span>');
 
                         closeBtn.click(function(e){
-
+                                card_extension_close();
                                 e.preventDefault();
                                 //get ID of the deleted note
                                 var deletedImageID = obj.image_id;
@@ -308,6 +308,7 @@ $(function(){
 
             //previous image button
             $(".previous-image").click(function(e){
+              card_extension();
                 e.preventDefault();
 
                 var val = $('input[name=image-index]').val() - 1
@@ -327,6 +328,7 @@ $(function(){
 
             //next image button
             $(".next-image").click(function(e){
+                card_extension();
                 e.preventDefault();
 
                 var val = eval($('input[name=image-index]').val()) + 1
@@ -351,6 +353,7 @@ $(function(){
                 e.preventDefault();
                 enterLogIntoDatabase('back to gallery button click', 'gallery back view click' , 'total photo '+totalPhoto, current_pagenumber)
                 $("#single-image-view").hide()
+                // card_extension_close();
                 $("#gallery-panel").show()
             })
 
@@ -544,7 +547,7 @@ function displayGallery(view, groupValue){
                   //add delete button functionality
                    var closeBtn = $('<span class="object_delete"></span>');
                    closeBtn.click(function(e){
-
+                        card_extension_close();
                         e.preventDefault();
                         //get ID of the deleted note
                         var deletedImageID = value.pk;
@@ -617,6 +620,7 @@ function displayGallery(view, groupValue){
 
 
 var openImageView = function(galleryView, image){
+    card_extension();
 
     var singleImageViewer = $('#single-image-view');
 
@@ -657,11 +661,32 @@ var openImageView = function(galleryView, image){
         }
     })
 
-    //add image posted by name
+      var get_user_group_id
+            $.ajax({
+                type:'GET',
+                url:'http://'+ host_url +'/getGroupID/'+$('input[name="act-id"]').val(),
+                async: false, //wait for ajax call to finish, else logged_in is null in the following if condition
+                success: function(e){
+                    get_user_group_id = e;
+                    console.log("@@@@,", e)
+                }
+            });
+
+
+
+    //picture and username for posted photo
+    //clear previous image
+    //$('div.posted_by_image').empty();
+
+    //add image icon by username
+     //var div = $("<div/>").appendTo('.posted_by_image');
+     //div.addClass('user-image-posted-by');
+
     //clear if any name added before
-    $('span.gallery_image_user_name').text('');
+   $('span.gallery_image_user_name').text('');
+
     //now add the name
-    $('.section').append('<span class="gallery_image_user_name">Added by '+ imagePostedBy +'</span>');
+    $('.section').append('<span class="gallery-image-user-name"><b> Group '+ get_user_group_id + ' </b> <font color="#a8aaad"> timestamp</font></span>');
 
     //with each click update the input
     $('.section input[name="image-db-pk"]').attr('value', imageID)
@@ -763,4 +788,31 @@ function showPrompt(message){
         $(this).closest('.prompt-card').removeClass('active');
 
     });
+
+var card_extension = function(){
+
+    var width = $(".card").width() / $('.card').parent().width() * 100
+    width = width/2;
+
+    //if (width == 50){
+        $('.card').css({'width':'100%'});
+    //}else{
+       // $('.card').css({'width':'50%'});
+    //}
+
+}
+
+var card_extension_close = function(){
+
+    var width = $(".card").width() / $('.card').parent().width() * 100
+    width = width/2;
+
+    //if (width == 100){
+        $('.card').css({'width':'50%'});
+    //}
+
+}
+
+
+
 
