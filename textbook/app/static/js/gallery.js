@@ -367,7 +367,7 @@ $(function(){
                 //go to server and see if you can join the group
                 console.log('trying to join the group')
                 $.post({
-                    url: '/joingroup',
+                    url: '/randomDiscussionGroupCreate',
                     data: {
 
                     },

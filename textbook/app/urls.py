@@ -36,7 +36,7 @@ urlpatterns = [
     url('submitKAAnswer',views.submitKAAnswer),
     url('parser',views.pageParser),
     url('camera',views.camera),
-    url('joingroup',views.joingroup),
+    url('randomDiscussionGroupCreate',views.random_discussion_group_generator),
     url('userlog', views.userlog),
     url(r'^extensionlog/$', views.userLogFromExtenstion),
     url('delete', views.deleteAllItems, name='activities'),

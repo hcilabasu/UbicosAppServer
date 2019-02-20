@@ -17,7 +17,6 @@ from collections import Counter
 
 
 
-
 # activity feed code -- start
 from pusher import Pusher
 from django.views.decorators.csrf import csrf_exempt
@@ -378,7 +377,7 @@ def submitKAAnswer(request):
 
     return HttpResponse('from server')
 
-def joingroup(request):
+def random_discussion_group_generator(request):
 
     users_list = [str(user) for user in User.objects.all()];
     users_list = [n for n in users_list if n not in ['AW', 'user1', 'user2']]
@@ -403,9 +402,15 @@ def joingroup(request):
     #print(group_list)
 
     #iterate through the list and make entry
-    group_index = 0;
+    group_index = 1;
     for group_index in range(len(group_list)):
-        print(group_list[group_index])
+        group = group_list[group_index]
+        for g in group:
+            user =  User.objects.get(username=g)
+            print(user)
+            group_member = group_join_six(users=user, group=group_index)
+            group_member.save();
+
     return HttpResponse('')
 
     # # check if a user has joined a group or not; if not add him in a group if group has still empty place
@@ -815,9 +820,9 @@ def addUserToGroupsForm(request):
 def deleteAllItems(request):
     # brainstormNote.objects.all().delete()
     # imageModel.objects.all().delete()
-    Message.objects.all().delete()
-    # imageComment.objects.all().delete();
-    userLogTable.objects.all().delete();
-    groupInfo.objects.all().delete()
+    # Message.objects.all().delete()
+    #group_join_six.objects.all().delete();
+    # userLogTable.objects.all().delete();
+    # groupInfo.objects.all().delete()
 
     return HttpResponse('')
