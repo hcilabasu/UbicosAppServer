@@ -398,6 +398,10 @@ var bindActivityButtons = function(){
             $("input[name='group-id']").attr('value', user_group_id);
             viewDiv(view, user_group_id);
 
+            //indicate that its not a middleGroupDiscussion -- variable used to extract comments as needed
+            //defined in gallery.js (top)
+            middleGroupDiscussion = 'no';
+
             //if the card is already extended, put it back to normal
             card_extension_close();
         }

@@ -94,9 +94,10 @@
 
 
             <!--https://stackoverflow.com/questions/2753308/different-form-action-depending-on-button-pressed-->
-            <button id="create-bulk-user" type="submit" formaction="/createBulkUser"value="create-user" class="user-input-submit-button" style="display: block; margin: 0 auto;">Create 28 Users</button>
-            <button id="add-group" type="submit" formaction="/groupAdd"value="create-user" class="user-input-submit-button" style="display: block; margin: 0 auto;">Add User to Group</button>
-
+            <button id="create-bulk-user" type="submit" formaction="/createBulkUser" value="create-user" class="user-input-submit-button" style="display: block; margin: 0 auto;">Create 28 Users</button>
+            <button id="add-group" type="submit" formaction="/groupAdd" value="add-user-group" class="user-input-submit-button" style="display: block; margin: 0 auto;">Add User to Group</button>
+            <button id="random-group-create" type="submit" formaction="/randomDiscussionGroupCreate" value="random-Discussion-Group-Create" class="user-input-submit-button" style="display: block;
+             margin: 0 auto;">Random Discussion Group Create (4)</button>
             <input type="hidden" name="next" value="{{ next }}"/>
         </form>
 

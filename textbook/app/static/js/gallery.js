@@ -3,6 +3,7 @@ var host_url = window.location.host
 var logged_in = ''
 var totalPhoto
 var groupArray = ['A', 'B','C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K']
+var middleGroupDiscussion = 'no'
 
 $(function(){
 
@@ -71,61 +72,14 @@ $(function(){
 
             postImageMessage();
 
-//remove this section if everything works fine.
-//        //get the user name who posted
-//            var user_name = $("input[name='username']").val()
-//            console.log(user_name);
-//
-//        //get the currently typed message
-//            var message = $("input[name='image-msg-text']").val();
-//            console.log('user message :: '+message)
-//
-//        //call the method to handle prompting
-//            console.log("call show prompt here")
-//            showPrompt(message);
-//
-//        //get the gallery id of the image
-//            var gallery_id = $("input[name='act-id']").val();
-//            console.log('image gallery id :: ', gallery_id)
-//
-//            var imagePk = $("input[name='image-db-pk']").val();
-//            console.log('image pk :: ',imagePk)
-//
-//
-//            if(message == ""){
-//                console.log('empty input gallery')
-//                enterLogIntoDatabase('input button click', 'image-feed empty message input' , message, current_pagenumber)
-//            }
-//            else{
-//                  enterLogIntoDatabase('input button click', 'image-feed message input' , message, current_pagenumber)
-//                 //posts student comment in database - can be extracted using image primary key.
-//                $.post({
-//                    url: '/ajax/imageComment/',
-//                    data: {
-//                    'username': user_name,
-//                    'message':  message,
-//                    'imagePk': imagePk
-//                    },
-//                    success: function (data) {
-//
-//                        //empty the message pane
-//                        $("input[name='image-msg-text']").val('');
-//
-//                        //console.log(data)
-//
-//                    }
-//                });
-//
-//            }
-//remove upto this if message sent works fine
-
-
         })
 
 
 
         //show submissions based on the user group
         $("#mySubmission").click(function(e){
+
+         middleGroupDiscussion = 'no';
 
          //highlight the selected button
          $(this).css('background-color', '#006600');
@@ -154,6 +108,7 @@ $(function(){
         //show all submissions except the user group
         $("#allSubmission").click(function(e){
 
+            middleGroupDiscussion = 'no';
            //highlight the selected button
            $(this).css('background-color', '#006600');
            //unhighlight the other
@@ -297,10 +252,7 @@ $(function(){
 
             });
 
-            //update preview image
-            $("#file-upload").change(function(){
-                readURL(this);
-            });
+
              //update preview image
             $("#file-upload").change(function(){
                 readURL(this);
@@ -364,15 +316,19 @@ $(function(){
 
             //join-group-demo
             $('.join-group').click(function(e){
+                middleGroupDiscussion = 'yes';
                 //go to server and see if you can join the group
                 console.log('trying to join the group')
                 $.post({
-                    url: '/randomDiscussionGroupCreate',
+                    url: '/getMediumGroupDiscussion',
                     data: {
+
+                    //pass the gallery number here
 
                     },
                     success: function (data) {
-
+                        console.log(data.success)
+                        showImageInGallery(data.success)
 
                     },
                     error: function(data){
@@ -383,6 +339,111 @@ $(function(){
             })
 
  })
+
+ function showImageInGallery(data){
+
+           img_data = data;
+           console.log(img_data)
+
+           $('#gallery').empty();
+
+           $.each(img_data, function(key, value){
+                 //console.log(value)
+                 var obj = jQuery.parseJSON(value);
+                 console.log(obj)
+
+                 if(obj.length === 0) return; //continue;
+
+                 //TODO: obj can have multiple image; current code handles only one image
+                 var groupID = groupArray[obj[0].fields['group_id']-1];
+                 var li = $("<li/>").appendTo("#gallery");
+
+                 if(logged_in == obj[0].fields['posted_by'][0]){
+
+                 //adding image delete span on the image
+                 var span = $('<span/>')
+                    .addClass('object_delete')
+                    .appendTo(li);
+
+                 var img = $('<img/>', {
+                   src : 'http://'+ host_url +'/media/'+obj[0].fields['image'] })
+                   .css({opacity:1.0})
+                   .appendTo(li);
+
+                 var span_badge = $('<span/>')
+                        .addClass('badge')
+                        .text(groupID)
+                        .appendTo(li);
+
+                 //add delete button functionality
+                 var closeBtn = $('<span class="object_delete"></span>');
+                   closeBtn.click(function(e){
+                        card_extension_close();
+                        e.preventDefault();
+                        //get ID of the deleted note
+                        var deletedImageID = value.pk;
+                        console.log('deleted image id :: ', deletedImageID);
+                        $(this).parent().remove(); //remove item from html
+
+                        enterLogIntoDatabase('delete image', 'image delete from gallery' , 'image-delete-'+deletedImageID, 111)
+
+
+                      //delete note from database
+                        $.ajax({
+                            type:'POST',
+                            url:'/gallery/del/'+deletedImageID,
+                            async: false, //wait for ajax call to finish,
+                            success: function(e){
+                                console.log(e)
+                                //TODO: add user log
+
+                            }
+                        })
+
+
+                        return false;
+                    });
+
+                    li.append(closeBtn);
+
+                 }else{
+
+                   //just add others image to the gallery
+                   var img = $('<img/>', {
+                   src : 'http://'+ host_url +'/media/'+obj[0].fields['image'] }).appendTo(li);
+
+                    var span_badge = $('<span/>')
+                            .addClass('badge')
+                            .text(groupID)
+                            .appendTo(li);
+
+                }
+
+               // Add clickhandler to open the single image view
+               img.on('click', function(event){
+
+                   enterLogIntoDatabase('gallery image view', 'gallery individual image view' , 'image-select-id-'+value.pk , 111)
+
+                   //console.log($(this).parent().siblings().length); //+1 gives me the total number of images in the gallery
+                   totalPhoto = $(this).parent().siblings().length+1;
+
+                   //use the following value to navigate through the gallery
+                   //console.log($(this).parent().index()) //gives the index of li within the ul id = gallery
+                   $('.section input[name="image-index"]').attr('value', $(this).parent().index())
+
+                   openImageView($('#gallery-view'), $(this));
+
+
+               });
+
+            //reverse the image order
+            var list = $('#gallery');
+            var listItems = list.children('li');
+            list.append(listItems.get().reverse());
+
+        });
+
+ }
 
     function readURL(input) {
 
@@ -432,7 +493,8 @@ $(function(){
                 data: {
                 'username': user_name,
                 'message':  message,
-                'imagePk': imagePk
+                'imagePk': imagePk,
+                'discussion-type': middleGroupDiscussion,
                 },
                 success: function (data) {
                     //empty the message pane
@@ -693,13 +755,24 @@ var openImageView = function(galleryView, image){
     //update feed
     //clear update feed with new image
     $('#image-feed').empty();
-    //update feed with each image
+
+   //
+   var updateImageURL
+    if(middleGroupDiscussion == 'yes'){
+        updateImageURL = '/updateDiscussionImageFeed/'
+    }else{
+        updateImageURL = '/updateImageFeed/'+imageID
+    }
+     //update feed with each image
      $.ajax({
              type: 'GET',
-             url: '/updateImageFeed/'+imageID, //get image comment using primary id
+             url: updateImageURL, //get image comment using primary id
+             data: {
+                //pass gallery ID
+             },
              success: function(response){
-                      console.log(response)
 
+                    console.log(response)
 
                     var logged_in_user = response.username //passed from views.py - updateFeed
 
@@ -731,8 +804,8 @@ var openImageView = function(galleryView, image){
 
 
                         // Scroll panel to bottom
-                        var imageFeedParent = $('#image-feed').closest('.row');
-                        imageFeedParent.scrollTop(imageFeedParent[0].scrollHeight);
+                        //var imageFeedParent = $('#image-feed').closest('.row');
+                        //imageFeedParent.scrollTop(imageFeedParent[0].scrollHeight);
              }
      });
 

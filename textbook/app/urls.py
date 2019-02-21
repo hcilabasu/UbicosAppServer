@@ -37,6 +37,8 @@ urlpatterns = [
     url('parser',views.pageParser),
     url('camera',views.camera),
     url('randomDiscussionGroupCreate',views.random_discussion_group_generator),
+    url('getMediumGroupDiscussion',views.getMediumGroupDiscussion),
+    url('updateDiscussionImageFeed',views.updateDiscussionImageFeed),
     url('userlog', views.userlog),
     url(r'^extensionlog/$', views.userLogFromExtenstion),
     url('delete', views.deleteAllItems, name='activities'),

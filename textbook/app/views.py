@@ -50,6 +50,7 @@ def broadcast(request):
 @csrf_exempt
 def broadcastImageComment(request):
 
+    print('image broad cast', request.POST['discussion-type'])
     pusher1.trigger(u'b_channel', u'bn_event', {u'name': request.POST['username'], u'message': request.POST['message'], u'imageid': request.POST['imagePk'] })
 
     #get the image id
@@ -57,7 +58,7 @@ def broadcastImageComment(request):
     print('image primary id type',type(img))
     #error: id is not instance of the model
     #solution: https://www.slideshare.net/BaabtraMentoringPartner/how-to-fix-must-be-an-instance-when-a-foreign-key-is-referred-django-python-mysql
-    comment = imageComment(content=request.POST['message'], posted_by = request.user, imageId = img)
+    comment = imageComment(content=request.POST['message'], posted_by = request.user, imageId = img, isGroupDiscussion=request.POST['discussion-type'])
     comment.save()
 
     return JsonResponse({'success': '', 'errorMsg': True})
@@ -82,10 +83,7 @@ def broadcastBrainstormNote(request):
     return JsonResponse({'id': note.id, 'errorMsg': True})
 
 
-
-    #return JsonResponse({'success': '', 'errorMsg': True})
 #in the browser: http://127.0.0.1:8000/app/
-
 def getUsername(request):
     if request.user.is_authenticated:
         print('username :: ', request.user.get_username())
@@ -214,15 +212,10 @@ def uploadImage(request):
 def getImage(request, view_id, gallery_id,group_id):
 
     # for pilot/study
-    print("@@@@", view_id)
-
-
     if(int(view_id) == 1): #view_id = 1 means comment view
-        print("@@@@inside if", view_id)
         images = imageModel.objects.exclude(group_id=group_id)
         images = images.filter(gallery_id=gallery_id)
     else:
-
         images = imageModel.objects.filter(gallery_id=gallery_id)
         images = images.filter(group_id=group_id)
 
@@ -278,15 +271,10 @@ def updateFeed(request, type):
     # print('msg :: ', msg_data)
     # return HttpResponse('')
 
-
-
-
-
-
 def updateImageFeed(request, img_id):
 
     print('updateImageFeed (image_id) :: ' + img_id)
-    img_msg = imageComment.objects.filter(imageId_id=img_id)
+    img_msg = imageComment.objects.filter(isGroupDiscussion='no').filter(imageId_id=img_id)
     img_msg = serializers.serialize('json', img_msg, use_natural_foreign_keys=True, use_natural_primary_keys=True)
 
     return JsonResponse({'success': img_msg, 'username': request.user.get_username(),'errorMsg': True})
@@ -327,7 +315,6 @@ def brainstormUpdate(request, note_id):
 
 def brainstormDelete(request,note_id):
 
-
     print('NOTEID', note_id);
 
     b = brainstormNote.objects.get(pk=note_id)
@@ -339,7 +326,6 @@ def brainstormDelete(request,note_id):
 
 
 def userlog(request):
-
 
     log = userLogTable(username=request.user, action=request.POST.get('action'), type=request.POST.get('type'),
                        input=request.POST.get('input'), pagenumber=request.POST.get('pagenumber'))
@@ -379,6 +365,9 @@ def submitKAAnswer(request):
 
 def random_discussion_group_generator(request):
 
+    #delete previoud grouping - if any
+    group_join_six.objects.all().delete();
+
     users_list = [str(user) for user in User.objects.all()];
     users_list = [n for n in users_list if n not in ['AW', 'user1', 'user2']]
     print(users_list)
@@ -402,13 +391,12 @@ def random_discussion_group_generator(request):
     #print(group_list)
 
     #iterate through the list and make entry
-    group_index = 1;
     for group_index in range(len(group_list)):
         group = group_list[group_index]
         for g in group:
             user =  User.objects.get(username=g)
             print(user)
-            group_member = group_join_six(users=user, group=group_index)
+            group_member = group_join_six(users=user, group=group_index+1) #plus 1 so the group number starts from 1 instead of 0
             group_member.save();
 
     return HttpResponse('')
@@ -431,6 +419,45 @@ def random_discussion_group_generator(request):
     #         return HttpResponse('successfully joined the group')
     #     else:
     #         return HttpResponse('unable to join the group, group exceeded 6 members')
+
+def  getMediumGroupDiscussion(request):
+
+    #TODO: get gallery ID
+    gallery_id = 1;
+
+    #get in which middle group for current user
+    middlegroup_id = group_join_six.objects.get(users_id=request.user).group #get the query first and access the group from that query
+
+    # find other users in this group
+    middlegroup_users = group_join_six.objects.filter(group=middlegroup_id)
+    # for o in middlegroup_users: print(o.users_id)
+
+    # get their original group from groupinfo table
+    image_data_all = []
+    for o in middlegroup_users:
+        originalgroup_id = groupInfo.objects.filter(users_id=User.objects.get(pk=o.users_id)).order_by('group').values('group').distinct()[0]['group']
+        #print('hell bell', originalgroup_id[0]['group'])
+
+        #for each original group id get the image posted by that group - there should one image per group atleast
+        images = imageModel.objects.filter(gallery_id=gallery_id)
+        images = images.filter(group_id=originalgroup_id)
+
+        image_data = serializers.serialize('json', images, use_natural_foreign_keys=True)
+        image_data_all.append(image_data)
+
+
+    print(image_data_all)
+
+    return JsonResponse({'success': image_data_all})
+
+def updateDiscussionImageFeed(request):
+
+    img_msg = imageComment.objects.filter(isGroupDiscussion='yes') #TODO: group wise image discussion
+    img_msg = serializers.serialize('json', img_msg, use_natural_foreign_keys=True, use_natural_primary_keys=True)
+    print(img_msg)
+
+    return JsonResponse({'success': img_msg, 'username': request.user.get_username(), 'errorMsg': True})
+
 
 
 def pageParser(request):
@@ -459,8 +486,6 @@ def getGalleryTableTD(request, act_id):
         images = imageModel.objects.filter(gallery_id=act_id)
     except imageModel.DoesNotExist:
         images = None
-
-
 
     image_list = []
     for im in images:
@@ -514,29 +539,6 @@ def createUser(request):
             # return invalid login message
             return render(request, 'app/login.html', {})
 
-
-
-    # user = User.objects.create_user('ant', '', 'ant');
-    # user.save();
-    # user = User.objects.create_user('bee', '', 'bee');
-    # user.save();
-    # user = User.objects.create_user('tiger', '', 'tiger');
-    # user.save();
-    # user = User.objects.create_user('lion', '', 'lion');
-    # user.save();
-    # user = User.objects.create_user('fish', '', 'fish');
-    # user.save();
-    # user = User.objects.create_user('bear', '', 'bear');
-    # user.save();
-    # user = User.objects.create_user('fox', '', 'fox');
-    # user.save();
-    # user = User.objects.create_user('deer', '', 'deer');
-    # user.save();
-    # user = User.objects.create_user('zebra', '', 'zebra');
-    # user.save();
-    # user = User.objects.create_user('eagle', '', 'eagle');
-    # user.save();
-
     return HttpResponse('')
 
 #temp solution for pilot-1 -- start
@@ -567,29 +569,6 @@ def groupAdd(request):
             member = groupInfo(activityType='gallery', activityID=i, group=username_groupID[usernames_array.index(username)],
                                users=User.objects.get(username=username))
             member.save();
-
-
-    # insert statement for each gallery, right now number of gallery = 4
-
-
-
-
-    # #for user - ant
-    # member = groupInfo(activityType='gallery', activityID=1, group=groupID_ant, users=User.objects.get(username="ant"))
-    # member.save();
-    # member = groupInfo(activityType='gallery', activityID=2, group=groupID_ant, users=User.objects.get(username="ant"))
-    # member.save();
-    # member = groupInfo(activityType='gallery', activityID=3, group=groupID_ant, users=User.objects.get(username="ant"))
-    # member.save();
-    # member = groupInfo(activityType='gallery', activityID=4, group=groupID_ant, users=User.objects.get(username="ant"))
-    # member.save();
-
-
-    # # member = groupInfo(activityType='gallery', activityID=2, group=3, users=request.user)
-    # # member.save();
-
-
-
 
     return HttpResponse('')
 
@@ -806,7 +785,6 @@ def perUserDataExtract(request):
 
     #print(json.dumps(user_activity))
 
-
     #https://stackoverflow.com/questions/42354001/python-json-object-must-be-str-bytes-or-bytearray-not-dict
     context = {'user_activity': json.loads(json.dumps(user_activity))}
     return render(request, 'app/studentList.html', context)
@@ -821,7 +799,7 @@ def deleteAllItems(request):
     # brainstormNote.objects.all().delete()
     # imageModel.objects.all().delete()
     # Message.objects.all().delete()
-    #group_join_six.objects.all().delete();
+    # group_join_six.objects.all().delete();
     # userLogTable.objects.all().delete();
     # groupInfo.objects.all().delete()
 
