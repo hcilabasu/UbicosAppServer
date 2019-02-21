@@ -451,12 +451,36 @@ def  getMediumGroupDiscussion(request):
     return JsonResponse({'success': image_data_all})
 
 def updateDiscussionImageFeed(request):
+    #TODO:
+    gallery_id = 1;
+    # get in which middle group for current user
+    middlegroup_id = group_join_six.objects.get(users_id=request.user).group  # get the query first and access the group from that query
 
-    img_msg = imageComment.objects.filter(isGroupDiscussion='yes') #TODO: group wise image discussion
-    img_msg = serializers.serialize('json', img_msg, use_natural_foreign_keys=True, use_natural_primary_keys=True)
-    print(img_msg)
+    # find other users in this group
+    middlegroup_users = group_join_six.objects.filter(group=middlegroup_id)
+    # for o in middlegroup_users: print(o.users_id)
 
-    return JsonResponse({'success': img_msg, 'username': request.user.get_username(), 'errorMsg': True})
+    # get their original group from groupinfo table
+    image_pk = []
+    for o in middlegroup_users:
+        originalgroup_id = groupInfo.objects.filter(users_id=User.objects.get(pk=o.users_id)).order_by('group').values('group').distinct()[0]['group']
+
+        # for each original group id get the image posted by that group - there should one image per group atleast
+        images = imageModel.objects.filter(gallery_id=gallery_id).filter(group_id=originalgroup_id).values('pk')
+
+        for im in images:
+            image_pk.append(im['pk']);
+        #image_data = serializers.serialize('json', images, use_natural_foreign_keys=True)
+
+    #image ids of the images that a group can see.
+    print(image_pk)
+
+    #https://stackoverflow.com/questions/34830595/how-to-perform-a-queryset-in-django-with-a-loop-for-in
+    image_data = imageComment.objects.filter(isGroupDiscussion='yes').filter(imageId_id__in=image_pk)
+    print(image_data)
+
+    image_data = serializers.serialize('json', image_data, use_natural_foreign_keys=True)
+    return JsonResponse({'success': image_data, 'username': request.user.get_username(), 'errorMsg': True})
 
 
 
@@ -565,7 +589,6 @@ def groupAdd(request):
     # 4 gallery activities so range is from 1 to 5
     for username in users_list:
         for i in range(1, 5):
-
             member = groupInfo(activityType='gallery', activityID=i, group=username_groupID[usernames_array.index(username)],
                                users=User.objects.get(username=username))
             member.save();
