@@ -892,20 +892,6 @@ var insertBadgeIngoinDB = function(message, badgeType){
         })
 }
 
-var getBadgesFromDB = function(){
-
-    $.ajax({
-        type:'GET',
-        url:'http://'+ host_url +'/getBadges/',
-        async: false,
-        success: function(e){
-            //returns an array of badges 
-            console.log(e.badgeList)
-        }
-    })
-}
-
-
 
 var card_extension = function(){
 
