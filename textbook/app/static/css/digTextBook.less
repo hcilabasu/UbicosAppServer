@@ -583,7 +583,16 @@ a {
     }
 
 #activity-feed {
-    padding-top: 80px;
+    padding-top: 125px;
+}
+
+#award-holder{
+ background-color: #C9DDE4;
+ height: 50px;
+ position: fixed;
+ top: 65px;
+ width: 100%;
+
 }
 
 .feed {
@@ -1459,7 +1468,7 @@ a {
 
 /* user prompt related css start*/
 .prompt {
-    background-color: #82C091;
+    background-color: #3d7ce2;
 }
 
 .prompt-card {
@@ -1468,8 +1477,8 @@ a {
     -webkit-overflow-scrolling: touch;
     box-shadow: 0 0 5px rgba(30, 192, 145,1);
     position: absolute;
-    top: 600px;
-    bottom: 60px;
+    bottom: 60%;
+    height: 10%;
     width: 100%;
     -webkit-backdrop-filter: blur(10px);
     backdrop-filter: blur(10px);
@@ -1488,7 +1497,7 @@ a {
     transform: translateX(0);
     transition: all 0.4s;
     transition-timing-function: ease-out;
-    box-shadow: 4px 0 4px rgba(30, 192, 145,1);
+    box-shadow: 4px 0 4px #3d7ce2;
 }
 
 #prompt-p{
@@ -1498,6 +1507,8 @@ a {
     max-width:100%;
     float:left;
     overflow:auto;
+    position:relative;
+    top: 25%;
 
 }
 
@@ -1518,6 +1529,8 @@ a {
     height:32px;
     float:left;
     margin: 0 10px;
+    position:relative;
+    top:25%
 }
 
 /* user prompt related css finish*/
