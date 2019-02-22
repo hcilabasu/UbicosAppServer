@@ -2,7 +2,8 @@
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render, render_to_response
 from rest_framework.views import APIView
-from .models import imageModel, imageComment, Message, brainstormNote,userLogTable, tableChartData, userQuesAnswerTable, groupInfo, userLogTable, khanAcademyAnswer, group_join_six
+from .models import imageModel, imageComment, Message, brainstormNote,userLogTable, tableChartData, \
+    userQuesAnswerTable, groupInfo, userLogTable, khanAcademyAnswer, group_join_six, badgeModel
 from django.contrib.auth import authenticate
 from django.http.response import JsonResponse
 from django.contrib.auth import login as auth_login
@@ -482,7 +483,23 @@ def updateDiscussionImageFeed(request):
     image_data = serializers.serialize('json', image_data, use_natural_foreign_keys=True)
     return JsonResponse({'success': image_data, 'username': request.user.get_username(), 'errorMsg': True})
 
+def insertBadges(request):
+    badge = badgeModel(badgeType = request.POST.get('badgeType'), message = request.POST.get('message'), userid = request.user)
+    badge.save()
 
+    return HttpResponse('')
+
+def getBadges(request):
+    badges = badgeModel.objects.filter(userid=request.user).values('badgeType').distinct()
+
+    badgeList = []
+    for badge in badges:
+        print(badge['badgeType'])
+        badgeList.append(badge['badgeType'])
+
+    print(badgeList)
+
+    return JsonResponse({'badgeList': badgeList})
 
 def pageParser(request):
     #CASE 4: static method - FAIL, not possible to call `cls.get` or `self.get`

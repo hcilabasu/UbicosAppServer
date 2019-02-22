@@ -34,6 +34,9 @@ urlpatterns = [
     url('tableData/save/',views.tableEntriesSave),
     url('submitAnswer',views.submitAnswer),
     url('submitKAAnswer',views.submitKAAnswer),
+    #badges
+    url('insertBadges',views.insertBadges),
+    url('getBadges',views.getBadges),
     url('parser',views.pageParser),
     url('camera',views.camera),
     url('randomDiscussionGroupCreate',views.random_discussion_group_generator),

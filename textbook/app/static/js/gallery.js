@@ -831,12 +831,19 @@ function getLoggedUserName(){
 }
 
 var keywords_obj = new Object();
-    keywords_obj.social = "thanks,thankyou,love it";
+    keywords_obj.social = "thanks,thank you,thankyou,love it";
     keywords_obj.related = "multiply,multiplication";
     keywords_obj.feedback = "correct,incorrect";
     keywords_obj.suggestion = "i think,should";
 
 var keywords_json = JSON.stringify(keywords_obj);
+
+ $('.prompt-close-card').on('touch click', function(){
+
+        $(this).closest('.prompt-card').removeClass('active');
+
+    });
+
 
 function showPrompt(message){
     $('.prompt-card.prompt').addClass('active');
@@ -844,10 +851,9 @@ function showPrompt(message){
     console.log('message length :: ', lengthOfMsg)
 
     //TODO: log these, student response vs prompts to analyze better later
-    //TODO: come up with classification
     //https://www.tjvantoll.com/2013/03/14/better-ways-of-comparing-a-javascript-string-to-multiple-values/
 
-    console.log(keywords_obj)
+    //console.log(keywords_obj)
 
     var prompt_text = ''
 
@@ -860,16 +866,46 @@ function showPrompt(message){
         if(regexExactMatch.test(message)){
             $('p#prompt-p').text("You earned a " + index + " badge!");
             $('#prompt-badge-img').attr('src','/static/pics/video.png');
+             //insert the badge in the database
+             insertBadgeIngoinDB(message, index);
+             getBadgesFromDB();
+
         }
+
     });
 
 }
 
- $('.prompt-close-card').on('touch click', function(){
+var insertBadgeIngoinDB = function(message, badgeType){
 
-        $(this).closest('.prompt-card').removeClass('active');
+    $.ajax({
+            type:'POST',
+            url:'http://'+ host_url +'/insertBadges/',
+            async: false,
+            data:{
+                'message': message,
+                'badgeType': badgeType
+            },
+            success: function(e){
 
-    });
+            }
+        })
+}
+
+var getBadgesFromDB = function(){
+
+    $.ajax({
+        type:'GET',
+        url:'http://'+ host_url +'/getBadges/',
+        async: false,
+        success: function(e){
+            //returns an array of badges 
+            console.log(e.badgeList)
+        }
+    })
+}
+
+
 
 var card_extension = function(){
 

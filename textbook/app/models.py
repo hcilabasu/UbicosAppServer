@@ -55,6 +55,14 @@ class Message(models.Model):
     def natural_key(self):
         return (self.posted_by.username)
 
+class badgeModel(models.Model):
+    userid = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    message = models.CharField(max_length=400)
+    badgeType = models.CharField(max_length=400)
+
+    def natural_key(self):
+        return (self.userid.username)
+
 
 class brainstormNote(models.Model):
     brainstormID = models.IntegerField(null=True)
