@@ -57,8 +57,8 @@ $(function(){
 
 
         // Scroll panel to bottom
-        var imageFeedParent = $('#image-feed').closest('.row');
-        imageFeedParent.scrollTop(imageFeedParent[0].scrollHeight);
+        //var imageFeedParent = $('#image-feed').closest('.row');
+        //imageFeedParent.scrollTop(imageFeedParent[0].scrollHeight);
 
 
     });
@@ -830,6 +830,14 @@ function getLoggedUserName(){
 
 }
 
+var keywords_obj = new Object();
+    keywords_obj.social = "thanks,thankyou,love it";
+    keywords_obj.related = "multiply,multiplication";
+    keywords_obj.feedback = "correct,incorrect";
+    keywords_obj.suggestion = "i think,should";
+
+var keywords_json = JSON.stringify(keywords_obj);
+
 function showPrompt(message){
     $('.prompt-card.prompt').addClass('active');
     var lengthOfMsg = message.length;
@@ -839,20 +847,21 @@ function showPrompt(message){
     //TODO: come up with classification
     //https://www.tjvantoll.com/2013/03/14/better-ways-of-comparing-a-javascript-string-to-multiple-values/
 
-    var word = 'multiply,divide'
-    //https://stackoverflow.com/questions/34198021/regex-exact-match-multiple-search-words-using-jquery
-    var regexExactMatch = new RegExp('\\b' + word.split(",").join("|")+ '\\b');
+    console.log(keywords_obj)
 
-    if (lengthOfMsg < 3){
-         $('p#prompt-p').text("great response, but do you want to add an example?");
-    }//else if (RegExp( '\\b' + word + '\\b', 'i').test(message)){
-    else if(regexExactMatch.test(message)){
-        $('p#prompt-p').text("your response has multiply, add an example?");
-    }
-    else{
-        $('p#prompt-p').text("great response");
-        $('#prompt-badge-img').attr('src','/static/pics/video.png');
-    }
+    var prompt_text = ''
+
+    //loop through key words
+    $.each(keywords_obj, function(index, keywords) {
+        //console.log(keywords.split(","))
+
+        var regexExactMatch = new RegExp('\\b' + keywords.split(",").join("|")+ '\\b');
+
+        if(regexExactMatch.test(message)){
+            $('p#prompt-p').text("You earned a " + index + " badge!");
+            $('#prompt-badge-img').attr('src','/static/pics/video.png');
+        }
+    });
 
 }
 
