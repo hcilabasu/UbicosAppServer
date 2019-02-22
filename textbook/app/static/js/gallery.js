@@ -76,43 +76,15 @@ $(function(){
 
 
 
-        //show submissions based on the user group
-        $("#mySubmission").click(function(e){
-
-         middleGroupDiscussion = 'no';
-
-         //highlight the selected button
-         $(this).css('background-color', '#006600');
-         //unhighlight the other
-         $("#allSubmission").css('background-color', '#2DB872');
-
-         $('#gallery-group-heading').text('My Submissions')
-            //steps: get group id;
-            //get the group id based on the user
-            var get_user_group_id
-            $.ajax({
-                type:'GET',
-                url:'http://'+ host_url +'/getGroupID/'+$('input[name="act-id"]').val(),
-                async: false, //wait for ajax call to finish, else logged_in is null in the following if condition
-                success: function(e){
-                    get_user_group_id = e;
-                    console.log("my group id (gallery.js),", e)
-                }
-            });
-            displayGallery(0, get_user_group_id);
-
-           enterLogIntoDatabase('activity select', 'gallery my submission' , $('input[name="act-id"]').val(), current_pagenumber)
-
-        });
-
         //show all submissions except the user group
         $("#allSubmission").click(function(e){
 
-            middleGroupDiscussion = 'no';
+           middleGroupDiscussion = 'no';
            //highlight the selected button
            $(this).css('background-color', '#006600');
            //unhighlight the other
            $("#mySubmission").css('background-color', '#2DB872');
+           $("#groupSubmission").css('background-color', '#2DB872');
 
            //update the heading
            $('#gallery-group-heading').text('All Submissions')
@@ -134,11 +106,70 @@ $(function(){
             enterLogIntoDatabase('activity select', 'gallery all submission' , $('input[name="act-id"]').val(), current_pagenumber)
         });
 
-//        //add event listener to the chat button click - this was causing double post of the message
-//        $("#image-msg-send-btn").click(function(e){
-//            e.preventDefault();
-//            postImageMessage();
-//        });
+         //join-group-demo
+        $('#groupSubmission').click(function(e){
+
+           middleGroupDiscussion = 'yes';
+
+           $(this).css('background-color', '#006600');
+           //unhighlight the other two
+           $("#mySubmission").css('background-color', '#2DB872');
+           $("#allSubmission").css('background-color', '#2DB872');
+
+           //update the heading
+           $('#gallery-group-heading').text('Random Submissions')
+            //go to server and see if you can join the group
+
+            $.post({
+                url: '/getMediumGroupDiscussion',
+                data: {
+
+                //pass the gallery number here
+
+                },
+                success: function (data) {
+                    console.log(data.success)
+                    showImageInGallery(data.success)
+
+                },
+                error: function(data){
+
+                }
+            });
+
+        });
+
+            //show submissions based on the user group
+        $("#mySubmission").click(function(e){
+
+         middleGroupDiscussion = 'no';
+
+         //highlight the selected button
+         $(this).css('background-color', '#006600');
+         //unhighlight the other
+         $("#allSubmission").css('background-color', '#2DB872');
+         $("#groupSubmission").css('background-color', '#2DB872');
+
+         $('#gallery-group-heading').text('My Submissions')
+            //steps: get group id;
+            //get the group id based on the user
+            var get_user_group_id
+            $.ajax({
+                type:'GET',
+                url:'http://'+ host_url +'/getGroupID/'+$('input[name="act-id"]').val(),
+                async: false, //wait for ajax call to finish, else logged_in is null in the following if condition
+                success: function(e){
+                    get_user_group_id = e;
+                    console.log("my group id (gallery.js),", e)
+                }
+            });
+            displayGallery(0, get_user_group_id);
+
+           enterLogIntoDatabase('activity select', 'gallery my submission' , $('input[name="act-id"]').val(), current_pagenumber)
+
+        });
+
+
         $('#image-msg-text').keypress(function(e){
             if (e.which == 13) {
                 postImageMessage();
@@ -314,29 +345,7 @@ $(function(){
                 enterLogIntoDatabase('camera select', 'camera to take photo' , 'none', current_pagenumber)
             })
 
-            //join-group-demo
-            $('.join-group').click(function(e){
-                middleGroupDiscussion = 'yes';
-                //go to server and see if you can join the group
-                console.log('trying to join the group')
-                $.post({
-                    url: '/getMediumGroupDiscussion',
-                    data: {
 
-                    //pass the gallery number here
-
-                    },
-                    success: function (data) {
-                        console.log(data.success)
-                        showImageInGallery(data.success)
-
-                    },
-                    error: function(data){
-
-                    }
-                });
-
-            })
 
  })
 
