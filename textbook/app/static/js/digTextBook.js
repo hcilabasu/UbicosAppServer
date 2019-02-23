@@ -86,25 +86,6 @@ $(function(){
             }
      });
 
-//remove this - not needed anymore - IA
-//    $('#teacher-view-toggle').click(function(){
-//
-//        if ($("#teacher-index-view").is(":hidden")) {
-//            $('.main-view').fadeOut('fast', function(){
-//                $("#teacher-index-view").fadeIn('fast');
-//            });
-//        } else {
-//            $('#teacher-index-view').fadeOut('fast', function(){
-//                $("#activity-feed-view").fadeIn('fast');
-//            });
-//        }
-//        $(this).toggleClass('pressedt');
-//
-//
-//        //TODO: add user log
-//        //enterLogIntoDatabase('click', 'activity index', 'none', current_pagenumber)
-//    });
-//remove until this - not needed anymore - IA
 
     //check localstorage - used for refresh
 
@@ -284,7 +265,7 @@ var bindActivityButtons = function(){
         $('.card.' + type + ' h1').text(type + ' #'+id); //update the title of each page
 
 //        ------------------------------teacher dashboard gallery-----------------------
-        $('#teacher-view-toggle').off().on('click', function(){
+        $('.teacher-view-toggle').off().on('click', function(){
 
             var activity_id = activityButton.attr('data-id');
 
