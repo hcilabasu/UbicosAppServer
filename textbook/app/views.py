@@ -357,9 +357,9 @@ def submitKAAnswer(request):
     #check if any query present for that KA
     #TODO: try update_or_create method
     if khanAcademyAnswer.objects.filter(ka_id=request.POST.get('id')).exists():
-        khanAcademyAnswer.objects.filter(ka_id=request.POST.get('id')).update(response=request.POST.get('answer'))
+        khanAcademyAnswer.objects.filter(ka_id=request.POST.get('id')).filter(response_type=request.POST.get('response_type')).update(response=request.POST.get('answer'))
     else:
-        ka_answer = khanAcademyAnswer(ka_id=request.POST.get('id'), response=request.POST.get('answer'), posted_by = request.user)
+        ka_answer = khanAcademyAnswer(ka_id=request.POST.get('id'), response_type=request.POST.get('response_type'), response=request.POST.get('answer'), posted_by = request.user)
         ka_answer.save()
 
     return HttpResponse('from server')

@@ -18,15 +18,36 @@ $(function(){
     //handle textarea on focus out
     $('#KAAnswer').blur(function() {
 
-            console.log("user entered: ", $('#KAAnswer').val())
             //TODO: add user log event; user log event will capture multiple attempts but model will store the latest answer
-            saveKAresponseToDB(2, $('#KAAnswer').val());
+            //TODO: capture KA ID and pass it to the database
 
-            //hide one div and show the other
-            $('#ka-form-containter').hide();
-            $('#ka-showAnsweredQues').show();
+            var isRadioBtnChecked = $("input[name='ka-response-type']").prop('checked');
+            //will return false if none of the radio button is not checked
+            //will return true if one of the radio button is checked
 
-            $('.ka-answer-p').text($('#KAAnswer').val())
+            //if
+            if(isRadioBtnChecked){
+                 var user_response = $('#KAAnswer').val();
+                //console.log('user response::',user_response)
+
+                var ka_radio_input_type = $("input[name='ka-response-type']:checked").val();
+                //console.log('ka-response-type', ka_radio_input_type);
+
+                saveKAresponseToDB(2, ka_radio_input_type, user_response);
+
+                //
+                $('.ka-answer-p').text(user_response)
+
+                //show the copy button since answer is posted
+                $('#ka-showAnsweredQues').show();
+
+            }else{
+                alert("check radio button");
+            }
+
+
+
+
         });
 
 })
@@ -35,7 +56,7 @@ $(function(){
 //handle file upload
 var readURL_ka = function(input) {
 
-        $('#blah').attr('src', '').hide();
+        $('#ka-image').attr('src', '').hide();
         if (input.files && input.files[0]) {
             var reader = new FileReader();
 
@@ -87,7 +108,7 @@ var copy_ka_text_button = function(){
     })
 }
 
-var saveKAresponseToDB = function(id, answer_text){
+var saveKAresponseToDB = function(id, response_type, answer_text){
 
         $.post({
 
@@ -95,6 +116,7 @@ var saveKAresponseToDB = function(id, answer_text){
                url:'/submitKAAnswer',
                data: {
                     'id': id,
+                    'response_type': response_type,
                     'answer': answer_text
                     },
                success: function(response){
