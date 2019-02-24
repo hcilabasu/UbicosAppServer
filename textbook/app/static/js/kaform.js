@@ -7,7 +7,26 @@ $(function(){
     //hide black image src in the beginning
     $('img#ka-image').hide();
 
-    //attach the link in ka.html
+    //clear everything and allow next upload
+    $('#add-new-ka-post .add-ka-a').click(function(){
+        //clear existing image src
+        $('#ka-image').attr('src', '');
+
+        //hide image src
+        $('img#ka-image').hide();
+
+        //hide copy button in the beginning
+        $('#ka-showAnsweredQues').hide();
+
+        //clear radio button
+        $('input:radio[name="ka-response-type"]').each(function(i) {
+                this.checked = false;
+        });
+
+        //clear textbox text
+        $('#KAAnswer').val('');
+
+    })
 
 
     //ka_submit_button();
@@ -15,7 +34,8 @@ $(function(){
 
     //handle KA image upload
     var ka_imgID
-     $('#ka_img_upload').change(function(event){
+    //NOTE: if use the same file -- it will not trigger this event second time, have to have different file name.
+     $('#ka_img_upload').on('change',function(event){
          console.log('trying to upload khan academy photos')
          form_data = new FormData($('#ka-upload-img-form')[0]);
          console.log('form_data', form_data);
