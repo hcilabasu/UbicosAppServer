@@ -15,7 +15,7 @@ window.onerror = function(message, file, line) {
     It is also used in:
     * activityindex.js
 */
-var NUM_PAGES = 22;
+var NUM_PAGES = 12;
 
 
 $(function(){
@@ -48,11 +48,6 @@ $(function(){
 
     //update activity feed with history of messages
     loadFeed(0); //call function from activity.js //0 means all; 1 means todays chat
-//
-//    $('#feed-toggle').click(function(){
-//         loadFeed(1);
-//    })
-
 
 
     // Load first pages
@@ -86,11 +81,11 @@ $(function(){
             }
      });
 
-     //left-right key press event -- page transition
-     $('html').keydown(function(e){
-       if(e.which == 39) movePage(true); //go right
-       else movePage(false);
-     });
+     //left-right key press event -- page transition -- not working right, check later
+//     $('html').keydown(function(e){
+//       if(e.which == 39) movePage(true); //go right
+//       else movePage(false);
+//     });
 
 
     //check localstorage - used for refresh
@@ -455,6 +450,11 @@ var bindActivityButtons = function(){
 
             //at all times the card will be expanded; so no call to card expansion method
             $('.card').css({'width':'100%'});
+
+            //pass the ka-url and heading
+            console.log('ka-url-passing to html', activityButton.attr('data-video-url'))
+            $('a#ka-form-url').attr('href', activityButton.attr('data-video-url'))
+            $('a#ka-form-url').text(activityButton.attr('data-video-topic'))
       }
 
         //user logging

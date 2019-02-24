@@ -1,19 +1,44 @@
 
 $(function(){
 
+    //hide copy button in the beginning
     $('#ka-showAnsweredQues').hide();
+
+    //hide black image src in the beginning
+    $('img#ka-image').hide();
+
+    //attach the link in ka.html
+
 
     //ka_submit_button();
     copy_ka_text_button();
 
     //handle KA image upload
+    var ka_imgID
      $('#ka_img_upload').change(function(event){
-         console.log('trying to upload photos')
-         var form_data = new FormData($('#ka-upload-img-form')[0]);
+         console.log('trying to upload khan academy photos')
+         form_data = new FormData($('#ka-upload-img-form')[0]);
          console.log('form_data', form_data);
          readURL_ka(this);
-         //TODO: save the image in database
-     })
+
+////      //TODO: save the image in database
+          $.ajax({
+                  type:'POST',
+                  url:'http://'+ host_url +'/uploadKAImage/',
+                  processData: false,
+                  contentType: false,
+                  async: false,
+                  cache: false,
+                  data : form_data,
+                  success: function(response){
+
+                    ka_imgID = response.ka_imgID
+                    console.log('uploaded image id :: ', ka_imgID);
+
+                }
+
+              });
+     });
 
     //handle textarea on focus out
     $('#KAAnswer').blur(function() {
@@ -25,46 +50,38 @@ $(function(){
             //will return false if none of the radio button is not checked
             //will return true if one of the radio button is checked
 
-            //if
-            if(isRadioBtnChecked){
-                 var user_response = $('#KAAnswer').val();
-                //console.log('user response::',user_response)
 
-                var ka_radio_input_type = $("input[name='ka-response-type']:checked").val();
-                //console.log('ka-response-type', ka_radio_input_type);
+            var user_response = $('#KAAnswer').val();
+            //console.log('user response::',user_response)
 
-                saveKAresponseToDB(2, ka_radio_input_type, user_response);
+            var ka_radio_input_type = $("input[name='ka-response-type']:checked").val();
+            //console.log('ka-response-type', ka_radio_input_type);
 
-                //
-                $('.ka-answer-p').text(user_response)
-
-                //show the copy button since answer is posted
-                $('#ka-showAnsweredQues').show();
-
-            }else{
-                alert("check radio button");
-            }
+            saveKAresponseToDB(4, ka_imgID, ka_radio_input_type, user_response);
 
 
+            $('.ka-answer-p').text(user_response)
 
+            //show the copy button since answer is posted
+            $('#ka-showAnsweredQues').show();
 
         });
 
 })
 
 
-//handle file upload
+//handle file upload and displays in the screen
 var readURL_ka = function(input) {
 
-        $('#ka-image').attr('src', '').hide();
+        $('img#ka-image').show();
+
         if (input.files && input.files[0]) {
             var reader = new FileReader();
-
             reader.onload = function (e) {
-                $('#blah')
+                $('#ka-image')
                     .attr('src', e.target.result)
-                    .width(150)
-                    .height(200);
+                    .width(400)
+                    .height(300);
             };
 
             reader.readAsDataURL(input.files[0]);
@@ -108,7 +125,7 @@ var copy_ka_text_button = function(){
     })
 }
 
-var saveKAresponseToDB = function(id, response_type, answer_text){
+var saveKAresponseToDB = function(id, imgID, response_type, answer_text){
 
         $.post({
 
@@ -116,8 +133,9 @@ var saveKAresponseToDB = function(id, response_type, answer_text){
                url:'/submitKAAnswer',
                data: {
                     'id': id,
+                    'imgID': imgID,
                     'response_type': response_type,
-                    'answer': answer_text
+                    'answer': answer_text,
                     },
                success: function(response){
 

@@ -210,6 +210,36 @@ def uploadImage(request):
 
         return JsonResponse({'success': image_data, 'errorMsg': True})
 
+def uploadKAImage(request):
+    #get image from html and save it in the database
+    if request.method == "POST":
+        # print (request.Files) #gives the name of the <input type='file' name...>
+
+        #get the KA ID
+        #ka_id = request.POST.get('ka-id')
+
+
+        # print(type(request.FILES['gallery_img'].name))
+        # django.core.files.uploadedfile.InMemoryUploadedFile
+
+        #get the logged in username
+        username = ''
+        if request.user.is_authenticated:
+            print('username :: ', request.user.get_username())
+            username = request.user.get_username();
+        else:
+            print('user not signed in') #add in log
+
+        #insert values in the database
+        ka_image_upload = khanAcademyAnswer(ka_id=4, ka_image=request.FILES['ka_img_name'], posted_by=request.user)
+        # TODO: check whether the insertion was successful or not, else wrong image will be shown using the last() query
+        ka_image_upload.save()
+
+        latest_upload = khanAcademyAnswer.objects.filter(ka_id=4).last()
+        #print(latest_upload.pk)
+
+        return JsonResponse({'ka_imgID': latest_upload.pk})
+
 def getImage(request, view_id, gallery_id,group_id):
 
     # for pilot/study
@@ -355,12 +385,17 @@ def submitAnswer(request):
 
 def submitKAAnswer(request):
     #check if any query present for that KA
+
     #TODO: try update_or_create method
-    if khanAcademyAnswer.objects.filter(ka_id=request.POST.get('id')).exists():
-        khanAcademyAnswer.objects.filter(ka_id=request.POST.get('id')).filter(response_type=request.POST.get('response_type')).update(response=request.POST.get('answer'))
-    else:
-        ka_answer = khanAcademyAnswer(ka_id=request.POST.get('id'), response_type=request.POST.get('response_type'), response=request.POST.get('answer'), posted_by = request.user)
-        ka_answer.save()
+    if khanAcademyAnswer.objects.filter(pk=request.POST.get('imgID')).exists():
+        print('yesyesyesyes')
+        khanAcademyAnswer.objects.filter(pk=request.POST.get('imgID')).update(ka_id=request.POST.get('id'), response_type=request.POST.get('response_type'),
+                                      response=request.POST.get('answer'), posted_by=request.user)
+
+    #     khanAcademyAnswer.objects.filter(ka_id=request.POST.get('id')).filter(response_type=request.POST.get('response_type')).update(response=request.POST.get('answer'))
+    # else:
+    #     ka_answer = khanAcademyAnswer(ka_id=request.POST.get('id'), response_type=request.POST.get('response_type'), response=request.POST.get('answer'), posted_by = request.user)
+    #     ka_answer.save()
 
     return HttpResponse('from server')
 

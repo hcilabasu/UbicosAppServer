@@ -33,6 +33,7 @@ urlpatterns = [
     url('updateFeed/(?P<type>\d+)', views.updateFeed),
     url('tableData/save/',views.tableEntriesSave),
     url('submitAnswer',views.submitAnswer),
+    url('uploadKAImage', views.uploadKAImage),
     url('submitKAAnswer',views.submitKAAnswer),
     #badges
     url('insertBadges',views.insertBadges),
