@@ -142,30 +142,36 @@ $(function(){
             //show submissions based on the user group
         $("#mySubmission").click(function(e){
 
-         middleGroupDiscussion = 'no';
+                 middleGroupDiscussion = 'no';
 
-         //highlight the selected button
-         $(this).css('background-color', '#006600');
-         //unhighlight the other
-         $("#allSubmission").css('background-color', '#2DB872');
-         $("#groupSubmission").css('background-color', '#2DB872');
+                 //highlight the selected button
+                 $(this).css('background-color', '#006600');
+                 //unhighlight the other
+                 $("#allSubmission").css('background-color', '#2DB872');
+                 $("#groupSubmission").css('background-color', '#2DB872');
 
-         $('#gallery-group-heading').text('My Submissions')
-            //steps: get group id;
-            //get the group id based on the user
-            var get_user_group_id
-            $.ajax({
-                type:'GET',
-                url:'http://'+ host_url +'/getGroupID/'+$('input[name="act-id"]').val(),
-                async: false, //wait for ajax call to finish, else logged_in is null in the following if condition
-                success: function(e){
-                    get_user_group_id = e;
-                    console.log("my group id (gallery.js),", e)
-                }
-            });
-            displayGallery(0, get_user_group_id);
+                 $('#gallery-group-heading').text('My Submissions')
 
-           enterLogIntoDatabase('activity select', 'gallery my submission' , $('input[name="act-id"]').val(), current_pagenumber)
+                 //display upload image from here
+
+                 $('#gallery-user-submission').show();
+                 $('#gallery-camera-div').show();
+
+                    //steps: get group id;
+                    //get the group id based on the user
+                    var get_user_group_id
+                    $.ajax({
+                        type:'GET',
+                        url:'http://'+ host_url +'/getGroupID/'+$('input[name="act-id"]').val(),
+                        async: false, //wait for ajax call to finish, else logged_in is null in the following if condition
+                        success: function(e){
+                            get_user_group_id = e;
+                            console.log("my group id (gallery.js),", e)
+                        }
+                    });
+                    displayGallery(0, get_user_group_id);
+
+                   enterLogIntoDatabase('activity select', 'gallery my submission' , $('input[name="act-id"]').val(), current_pagenumber)
 
         });
 
@@ -341,7 +347,7 @@ $(function(){
             })
 
             //camera click user log
-            $('#openCamera').click(function(e){
+            $('.openCamera').click(function(e){
                 enterLogIntoDatabase('camera select', 'camera to take photo' , 'none', current_pagenumber)
             })
 
