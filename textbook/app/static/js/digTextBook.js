@@ -86,6 +86,12 @@ $(function(){
             }
      });
 
+     //left-right key press event -- page transition
+     $('html').keydown(function(e){
+       if(e.which == 39) movePage(true); //go right
+       else movePage(false);
+     });
+
 
     //check localstorage - used for refresh
 
