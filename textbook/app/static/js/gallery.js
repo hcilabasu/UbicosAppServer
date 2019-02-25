@@ -302,9 +302,10 @@ $(function(){
 
                 var val = $('input[name=image-index]').val() - 1
                 if(val<0)  {
-
                     return !$(this).attr('disabled'); //disable when reached to last image
+
                 }
+
                 $('.section input[name="image-index"]').attr('value', val)
                 //console.log('previous image index:: ', val)
                 var prev_img = $('#gallery li').eq(val).children('img')[0]
@@ -324,9 +325,9 @@ $(function(){
 
                 //console.log('total photo :: ', totalPhoto);
                 if(val>=totalPhoto){
-
                     return !$(this).attr('disabled'); //disable when reached to last image
                 }
+
                 $('.section input[name="image-index"]').attr('value', val)
                 //console.log('previous image index:: ', val)
                 var prev_img = $('#gallery li').eq(val).children('img')[0]
@@ -339,10 +340,11 @@ $(function(){
 
             //back to gallery from single image view
             $("#backToGallery").click(function(e){
+                $("#gallery-image-user-name").remove();
                 e.preventDefault();
                 enterLogIntoDatabase('back to gallery button click', 'gallery back view click' , 'total photo '+totalPhoto, current_pagenumber)
                 $("#single-image-view").hide()
-                // card_extension_close();
+                card_extension_close();
                 $("#gallery-panel").show()
             })
 
@@ -529,7 +531,7 @@ $(function(){
 function viewDiv(view, number_of_group){
 
     //clear the individual image username span text
-    $('span.gallery_image_user_name').text('');
+    $("#gallery-image-user-name").remove();
 
     //class means user upload - specific user will click - so we know the id
     if(view == "class"){
@@ -750,6 +752,26 @@ var openImageView = function(galleryView, image){
             });
 
 
+      var val = $('input[name=image-index]').val() - 1
+                if(val<0)  {
+                    $(".previous-image").css("opacity", ".2");
+                    console.log("previous is disabled");
+                }
+                else{
+                    $(".previous-image").css("opacity", "1");
+                }
+
+      var val = eval($('input[name=image-index]').val()) + 1
+
+                //console.log('total photo :: ', totalPhoto);
+                if(val>=totalPhoto){
+                    $(".next-image").css("opacity", ".2");
+                    console.log("next is disabled");
+                }
+                else{
+                    $(".next-image").css("opacity", "1");
+                }
+
 
     //picture and username for posted photo
     //clear previous image
@@ -760,10 +782,14 @@ var openImageView = function(galleryView, image){
      //div.addClass('user-image-posted-by');
 
     //clear if any name added before
-   $('span.gallery_image_user_name').text('');
+
+
+
+    $("#gallery-image-user-name").remove();
+
 
     //now add the name
-    $('.section').append('<span class="gallery-image-user-name"><b> Group '+ get_user_group_id + ' </b> <font color="#a8aaad"> timestamp</font></span>');
+    $('.section').append('<div id="gallery-image-user-name"><b> Group '+ get_user_group_id + ' </b> <font color="#a8aaad"> timestamp</font></div>');
 
     //with each click update the input
     $('.section input[name="image-db-pk"]').attr('value', imageID)
@@ -817,7 +843,8 @@ var openImageView = function(galleryView, image){
                         });
 
 
-
+                     var element = document.getElementById("image-feed");
+                     element.scrollTop = element.scrollHeight;
                         // Scroll panel to bottom
                         //var imageFeedParent = $('#image-feed').closest('.row');
                         //imageFeedParent.scrollTop(imageFeedParent[0].scrollHeight);

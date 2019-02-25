@@ -23,6 +23,7 @@ var getBadgesFromDB = function(){
 function displayAllBadges(){
     //get badges from database
     getBadgesFromDB();
+    badges = ["video","video", "video", "video", "video", "video", "video", "video", "video", "video", "video"];
     var src = $("#award-holder");
 
     for(i=0; i < badges.length; i++){
