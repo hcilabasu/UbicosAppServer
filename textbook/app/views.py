@@ -256,16 +256,26 @@ def getImage(request, view_id, gallery_id,group_id):
 
     image_data = serializers.serialize('json', images, use_natural_foreign_keys=True)
     #print(image_data)
-    return JsonResponse({'success': image_data,  'errorMsg': True})
+    return JsonResponse({'success': image_data})
 
 def getImageID(request,img_filename):
-    print('file name :: ' + img_filename);
+    print('receiving parameter :: file name :: ' + img_filename);
 
     img = imageModel.objects.filter(image='images/'+img_filename)
     image_data = serializers.serialize('json', img, use_natural_foreign_keys=True)
     #print(image_data[0].fields)
     #print(img[0].pk)
     return JsonResponse({'imageData': image_data})
+
+def getImagePerUser(request, act_id, username):
+    print('receiving parameter :: activity id :: username ' + act_id + '  ' + username);
+
+    image_list = imageModel.objects.filter(gallery_id=act_id).filter(posted_by=User.objects.get(username=username))
+    image_data = serializers.serialize('json', image_list, use_natural_foreign_keys=True)
+
+    print(image_data)
+
+    return JsonResponse({'success': image_data})
 
 def imageDelete(request, img_id):
 
@@ -588,17 +598,12 @@ def getGalleryTableTD(request, act_id):
         temp = Counter(temp)
         for key, value in temp.items():
             index = [users_list.index(key)] #returns a list of one item
-            print(index[0])
             comment_count_list[index[0]] = value;
-
-            print('length - inside for??', len(comment_count_list))
 
 
         item['comment_count'] = comment_count_list
-        print('length??', len( comment_count_list))
         image_list.append(item)
 
-    print(json.loads(json.dumps(image_list)))
     return JsonResponse({'success': json.loads(json.dumps(image_list)), 'errorMsg': True})
 
 # create superuser

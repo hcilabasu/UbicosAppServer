@@ -228,7 +228,7 @@ var loadHTML = function(url, successFn, errorFn){
 };
 
 
-
+var activity_id
 var bindActivityButtons = function(){
 
     $('.page a').off().on('touch click', function(){
@@ -256,6 +256,7 @@ var bindActivityButtons = function(){
 
         //id of each each activity - based on page no
         var id = activityButton.attr('data-id');
+        activity_id = id; //passing it to teacherindex.js
         console.log('id', id)
 
         // Disable current card and enable new card

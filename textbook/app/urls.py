@@ -21,6 +21,7 @@ urlpatterns = [
     url('uploadImage', views.uploadImage, name='uploadImage'),
     url('getImage/(?P<view_id>\d+)/(?P<gallery_id>\d+)/(?P<group_id>\d+)/', views.getImage, name='getImg'),
     url('getImageID/(?P<img_filename>[\w+._^%$#!~@,-]+)/', views.getImageID), #regular expression checker: https://regex101.com/r/iQ8gG4/1
+    url('getImagePerUser/(?P<act_id>\d+)/(?P<username>[\w+._^%$#!~@,-]+)/', views.getImagePerUser), #regular expression checker: https://regex101.com/r/iQ8gG4/1
     url(r'^ajax/imageComment/$', views.broadcastImageComment),
     url('updateImageFeed/(?P<img_id>\d+)', views.updateImageFeed),
     url('gallery/del/(?P<img_id>\d+)', views.imageDelete),
