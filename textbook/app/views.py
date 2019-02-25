@@ -470,13 +470,20 @@ def  getMediumGroupDiscussion(request):
 
     # get their original group from groupinfo table
     image_data_all = []
+    originalgroup_list = []
     for o in middlegroup_users:
-        originalgroup_id = groupInfo.objects.filter(users_id=User.objects.get(pk=o.users_id)).order_by('group').values('group').distinct()[0]['group']
-        #print('hell bell', originalgroup_id[0]['group'])
+        group_id = groupInfo.objects.filter(users_id=User.objects.get(pk=o.users_id)).order_by('group').values('group').distinct()[0]['group']
+        print('hell bell', group_id)
 
+        originalgroup_list.append(group_id);
+
+    # if same id twice -- image is displayed twice -- so get the distinct IDs of the image e.g., [7,7,1,4]
+    originalgroup_list = list(set(originalgroup_list))
+
+    for oid in originalgroup_list:
         #for each original group id get the image posted by that group - there should one image per group atleast
         images = imageModel.objects.filter(gallery_id=gallery_id)
-        images = images.filter(group_id=originalgroup_id)
+        images = images.filter(group_id=oid)
 
         image_data = serializers.serialize('json', images, use_natural_foreign_keys=True)
         image_data_all.append(image_data)
@@ -509,7 +516,11 @@ def updateDiscussionImageFeed(request):
         #image_data = serializers.serialize('json', images, use_natural_foreign_keys=True)
 
     #image ids of the images that a group can see.
-    print(image_pk)
+    #print('with duplicates :: ',image_pk)
+
+    # if same id twice -- image is displayed twice -- so get the distinct IDs of the image
+    image_pk = list(set(image_pk))
+    #print('without duplicates :: ',image_pk)
 
     #https://stackoverflow.com/questions/34830595/how-to-perform-a-queryset-in-django-with-a-loop-for-in
     image_data = imageComment.objects.filter(isGroupDiscussion='yes').filter(imageId_id__in=image_pk)
@@ -517,6 +528,7 @@ def updateDiscussionImageFeed(request):
 
     image_data = serializers.serialize('json', image_data, use_natural_foreign_keys=True)
     return JsonResponse({'success': image_data, 'username': request.user.get_username(), 'errorMsg': True})
+
 
 def insertBadges(request):
     badge = badgeModel(badgeType = request.POST.get('badgeType'), message = request.POST.get('message'), userid = request.user)
