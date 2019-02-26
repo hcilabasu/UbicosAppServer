@@ -98,7 +98,8 @@ var readURL_ka = function(input) {
                 $('#ka-image')
                     .attr('src', e.target.result)
                     .width(400)
-                    .height(300);
+                    .height(300)
+                    .css("padding", "30px");
             };
 
             reader.readAsDataURL(input.files[0]);

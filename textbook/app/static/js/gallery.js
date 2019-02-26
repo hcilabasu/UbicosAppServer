@@ -51,8 +51,8 @@ $(function(){
                     text: data.message}).appendTo(li);
 
              //add timestamp to the message
-             var spanTimestamp = $('<span/>', {
-                text: 'timestamp'}).appendTo(div);
+//             var spanTimestamp = $('<span/>', {
+//                text: 'timestamp'}).appendTo(div);
         }
 
 
@@ -874,10 +874,14 @@ function getLoggedUserName(){
 }
 
 var keywords_obj = new Object();
-    keywords_obj.social = "thanks,thank you,thankyou,love it";
-    keywords_obj.related = "multiply,multiplication";
+    keywords_obj.social = "thanks,thank you,thankyou,love it,good job";
+    keywords_obj.related = "sphere,cone,cylinder,area";
+    keywords_obj.elaborated="because,cause,would be,but";
     keywords_obj.feedback = "correct,incorrect";
-    keywords_obj.suggestion = "i think,should";
+    keywords_obj.suggestion = "i think,should, could be";
+    keywords_obj.question= "how,what,where,why,can you";
+    keywords_obj.reflection="i agree,i disagree,";
+
 
 var keywords_json = JSON.stringify(keywords_obj);
 
@@ -890,13 +894,15 @@ var keywords_json = JSON.stringify(keywords_obj);
 
 function showPrompt(message){
     $('.prompt-card.prompt').addClass('active');
+
     var lengthOfMsg = message.length;
-    console.log('message length :: ', lengthOfMsg)
+    console.log('message length :: ', lengthOfMsg);
 
     //TODO: log these, student response vs prompts to analyze better later
     //https://www.tjvantoll.com/2013/03/14/better-ways-of-comparing-a-javascript-string-to-multiple-values/
 
-    //console.log(keywords_obj)
+
+    message = message.toLowerCase();
 
     var prompt_text = ''
 
