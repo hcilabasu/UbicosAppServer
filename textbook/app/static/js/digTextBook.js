@@ -16,7 +16,7 @@ window.onerror = function(message, file, line) {
     It is also used in:
     * activityindex.js
 */
-var NUM_PAGES = 7;
+var NUM_PAGES = 8;
 
 
 $(function(){
