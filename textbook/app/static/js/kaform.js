@@ -48,8 +48,8 @@ $(function(){
                   data : form_data,
                   success: function(response){
 
-                    ka_imgID = response.ka_imgID
-                    console.log('uploaded image id :: ', ka_imgID);
+                    //ka_imgID = response.ka_imgID
+                    console.log('uploaded image id :: ', ka_img);
 
 
                 }

@@ -236,9 +236,10 @@ def uploadKAImage(request):
         ka_image_upload.save()
 
         latest_upload = khanAcademyAnswer.objects.filter(ka_id=4).last()
+        ka_img = serializers.serialize('json', latest_upload, use_natural_foreign_keys=True)
         #print(latest_upload.pk)
 
-        return JsonResponse({'ka_imgID': latest_upload.pk})
+        return JsonResponse({'ka_imgID': latest_upload.pk, 'ka_img':ka_img})
 
 def getImage(request, view_id, gallery_id,group_id):
 
