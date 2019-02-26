@@ -16,7 +16,7 @@ $(function(){
         //get image for this particular user
         var image_list = getImagePerUser(activity_id,username);
         //alert(image_list)
-        tchr_showImageInGallery(image_list)
+        tchr_showImageInGallery(image_list, "tchr-gallery")
         $('#teacher-gallery-table').hide();
         $('#tchr-gallery').show();
 
@@ -121,9 +121,9 @@ var detectTableClick = function(){
         });
 }
 
-var tchr_showImageInGallery = function(data){
+var tchr_showImageInGallery = function(data, gallery_type){
 
-    $("#tchr-gallery").empty();
+    $("#"+gallery_type).empty();
 
     var obj = jQuery.parseJSON(data);
      console.log(obj)

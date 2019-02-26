@@ -1,6 +1,7 @@
 var current_pagenumber = 1 //initial page number; gets updated with page change
 var type = '' //card type
 var groupArray = ['A', 'B','C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K']
+var activity_id
 
 
 window.onerror = function(message, file, line) {
@@ -15,7 +16,7 @@ window.onerror = function(message, file, line) {
     It is also used in:
     * activityindex.js
 */
-var NUM_PAGES = 12;
+var NUM_PAGES = 14;
 
 
 $(function(){
@@ -228,7 +229,7 @@ var loadHTML = function(url, successFn, errorFn){
 };
 
 
-var activity_id
+
 var bindActivityButtons = function(){
 
     $('.page a').off().on('touch click', function(){
@@ -257,7 +258,7 @@ var bindActivityButtons = function(){
         //id of each each activity - based on page no
         var id = activityButton.attr('data-id');
         activity_id = id; //passing it to teacherindex.js
-        console.log('id', id)
+        //console.log('id', id)
 
         // Disable current card and enable new card
         $('.card.active').removeClass('active');
@@ -452,8 +453,9 @@ var bindActivityButtons = function(){
             //at all times the card will be expanded; so no call to card expansion method
             $('.card').css({'width':'100%'});
 
+            $('input[name="ka-act-id"]').attr('value', id)
             //pass the ka-url and heading
-            console.log('ka-url-passing to html', activityButton.attr('data-video-url'))
+            //console.log('ka-url-passing to html', activityButton.attr('data-video-url'))
             $('a#ka-form-url').attr('href', activityButton.attr('data-video-url'))
             $('a#ka-form-url').text(activityButton.attr('data-video-topic'))
       }

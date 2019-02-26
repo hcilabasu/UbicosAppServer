@@ -1,8 +1,6 @@
 
 $(function(){
 
-    //hide copy button in the beginning
-    $('#ka-showAnsweredQues').hide();
 
     //hide black image src in the beginning
     $('img#ka-image').hide();
@@ -14,9 +12,6 @@ $(function(){
 
         //hide image src
         $('img#ka-image').hide();
-
-        //hide copy button in the beginning
-        $('#ka-showAnsweredQues').hide();
 
         //clear radio button
         $('input:radio[name="ka-response-type"]').each(function(i) {
@@ -40,6 +35,7 @@ $(function(){
          form_data = new FormData($('#ka-upload-img-form')[0]);
          console.log('form_data', form_data);
          readURL_ka(this);
+         console.log('herebehre', $('input[name="ka-act-id"]').val())
 
 ////      //TODO: save the image in database
           $.ajax({
@@ -54,6 +50,7 @@ $(function(){
 
                     ka_imgID = response.ka_imgID
                     console.log('uploaded image id :: ', ka_imgID);
+
 
                 }
 
@@ -77,7 +74,7 @@ $(function(){
             var ka_radio_input_type = $("input[name='ka-response-type']:checked").val();
             //console.log('ka-response-type', ka_radio_input_type);
 
-            saveKAresponseToDB(4, ka_imgID, ka_radio_input_type, user_response);
+            saveKAresponseToDB(activity_id, ka_imgID, ka_radio_input_type, user_response);
 
 
             $('.ka-answer-p').text(user_response)
@@ -129,18 +126,23 @@ var readURL_ka = function(input) {
 
 //method to copy student answer using a button
 var copy_ka_text_button = function(){
-    $('.ka-row-copy-button').click(function(){
+    $('#ka-row-copy-button').click(function(){
         //https://jqueryhouse.com/copy-data-to-clipboard-using-jquery/
         var copied_text = $(this).parent().siblings().text();
-        console.log(copied_text);
+        if(!copied_text.trim()) {
+            alert("enter your answer first")
+        }else{
+            console.log(copied_text);
 
-        var value = '<input value="'+ copied_text +'" id="selVal" />';
-        $(value).insertAfter($(this));
-        $("#selVal").select(); //select works for input //https://stackoverflow.com/questions/50941892/copy-to-clipboard-value-of-selected-option
-        document.execCommand("copy");
-        $('div#ka-showAnsweredQues').find("#selVal").remove();
+            var value = '<input value="'+ copied_text +'" id="selVal" />';
+            $(value).insertAfter($(this));
+            $("#selVal").select(); //select works for input //https://stackoverflow.com/questions/50941892/copy-to-clipboard-value-of-selected-option
+            document.execCommand("copy");
+            $('div#ka-showAnsweredQues').find("#selVal").remove();
 
-        alert("Copied the text: " + copied_text);
+            alert("Copied the text: " + copied_text);
+        }
+
 
     })
 }

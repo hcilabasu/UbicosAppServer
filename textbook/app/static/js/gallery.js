@@ -86,6 +86,7 @@ $(function(){
            $("#mySubmission").css('background-color', '#2DB872');
            $("#groupSubmission").css('background-color', '#2DB872');
 
+              $('#add-new-gallery-post').hide();
            //update the heading
            $('#gallery-group-heading').text('All Submissions')
 
@@ -116,6 +117,7 @@ $(function(){
            $("#mySubmission").css('background-color', '#2DB872');
            $("#allSubmission").css('background-color', '#2DB872');
 
+            $('#add-new-gallery-post').hide();
            //update the heading
            $('#gallery-group-heading').text('Random Submissions')
             //go to server and see if you can join the group
@@ -153,9 +155,8 @@ $(function(){
                  $('#gallery-group-heading').text('My Submissions')
 
                  //display upload image from here
-
                  $('#gallery-user-submission').show();
-                 $('#gallery-camera-div').show();
+                 $('#add-new-gallery-post').show();
 
                     //steps: get group id;
                     //get the group id based on the user
@@ -360,7 +361,7 @@ $(function(){
  function showImageInGallery(data){
 
            img_data = data;
-           console.log(img_data)
+           //console.log(img_data)
 
            $('#gallery').empty();
 

@@ -16,9 +16,10 @@
 
 
         <div id="gallery-view-only">
-            <a id="allSubmission" class="gallery-submission" href="#">All Submissions</a>  <!--<h2>defined in gallery.js</h2>-->
-            <a id="groupSubmission" class="gallery-submission" href="#">Random Group Submissions</a>  <!--<h2>defined in gallery.js</h2>-->
             <a id="mySubmission" class="gallery-submission" href="#">My Submissions</a>  <!--<h2>defined in gallery.js</h2>-->
+            <a id="allSubmission" class="gallery-submission" href="#">Class Submissions</a>  <!--<h2>defined in gallery.js</h2>-->
+            <a id="groupSubmission" class="gallery-submission" href="#">Group Submissions</a>  <!--<h2>defined in gallery.js</h2>-->
+
         </div>
 
 
@@ -32,6 +33,7 @@
                 <label for="file-upload" class="btn">
                     Choose
                 </label>
+                <a class="openCamera" href="https://hcilabasu.pythonanywhere.com/camera/" target="_blank"></a>
                 <input type="file" name="gallery_img" class="btn" id="file-upload" />
                 <input type="hidden" name="act-id" value=""/> <!--pass gallery id number from digTextBook.js-->
                 <input type="hidden" name="group-id" value=""/> <!--pass group id number from distextBook.js/gallery.js-->

@@ -5,37 +5,43 @@
 
 </head>
 <body >
+    <h1> </h1>
     <div id="ka-container">
         <div id="ka-left">
              <p id="ka-left-description">
-                Visit the Khan Academy Link, select a question to post an answer or post a question. Take a screenshot of the question and
-                 upload it. After uploading, write your answer in the textbox and paste it in Khan Academy.
-            </p>
-
-            <a id="ka-form-url" href="" target="_blank">Khan Academy Link</a>
-
+                Visit  <a id="ka-form-url" href="" target="_blank" style="color:white;"></a>, select a post you want to answer. Take a screenshot
+                 of the question and upload it.
+             </p>
             <form id="ka-upload-img-form" enctype="multipart/form-data" method="post" action="">
                 <label for="ka_img_upload" class="btn">Choose Screenshot</label>
                 <input type="file" id="ka_img_upload" name="ka_img_name" class="btn"/>
             </form>
             <img id="ka-image" src="#" />
 
+             <ul id="ka-gallery">
+
+             </ul>
         </div>
 
+
         <div id="ka-right">
-             <h1> Answer Questions on Khan Academy</h1>
+
 
             <div id="ka-form-containter">
+                <p>Select one of the following options and write your response. Once done, click the copy button to
+                    copy the answer in the clipboard.
+                </p>
                 <form class="ka-form" >
                     <input type="radio" name="ka-response-type" value="answer"> Answer a Question<br>
                     <input type="radio" name="ka-response-type" value="question"> Post a Question<br>
                     <textarea id="KAAnswer" name="KAAnswer" placeholder="Write something.." style="height:180px"></textarea>
+                    <input type="hidden" name="ka-act-id" value=""/>
                     <!--<input id="ka-submit" type="button" value="Submit" class="user-input-submit-button">-->
                 </form>
                 <div id="ka-showAnsweredQues">
-                        <p class="ka-answer-p" style="visibility: hidden;">Sample Answer</p>
+                        <p class="ka-answer-p" style="visibility: hidden;"></p>
                         <div class="ka-row">
-                            <button class="ka-row-copy-button">copy answer</button>
+                            <button class="user-input-submit-button" id="ka-row-copy-button">copy answer</button>
                         </div>
                  </div>
 
