@@ -396,7 +396,7 @@ def submitKAAnswer(request):
 
     #TODO: try update_or_create method
     if khanAcademyAnswer.objects.filter(pk=request.POST.get('imgID')).exists():
-        print('yesyesyesyes')
+
         khanAcademyAnswer.objects.filter(pk=request.POST.get('imgID')).update(ka_id=request.POST.get('id'), response_type=request.POST.get('response_type'),
                                       response=request.POST.get('answer'), posted_by=request.user)
 
@@ -406,6 +406,16 @@ def submitKAAnswer(request):
     #     ka_answer.save()
 
     return HttpResponse('from server')
+
+def checkKAAnswer(request, ka_id):
+
+    try:
+        ka_obj = khanAcademyAnswer.objects.filter(ka_id=ka_id).filter(posted_by=request.user);
+        ka_obj = serializers.serialize('json', ka_obj, use_natural_foreign_keys=True)
+    except imageModel.DoesNotExist:
+        ka_obj = None
+
+    return JsonResponse({'success': ka_obj})
 
 def random_discussion_group_generator(request):
 

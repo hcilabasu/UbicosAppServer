@@ -36,6 +36,7 @@ urlpatterns = [
     url('submitAnswer',views.submitAnswer),
     url('uploadKAImage', views.uploadKAImage),
     url('submitKAAnswer',views.submitKAAnswer),
+    url('checkKAAnswer/(?P<ka_id>\d+)',views.checkKAAnswer),
     #badges
     url('insertBadges',views.insertBadges),
     url('getBadges',views.getBadges),

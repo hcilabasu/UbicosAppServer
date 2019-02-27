@@ -458,6 +458,17 @@ var bindActivityButtons = function(){
             //console.log('ka-url-passing to html', activityButton.attr('data-video-url'))
             $('a#ka-form-url').attr('href', activityButton.attr('data-video-url'))
             $('a#ka-form-url').text(activityButton.attr('data-video-topic'))
+
+             //check for persistence
+             $.get({
+               async: false,
+               url:'/checkKAAnswer/'+activity_id,
+               success: function(response){
+
+                    persistence_check(response.success)
+                }
+
+            });
       }
 
         //user logging

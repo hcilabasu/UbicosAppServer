@@ -1,3 +1,4 @@
+var host_url = window.location.host
 
 $(function(){
 
@@ -67,9 +68,7 @@ $(function(){
 
         });
 
-       persistence_check(){
 
-       }
 
 })
 
@@ -135,20 +134,51 @@ var copy_ka_text_button = function(){
     })
 }
 
-var persistence_check = function(){
+var persistence_check = function(data){
     //check if any entry exist for logged in user and with the ka-id
     //if none returned do nothing
     //if returned image id then populate the fields
+    //from server it gives us a string, we need to parse it
+    //console.log(jQuery.type(data))
+    var ka_obj = jQuery.parseJSON(data);
+    if(ka_obj.length!=0){
+        //console.log(ka_obj)
+        //access the latest item if multiple items are returned
+        index = ka_obj.length-1;
 
-     $.get({
-               async: false,
-               url:'/checkKAAnswer',
-               success: function(response){
+        console.log(ka_obj[index].fields) //prints the item
+        //image url
+        var img_url = ka_obj[index].fields['ka_image']
+        console.log(img_url)
 
-                    console.log(response)
-            }
+        //radio button value
+        var response_type = ka_obj[index].fields['response_type']
 
-            });
+        //ka-response
+        var ka_response = ka_obj[index].fields['response']
+
+        //populate the items
+        $('#ka-image').attr('src', 'http://'+ host_url +'/media/'+ img_url).width(570)
+                    .height(300)
+                    .css("padding", "30px")
+                    .css('display', 'block');
+
+        //radio button
+        $('input[name=ka-response-type][value='+response_type+']').attr('checked', true);
+
+        //textarea
+        $("#KAAnswer").val(ka_response);
+
+    }else{
+        //empty the user responses
+        $('img#ka-image').hide();
+        $("#KAAnswer").val('');
+        //clear radio button
+        $('input:radio[name="ka-response-type"]').each(function(i) {
+                this.checked = false;
+        });
+
+    }
 
 
 
