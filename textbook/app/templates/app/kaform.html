@@ -15,6 +15,7 @@
             <form id="ka-upload-img-form" enctype="multipart/form-data" method="post" action="">
                 <label for="ka_img_upload" class="btn">Choose Screenshot</label>
                 <input type="file" id="ka_img_upload" name="ka_img_name" class="btn"/>
+                <input type="hidden" name="ka-act-id" value=""/>
             </form>
             <img id="ka-image" src="#" />
 
@@ -30,16 +31,16 @@
             <div id="ka-form-containter">
                 <p>Are you answering a question or posting a question?
                 </p>
-                <form class="ka-form" >
+                <form class="ka-form">
                     <input type="radio" name="ka-response-type" value="answer"> Answer a Question<br>
                     <input type="radio" name="ka-response-type" value="question"> Post a Question<br>
+                    <p> Write your response below. Once you are have completed, click the copy button to
+                    copy the answer in the clipboard and go paste it in Khan Academy.</p>
                     <textarea id="KAAnswer" name="KAAnswer" placeholder="Write something.." style="height:180px"></textarea>
-                    <input type="hidden" name="ka-act-id" value=""/>
                     <!--<input id="ka-submit" type="button" value="Submit" class="user-input-submit-button">-->
                 </form>
 
-                <p> Write your response below. once you are done click the copy button to
-                    copy the answer in the clipboard and go paste it in Khan Academy.</p>
+
                 <div id="ka-showAnsweredQues">
                         <p class="ka-answer-p" style="visibility: hidden;"></p>
                         <div class="ka-row">
@@ -62,9 +63,9 @@
 
             <!--</div>-->
 
-            <div id="add-new-ka-post">
-                <a class="add-ka-a"></a>
-            </div>
+            <!--<div id="add-new-ka-post">-->
+                <!--<a class="add-ka-a"></a>-->
+            <!--</div>-->
 
         </div>
     </div>

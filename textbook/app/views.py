@@ -216,11 +216,7 @@ def uploadKAImage(request):
         # print (request.Files) #gives the name of the <input type='file' name...>
 
         #get the KA ID
-        #ka_id = request.POST.get('ka-id')
-
-
-        # print(type(request.FILES['gallery_img'].name))
-        # django.core.files.uploadedfile.InMemoryUploadedFile
+        ka_id = request.POST.get('ka-act-id');
 
         #get the logged in username
         username = ''
@@ -231,12 +227,13 @@ def uploadKAImage(request):
             print('user not signed in') #add in log
 
         #insert values in the database
-        ka_image_upload = khanAcademyAnswer(ka_id=4, ka_image=request.FILES['ka_img_name'], posted_by=request.user)
+        ka_image_upload = khanAcademyAnswer(ka_id=ka_id, ka_image=request.FILES['ka_img_name'], posted_by=request.user);
         # TODO: check whether the insertion was successful or not, else wrong image will be shown using the last() query
-        ka_image_upload.save()
+        ka_image_upload.save();
 
-        latest_upload = khanAcademyAnswer.objects.filter(ka_id=4).last()
-        ka_img = serializers.serialize('json', latest_upload, use_natural_foreign_keys=True)
+        latest_upload = khanAcademyAnswer.objects.filter(ka_id=ka_id).last()
+        #https://stackoverflow.com/questions/16640021/django-object-is-not-iterable-using-serializers-serialize
+        ka_img = serializers.serialize('json', [latest_upload], use_natural_foreign_keys=True)
         #print(latest_upload.pk)
 
         return JsonResponse({'ka_imgID': latest_upload.pk, 'ka_img':ka_img})
@@ -893,7 +890,8 @@ def deleteAllItems(request):
     # imageModel.objects.all().delete()
     # Message.objects.all().delete()
     # group_join_six.objects.all().delete();
-    # userLogTable.objects.all().delete();
+    userLogTable.objects.all().delete();
+    khanAcademyAnswer.objects.all().delete();
     # groupInfo.objects.all().delete()
 
     return HttpResponse('')

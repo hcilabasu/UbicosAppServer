@@ -5,24 +5,6 @@ $(function(){
     //hide black image src in the beginning
     $('img#ka-image').hide();
 
-    //clear everything and allow next upload
-    $('#add-new-ka-post .add-ka-a').click(function(){
-        //clear existing image src
-        $('#ka-image').attr('src', '');
-
-        //hide image src
-        $('img#ka-image').hide();
-
-        //clear radio button
-        $('input:radio[name="ka-response-type"]').each(function(i) {
-                this.checked = false;
-        });
-
-        //clear textbox text
-        $('#KAAnswer').val('');
-
-    })
-
 
     //ka_submit_button();
     copy_ka_text_button();
@@ -48,8 +30,9 @@ $(function(){
                   data : form_data,
                   success: function(response){
 
-                    //ka_imgID = response.ka_imgID
-                    console.log('uploaded image id :: ', ka_img);
+                    //this ID is later used to update KA table in DB with the question/answer
+                    ka_imgID = response.ka_imgID
+                    console.log('uploaded image id :: ', response.ka_img);
 
 
                 }
@@ -84,6 +67,10 @@ $(function(){
 
         });
 
+       persistence_check(){
+
+       }
+
 })
 
 
@@ -97,7 +84,7 @@ var readURL_ka = function(input) {
             reader.onload = function (e) {
                 $('#ka-image')
                     .attr('src', e.target.result)
-                    .width(400)
+                    .width(570)
                     .height(300)
                     .css("padding", "30px");
             };
@@ -146,6 +133,25 @@ var copy_ka_text_button = function(){
 
 
     })
+}
+
+var persistence_check = function(){
+    //check if any entry exist for logged in user and with the ka-id
+    //if none returned do nothing
+    //if returned image id then populate the fields
+
+     $.get({
+               async: false,
+               url:'/checkKAAnswer',
+               success: function(response){
+
+                    console.log(response)
+            }
+
+            });
+
+
+
 }
 
 var saveKAresponseToDB = function(id, imgID, response_type, answer_text){
