@@ -356,21 +356,27 @@ var bindActivityButtons = function(){
             }
 
             //update the submission heading
-            $('#gallery-group-heading').text('All Submissions')
+            $('#gallery-group-heading').text('My Submissions')
 
             //highlight the all submission  button and unhighlight the my submission
-            $("#allSubmission").css('background-color', '#006600');
-            $("#mySubmission").css('background-color', '#2DB872');
+            $("#mySubmission").css('background-color', '#006600');
+            $("#allSubmission").css('background-color', '#2DB872');
+            $("#groupSubmission").css('background-color', '#2DB872');
+
+            //since the card opens to my submission -- show user upload options
+            //display upload image from here
+             $('#gallery-user-submission').hide();
+             $('#add-new-gallery-post').show();
+
 
             //gallery 1 card stays open if explicitly not closed and you go to gallery 2.
             //with each click hide the single image view
             $('#gallery-panel').show();
             $('#single-image-view').hide();
+
             //https://stackoverflow.com/questions/52430558/dynamic-html-image-loading-using-javascript-and-django-templates
             $('img#default').attr('src', API_URL.picsBase + "/default.png");
             // end of the solution
-
-
 
 
             var view = activityButton.attr('data-view');
@@ -380,7 +386,7 @@ var bindActivityButtons = function(){
 
             //call function from gallery.js
             $("input[name='group-id']").attr('value', user_group_id);
-            viewDiv(view, user_group_id);
+            viewDiv("class", user_group_id);
 
             //indicate that its not a middleGroupDiscussion -- variable used to extract comments as needed
             //defined in gallery.js (top)

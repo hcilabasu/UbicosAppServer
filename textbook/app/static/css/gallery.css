@@ -105,6 +105,7 @@ input[type="file"] {
 .user-answer-input{
 
     display:block;
+    display:block;
     border: none;
     outline: 0;
     padding: 12px 12px;

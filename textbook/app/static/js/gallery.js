@@ -74,21 +74,65 @@ $(function(){
 
         })
 
+            //show submissions based on the user group
+        $("#mySubmission").click(function(e){
+
+                 middleGroupDiscussion = 'no';
+
+                 //highlight the selected button
+                 $(this).css('background-color', '#006600');
+                 //unhighlight the other
+                 $("#allSubmission").css('background-color', '#2DB872');
+                 $("#groupSubmission").css('background-color', '#2DB872');
+
+
+                 $('#gallery-group-heading').text('My Submissions')
+
+                 //update heading for the extended view
+                 $('.extendedHeading').text("My Group Submission");
+
+                 //display upload image from here
+                 $('#gallery-user-submission').show();
+                 $('#add-new-gallery-post').show();
+
+                //steps: get group id;
+                //get the group id based on the user
+                var get_user_group_id
+                $.ajax({
+                    type:'GET',
+                    url:'http://'+ host_url +'/getGroupID/'+$('input[name="act-id"]').val(),
+                    async: false, //wait for ajax call to finish, else logged_in is null in the following if condition
+                    success: function(e){
+                        get_user_group_id = e;
+                        console.log("my group id (gallery.js),", e)
+                    }
+                });
+                displayGallery(0, get_user_group_id);
+
+               enterLogIntoDatabase('activity select', 'gallery my submission' , $('input[name="act-id"]').val(), current_pagenumber)
+
+        });
 
 
         //show all submissions except the user group
         $("#allSubmission").click(function(e){
 
            middleGroupDiscussion = 'no';
+
            //highlight the selected button
            $(this).css('background-color', '#006600');
            //unhighlight the other
            $("#mySubmission").css('background-color', '#2DB872');
            $("#groupSubmission").css('background-color', '#2DB872');
 
-              $('#add-new-gallery-post').hide();
+            $('#add-new-gallery-post').hide();
            //update the heading
-           $('#gallery-group-heading').text('All Submissions')
+           $('#gallery-group-heading').text('Other Submissions')
+
+           //update heading for the extended view
+           $('.extendedHeading').text("Comment on Others Submissions");
+
+
 
            var get_user_group_id
             $.ajax({
@@ -97,7 +141,7 @@ $(function(){
                 async: false, //wait for ajax call to finish, else logged_in is null in the following if condition
                 success: function(e){
                     get_user_group_id = e;
-                    console.log("@@@@,", e)
+                    //console.log("@@@@,", e)
                 }
             });
 
@@ -119,7 +163,12 @@ $(function(){
 
             $('#add-new-gallery-post').hide();
            //update the heading
-           $('#gallery-group-heading').text('Random Submissions')
+           $('#gallery-group-heading').text('Group Discussions')
+
+           //update heading for the extended view
+           $('.extendedHeading').text("Discuss Submissions in Groups");
+
+
             //go to server and see if you can join the group
 
             $.post({
@@ -141,40 +190,7 @@ $(function(){
 
         });
 
-            //show submissions based on the user group
-        $("#mySubmission").click(function(e){
 
-                 middleGroupDiscussion = 'no';
-
-                 //highlight the selected button
-                 $(this).css('background-color', '#006600');
-                 //unhighlight the other
-                 $("#allSubmission").css('background-color', '#2DB872');
-                 $("#groupSubmission").css('background-color', '#2DB872');
-
-                 $('#gallery-group-heading').text('My Submissions')
-
-                 //display upload image from here
-                 $('#gallery-user-submission').show();
-                 $('#add-new-gallery-post').show();
-
-                    //steps: get group id;
-                    //get the group id based on the user
-                    var get_user_group_id
-                    $.ajax({
-                        type:'GET',
-                        url:'http://'+ host_url +'/getGroupID/'+$('input[name="act-id"]').val(),
-                        async: false, //wait for ajax call to finish, else logged_in is null in the following if condition
-                        success: function(e){
-                            get_user_group_id = e;
-                            console.log("my group id (gallery.js),", e)
-                        }
-                    });
-                    displayGallery(0, get_user_group_id);
-
-                   enterLogIntoDatabase('activity select', 'gallery my submission' , $('input[name="act-id"]').val(), current_pagenumber)
-
-        });
 
 
         $('#image-msg-text').keypress(function(e){
@@ -537,15 +553,15 @@ function viewDiv(view, number_of_group){
     //class means user upload - specific user will click - so we know the id
     if(view == "class"){
         $('#gallery-user-submission').show();
-        $('#openCamera').show();
-        $('#gallery-view-only').hide();
+        //$('#openCamera').show();
+        $('#gallery-view-only').show();
         console.log("my group is (gallery.js) ", number_of_group)
         displayGallery(0, number_of_group);
 
     //comment means user accessing other groups image, should not see their own - any user will click it - so we need to know the id
     }else if(view == "comment"){
         $('#gallery-user-submission').hide();
-        $('#openCamera').hide();
+//        $('#openCamera').hide();
         $('#gallery-view-only').show();
 
         //console.log($('input[name="act-id"]').val())
@@ -779,8 +795,8 @@ var openImageView = function(galleryView, image){
     //$('div.posted_by_image').empty();
 
     //add image icon by username
-     //var div = $("<div/>").appendTo('.posted_by_image');
-     //div.addClass('user-image-posted-by');
+    //var div = $("<div/>").appendTo('.posted_by_image');
+    //div.addClass('user-image-posted-by');
 
     //clear if any name added before
 
@@ -790,7 +806,8 @@ var openImageView = function(galleryView, image){
 
 
     //now add the name
-    $('.section').append('<div id="gallery-image-user-name"><b> Group '+ get_user_group_id + ' </b> <font color="#a8aaad"> timestamp</font></div>');
+    //$('.section').append('<div id="gallery-image-user-name"><b> Group '+ get_user_group_id + ' </b> <font color="#a8aaad"> timestamp</font></div>');
+    $('.section').append('<div id="gallery-image-user-name"><b> Group '+ groupArray[get_user_group_id-1] + ' </b> </div>');
 
     //with each click update the input
     $('.section input[name="image-db-pk"]').attr('value', imageID)
@@ -810,7 +827,7 @@ var openImageView = function(galleryView, image){
              type: 'GET',
              url: updateImageURL, //get image comment using primary id
              data: {
-                //pass gallery ID
+                'gallery_id': activity_id
              },
              success: function(response){
 
@@ -890,7 +907,7 @@ function getLoggedUserName(){
 var keywords_obj = new Object();
     keywords_obj.social = "thanks,thank you,thankyou,love it,good job";
     keywords_obj.related = "sphere,cone,cylinder,area";
-    keywords_obj.elaborated="because,cause,would be,but";
+    keywords_obj.elaborated="because,cause,would be,but,since";
     keywords_obj.feedback = "correct,incorrect";
     keywords_obj.suggestion = "i think,should, could be";
     keywords_obj.question= "how,what,where,why,can you";
