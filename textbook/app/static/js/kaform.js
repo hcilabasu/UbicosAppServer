@@ -45,12 +45,10 @@ $(function(){
     $('#KAAnswer').blur(function() {
 
             //TODO: add user log event; user log event will capture multiple attempts but model will store the latest answer
-            //TODO: capture KA ID and pass it to the database
 
             var isRadioBtnChecked = $("input[name='ka-response-type']").prop('checked');
             //will return false if none of the radio button is not checked
             //will return true if one of the radio button is checked
-
 
             var user_response = $('#KAAnswer').val();
             //console.log('user response::',user_response)
@@ -58,8 +56,9 @@ $(function(){
             var ka_radio_input_type = $("input[name='ka-response-type']:checked").val();
             //console.log('ka-response-type', ka_radio_input_type);
 
-            saveKAresponseToDB(activity_id, ka_imgID, ka_radio_input_type, user_response);
+            showPrompt(user_response);
 
+            saveKAresponseToDB(activity_id, ka_imgID, ka_radio_input_type, user_response);
 
             $('.ka-answer-p').text(user_response)
 
@@ -67,6 +66,16 @@ $(function(){
             $('#ka-showAnsweredQues').show();
 
         });
+
+
+    $('.moreinfobtn').click(function(e){
+         $("#moreInfoModal").css({ display: "block" });
+
+
+        $(".modal-close").click(function(e){
+             $("#moreInfoModal").css({ display: "none" });
+        });
+    })
 
 
 

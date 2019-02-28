@@ -1,9 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-
-</head>
+{% load static %}
 <body >
     <h1> </h1>
     <div id="ka-container">
@@ -36,9 +31,17 @@
                     <input class="ka-radio" type="radio" name="ka-response-type" value="question"> Post a Question<br>
                     <p> Write your response below. Once you have completed, click the copy button to
                     copy the answer in the clipboard and go paste it in Khan Academy.</p>
-                    <textarea id="KAAnswer" name="KAAnswer" placeholder="Write something.." style="height:180px"></textarea>
+                    <textarea id="KAAnswer" class="user-answer-input" name="KAAnswer" placeholder="Write something.." style="height:180px"></textarea>
                     <!--<input id="ka-submit" type="button" value="Submit" class="user-input-submit-button">-->
                 </form>
+
+                 <div class="prompt-card prompt">
+                    <a class="prompt-close-card"></a>
+                    <!--<span id="prompt-p"></span>-->
+                    <!--<img id="badge-default" src="{% static 'pics/default.png' %}" alt="">-->
+                    <img id="prompt-badge-img" src="{% static 'pics/default.png' %}" alt="" >
+                    <p id="prompt-p" ></p>
+                 </div>
 
 
                 <div id="ka-showAnsweredQues">
@@ -63,9 +66,47 @@
 
             <!--</div>-->
 
-            <!--<div id="add-new-ka-post">-->
-                <!--<a class="add-ka-a"></a>-->
-            <!--</div>-->
+            <div id="add-new-ka-post">
+                <a class="moreinfobtn"></a>
+            </div>
+
+            <!-- The Modal -->
+            <div id="moreInfoModal" class="talkmodal">
+                 <span class="modal-close">&times;</span>
+                    <h2>Talk Moves</h2>
+                      <h4>Ask a Question</h4>
+                      <ul style="margin-top:-20px">
+                        <li>I’m confused about... </li>
+                        <li>What do you mean by...?</li>
+                        <li>Why did you...instead of...?</li>
+                      </ul>
+
+                      <h4>Give some Feedback</h4>
+                      <ul style="margin-top:-20px">
+                        <li>I think your answer is right/wrong, because... </li>
+                        <li>I agree/disagree with your idea of ..., and I think .. </li>
+                        <li>You mentioned..., I think that this point is important, because…</li>
+                      </ul>
+
+                      <h4>Explain your thinking</h4>
+                      <ul style="margin-top:-20px">
+                        <li>If I compare your answer to my answer, I think... </li>
+                        <li>I think...because... </li>
+                        <li>To explain what I mean, this is an example,...</li>
+                        <li>You did… but another way to do it is...</li>
+                      </ul>
+
+
+              <!-- Modal content -->
+              <!--<div class="modal-content">-->
+                <!--<div class="modal-header">-->
+
+                  <!--<h2 style="text-align: center"></h2>-->
+                <!--</div>-->
+
+              <!--</div>-->
+
+            </div>
 
         </div>
     </div>

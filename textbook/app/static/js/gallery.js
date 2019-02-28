@@ -911,7 +911,7 @@ var keywords_obj = new Object();
     keywords_obj.feedback = "correct,incorrect";
     keywords_obj.suggestion = "i think,should, could be";
     keywords_obj.question= "how,what,where,why,can you";
-    keywords_obj.reflection="i agree,i disagree,";
+    keywords_obj.reflection="i agree,i disagree,confused";
 
 
 var keywords_json = JSON.stringify(keywords_obj);
