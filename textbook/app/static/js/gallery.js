@@ -857,6 +857,20 @@ var openImageView = function(galleryView, image){
 
 };
 
+function populateTeacherViewDiv(list){
+
+
+
+    for(var i of list) {
+        //can use break;
+        console.log(i); //note i returns value
+        var li = $("<li/>").appendTo('#teacher-view');
+        li.text('').append('<a href="" class=".groupLink">' + i + '</a>');
+    }
+
+    //
+}
+
 
 function getLoggedUserName(){
 

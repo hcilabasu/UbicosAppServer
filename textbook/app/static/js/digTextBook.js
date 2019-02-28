@@ -386,6 +386,20 @@ var bindActivityButtons = function(){
             //defined in gallery.js (top)
             middleGroupDiscussion = 'no';
 
+            //teacher-view handle
+            //TODO: check if logged in as teacher-only then do this ajax query
+//            $.ajax({
+//                type:'GET',
+//                url:'http://'+ host_url +'/randomDiscussionList',
+//                async: false, //wait for ajax call to finish, else logged_in is null in the following if condition
+//                success: function(e){
+//
+//                    console.log(e.list);
+//                    populateTeacherViewDiv(e.list);
+//                }
+//            });
+
+
             //if the card is already extended, put it back to normal
             card_extension_close();
         }

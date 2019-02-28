@@ -511,6 +511,14 @@ def  getMediumGroupDiscussion(request):
 
     return JsonResponse({'success': image_data_all})
 
+def randomDiscussionList(request):
+    #get total groups
+    middlegroup_id = group_join_six.objects.values('group').distinct()
+
+    middlegroup_id = [int(q["group"]) for q in middlegroup_id]
+    print(middlegroup_id)
+    return JsonResponse({'list': middlegroup_id})
+
 def updateDiscussionImageFeed(request):
     #TODO:
     gallery_id = 1;
@@ -897,8 +905,8 @@ def addUserToGroupsForm(request):
 
 def deleteAllItems(request):
     # brainstormNote.objects.all().delete()
-    # imageModel.objects.all().delete()
-    # Message.objects.all().delete()
+    imageModel.objects.all().delete()
+    Message.objects.all().delete()
     # group_join_six.objects.all().delete();
     userLogTable.objects.all().delete();
     khanAcademyAnswer.objects.all().delete();
