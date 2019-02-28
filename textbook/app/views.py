@@ -477,7 +477,7 @@ def random_discussion_group_generator(request):
 def  getMediumGroupDiscussion(request):
 
     #TODO: get gallery ID
-    gallery_id = 1;
+    gallery_id = request.POST.get('gallery_id');
 
     #get in which middle group for current user
     middlegroup_id = group_join_six.objects.get(users_id=request.user).group #get the query first and access the group from that query

@@ -126,7 +126,7 @@ $(function(){
                 url: '/getMediumGroupDiscussion',
                 data: {
 
-                //pass the gallery number here
+                'gallery_id': activity_id//pass the gallery number here
 
                 },
                 success: function (data) {
