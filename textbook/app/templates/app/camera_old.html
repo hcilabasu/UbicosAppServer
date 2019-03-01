@@ -40,38 +40,52 @@
         <button id="snap" class="btn">Snap Photo</button>
         <canvas id="canvas" width="640" height="480"></canvas>
         <br>
-
         <a href="#" style="font-size: 50px;" class="button" id="btn-download" download="Picture-CURRENT-USER-TIME-HERE.png" onclick="this.download='Picture-' + getFormattedTime() + '.png'">Download Image</a>
 
+        <!--https://stackoverflow.com/questions/44484882/download-with-current-user-time-as-filename-->
         <script src="{% static 'js/jquery.min.js' %}"></script>
-            <script>
+        <script>
             // Put event listeners into place
             window.addEventListener("DOMContentLoaded", function() {
-                  // Grab elements, create settings, etc.
-            var video = document.getElementById('video');
-
-            // Get access to the camera!
-            if(navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-                // Not adding `{ audio: true }` since we only want video now
-                navigator.mediaDevices.getUserMedia({ video: true }).then(function(stream) {
-                    //video.src = window.URL.createObjectURL(stream);
-                    video.srcObject = stream;
-                    video.play();
-                });
-            }
-
-
+                // Grab elements, create settings, etc.
+                var canvas = document.getElementById('canvas');
+                var context = canvas.getContext('2d');
+                var video = document.getElementById('video');
+                var mediaConfig =  { video: true };
+                var errBack = function(e) {
+                    console.log('An error has occurred!', e)
+                };
     
-              // Elements for taking the snapshot
-            var canvas = document.getElementById('canvas');
-            var context = canvas.getContext('2d');
-            var video = document.getElementById('video');
-
-            // Trigger photo take
-            document.getElementById("snap").addEventListener("click", function() {
-                context.drawImage(video, 0, 0, 640, 480);
-            });
-
+                // Put video listeners into place
+                if(navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+                    navigator.mediaDevices.getUserMedia(mediaConfig).then(function(stream) {
+                        video.src = window.URL.createObjectURL(stream);
+                        video.play();
+                    });
+                }
+    
+                /* Legacy code below! */
+                else if(navigator.getUserMedia) { // Standard
+                    navigator.getUserMedia(mediaConfig, function(stream) {
+                        video.src = stream;
+                        video.play();
+                    }, errBack);
+                } else if(navigator.webkitGetUserMedia) { // WebKit-prefixed
+                    navigator.webkitGetUserMedia(mediaConfig, function(stream){
+                        video.src = window.webkitURL.createObjectURL(stream);
+                        video.play();
+                    }, errBack);
+                } else if(navigator.mozGetUserMedia) { // Mozilla-prefixed
+                    navigator.mozGetUserMedia(mediaConfig, function(stream){
+                        video.src = window.URL.createObjectURL(stream);
+                        video.play();
+                    }, errBack);
+                }
+    
+                // Trigger photo take
+                document.getElementById('snap').addEventListener('click', function() {
+                    context.drawImage(video, 0, 0, 640, 480);
+                });
 
 
 
@@ -79,12 +93,14 @@
                 button.addEventListener('click', function (e) {
                     var dataURL = canvas.toDataURL('image/png');
                     button.href = dataURL;
+
+
                 });
 
 
             }, false);
 
-                function getFormattedTime() {
+            function getFormattedTime() {
                         var today = new Date();
                         var y = today.getFullYear();
                         // JavaScript months are 0-based.
@@ -95,7 +111,6 @@
                         var s = today.getSeconds();
                         return y + "-" + m + "-" + d + "-" + h + "-" + mi + "-" + s;
                 }
-
         </script>
     </body>
 </html>
