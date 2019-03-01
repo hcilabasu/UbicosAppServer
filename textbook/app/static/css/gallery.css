@@ -234,6 +234,17 @@ button {
     /* background-color: rgb(153, 0, 255, 0.4); /* Fallback color */
     background-color: rgba(109, 155, 192,1); /* Black w/ opacity */
     border-radius: 10px; /* round the edges */
+
+    display: none;
+    padding: 10px 10px 10px 10px;
+    position: absolute;
+    z-index: 1;
+    left: 100px;
+    top: 100px;
+    width: 40%;
+    height: 70%;
+    background-color: rgba(153, 179, 255,1);
+    border-radius: 10px;
 }
 
 /* Modal Content */

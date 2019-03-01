@@ -33,7 +33,7 @@
                 <label for="file-upload" class="btn">
                     Choose
                 </label>
-                <a class="openCamera" href="https://hcilabasu.pythonanywhere.com/camera/" target="_blank"></a>
+                <!--<a class="openCamera" href="https://hcilabasu.pythonanywhere.com/camera/" target="_blank"></a>-->
                 <input type="file" name="gallery_img" class="btn" id="file-upload" />
                 <input type="hidden" name="act-id" value=""/> <!--pass gallery id number from digTextBook.js-->
                 <input type="hidden" name="group-id" value=""/> <!--pass group id number from distextBook.js/gallery.js-->
@@ -43,6 +43,7 @@
 
          <div id="add-new-gallery-post">
                 <a class="openCamera" href="https://hcilabasu.pythonanywhere.com/camera/" target="_blank"></a>
+                <!--<a class="openCamera" href="http://127.0.0.1:8000/camera/" target="_blank"></a>-->
          </div>
 
         <h2 id="gallery-group-heading">All Submissions</h2>
@@ -79,19 +80,19 @@
                 <ul id="image-feed" class="feed" style="margin-top: 50px;">
                 </ul> 
                     
-        <div class="prompt-card prompt">
-            <a class="prompt-close-card"></a>
-            <!--<span id="prompt-p"></span>-->
-            <!--<img id="badge-default" src="{% static 'pics/default.png' %}" alt="">-->
-            <img id="prompt-badge-img" src="{% static 'pics/default.png' %}" alt="" >
-            <p id="prompt-p" ></p>
-        </div>
+                <div class="prompt-card prompt">
+                    <a class="prompt-close-card"></a>
+                    <!--<span id="prompt-p"></span>-->
+                    <!--<img id="badge-default" src="{% static 'pics/default.png' %}" alt="">-->
+                    <img id="prompt-badge-img" src="{% static 'pics/default.png' %}" alt="" >
+                    <p id="prompt-p" ></p>
+                </div>
 
-        <div class="message-input">
-            <input type="text" id="image-msg-text" name="image-msg-text" placeholder="Comment on this picture">
-            <input type="hidden" name="username" value={{ user.get_username }}>
-            <a href="" id="image-msg-send-btn"></a>
-        </div>
+                <div class="message-input">
+                    <input type="text" id="image-msg-text" name="image-msg-text" placeholder="Comment on this picture">
+                    <input type="hidden" name="username" value={{ user.get_username }}>
+                    <a href="" id="image-msg-send-btn"></a>
+                </div>
             </div>
     </div>
     </div>
