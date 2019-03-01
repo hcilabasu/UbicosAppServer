@@ -1,5 +1,6 @@
 
 var users_list=['ant', 'giraffe', 'penguin', 'sheep', 'hippo', 'lion', 'dolphin', 'eagle', 'frog', 'duck', 'bee', 'bat', 'elephant', 'leopard', 'panda', 'fish', 'fox', 'alligator', 'kangaroo', 'liger', 'squirrel', 'zebra', 'bear', 'deer', 'dog', 'tiger', 'monkey', 'rabbit', 'AW', 'user1', 'user2']
+var random_group_id
 $(function(){
 
 
@@ -28,9 +29,31 @@ $(function(){
         $('#tchr-gallery').hide();
     });
 
+    $('#teacher-view').on('click', '.groupLink', function(e){
+            e.preventDefault();
+            random_group_id = $(this).attr('data-random-group-id');
+            getRandomListData(random_group_id); //defined down below
+
+      });
 
 
 })
+
+var getRandomListData = function(groupid){
+    $.ajax({
+            type:'GET',
+            url:'http://'+ host_url +'/getRandomListData/'+activity_id+'/'+groupid,
+            async: false, //wait for ajax call to finish
+            success: function(e){
+                returnValue = e.success;
+                $('#teacher-view').hide();
+                middleGroupDiscussion = 'yes';
+                showImageInGallery(returnValue); //defined in gallery.js
+
+            }
+        })
+
+}
 
 
 var loadtable = function (activity_id){
@@ -110,6 +133,7 @@ var getImagePerUser = function(activity_id, username){
     return returnValue;
 
 }
+
 var detectTableClick = function(){
 
         //detect when username in the table is clicked
@@ -120,6 +144,8 @@ var detectTableClick = function(){
 
         });
 }
+
+
 
 var tchr_showImageInGallery = function(data, gallery_type){
 

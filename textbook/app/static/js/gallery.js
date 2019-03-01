@@ -372,7 +372,11 @@ $(function(){
 
 
 
- })
+
+
+
+
+ });
 
  function showImageInGallery(data){
 
@@ -818,17 +822,18 @@ var openImageView = function(galleryView, image){
    //
    var updateImageURL
     if(middleGroupDiscussion == 'yes'){
-        updateImageURL = '/updateDiscussionImageFeed/'
+        updateImageURL = '/updateDiscussionImageFeed/'+activity_id
     }else{
         updateImageURL = '/updateImageFeed/'+imageID
+    }
+
+    if(logged_in == 'AW'){
+        updateImageURL = '/updateDiscussionImageFeedTeacherVersion/'+activity_id+'/'+random_group_id
     }
      //update feed with each image
      $.ajax({
              type: 'GET',
              url: updateImageURL, //get image comment using primary id
-             data: {
-                'gallery_id': activity_id
-             },
              success: function(response){
 
                     console.log(response)
@@ -876,13 +881,11 @@ var openImageView = function(galleryView, image){
 
 function populateTeacherViewDiv(list){
 
-
-
     for(var i of list) {
         //can use break;
-        console.log(i); //note i returns value
+        //console.log(i); //note i returns value
         var li = $("<li/>").appendTo('#teacher-view');
-        li.text('').append('<a href="" class=".groupLink">' + i + '</a>');
+        li.append('<a href="#" class="groupLink" data-random-group-id='+i+'> Group ' + i + '</a>'); //click detect handled in teacherindex.js
     }
 
     //

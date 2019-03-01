@@ -407,6 +407,8 @@ def submitKAAnswer(request):
 
     return HttpResponse('from server')
 
+
+
 def checkKAAnswer(request, ka_id):
 
     try:
@@ -444,6 +446,8 @@ def random_discussion_group_generator(request):
 
     #print(group_list)
 
+    #get usser for username=AW
+    teacher_user = User.objects.get(username='AW')
     #iterate through the list and make entry
     for group_index in range(len(group_list)):
         group = group_list[group_index]
@@ -452,6 +456,10 @@ def random_discussion_group_generator(request):
             print(user)
             group_member = group_join_six(users=user, group=group_index+1) #plus 1 so the group number starts from 1 instead of 0
             group_member.save();
+
+        #add amanda in every group
+        group_member = group_join_six(users=teacher_user, group=group_index+1)
+        group_member.save();
 
     return HttpResponse('')
 
@@ -474,13 +482,25 @@ def random_discussion_group_generator(request):
     #     else:
     #         return HttpResponse('unable to join the group, group exceeded 6 members')
 
+# called from gallery.js
 def  getMediumGroupDiscussion(request):
 
-    #TODO: get gallery ID
     gallery_id = request.POST.get('gallery_id');
 
     #get in which middle group for current user
     middlegroup_id = group_join_six.objects.get(users_id=request.user).group #get the query first and access the group from that query
+
+    image_data_all = aux_method_get_img_random_list_group(middlegroup_id, gallery_id)
+
+    return JsonResponse({'success': image_data_all})
+
+def getRandomListData(request, gallery_id,group_id):
+
+    image_data_all = aux_method_get_img_random_list_group(group_id, gallery_id)
+
+    return JsonResponse({'success': image_data_all})
+
+def aux_method_get_img_random_list_group(middlegroup_id, gallery_id):
 
     # find other users in this group
     middlegroup_users = group_join_six.objects.filter(group=middlegroup_id)
@@ -491,7 +511,6 @@ def  getMediumGroupDiscussion(request):
     originalgroup_list = []
     for o in middlegroup_users:
         group_id = groupInfo.objects.filter(users_id=User.objects.get(pk=o.users_id)).order_by('group').values('group').distinct()[0]['group']
-        print('hell bell', group_id)
 
         originalgroup_list.append(group_id);
 
@@ -509,7 +528,7 @@ def  getMediumGroupDiscussion(request):
 
     print(image_data_all)
 
-    return JsonResponse({'success': image_data_all})
+    return image_data_all
 
 def randomDiscussionList(request):
     #get total groups
@@ -519,43 +538,59 @@ def randomDiscussionList(request):
     print(middlegroup_id)
     return JsonResponse({'list': middlegroup_id})
 
-def updateDiscussionImageFeed(request):
+def updateDiscussionImageFeed(request, gallery_id):
 
-    gallery_id = request.POST.get('gallery_id');
+    print("updateDiscussionImageFeed");
+
+    print("updateDiscussionImageFeed", gallery_id)
     # get in which middle group for current user
     middlegroup_id = group_join_six.objects.get(users_id=request.user).group  # get the query first and access the group from that query
+    print("updateDiscussionImageFeed", middlegroup_id)
 
+    image_data = aux_method_get_imgcomment_random_list_group_teacher(middlegroup_id, gallery_id)
+    image_data = serializers.serialize('json', image_data, use_natural_foreign_keys=True)
+
+    return JsonResponse({'success': image_data, 'username': request.user.get_username(), 'errorMsg': True})
+
+def updateDiscussionImageFeedTeacherVersion(request, gallery_id, group_id):
+    print('updateDiscussionImageFeedTeacherVersion', gallery_id)
+    print('updateDiscussionImageFeedTeacherVersion',group_id)
+    image_data = aux_method_get_imgcomment_random_list_group_teacher(group_id, gallery_id)
+    image_data = serializers.serialize('json', image_data, use_natural_foreign_keys=True)
+    return JsonResponse({'success': image_data, 'username': request.user.get_username(), 'errorMsg': True})
+
+def aux_method_get_imgcomment_random_list_group_teacher(middlegroup_id, gallery_id):
     # find other users in this group
     middlegroup_users = group_join_six.objects.filter(group=middlegroup_id)
-    # for o in middlegroup_users: print(o.users_id)
+    for o in middlegroup_users: print("updateDiscussionImageFeed", o.users_id)
 
     # get their original group from groupinfo table
     image_pk = []
     for o in middlegroup_users:
-        originalgroup_id = groupInfo.objects.filter(users_id=User.objects.get(pk=o.users_id)).order_by('group').values('group').distinct()[0]['group']
+        originalgroup_id = \
+        groupInfo.objects.filter(users_id=User.objects.get(pk=o.users_id)).order_by('group').values('group').distinct()[
+            0]['group']
 
         # for each original group id get the image posted by that group - there should one image per group atleast
         images = imageModel.objects.filter(gallery_id=gallery_id).filter(group_id=originalgroup_id).values('pk')
+        print("updateDiscussionImageFeed", images)
 
         for im in images:
             image_pk.append(im['pk']);
-        #image_data = serializers.serialize('json', images, use_natural_foreign_keys=True)
+        # image_data = serializers.serialize('json', images, use_natural_foreign_keys=True)
 
-    #image ids of the images that a group can see.
-    #print('with duplicates :: ',image_pk)
+    # image ids of the images that a group can see.
+    # print('with duplicates :: ',image_pk)
 
     # if same id twice -- image is displayed twice -- so get the distinct IDs of the image
     image_pk = list(set(image_pk))
-    #print('without duplicates :: ',image_pk)
+    # print('without duplicates :: ',image_pk)
 
-    #https://stackoverflow.com/questions/34830595/how-to-perform-a-queryset-in-django-with-a-loop-for-in
+    # https://stackoverflow.com/questions/34830595/how-to-perform-a-queryset-in-django-with-a-loop-for-in
     image_data = imageComment.objects.filter(isGroupDiscussion='yes').filter(imageId_id__in=image_pk)
     print(image_data)
 
-    image_data = serializers.serialize('json', image_data, use_natural_foreign_keys=True)
-    return JsonResponse({'success': image_data, 'username': request.user.get_username(), 'errorMsg': True})
-
-
+    return image_data
 def insertBadges(request):
     badge = badgeModel(badgeType = request.POST.get('badgeType'), message = request.POST.get('message'), userid = request.user)
     badge.save()
@@ -586,6 +621,7 @@ def getUserList(request):
     print(users)
     context = {'user_list': users}
     return render(request, 'app/studentList.html', context)
+
 
 def getAllStudentInfo(request,std_id):
     return HttpResponse(std_id)
@@ -907,7 +943,7 @@ def deleteAllItems(request):
     brainstormNote.objects.all().delete()
     imageModel.objects.all().delete()
     Message.objects.all().delete()
-    # group_join_six.objects.all().delete();
+    group_join_six.objects.all().delete();
     #userLogTable.objects.all().delete();
     khanAcademyAnswer.objects.all().delete();
     # groupInfo.objects.all().delete()
