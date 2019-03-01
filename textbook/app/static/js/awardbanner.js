@@ -3,6 +3,8 @@ var badges = [];
 
 $(function(){
     displayAllBadges();
+
+
 })
 
 var getBadgesFromDB = function(){
@@ -14,7 +16,7 @@ var getBadgesFromDB = function(){
         success: function(e){
             //returns an array of badges
             console.log(e.badgeList)
-            //badges = e.badgeList;
+            badges = e.badgeList;
         }
     })
 }
@@ -22,14 +24,27 @@ var getBadgesFromDB = function(){
 
 function displayAllBadges(){
     //get badges from database
+    var dict = {'suggestion': false, 'social' : false, 'relevance' : false, 'reflection' : false, 'ques' : false, 'feedback' : false, 'explanation' : false, 'co-construction' : false};
     getBadgesFromDB();
-    badges = ["social", "ques"];
+    //badges = ["social", "ques"];
+
     var src = $("#award-holder");
 
-    for(i=0; i < badges.length; i++){
-       var img = document.createElement("img");
-       //console.log( 'http://'+ host_url + "/static/pics/" + badges[i]);
-       var img = $('<img/>', { src : 'http://'+ host_url + "/static/pics/" + badges[i] + ".png" }).css({"width":"50px"}).appendTo(src);
-
+    for(var i = 0; i < badges.length; i++){
+        dict[badges[i]] = true;
     }
-}
+
+    for(var key in dict){
+        var img = document.createElement("img");
+        if(dict[key])
+            var img = $('<img/>', { id: key, src : 'http://'+ host_url + "/static/pics/" + key + ".png" }).css({"width":"30px", "margin-right": "5px", "margin-left": "5px"}).appendTo(src);
+        else
+            var img = $('<img/>', { id: key,  src : 'http://'+ host_url + "/static/pics/" + "blank" + ".png" }).css({"width":"30px", "margin-right": "5px", "margin-left": "5px"}).appendTo(src);
+    }
+
+   // src.append("</center>");
+  }
+
+
+
+
