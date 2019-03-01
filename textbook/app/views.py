@@ -904,11 +904,11 @@ def addUserToGroupsForm(request):
     return render(request, 'app/group.html', {})
 
 def deleteAllItems(request):
-    # brainstormNote.objects.all().delete()
+    brainstormNote.objects.all().delete()
     imageModel.objects.all().delete()
     Message.objects.all().delete()
     # group_join_six.objects.all().delete();
-    userLogTable.objects.all().delete();
+    #userLogTable.objects.all().delete();
     khanAcademyAnswer.objects.all().delete();
     # groupInfo.objects.all().delete()
 
