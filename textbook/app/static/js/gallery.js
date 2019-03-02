@@ -881,6 +881,10 @@ var openImageView = function(galleryView, image){
 
 function populateTeacherViewDiv(list){
 
+    $('#teacher-view').empty();
+    $('#gallery-view-only').hide();
+    $('#gallery-group-heading').text('Random Group Lists')
+
     for(var i of list) {
         //can use break;
         //console.log(i); //note i returns value
@@ -958,6 +962,8 @@ function showPrompt(message){
              insertBadgeIngoinDB(message, index);
              //getBadgesFromDB();
 
+        }else{
+            $('.prompt-card.prompt').removeClass('active');
         }
 
     });

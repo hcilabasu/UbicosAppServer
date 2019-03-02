@@ -393,8 +393,9 @@ var bindActivityButtons = function(){
             middleGroupDiscussion = 'no';
 
             //teacher-view handle
-            //TODO: check if logged in as teacher-only then do this ajax query
+            //TODO: Can transfar ajax request to gallery.js inside populate function
             if(logged_in == 'AW'){
+                $("#teacher-view").css("display", "block");
                  $.ajax({
                     type:'GET',
                     url:'http://'+ host_url +'/randomDiscussionList',

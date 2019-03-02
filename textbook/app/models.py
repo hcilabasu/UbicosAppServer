@@ -99,7 +99,7 @@ class groupInfo(models.Model):
         return '%s %s' % (self.activityID, self.group)
 #temp solution for pilot-1 -- end
 
-class group_join_six(models.Model):
+class random_group_users(models.Model):
     users = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     group = models.CharField(max_length=20)
 

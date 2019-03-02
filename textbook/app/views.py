@@ -3,7 +3,7 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render, render_to_response
 from rest_framework.views import APIView
 from .models import imageModel, imageComment, Message, brainstormNote,userLogTable, tableChartData, \
-    userQuesAnswerTable, groupInfo, userLogTable, khanAcademyAnswer, group_join_six, badgeModel
+    userQuesAnswerTable, groupInfo, userLogTable, khanAcademyAnswer, random_group_users, badgeModel
 from django.contrib.auth import authenticate
 from django.http.response import JsonResponse
 from django.contrib.auth import login as auth_login
@@ -242,8 +242,9 @@ def getImage(request, view_id, gallery_id,group_id):
 
     # for pilot/study
     if(int(view_id) == 1): #view_id = 1 means comment view
-        images = imageModel.objects.exclude(group_id=group_id)
-        images = images.filter(gallery_id=gallery_id)
+        #images = imageModel.objects.exclude(group_id=group_id)
+        #images = images.filter(gallery_id=gallery_id)
+        images = imageModel.objects.filter(gallery_id=gallery_id)
     else:
         images = imageModel.objects.filter(gallery_id=gallery_id)
         images = images.filter(group_id=group_id)
@@ -422,12 +423,12 @@ def checkKAAnswer(request, ka_id):
 def random_discussion_group_generator(request):
 
     #delete previoud grouping - if any
-    group_join_six.objects.all().delete();
+    random_group_users.objects.all().delete();
 
     users_list = [str(user) for user in User.objects.all()];
     users_list = [n for n in users_list if n not in ['AW', 'user1', 'user2']]
     print(users_list)
-    member_limit = 4;
+    member_limit = 5;
 
     users_list_copy = users_list
     group_list = []
@@ -454,11 +455,11 @@ def random_discussion_group_generator(request):
         for g in group:
             user =  User.objects.get(username=g)
             print(user)
-            group_member = group_join_six(users=user, group=group_index+1) #plus 1 so the group number starts from 1 instead of 0
+            group_member = random_group_users(users=user, group=group_index+1) #plus 1 so the group number starts from 1 instead of 0
             group_member.save();
 
         #add amanda in every group
-        group_member = group_join_six(users=teacher_user, group=group_index+1)
+        group_member = random_group_users(users=teacher_user, group=group_index+1)
         group_member.save();
 
     return HttpResponse('')
@@ -466,17 +467,17 @@ def random_discussion_group_generator(request):
     # # check if a user has joined a group or not; if not add him in a group if group has still empty place
     # # https://stackoverflow.com/questions/3090302/how-do-i-get-the-object-if-it-exists-or-none-if-it-does-not-exist
     # try:
-    #     isUserPresent = group_join_six.objects.get(users_id=request.user)
+    #     isUserPresent = random_group_users.objects.get(users_id=request.user)
     #     print('inside try', isUserPresent)
     #     return HttpResponse('unable to join the group, already joined a group')
-    # except group_join_six.DoesNotExist:
+    # except random_group_users.DoesNotExist:
     #     print('inside except')
     #     isUserPresent = None
     #     # count total number of members in the group
-    #     member_count = group_join_six.objects.filter(group='A').count()
+    #     member_count = random_group_users.objects.filter(group='A').count()
     #     print('total member count', member_count)
     #     if member_count < 6: #allows 6 members
-    #         group_member = group_join_six(users = request.user, group='A')
+    #         group_member = random_group_users(users = request.user, group='A')
     #         group_member.save();
     #         return HttpResponse('successfully joined the group')
     #     else:
@@ -488,7 +489,7 @@ def  getMediumGroupDiscussion(request):
     gallery_id = request.POST.get('gallery_id');
 
     #get in which middle group for current user
-    middlegroup_id = group_join_six.objects.get(users_id=request.user).group #get the query first and access the group from that query
+    middlegroup_id = random_group_users.objects.get(users_id=request.user).group #get the query first and access the group from that query
 
     image_data_all = aux_method_get_img_random_list_group(middlegroup_id, gallery_id)
 
@@ -503,8 +504,8 @@ def getRandomListData(request, gallery_id,group_id):
 def aux_method_get_img_random_list_group(middlegroup_id, gallery_id):
 
     # find other users in this group
-    middlegroup_users = group_join_six.objects.filter(group=middlegroup_id)
-    # for o in middlegroup_users: print(o.users_id)
+    middlegroup_users = random_group_users.objects.filter(group=middlegroup_id)
+    for o in middlegroup_users: print(o.users_id)
 
     # get their original group from groupinfo table
     image_data_all = []
@@ -516,6 +517,7 @@ def aux_method_get_img_random_list_group(middlegroup_id, gallery_id):
 
     # if same id twice -- image is displayed twice -- so get the distinct IDs of the image e.g., [7,7,1,4]
     originalgroup_list = list(set(originalgroup_list))
+    print(originalgroup_list)
 
     for oid in originalgroup_list:
         #for each original group id get the image posted by that group - there should one image per group atleast
@@ -532,7 +534,7 @@ def aux_method_get_img_random_list_group(middlegroup_id, gallery_id):
 
 def randomDiscussionList(request):
     #get total groups
-    middlegroup_id = group_join_six.objects.values('group').distinct()
+    middlegroup_id = random_group_users.objects.values('group').distinct()
 
     middlegroup_id = [int(q["group"]) for q in middlegroup_id]
     print(middlegroup_id)
@@ -544,7 +546,7 @@ def updateDiscussionImageFeed(request, gallery_id):
 
     print("updateDiscussionImageFeed", gallery_id)
     # get in which middle group for current user
-    middlegroup_id = group_join_six.objects.get(users_id=request.user).group  # get the query first and access the group from that query
+    middlegroup_id = random_group_users.objects.get(users_id=request.user).group  # get the query first and access the group from that query
     print("updateDiscussionImageFeed", middlegroup_id)
 
     image_data = aux_method_get_imgcomment_random_list_group_teacher(middlegroup_id, gallery_id)
@@ -561,7 +563,7 @@ def updateDiscussionImageFeedTeacherVersion(request, gallery_id, group_id):
 
 def aux_method_get_imgcomment_random_list_group_teacher(middlegroup_id, gallery_id):
     # find other users in this group
-    middlegroup_users = group_join_six.objects.filter(group=middlegroup_id)
+    middlegroup_users = random_group_users.objects.filter(group=middlegroup_id)
     for o in middlegroup_users: print("updateDiscussionImageFeed", o.users_id)
 
     # get their original group from groupinfo table
@@ -586,8 +588,14 @@ def aux_method_get_imgcomment_random_list_group_teacher(middlegroup_id, gallery_
     image_pk = list(set(image_pk))
     # print('without duplicates :: ',image_pk)
 
+    #get user object for middle group users
+    userobject_list = []
+    for o in middlegroup_users:
+        userID = User.objects.get(pk=o.users_id)
+        userobject_list.append(userID)
+
     # https://stackoverflow.com/questions/34830595/how-to-perform-a-queryset-in-django-with-a-loop-for-in
-    image_data = imageComment.objects.filter(isGroupDiscussion='yes').filter(imageId_id__in=image_pk)
+    image_data = imageComment.objects.filter(isGroupDiscussion='yes').filter(imageId_id__in=image_pk).filter(posted_by_id__in=userobject_list)
     print(image_data)
 
     return image_data
@@ -693,23 +701,25 @@ def groupAdd(request):
     print(len(users_list))
 
     usernames_array = ["ant", "giraffe", "penguin", "sheep", "hippo", "lion", "dolphin", "eagle", "frog", "duck", "bee", "bat",
-                       "elephant", "leopard", "panda", "fish", "fox", "alligator", "kangaroo", "liger", "squirrel", "zebra", "bear",
+                       "elephant", "leopard", "panda", "fish", "fox", "raccoon","alligator", "kangaroo", "liger", "squirrel", "zebra", "bear",
                        "deer", "dog", "tiger", "monkey", "rabbit", "AW", "user1", "user2"];
 
 
     # for username in users_list:
     #     print(usernames_array.index(username))
 
-    username_groupID = ['1', '1', '1', '2', '2', '2', '3', '3', '3', '4', '4', '4', '5', '5', '5', '6', '6', '7', '7',
+    username_groupID = ['1', '1', '1', '2', '2', '2', '3', '3', '3', '4', '4', '4', '5', '5', '5', '6', '6', '6','7', '7',
                         '7', '8', '8', '8', '9', '9', '10', '10', '10', '11', '11', '11']
 
     for i in range(len(usernames_array)):
         print (usernames_array[i], ' ----- ', username_groupID[usernames_array.index(usernames_array[i])]);
 
 
-    # 4 gallery activities so range is from 1 to 5
+    # 4 gallery activities so range is from 1 to 5 (first study)
+    # 6 gallery activities so range is from 1 to 7 (second study)
+
     for username in users_list:
-        for i in range(1, 5):
+        for i in range(1, 7):
             member = groupInfo(activityType='gallery', activityID=i, group=username_groupID[usernames_array.index(username)],
                                users=User.objects.get(username=username))
             member.save();
@@ -766,7 +776,7 @@ def userLogFromExtenstion(request):
 
 def createBulkUser(request):
 
-    # 28 user for the study + 3 user
+    # 29 user for the study + 3 user
 
     #group 1
     user = User.objects.create_user('ant', '', 'ant');
@@ -812,6 +822,8 @@ def createBulkUser(request):
     user = User.objects.create_user('fish', '', 'fish');
     user.save();
     user = User.objects.create_user('fox', '', 'fox');
+    user.save();
+    user = User.objects.create_user('raccoon', '', 'raccoon');
     user.save();
 
     #group 7
@@ -943,7 +955,7 @@ def deleteAllItems(request):
     brainstormNote.objects.all().delete()
     imageModel.objects.all().delete()
     Message.objects.all().delete()
-    group_join_six.objects.all().delete();
+    random_group_users.objects.all().delete();
     #userLogTable.objects.all().delete();
     khanAcademyAnswer.objects.all().delete();
     # groupInfo.objects.all().delete()
