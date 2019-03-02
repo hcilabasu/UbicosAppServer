@@ -909,9 +909,9 @@ function getLoggedUserName(){
 
 var keywords_obj = new Object();
     keywords_obj.social = "thanks,thank you,thankyou,love it,good job,great job";
-    keywords_obj.related = "sphere,cone,cylinder,area,volume,hemisphere";
-    keywords_obj.elaborated="because,cause,would be,but,since";
-    keywords_obj.feedback = "correct,incorrect";
+    keywords_obj.relevance = "sphere,cone,cylinder,area,volume,hemisphere";
+    keywords_obj.explanation="because,cause,would be,but,since";
+    keywords_obj.feedback = "correct,incorrect,correct answer, incorrect answer,right answer";
     keywords_obj.suggestion = "i think,should, could be";
     keywords_obj.ques= "how,what,where,why,can you";
     keywords_obj.reflection="i agree,i disagree,confused";
