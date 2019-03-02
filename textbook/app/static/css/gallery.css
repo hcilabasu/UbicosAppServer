@@ -105,17 +105,16 @@ input[type="file"] {
 .user-answer-input{
 
     display:block;
-    display:block;
     border: none;
     outline: 0;
     padding: 12px 12px;
     background: #edf1f2;
     border-radius: 20px;
     width: 98%;
-    height: 70px;
+    height: 50px;
     margin: 10px;
     font-family:verdana;
-    font-size: 20px;
+    font-size: 15px;
 
  }
 
@@ -123,7 +122,7 @@ input[type="file"] {
     border: #009900 solid;
     box-shadow: 0 0 5px rgba(0, 153, 0, 1);
     width: 90%;
-    height: 70px;
+    height: 50px;
     outline: 0 !important;
     font-family:verdana;
     font-size: 20px;
@@ -136,7 +135,7 @@ input[type="file"] {
     border-radius: 20px;
     padding: 10px 22px;
     font-family: verdana;
-    font-size: 16px;
+    font-size: 15px;
     background-color: #edf1f2;
     color: #336699;
     outline:0; /* blue border around it */

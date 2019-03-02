@@ -6,7 +6,7 @@ $(function(){
     displayAllBadges();
 
     //hovering effect on all the badges
-    for(var key in dict){
+    for(var key in badge_dict){
 
         $("img#"+key).on("mouseover", function () {
              //stuff to do on mouseover
@@ -18,6 +18,7 @@ $(function(){
              
         }).on("mouseout", function(){
             $('#badge-description').css('opacity','0');
+
         });
     }
 

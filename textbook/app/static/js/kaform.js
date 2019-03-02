@@ -1,5 +1,5 @@
 var host_url = window.location.host
-
+var ka_imgID
 $(function(){
 
 
@@ -13,7 +13,7 @@ $(function(){
     copy_ka_text_button();
 
     //handle KA image upload
-    var ka_imgID
+    //var ka_imgID
     //NOTE: if use the same file -- it will not trigger this event second time, have to have different file name.
      $('#ka_img_upload').on('change',function(event){
          console.log('trying to upload khan academy photos')
@@ -108,6 +108,8 @@ var ka_submit_button = function(){
     $('#ka-submit').click(function(e){
         e.preventDefault();
 
+        if(ka_imgID == "undefined") alert ("upload image first");
+
         //TODO: add user log event; user log event will capture multiple attempts but model will store the latest answer
 
 
@@ -128,9 +130,6 @@ var ka_submit_button = function(){
             saveKAresponseToDB(activity_id, ka_imgID, ka_radio_input_type, user_response);
         }
         else{alert("please enter all the values")}
-
-
-
 
 
         $('.ka-answer-p').text(user_response)
@@ -172,9 +171,12 @@ var persistence_check = function(data){
     var ka_obj = jQuery.parseJSON(data);
     if(ka_obj.length!=0){
         //console.log(ka_obj)
+
         //access the latest item if multiple items are returned
         index = ka_obj.length-1;
 
+
+        ka_imgID = ka_obj[index].fields['ka_id']
         console.log(ka_obj[index].fields) //prints the item
         //image url
         var img_url = ka_obj[index].fields['ka_image']

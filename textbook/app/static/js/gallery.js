@@ -972,8 +972,7 @@ function showPrompt(message){
              //getBadgesFromDB();
 
         }else{
-            //if no keyword matched - no prompt
-            $('.prompt-card.prompt').removeClass('active');
+
         }
 
     });
