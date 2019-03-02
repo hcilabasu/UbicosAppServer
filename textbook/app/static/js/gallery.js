@@ -868,9 +868,9 @@ var openImageView = function(galleryView, image){
 
                      var element = document.getElementById("image-feed");
                      element.scrollTop = element.scrollHeight;
-                        // Scroll panel to bottom
-                        //var imageFeedParent = $('#image-feed').closest('.row');
-                        //imageFeedParent.scrollTop(imageFeedParent[0].scrollHeight);
+                     // Scroll panel to bottom
+                     //var imageFeedParent = $('#image-feed').closest('.row');
+                     //imageFeedParent.scrollTop(imageFeedParent[0].scrollHeight);
              }
      });
 
@@ -913,10 +913,10 @@ function getLoggedUserName(){
 
 var keywords_obj = new Object();
     keywords_obj.social = "thanks,thank you,thankyou,love it,good job,great job";
-    keywords_obj.relevance = "sphere,cone,cylinder,area,volume,hemisphere";
+    keywords_obj.relevance = "sphere,cone,cylinder,area,volume,hemisphere,radius,diameter,circumference,pi,surface area,";
     keywords_obj.explanation="because,cause,would be,but,since";
-    keywords_obj.feedback = "correct,incorrect,correct answer, incorrect answer,right answer";
-    keywords_obj.suggestion = "i think,should, could be";
+    keywords_obj.feedback = "correct,incorrect,correct answer, incorrect answer,right answer,didnt understand,did not understand,i understand";
+    keywords_obj.suggestion = "i think,should, could be,try";
     keywords_obj.ques= "how,what,where,why,can you";
     keywords_obj.reflection="i agree,i disagree,confused";
 
@@ -941,6 +941,15 @@ function showPrompt(message){
     //TODO: get avg word count KA/MB
     if(lengthOfMsg < 10) return false;//character based
 
+    if(localStorage.getItem("msgCounter")){
+        var counter = localStorage.getItem("msgCounter")
+        localStorage.setItem("msgCounter", counter+1);
+    }else{
+        localStorage.setItem("msgCounter", 0)
+    }
+
+
+
     $('.prompt-card.prompt').addClass('active');
 
 
@@ -963,6 +972,7 @@ function showPrompt(message){
              //getBadgesFromDB();
 
         }else{
+            //if no keyword matched - no prompt
             $('.prompt-card.prompt').removeClass('active');
         }
 
