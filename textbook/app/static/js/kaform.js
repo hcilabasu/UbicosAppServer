@@ -121,7 +121,7 @@ var ka_submit_button = function(){
         //console.log('ka-response-type', ka_radio_input_type);
 
         if(user_response.length!=0){
-            showPrompt(user_response);
+            showPrompt(user_response, "ka");
         }
 
 

@@ -6,7 +6,7 @@ $(function(){
     displayAllBadges();
 
     //hovering effect on all the badges
-    for(var key in badge_dict){
+    for(var key in dict){
 
         $("img#"+key).on("mouseover", function () {
              //stuff to do on mouseover
@@ -25,6 +25,21 @@ $(function(){
 
 
 })
+
+var refreshPg = function(){
+
+    $.ajax({
+        url: "",
+        success:
+        function(result){
+            displayAllBadges();
+            setTimeout(function(){
+                refreshPg(); //this will send request again and again;
+            }, 5000);
+        }
+    });
+
+}
 
 var getBadgesFromDB = function(){
 

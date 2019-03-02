@@ -509,7 +509,7 @@ $(function(){
         console.log('user message :: '+message)
 
         console.log("call show prompt here")
-        showPrompt(message);
+        showPrompt(message, "gallery");
 
         //get the gallery id of the image
         var gallery_id = $("input[name='act-id']").val();
@@ -931,24 +931,28 @@ var keywords_json = JSON.stringify(keywords_obj);
     });
 
 
-function showPrompt(message){
+function showPrompt(message, platform){
 
-    var lengthOfMsg = message.length;
+    var lengthOfMsg = message.split(" ");
+    alert(lengthOfMsg.length)
     //console.log('message length :: ', lengthOfMsg);
 
     if(lengthOfMsg == 0) return false;
 
-    //TODO: get avg word count KA/MB
-    if(lengthOfMsg < 10) return false;//character based
 
-    if(localStorage.getItem("msgCounter")){
-        var counter = localStorage.getItem("msgCounter")
-        localStorage.setItem("msgCounter", counter+1);
+    if(platform == 'ka'){
+        if(lengthOfMsg < 20) return false;//character based
     }else{
-        localStorage.setItem("msgCounter", 0)
+        if(lengthOfMsg < 7) return false;//character based
     }
 
 
+//    if(localStorage.getItem("msgCounter")){
+//        var counter = localStorage.getItem("msgCounter")
+//        localStorage.setItem("msgCounter", counter+1);
+//    }else{
+//        localStorage.setItem("msgCounter", 0)
+//    }
 
     $('.prompt-card.prompt').addClass('active');
 
@@ -970,6 +974,7 @@ function showPrompt(message){
              //insert the badge in the database
              insertBadgeIngoinDB(message, index);
              //getBadgesFromDB();
+             return false; //one badge at a time.
 
         }else{
 

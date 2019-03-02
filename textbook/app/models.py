@@ -101,6 +101,7 @@ class groupInfo(models.Model):
 
 class random_group_users(models.Model):
     users = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    gallery_id = models.IntegerField()
     group = models.CharField(max_length=20)
 
     def natural_key(self):

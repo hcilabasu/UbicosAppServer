@@ -425,43 +425,45 @@ def random_discussion_group_generator(request):
     #delete previoud grouping - if any
     random_group_users.objects.all().delete();
 
-    users_list = [str(user) for user in User.objects.all()];
-    users_list = [n for n in users_list if n not in ['AW', 'user1', 'user2']]
-    print(users_list)
-    member_limit = 5;
+    for i in range(1, 7):
+        users_list = [str(user) for user in User.objects.all()];
+        users_list = [n for n in users_list if n not in ['AW', 'user1', 'user2']]
+        print(users_list)
+        member_limit = 5;
 
-    users_list_copy = users_list
-    group_list = []
-    while len(users_list_copy) > 0:  # use all users
-        if (len(users_list_copy) < member_limit):
-            used_users = users_list_copy
-            username_list_2 = [n for n in users_list_copy if n not in used_users]
+        users_list_copy = users_list
+        group_list = []
+        while len(users_list_copy) > 0:  # use all users
+            if (len(users_list_copy) < member_limit):
+                used_users = users_list_copy
+                username_list_2 = [n for n in users_list_copy if n not in used_users]
+                group_list.append(used_users)
+                #print('groups:: ', used_users)
+                break
+            used_users = random.sample(users_list_copy, member_limit)
             group_list.append(used_users)
             #print('groups:: ', used_users)
-            break
-        used_users = random.sample(users_list_copy, member_limit)
-        group_list.append(used_users)
-        #print('groups:: ', used_users)
-        users_list_copy = [n for n in users_list_copy if n not in used_users]
-        #print(users_list_copy)
+            users_list_copy = [n for n in users_list_copy if n not in used_users]
+            #print(users_list_copy)
 
-    #print(group_list)
+        #print(group_list)
 
-    #get usser for username=AW
-    teacher_user = User.objects.get(username='AW')
-    #iterate through the list and make entry
-    for group_index in range(len(group_list)):
-        group = group_list[group_index]
-        for g in group:
-            user =  User.objects.get(username=g)
-            print(user)
-            group_member = random_group_users(users=user, group=group_index+1) #plus 1 so the group number starts from 1 instead of 0
+        #get usser for username=AW
+        teacher_user = User.objects.get(username='AW')
+        #iterate through the list and make entry
+        for group_index in range(len(group_list)):
+            group = group_list[group_index]
+            for g in group:
+                user =  User.objects.get(username=g)
+                print(user)
+                group_member = random_group_users(users=user, gallery_id = i, group=group_index+1) #plus 1 so the group number starts from 1 instead of 0
+                group_member.save();
+
+            #add amanda in every group
+            group_member = random_group_users(users=teacher_user, gallery_id = i, group=group_index+1)
             group_member.save();
 
-        #add amanda in every group
-        group_member = random_group_users(users=teacher_user, group=group_index+1)
-        group_member.save();
-
+    #end of for loop
     return HttpResponse('')
 
     # # check if a user has joined a group or not; if not add him in a group if group has still empty place
@@ -488,8 +490,11 @@ def  getMediumGroupDiscussion(request):
 
     gallery_id = request.POST.get('gallery_id');
 
+    #first filter based on gallery since each gallery has different random group
+    random_users_based_on_gallery = random_group_users.objects.filter(gallery_id=gallery_id)
+
     #get in which middle group for current user
-    middlegroup_id = random_group_users.objects.get(users_id=request.user).group #get the query first and access the group from that query
+    middlegroup_id = random_users_based_on_gallery.get(users_id=request.user).group #get the query first and access the group from that query
 
     image_data_all = aux_method_get_img_random_list_group(middlegroup_id, gallery_id)
 
@@ -503,8 +508,11 @@ def getRandomListData(request, gallery_id,group_id):
 
 def aux_method_get_img_random_list_group(middlegroup_id, gallery_id):
 
+    # first filter based on gallery since each gallery has different random group
+    random_users_based_on_gallery = random_group_users.objects.filter(gallery_id=gallery_id)
+
     # find other users in this group
-    middlegroup_users = random_group_users.objects.filter(group=middlegroup_id)
+    middlegroup_users = random_users_based_on_gallery.filter(group=middlegroup_id)
     for o in middlegroup_users: print(o.users_id)
 
     # get their original group from groupinfo table
@@ -545,8 +553,11 @@ def updateDiscussionImageFeed(request, gallery_id):
     print("updateDiscussionImageFeed");
 
     print("updateDiscussionImageFeed", gallery_id)
+    # first filter based on gallery since each gallery has different random group
+    random_users_based_on_gallery = random_group_users.objects.filter(gallery_id=gallery_id)
+
     # get in which middle group for current user
-    middlegroup_id = random_group_users.objects.get(users_id=request.user).group  # get the query first and access the group from that query
+    middlegroup_id = random_users_based_on_gallery.get(users_id=request.user).group  # get the query first and access the group from that query
     print("updateDiscussionImageFeed", middlegroup_id)
 
     image_data = aux_method_get_imgcomment_random_list_group_teacher(middlegroup_id, gallery_id)
