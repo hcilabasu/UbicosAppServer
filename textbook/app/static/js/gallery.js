@@ -913,9 +913,10 @@ var keywords_obj = new Object();
     keywords_obj.elaborated="because,cause,would be,but,since";
     keywords_obj.feedback = "correct,incorrect";
     keywords_obj.suggestion = "i think,should, could be";
-    keywords_obj.question= "how,what,where,why,can you";
+    keywords_obj.ques= "how,what,where,why,can you";
     keywords_obj.reflection="i agree,i disagree,confused";
 
+var badge_dict = {'suggestion': 'suggestion', 'social' : 'good citizen', 'relevance' : 'relevant post', 'reflection' : 'good communication', 'ques' : 'question', 'feedback' : 'feedback', 'explanation' : 'good explanation'};
 
 var keywords_json = JSON.stringify(keywords_obj);
 
@@ -938,7 +939,7 @@ function showPrompt(message){
 
     $('.prompt-card.prompt').addClass('active');
 
-   
+
     message = message.toLowerCase();
 
     var prompt_text = ''
@@ -951,7 +952,7 @@ function showPrompt(message){
         var regexExactMatch = new RegExp('\\b' + keywords.split(",").join("|")+ '\\b');
 
         if(regexExactMatch.test(message)){
-            $('p#prompt-p').text("You earned a " + index + " badge!");
+            $('p#prompt-p').text("You earned a " + badge_dict[index] + " badge!");
             $('#prompt-badge-img').attr('src','/static/pics/'+index+'.png');
              //insert the badge in the database
              insertBadgeIngoinDB(message, index);
