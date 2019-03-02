@@ -11,10 +11,13 @@ $(function(){
         $("img#"+key).on("mouseover", function () {
              //stuff to do on mouseover
              //alert('here') //works
-             $(this).css('opacity','.2');
+             var display = $(this).attr('id');
+             $('#badge-description').text(display);
+             $('#badge-description').css('opacity','1');
+
              
         }).on("mouseout", function(){
-            $(this).css('opacity','1');
+            $('#badge-description').css('opacity','0');
         });
     }
 
