@@ -394,16 +394,19 @@ var bindActivityButtons = function(){
 
             //teacher-view handle
             //TODO: check if logged in as teacher-only then do this ajax query
-            $.ajax({
-                type:'GET',
-                url:'http://'+ host_url +'/randomDiscussionList',
-                async: false, //wait for ajax call to finish, else logged_in is null in the following if condition
-                success: function(e){
+            if(logged_in == 'AW'){
+                 $.ajax({
+                    type:'GET',
+                    url:'http://'+ host_url +'/randomDiscussionList',
+                    async: false, //wait for ajax call to finish, else logged_in is null in the following if condition
+                    success: function(e){
 
-                    console.log(e.list);
-                    populateTeacherViewDiv(e.list); //defined in gallery.js
-                }
-            });
+                        console.log(e.list);
+                        populateTeacherViewDiv(e.list); //defined in gallery.js
+                    }
+                });
+            }
+
 
 
             //if the card is already extended, put it back to normal

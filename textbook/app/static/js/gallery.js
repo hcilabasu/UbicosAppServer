@@ -505,7 +505,7 @@ $(function(){
         //get the currently typed message
         var inputEl = $("#image-msg-text");
         var message = inputEl.val();
-        inputEl.prop('disabled', true);
+        //inputEl.prop('disabled', true);
         console.log('user message :: '+message)
 
         console.log("call show prompt here")
@@ -537,10 +537,10 @@ $(function(){
                 success: function (data) {
                     //empty the message pane
                     $("input[name='image-msg-text']").val('');
-                    inputEl.prop('disabled', false);
+                    //inputEl.prop('disabled', false);
                 },
                 error: function(data){
-                    inputEl.prop('disabled', false);
+                    //inputEl.prop('disabled', false);
                 }
             });
         }
@@ -908,8 +908,8 @@ function getLoggedUserName(){
 }
 
 var keywords_obj = new Object();
-    keywords_obj.social = "thanks,thank you,thankyou,love it,good job";
-    keywords_obj.related = "sphere,cone,cylinder,area";
+    keywords_obj.social = "thanks,thank you,thankyou,love it,good job,great job";
+    keywords_obj.related = "sphere,cone,cylinder,area,volume,hemisphere";
     keywords_obj.elaborated="because,cause,would be,but,since";
     keywords_obj.feedback = "correct,incorrect";
     keywords_obj.suggestion = "i think,should, could be";
@@ -927,19 +927,23 @@ var keywords_json = JSON.stringify(keywords_obj);
 
 
 function showPrompt(message){
-    $('.prompt-card.prompt').addClass('active');
 
     var lengthOfMsg = message.length;
-    console.log('message length :: ', lengthOfMsg);
+    //console.log('message length :: ', lengthOfMsg);
 
-    //TODO: log these, student response vs prompts to analyze better later
-    //https://www.tjvantoll.com/2013/03/14/better-ways-of-comparing-a-javascript-string-to-multiple-values/
+    if(lengthOfMsg == 0) return false;
 
+    //TODO: get avg word count KA/MB
+    if(lengthOfMsg < 10) return false;//character based
 
+    $('.prompt-card.prompt').addClass('active');
+
+   
     message = message.toLowerCase();
 
     var prompt_text = ''
 
+    //https://www.tjvantoll.com/2013/03/14/better-ways-of-comparing-a-javascript-string-to-multiple-values/
     //loop through key words
     $.each(keywords_obj, function(index, keywords) {
         //console.log(keywords.split(","))
@@ -948,10 +952,10 @@ function showPrompt(message){
 
         if(regexExactMatch.test(message)){
             $('p#prompt-p').text("You earned a " + index + " badge!");
-            $('#prompt-badge-img').attr('src','/static/pics/video.png');
+            $('#prompt-badge-img').attr('src','/static/pics/'+index+'.png');
              //insert the badge in the database
              insertBadgeIngoinDB(message, index);
-             getBadgesFromDB();
+             //getBadgesFromDB();
 
         }
 
