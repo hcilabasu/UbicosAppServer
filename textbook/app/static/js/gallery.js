@@ -913,10 +913,10 @@ function getLoggedUserName(){
 
 var keywords_obj = new Object();
     keywords_obj.social = "thanks,thank you,thankyou,love it,good job,great job";
-    keywords_obj.relevance = "sphere,cone,cylinder,area,volume,hemisphere,radius,diameter,circumference,pi,surface area,";
     keywords_obj.explanation="because,cause,would be,but,since";
-    keywords_obj.feedback = "correct,incorrect,correct answer, incorrect answer,right answer,didnt understand,did not understand,i understand";
-    keywords_obj.suggestion = "i think,should, could be,try";
+    keywords_obj.feedback = "correct,incorrect,correct answer,incorrect answer,right answer,didnt understand,did not understand,i understand";
+    keywords_obj.suggestion = "i think,should,could be,try";
+    keywords_obj.relevance = "sphere,cone,cylinder,area,volume,hemisphere,radius,diameter,circumference,pi,surface area";
     keywords_obj.ques= "how,what,where,why,can you";
     keywords_obj.reflection="i agree,i disagree,confused";
 
@@ -934,7 +934,7 @@ var keywords_json = JSON.stringify(keywords_obj);
 function showPrompt(message, platform){
 
     var lengthOfMsg = message.split(" ");
-    alert(lengthOfMsg.length)
+    //alert(lengthOfMsg.length)
     //console.log('message length :: ', lengthOfMsg);
 
     if(lengthOfMsg == 0) return false;

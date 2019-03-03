@@ -489,7 +489,7 @@ var bindActivityButtons = function(){
                url:'/checkKAAnswer/'+activity_id,
                success: function(response){
 
-                    persistence_check(response.success)
+                  persistence_check(response.success)
                 }
 
             });

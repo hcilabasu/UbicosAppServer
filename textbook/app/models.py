@@ -42,7 +42,7 @@ class khanAcademyAnswer(models.Model):
     posted_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     posted_at = models.DateTimeField(auto_now_add=True)
     response_type = models.CharField(max_length=20)
-    response = models.CharField(max_length=1000)
+    response = models.CharField(max_length=2000)
 
     def natural_key(self):
         return (self.posted_by.username)

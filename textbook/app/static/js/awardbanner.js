@@ -45,7 +45,7 @@ $( document ).ready(function() {
     setInterval(function(){
     clearBadges();
     displayAllBadges();
-    console.log("check check");
+    //console.log("check check");
     }, 5000);
 });
 
@@ -57,7 +57,7 @@ var getBadgesFromDB = function(){
         async: false,
         success: function(e){
             //returns an array of badges
-            console.log(e.badgeList)
+            //console.log(e.badgeList)
             badges = e.badgeList;
         }
     })

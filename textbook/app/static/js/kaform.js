@@ -20,7 +20,7 @@ $(function(){
          form_data = new FormData($('#ka-upload-img-form')[0]);
          console.log('form_data', form_data);
          readURL_ka(this);
-         console.log('herebehre', $('input[name="ka-act-id"]').val())
+         //console.log('herebehre', $('input[name="ka-act-id"]').val())
 
 ////      //TODO: save the image in database
           $.ajax({
@@ -36,6 +36,13 @@ $(function(){
                     //this ID is later used to update KA table in DB with the question/answer
                     ka_imgID = response.ka_imgID
                     console.log('uploaded image id :: ', response.ka_img);
+                    //clear any previous responses if any
+                    $("#KAAnswer").val('');
+                    //clear radio button
+                    $('input:radio[name="ka-response-type"]').each(function(i) {
+                            this.checked = false;
+                    });
+
 
 
                 }
@@ -108,7 +115,7 @@ var ka_submit_button = function(){
     $('#ka-submit').click(function(e){
         e.preventDefault();
 
-        if(ka_imgID == "undefined") alert ("upload image first");
+        //if(ka_imgID == "undefined") alert ("upload image first");
 
         //TODO: add user log event; user log event will capture multiple attempts but model will store the latest answer
 
@@ -126,7 +133,7 @@ var ka_submit_button = function(){
 
 
         if($("input[name='ka-response-type']").is(':checked') && user_response.length!=0) {
-
+            console.log('submitting/resubmitting again')
             saveKAresponseToDB(activity_id, ka_imgID, ka_radio_input_type, user_response);
         }
         else{alert("please enter all the values")}
@@ -176,7 +183,7 @@ var persistence_check = function(data){
         index = ka_obj.length-1;
 
 
-        ka_imgID = ka_obj[index].fields['ka_id']
+        ka_imgID = ka_obj[index].pk
         console.log(ka_obj[index].fields) //prints the item
         //image url
         var img_url = ka_obj[index].fields['ka_image']
@@ -195,7 +202,10 @@ var persistence_check = function(data){
                     .css('display', 'block');
 
         //radio button
-        $('input[name=ka-response-type][value='+response_type+']').attr('checked', true);
+        if(response_type){
+            $('input[name=ka-response-type][value='+response_type+']').attr('checked', true);
+        }
+
 
         //textarea
         $("#KAAnswer").val(ka_response);
@@ -215,14 +225,14 @@ var persistence_check = function(data){
 
 }
 
-var saveKAresponseToDB = function(id, imgID, response_type, answer_text){
-
+var saveKAresponseToDB = function(activity_id, imgID, response_type, answer_text){
+        console.log('image ID ID ID IDID', imgID)
         $.post({
 
                async: false,
                url:'/submitKAAnswer',
                data: {
-                    'id': id,
+                    'activity_id': activity_id,
                     'imgID': imgID,
                     'response_type': response_type,
                     'answer': answer_text,

@@ -396,10 +396,10 @@ def submitKAAnswer(request):
     #check if any query present for that KA
 
     #TODO: try update_or_create method
-    if khanAcademyAnswer.objects.filter(pk=request.POST.get('imgID')).exists():
+    if khanAcademyAnswer.objects.filter(ka_id=request.POST.get('activity_id')).filter(pk=request.POST.get('imgID')).filter(posted_by=request.user).exists():
 
-        khanAcademyAnswer.objects.filter(pk=request.POST.get('imgID')).update(ka_id=request.POST.get('id'), response_type=request.POST.get('response_type'),
-                                      response=request.POST.get('answer'), posted_by=request.user)
+        khanAcademyAnswer.objects.filter(ka_id=request.POST.get('activity_id')).filter(pk=request.POST.get('imgID')).filter(posted_by=request.user).\
+            update(response_type=request.POST.get('response_type'),response=request.POST.get('answer'))
 
     #     khanAcademyAnswer.objects.filter(ka_id=request.POST.get('id')).filter(response_type=request.POST.get('response_type')).update(response=request.POST.get('answer'))
     # else:
@@ -413,8 +413,10 @@ def submitKAAnswer(request):
 def checkKAAnswer(request, ka_id):
 
     try:
-        ka_obj = khanAcademyAnswer.objects.filter(ka_id=ka_id).filter(posted_by=request.user);
+        #if multiple image with same ka activity id, pull the latest one
+        ka_obj = khanAcademyAnswer.objects.filter(ka_id=ka_id).filter(posted_by=request.user).order_by('-pk')[:1];
         ka_obj = serializers.serialize('json', ka_obj, use_natural_foreign_keys=True)
+        print(ka_obj)
     except imageModel.DoesNotExist:
         ka_obj = None
 
