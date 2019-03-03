@@ -110,8 +110,7 @@ input[type="file"] {
     padding: 12px 12px;
     background: #edf1f2;
     border-radius: 20px;
-    width: 98%;
-    height: 50px;
+    width: 95%;
     margin: 10px;
     font-family:verdana;
     font-size: 15px;
@@ -121,8 +120,7 @@ input[type="file"] {
  .user-answer-input:focus{
     border: #009900 solid;
     box-shadow: 0 0 5px rgba(0, 153, 0, 1);
-    width: 90%;
-    height: 50px;
+    width: 95%;
     outline: 0 !important;
     font-family:verdana;
     font-size: 15px;
