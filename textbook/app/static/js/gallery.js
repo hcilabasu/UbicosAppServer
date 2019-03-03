@@ -954,9 +954,6 @@ function showPrompt(message, platform){
 //        localStorage.setItem("msgCounter", 0)
 //    }
 
-    $('.prompt-card.prompt').addClass('active');
-
-
     message = message.toLowerCase();
 
     var prompt_text = ''
@@ -965,10 +962,12 @@ function showPrompt(message, platform){
     //loop through key words
     $.each(keywords_obj, function(index, keywords) {
         //console.log(keywords.split(","))
+        //console.log(message)
 
         var regexExactMatch = new RegExp('\\b' + keywords.split(",").join("|")+ '\\b');
 
         if(regexExactMatch.test(message)){
+            $('.prompt-card.prompt').addClass('active');
             $('p#prompt-p').text("You earned a " + badge_dict[index] + " badge!");
             $('#prompt-badge-img').attr('src','/static/pics/'+index+'.png');
              //insert the badge in the database

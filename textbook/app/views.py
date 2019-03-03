@@ -715,7 +715,7 @@ def groupAdd(request):
 
     usernames_array = ["panda", "liger", "sheep", "fox", "leopard", "zebra", "bat", "dog", "squirrel", "dolphin", "elephant", "tiger",
                        "fish", "frog", "monkey", "ant", "kangaroo", "rabbit","bear", "duck", "hippo", "giraffe", "bee", "eagle",
-                       "deer", "penguin", "alligator", "raccoon", "lions", "AW", "user1", "user2"];
+                       "deer", "penguin", "alligator", "raccoon", "lion", "AW", "user1", "user2"];
 
 
     # for username in users_list:
