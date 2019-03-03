@@ -6,21 +6,7 @@ $(function(){
     displayAllBadges();
 
     //hovering effect on all the badges
-    for(var key in dict){
 
-        $("img#"+key).on("mouseover", function () {
-             //stuff to do on mouseover
-             //alert('here') //works
-             var display = $(this).attr('id');
-             $('#badge-description').text(display);
-             $('#badge-description').css('opacity','1');
-
-             
-        }).on("mouseout", function(){
-            $('#badge-description').css('opacity','0');
-
-        });
-    }
 
 
 
@@ -40,14 +26,15 @@ $(function(){
 //    });
 //
 //}
+//
+//$( document ).ready(function() {
+//    setInterval(function(){
+//    clearBadges();
+//    displayAllBadges();
+//    console.log("check check");
+//    }, 5000);
+//});
 
-$( document ).ready(function() {
-    setInterval(function(){
-    clearBadges();
-    displayAllBadges();
-    //console.log("check check");
-    }, 5000);
-});
 
 var getBadgesFromDB = function(){
 
@@ -65,7 +52,7 @@ var getBadgesFromDB = function(){
 
 function displayAllBadges(){
     //get badges from database
-
+    clearBadges();
     getBadgesFromDB();
     //badges = ["social", "ques"];
 
@@ -92,14 +79,42 @@ function displayAllBadges(){
             //img.appendTo(imgDivBnr);
     }
 
+    hoverBadge();
    // src.append("</center>");
+
+
   }
 
   function clearBadges(){
-    $('#award-holder').html('');
+
+    for(var key in dict){
+    //console.log("remove badge" + key);
+    $('img#' + key).remove();
+    }
 
   }
 
+
+  function hoverBadge(){
+
+   for(var key in dict){
+
+        $("img#"+key).on("mouseover", function () {
+             //stuff to do on mouseover
+             //alert('here') //works
+             var display = $(this).attr('id');
+             $('#badge-description').text(display);
+             $('#badge-description').css('opacity','1');
+             //console.log("hoverrring");
+
+
+        }).on("mouseout", function(){
+            $('#badge-description').css('opacity','0');
+
+        });
+    }
+
+  }
 
 
 
