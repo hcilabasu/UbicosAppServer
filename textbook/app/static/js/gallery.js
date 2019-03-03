@@ -972,6 +972,7 @@ function showPrompt(message, platform){
             $('#prompt-badge-img').attr('src','/static/pics/'+index+'.png');
              //insert the badge in the database
              insertBadgeIngoinDB(message, index);
+             displayAllBadges();
              //getBadgesFromDB();
              return false; //one badge at a time.
 
