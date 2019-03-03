@@ -711,9 +711,9 @@ def groupAdd(request):
     users_list = [str(user) for user in User.objects.all()]
     print(len(users_list))
 
-    usernames_array = ["ant", "giraffe", "penguin", "sheep", "hippo", "lion", "dolphin", "eagle", "frog", "duck", "bee", "bat",
-                       "elephant", "leopard", "panda", "fish", "fox", "raccoon","alligator", "kangaroo", "liger", "squirrel", "zebra", "bear",
-                       "deer", "dog", "tiger", "monkey", "rabbit", "AW", "user1", "user2"];
+    usernames_array = ["panda", "liger", "sheep", "fox", "leopard", "zebra", "bat", "dog", "squirrel", "dolphin", "elephant", "tiger",
+                       "fish", "frog", "monkey", "ant", "kangaroo", "rabbit","bear", "duck", "hippo", "giraffe", "bee", "eagle",
+                       "deer", "penguin", "alligator", "raccoon", "lions", "AW", "user1", "user2"];
 
 
     # for username in users_list:
@@ -790,82 +790,86 @@ def createBulkUser(request):
     # 29 user for the study + 3 user
 
     #group 1
+    user = User.objects.create_user('panda', '', 'panda');
+    user.save();
+    user = User.objects.create_user('liger', '', 'liger');
+    user.save();
+    user = User.objects.create_user('sheep', '', 'sheep');
+    user.save();
+
+    # group 2
+    user = User.objects.create_user('fox', '', 'fox');
+    user.save();
+    user = User.objects.create_user('leopard', '', 'leopard');
+    user.save();
+    user = User.objects.create_user('zebra', '', 'zebra');
+    user.save();
+
+    # group 3
+    user = User.objects.create_user('bat', '', 'bat');
+    user.save();
+    user = User.objects.create_user('dog', '', 'dog');
+    user.save();
+    user = User.objects.create_user('squirrel', '', 'squirrel');
+    user.save();
+
+    #group 4
+    user = User.objects.create_user('dolphin', '', 'dolphin');
+    user.save();
+    user = User.objects.create_user('elephant', '', 'elephant');
+    user.save();
+    user = User.objects.create_user('tiger', '', 'tiger');
+    user.save();
+
+    #group 5
+    user = User.objects.create_user('fish', '', 'fish');
+    user.save();
+    user = User.objects.create_user('frog', '', 'frog');
+    user.save();
+    user = User.objects.create_user('monkey', '', 'monkey');
+    user.save();
+
+    #group 6
     user = User.objects.create_user('ant', '', 'ant');
     user.save();
+    user = User.objects.create_user('kangaroo', '', 'kangaroo');
+    user.save();
+    user = User.objects.create_user('rabbit', '', 'rabbit');
+    user.save();
+
+
+    #group-7
+    user = User.objects.create_user('bear', '', 'bear');
+    user.save();
+    user = User.objects.create_user('duck', '', 'duck');
+    user.save();
+    user = User.objects.create_user('hippo', '', 'hippo');
+    user.save();
+
+
+    #group 8
     user = User.objects.create_user('giraffe', '', 'giraffe');
+    user.save();
+    user = User.objects.create_user('bee', '', 'bee');
+    user.save();
+    user = User.objects.create_user('eagle', '', 'eagle');
+    user.save();
+
+    # group 9
+    user = User.objects.create_user('deer', '', 'deer');
     user.save();
     user = User.objects.create_user('penguin', '', 'penguin');
     user.save();
 
-    #group 2
-    user = User.objects.create_user('sheep', '', 'sheep');
-    user.save();
-    user = User.objects.create_user('hippo', '', 'hippo');
-    user.save();
-    user = User.objects.create_user('lion', '', 'lion');
-    user.save();
 
-    # group 3
-    user = User.objects.create_user('dolphin', '', 'dolphin');
-    user.save();
-    user = User.objects.create_user('eagle', '', 'eagle');
-    user.save();
-    user = User.objects.create_user('frog', '', 'frog');
-    user.save();
-
-    # group 4
-    user = User.objects.create_user('duck', '', 'duck');
-    user.save();
-    user = User.objects.create_user('bee', '', 'bee');
-    user.save();
-    user = User.objects.create_user('bat', '', 'bat');
-    user.save();
-
-    #group 5
-    user = User.objects.create_user('elephant', '', 'elephant');
-    user.save();
-    user = User.objects.create_user('leopard', '', 'leopard');
-    user.save();
-    user = User.objects.create_user('panda', '', 'panda');
-    user.save();
-
-    #group 6
-    user = User.objects.create_user('fish', '', 'fish');
-    user.save();
-    user = User.objects.create_user('fox', '', 'fox');
+    #group 10
+    user = User.objects.create_user('alligator', '', 'alligator');
     user.save();
     user = User.objects.create_user('raccoon', '', 'raccoon');
     user.save();
+    user = User.objects.create_user('lion', '', 'lion');
+    user.save()
 
-    #group 7
-    user = User.objects.create_user('alligator', '', 'alligator');
-    user.save();
-    user = User.objects.create_user('kangaroo', '', 'kangaroo');
-    user.save();
-    user = User.objects.create_user('liger', '', 'liger');
-    user.save();
-
-    #group 8
-    user = User.objects.create_user('squirrel', '', 'squirrel');
-    user.save();
-    user = User.objects.create_user('zebra', '', 'zebra');
-    user.save();
-    user = User.objects.create_user('bear', '', 'bear');
-    user.save();
-
-    #group 9
-    user = User.objects.create_user('deer', '', 'deer');
-    user.save();
-    user = User.objects.create_user('dog', '', 'dog');
-    user.save();
-
-    #group 10
-    user = User.objects.create_user('tiger', '', 'tiger');
-    user.save();
-    user = User.objects.create_user('monkey', '', 'monkey');
-    user.save();
-    user = User.objects.create_user('rabbit', '', 'rabbit');
-    user.save();
 
     #group 11 - teacher/developers
     user = User.objects.create_user('AW', '', 'AW');
