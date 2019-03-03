@@ -344,7 +344,7 @@ var bindActivityButtons = function(){
             console.log(activityButton.attr('data-heading'));
 
             //update the heading
-            $('.card.' + type + ' h1').text(type + ' #'+id + ' Group ' + groupArray[user_group_id-1]);
+            $('.card.' + type + ' h1').text(activityButton.attr('data-heading') + ' Group ' + groupArray[user_group_id-1]);
 
            //update the description
            console.log(activityButton.attr('data-description'));
