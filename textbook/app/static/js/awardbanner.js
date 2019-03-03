@@ -26,20 +26,28 @@ $(function(){
 
 })
 
-var refreshPg = function(){
+//var refreshPg = function(){
+//
+//    $.ajax({
+//        url: "",
+//        success:
+//        function(result){
+//            displayAllBadges();
+//            setTimeout(function(){
+//                refreshPg(); //this will send request again and again;
+//            }, 5000);
+//        }
+//    });
+//
+//}
 
-    $.ajax({
-        url: "",
-        success:
-        function(result){
-            displayAllBadges();
-            setTimeout(function(){
-                refreshPg(); //this will send request again and again;
-            }, 5000);
-        }
-    });
-
-}
+$( document ).ready(function() {
+    setInterval(function(){
+    clearBadges();
+    displayAllBadges();
+    console.log("check check");
+    }, 5000);
+});
 
 var getBadgesFromDB = function(){
 
@@ -85,6 +93,11 @@ function displayAllBadges(){
     }
 
    // src.append("</center>");
+  }
+
+  function clearBadges(){
+    $('#award-holder').html('');
+
   }
 
 
