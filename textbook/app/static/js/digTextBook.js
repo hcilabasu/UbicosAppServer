@@ -472,7 +472,7 @@ var bindActivityButtons = function(){
 
 //        ------------------------------Khan Academy-----------------------
         if($('.card.khanacademy').hasClass('active')){
-            $('.card.' + type + ' h1').text("Khan Academy");
+            $('.card.' + type + ' h1').text(activityButton.attr('data-heading'));
 
             //at all times the card will be expanded; so no call to card expansion method
             $('.card').css({'width':'100%'});
@@ -482,6 +482,16 @@ var bindActivityButtons = function(){
             //console.log('ka-url-passing to html', activityButton.attr('data-video-url'))
             $('a#ka-form-url').attr('href', activityButton.attr('data-video-url'))
             $('a#ka-form-url').text(activityButton.attr('data-video-topic'))
+            if(activityButton.attr('data-video-url2')){
+                console.log(activityButton.attr('data-video-url2'))
+                $('a#ka-form-url2').attr('href', activityButton.attr('data-video-url2'))
+                $('a#ka-form-url2').text(activityButton.attr('data-video-topic2'))
+                $('a#ka-form-url2').show();
+            }else{
+                console.log("no second url")
+                //hide that link
+                $('a#ka-form-url2').hide();
+            }
 
              //check for persistence
              $.get({
