@@ -429,13 +429,13 @@ var bindActivityButtons = function(){
 
             if(divid === '#page6-table'){
                 $('.card.' + type + ' h1').text('Chart');
-                $('.card.' + type + ' p').text(' ');
+                $('.card.' + type + ' h4').text(' ');
 
             }else{
                 //if problem list - then hide the answer description and heading
                 $('.card.' + type + ' h1').text('Answer Questions');
 
-                $('.card.' + type + ' p').text('Type your answers to the questions below. When you are done, hit submit. ');
+                $('.card.' + type + ' h4').text('Type your answers to the questions below. When you are done, hit submit. ');
 
                 //update description
             }
