@@ -43,6 +43,7 @@ $(function(){
                             this.checked = false;
                     });
 
+                    enterLogIntoDatabase('khan academy-'+activity_id, 'upload' , 'imgID-'+ka_imgID, current_pagenumber)
 
 
                 }
@@ -135,6 +136,7 @@ var ka_submit_button = function(){
         if($("input[name='ka-response-type']").is(':checked') && user_response.length!=0) {
             console.log('submitting/resubmitting again')
             saveKAresponseToDB(activity_id, ka_imgID, ka_radio_input_type, user_response);
+            enterLogIntoDatabase('khan academy-'+activity_id, 'answer' , user_response, current_pagenumber)
         }
         else{alert("please enter all the values")}
 

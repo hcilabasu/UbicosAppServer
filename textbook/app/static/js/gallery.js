@@ -917,7 +917,7 @@ function getLoggedUserName(){
 
 var keywords_obj = new Object();
     keywords_obj.social = "thanks,thank you,thankyou,love it,good job,great job";
-    keywords_obj.explanation="because,cause,would be,but,since";
+    keywords_obj.explanation="because,cause,would be,but,since,for example,an example";
     keywords_obj.feedback = "correct,incorrect,correct answer,incorrect answer,right answer,didnt understand,did not understand,i understand";
     keywords_obj.suggestion = "i think,should,could be,try";
     keywords_obj.relevance = "sphere,cone,cylinder,area,volume,hemisphere,radius,diameter,circumference,pi,surface area";
@@ -994,7 +994,10 @@ function showPrompt(message, platform){
              insertBadgeIngoinDB(message, index);
              displayAllBadges();
              //getBadgesFromDB();
+
+             enterLogIntoDatabase('display prompt', 'badge:'+index , message, current_pagenumber)
              return false; //one badge at a time.
+
 
         }else{
 
