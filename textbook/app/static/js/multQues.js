@@ -41,12 +41,12 @@ var getAnswers = function(){
     }
 
     if(localStorage.getItem("page12input1")){
-        answer = JSON.parse(localStorage.getItem("page10input1"))
+        answer = JSON.parse(localStorage.getItem("page12input1"))
 
         $('#page10-input1').attr('disabled',true);
-        $("textarea[name='page10-input1']").val(answer[0].answer)
-        $("textarea[name='page10-input2']").val(answer[1].answer)
-        $("textarea[name='page10-input3']").val(answer[1].answer)
+        $("textarea[name='page12-input1']").val(answer[0].answer)
+        $("textarea[name='page12-input2']").val(answer[1].answer)
+        $("textarea[name='page12-input3']").val(answer[1].answer)
 
     }
 
