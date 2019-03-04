@@ -373,12 +373,6 @@ $(function(){
                 enterLogIntoDatabase('camera select', 'camera to take photo' , 'none', current_pagenumber)
             })
 
-
-
-
-
-
-
  });
 
  function showImageInGallery(data){
@@ -388,18 +382,21 @@ $(function(){
 
            $('#gallery').empty();
 
-           $.each(img_data, function(key, value){
+           $.each(img_data, function(key, value){ //
                  //console.log(value)
                  var obj = jQuery.parseJSON(value);
-                 console.log(obj)
+                 console.log('showgallery from gallery.js',obj)
 
                  if(obj.length === 0) return; //continue;
 
                  //TODO: obj can have multiple image; current code handles only one image
-                 var groupID = groupArray[obj[0].fields['group_id']-1];
+                 //var index = obj.length-1; //will show the latest image; index = 0 will show the first image
+                 
+            $.each(obj, function(index, value){
+                 var groupID = groupArray[obj[index].fields['group_id']-1];
                  var li = $("<li/>").appendTo("#gallery");
 
-                 if(logged_in == obj[0].fields['posted_by'][0]){
+                 if(logged_in == obj[index].fields['posted_by'][0]){
 
                  //adding image delete span on the image
                  var span = $('<span/>')
@@ -407,7 +404,7 @@ $(function(){
                     .appendTo(li);
 
                  var img = $('<img/>', {
-                   src : 'http://'+ host_url +'/media/'+obj[0].fields['image'] })
+                   src : 'http://'+ host_url +'/media/'+obj[index].fields['image'] })
                    .css({opacity:1.0})
                    .appendTo(li);
 
@@ -429,53 +426,57 @@ $(function(){
                         enterLogIntoDatabase('delete image', 'image delete from gallery' , 'image-delete-'+deletedImageID, 111)
 
 
-                      //delete note from database
-                        $.ajax({
-                            type:'POST',
-                            url:'/gallery/del/'+deletedImageID,
-                            async: false, //wait for ajax call to finish,
-                            success: function(e){
-                                console.log(e)
-                                //TODO: add user log
+                              //delete note from database
+                                $.ajax({
+                                    type:'POST',
+                                    url:'/gallery/del/'+deletedImageID,
+                                    async: false, //wait for ajax call to finish,
+                                    success: function(e){
+                                        console.log(e)
+                                        //TODO: add user log
 
-                            }
-                        })
-
-
-                        return false;
-                    });
-
-                    li.append(closeBtn);
-
-                 }else{
-
-                   //just add others image to the gallery
-                   var img = $('<img/>', {
-                   src : 'http://'+ host_url +'/media/'+obj[0].fields['image'] }).appendTo(li);
-
-                    var span_badge = $('<span/>')
-                            .addClass('badge')
-                            .text(groupID)
-                            .appendTo(li);
-
-                }
-
-               // Add clickhandler to open the single image view
-               img.on('click', function(event){
-
-                   enterLogIntoDatabase('gallery image view', 'gallery individual image view' , 'image-select-id-'+value.pk , 111)
-
-                   //console.log($(this).parent().siblings().length); //+1 gives me the total number of images in the gallery
-                   totalPhoto = $(this).parent().siblings().length+1;
-
-                   //use the following value to navigate through the gallery
-                   //console.log($(this).parent().index()) //gives the index of li within the ul id = gallery
-                   $('.section input[name="image-index"]').attr('value', $(this).parent().index())
-
-                   openImageView($('#gallery-view'), $(this));
+                                    }
+                                })
 
 
-               });
+                                return false;
+                            });
+
+                        li.append(closeBtn);
+
+                         }else{
+
+                           //just add others image to the gallery
+                           var img = $('<img/>', {
+                           src : 'http://'+ host_url +'/media/'+obj[index].fields['image'] }).appendTo(li);
+
+                            var span_badge = $('<span/>')
+                                    .addClass('badge')
+                                    .text(groupID)
+                                    .appendTo(li);
+
+                        }
+
+                     // Add clickhandler to open the single image view
+
+                        img.on('click', function(event){
+
+                           enterLogIntoDatabase('gallery image view', 'gallery individual image view' , 'image-select-id-'+value.pk , 111)
+
+                           //console.log($(this).parent().siblings().length); //+1 gives me the total number of images in the gallery
+                           totalPhoto = $(this).parent().siblings().length+1;
+
+                           //use the following value to navigate through the gallery
+                           //console.log($(this).parent().index()) //gives the index of li within the ul id = gallery
+                           $('.section input[name="image-index"]').attr('value', $(this).parent().index())
+
+                           openImageView($('#gallery-view'), $(this));
+
+
+                         });
+
+
+             });
 
             //reverse the image order
             var list = $('#gallery');
