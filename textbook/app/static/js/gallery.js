@@ -934,9 +934,11 @@ var keywords_json = JSON.stringify(keywords_obj);
 
 function showPrompt(message, platform){
 
-    var lengthOfMsg = message.split(" ");
-    //alert(lengthOfMsg.length)
+    var msg = message.split(" ");
+    var lengthOfMsg = msg.length;
     //console.log('message length :: ', lengthOfMsg);
+    //alert(lengthOfMsg.length)
+
 
     if(lengthOfMsg == 0) return false;
 
@@ -968,6 +970,11 @@ function showPrompt(message, platform){
         var regexExactMatch = new RegExp('\\b' + keywords.split(",").join("|")+ '\\b');
 
         if(regexExactMatch.test(message)){
+
+            //if matches with a badge already received before, return
+            //https://stackoverflow.com/questions/18867599/jquery-inarray-how-to-use-it-right
+            if(jQuery.inArray(index, badges) > -1) return false;
+
             if(platform === 'ka'){
                 $('.prompt-card.prompt-ka').addClass('active');
                 $('#prompt-badge-img-ka').attr('src','/static/pics/'+index+'.png');
