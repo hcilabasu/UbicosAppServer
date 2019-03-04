@@ -920,7 +920,8 @@ var keywords_obj = new Object();
     keywords_obj.ques= "how,what,where,why,can you";
     keywords_obj.reflection="i agree,i disagree,confused";
 
-var badge_dict = {'suggestion': 'suggestion', 'social' : 'good citizen', 'relevance' : 'relevant post', 'reflection' : 'good communication', 'ques' : 'question', 'feedback' : 'feedback', 'explanation' : 'good explanation'};
+var badge_dict = {'suggestion': 'suggestion', 'social' : 'good citizen', 'relevance' : 'relevant post', 'reflection' : 'good communication',
+'ques' : 'question', 'feedback' : 'feedback', 'explanation' : 'good explanation', 'co-construction': 'co-construction'};
 
 var keywords_json = JSON.stringify(keywords_obj);
 

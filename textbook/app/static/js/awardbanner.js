@@ -12,21 +12,6 @@ $(function(){
 
 })
 
-//var refreshPg = function(){
-//
-//    $.ajax({
-//        url: "",
-//        success:
-//        function(result){
-//            displayAllBadges();
-//            setTimeout(function(){
-//                refreshPg(); //this will send request again and again;
-//            }, 5000);
-//        }
-//    });
-//
-//}
-//
 //$( document ).ready(function() {
 //    setInterval(function(){
 //    clearBadges();
@@ -103,7 +88,7 @@ function displayAllBadges(){
              //stuff to do on mouseover
              //alert('here') //works
              var display = $(this).attr('id');
-             $('#badge-description').text(display);
+             $('#badge-description').text(badge_dict[display]);
              $('#badge-description').css('opacity','1');
              //console.log("hoverrring");
 
