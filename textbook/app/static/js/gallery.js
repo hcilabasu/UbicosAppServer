@@ -923,9 +923,10 @@ var keywords_obj = new Object();
     keywords_obj.relevance = "sphere,cone,cylinder,area,volume,hemisphere,radius,diameter,circumference,pi,surface area";
     keywords_obj.ques= "how,what,where,why,can you";
     keywords_obj.reflection="i agree,i disagree,confused";
+    keywords_obj.cocon="based on your idea,compare your answer to my answer,you did,like your,you did,you have done";
 
 var badge_dict = {'suggestion': 'Suggestion', 'social' : 'Good Citizen', 'relevance' : 'Relevant Post', 'reflection' : 'Good Communication',
-'ques' : 'Question', 'feedback' : 'Feedback', 'explanation' : 'Good Explanation', 'co-construction': 'Co-Construction'};
+'ques' : 'Question', 'feedback' : 'Feedback', 'explanation' : 'Good Explanation', 'cocon': 'Co-Construction'};
 
 var keywords_json = JSON.stringify(keywords_obj);
 

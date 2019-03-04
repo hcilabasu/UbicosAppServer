@@ -1,6 +1,6 @@
 var host_url = window.location.host
 var badges = [];
-var dict = {'suggestion': false, 'social' : false, 'relevance' : false, 'reflection' : false, 'ques' : false, 'feedback' : false, 'explanation' : false, 'co-construction' : false};
+var dict = {'suggestion': false, 'social' : false, 'relevance' : false, 'reflection' : false, 'ques' : false, 'feedback' : false, 'explanation' : false, 'cocon' : false};
 
 $(function(){
     displayAllBadges();
