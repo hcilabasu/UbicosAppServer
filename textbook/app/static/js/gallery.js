@@ -86,10 +86,10 @@ $(function(){
                  $("#groupSubmission").css('background-color', '#2DB872');
 
 
-                 $('#gallery-group-heading').text('My Submissions')
+                 $('#gallery-group-heading').text('My Group Submissions')
 
                  //update heading for the extended view
-                 $('.extendedHeading').text("My Group Submission");
+                 $('.extendedHeading').text("My Group Submissions");
 
                  //display upload image from here
                  $('#gallery-user-submission').show();
@@ -127,7 +127,7 @@ $(function(){
 
             $('#add-new-gallery-post').hide();
            //update the heading
-           $('#gallery-group-heading').text('Other Submissions')
+           $('#gallery-group-heading').text('Class Submissions')
 
            //update heading for the extended view
            $('.extendedHeading').text("Comment on Others Submissions");
@@ -161,12 +161,15 @@ $(function(){
            $("#mySubmission").css('background-color', '#2DB872');
            $("#allSubmission").css('background-color', '#2DB872');
 
+            //hide pic upload part
+            $('#gallery-user-submission').hide();
+            //hide add new post - the camera button
             $('#add-new-gallery-post').hide();
            //update the heading
            $('#gallery-group-heading').text('Group Discussions')
 
            //update heading for the extended view
-           $('.extendedHeading').text("Discuss Submissions in Groups");
+           $('.extendedHeading').text("Comment on Others Submissions in Groups");
 
 
             //go to server and see if you can join the group

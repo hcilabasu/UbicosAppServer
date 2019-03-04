@@ -554,13 +554,13 @@ def updateDiscussionImageFeed(request, gallery_id):
 
     print("updateDiscussionImageFeed");
 
-    print("updateDiscussionImageFeed", gallery_id)
+    print("updateDiscussionImageFeed glry id", gallery_id)
     # first filter based on gallery since each gallery has different random group
     random_users_based_on_gallery = random_group_users.objects.filter(gallery_id=gallery_id)
 
     # get in which middle group for current user
     middlegroup_id = random_users_based_on_gallery.get(users_id=request.user).group  # get the query first and access the group from that query
-    print("updateDiscussionImageFeed", middlegroup_id)
+    print("updateDiscussionImageFeed random group", middlegroup_id)
 
     image_data = aux_method_get_imgcomment_random_list_group_teacher(middlegroup_id, gallery_id)
     image_data = serializers.serialize('json', image_data, use_natural_foreign_keys=True)
@@ -576,8 +576,11 @@ def updateDiscussionImageFeedTeacherVersion(request, gallery_id, group_id):
 
 def aux_method_get_imgcomment_random_list_group_teacher(middlegroup_id, gallery_id):
     # find other users in this group
-    middlegroup_users = random_group_users.objects.filter(group=middlegroup_id)
-    for o in middlegroup_users: print("updateDiscussionImageFeed", o.users_id)
+    # first filter based on gallery since each gallery has different random group
+    random_users_based_on_gallery = random_group_users.objects.filter(gallery_id=gallery_id)
+
+    middlegroup_users = random_users_based_on_gallery.filter(group=middlegroup_id)
+    for o in middlegroup_users: print("updateDiscussionImageFeed random grp members", o.users_id)
 
     # get their original group from groupinfo table
     image_pk = []
@@ -586,6 +589,7 @@ def aux_method_get_imgcomment_random_list_group_teacher(middlegroup_id, gallery_
         groupInfo.objects.filter(users_id=User.objects.get(pk=o.users_id)).order_by('group').values('group').distinct()[
             0]['group']
 
+        print("updateDiscussionImageFeed original group id", originalgroup_id)
         # for each original group id get the image posted by that group - there should one image per group atleast
         images = imageModel.objects.filter(gallery_id=gallery_id).filter(group_id=originalgroup_id).values('pk')
         print("updateDiscussionImageFeed", images)
