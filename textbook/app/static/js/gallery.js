@@ -940,7 +940,7 @@ function showPrompt(message, platform){
     if(lengthOfMsg == 0) return false;
 
 
-    if(platform == 'ka'){
+    if(platform === 'ka'){
         if(lengthOfMsg < 20) return false;//character based
     }else{
         if(lengthOfMsg < 7) return false;//character based
@@ -967,9 +967,16 @@ function showPrompt(message, platform){
         var regexExactMatch = new RegExp('\\b' + keywords.split(",").join("|")+ '\\b');
 
         if(regexExactMatch.test(message)){
-            $('.prompt-card.prompt').addClass('active');
-            $('p#prompt-p').text("You earned a " + badge_dict[index] + " badge!");
-            $('#prompt-badge-img').attr('src','/static/pics/'+index+'.png');
+            if(platform === 'ka'){
+                $('.prompt-card.prompt-ka').addClass('active');
+                $('#prompt-badge-img-ka').attr('src','/static/pics/'+index+'.png');
+                $('p#prompt-p-ka').text("You earned a " + badge_dict[index] + " badge!");
+            }else{
+                $('.prompt-card.prompt').addClass('active');
+                $('#prompt-badge-img').attr('src','/static/pics/'+index+'.png');
+                $('p#prompt-p').text("You earned a " + badge_dict[index] + " badge!");
+            }
+
              //insert the badge in the database
              insertBadgeIngoinDB(message, index);
              displayAllBadges();

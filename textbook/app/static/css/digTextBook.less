@@ -505,8 +505,8 @@ a {
 
 .ka-copy-btn{
     position: absolute;
-    left: 85%;
-    top: 88%;
+    left: 80%;
+    top: 80%;
     height:40px;
     width: 40px;
     background: url('/static/pics/full-screen.png') no-repeat;
@@ -1582,6 +1582,10 @@ a {
     background-color: #3d7ce2;
 }
 
+.prompt-ka {
+    background-color: #2DB872;
+}
+
 .prompt-card {
     overflow-y: auto;
     overflow-x: hidden;
@@ -1604,6 +1608,7 @@ a {
     z-index: 2;
 }
 
+
 .prompt-card.prompt.active {
     transform: translateX(0);
     transition: all 0.4s;
@@ -1611,7 +1616,14 @@ a {
     box-shadow: 4px 0 4px #3d7ce2;
 }
 
-#prompt-p{
+.prompt-card.prompt-ka.active {
+    transform: translateX(0);
+    transition: all 0.4s;
+    transition-timing-function: ease-out;
+    box-shadow: 4px 0 4px #2DB872;
+}
+
+#prompt-p, #prompt-p-ka{
 
     margin:0px;
     height:32px;
@@ -1635,7 +1647,7 @@ a {
     z-index: 2;
 }
 
-#prompt-badge-img{
+#prompt-badge-img, #prompt-badge-img-ka{
     width:32px;
     height:32px;
     float:left;
