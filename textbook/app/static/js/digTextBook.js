@@ -419,15 +419,31 @@ var bindActivityButtons = function(){
 
             //get which question clicked.
             console.log(id)
+
             //hide its siblings
-
-            //if problem list - then hide the answer description and heading
-            $('.card.' + type + ' h1').text('Answer Questions');
-
-
             $('#'+id).siblings().hide();
             //show the div
             $('#'+id).show();
+
+            var divid = '#'+id
+
+            if(divid === '#page6-table'){
+                $('.card.' + type + ' h1').text('Chart');
+                $('.card.' + type + ' p').text(' ');
+
+            }else{
+                //if problem list - then hide the answer description and heading
+                $('.card.' + type + ' h1').text('Answer Questions');
+
+                $('.card.' + type + ' p').text('Type your answers to the questions below. When you are done, hit submit. ');
+
+                //update description
+            }
+
+
+
+
+
 
 
             //TODO: call loadHTML() from here
