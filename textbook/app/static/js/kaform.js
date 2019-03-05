@@ -132,11 +132,11 @@ var ka_submit_button = function(){
             showPrompt(user_response, "ka");
         }
 
-
+        enterLogIntoDatabase('khan academy before inserting into db img id ' + ka_imgID, 'answer'+activity_id , user_response, current_pagenumber)
         if($("input[name='ka-response-type']").is(':checked') && user_response.length!=0) {
             console.log('submitting/resubmitting again')
             saveKAresponseToDB(activity_id, ka_imgID, ka_radio_input_type, user_response);
-            enterLogIntoDatabase('khan academy-'+activity_id, 'answer' , user_response, current_pagenumber)
+            enterLogIntoDatabase('khan academy after inserting into db img id '+ ka_imgID, 'answer'+activity_id , user_response, current_pagenumber)
         }
         else{alert("please enter all the values")}
 
@@ -165,6 +165,7 @@ var copy_ka_text_button = function(){
             $('div#ka-showAnsweredQues').find("#selVal").remove();
 
             alert("Copied the text: " + copied_text);
+            enterLogIntoDatabase('attempted to use copy button', 'khan academy' , copied_text, current_pagenumber)
         }
 
 
@@ -242,13 +243,12 @@ var saveKAresponseToDB = function(activity_id, imgID, response_type, answer_text
                success: function(response){
 
                     console.log(response)
+                    enterLogIntoDatabase('khan academy after inserting into db, img id'+imgID, 'answer'+activity_id , answer_text, current_pagenumber)
             }
 
             });
 
 
-            //send to user log as well
-            //enterLogIntoDatabase('submit pressed', 'answer question' , value, current_pagenumber)
 }
 
 
