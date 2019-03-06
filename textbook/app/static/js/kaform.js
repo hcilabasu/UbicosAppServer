@@ -116,7 +116,11 @@ var ka_submit_button = function(){
     $('#ka-submit').click(function(e){
         e.preventDefault();
 
-        //if(ka_imgID == "undefined") alert ("upload image first");
+       if(typeof ka_imgID === "undefined") {
+
+            showKAConfirmMsg("Upload your screenshot first");
+            return false; //dont submit anything
+       }
 
         //TODO: add user log event; user log event will capture multiple attempts but model will store the latest answer
 
@@ -138,7 +142,9 @@ var ka_submit_button = function(){
             saveKAresponseToDB(activity_id, ka_imgID, ka_radio_input_type, user_response);
             enterLogIntoDatabase('khan academy after inserting into db img id '+ ka_imgID, 'answer'+activity_id , user_response, current_pagenumber)
         }
-        else{alert("please enter all the values")}
+        else{
+            showKAConfirmMsg("please enter all the values");
+        }
 
 
         $('.ka-answer-p').text(user_response)
@@ -154,7 +160,8 @@ var copy_ka_text_button = function(){
         //https://jqueryhouse.com/copy-data-to-clipboard-using-jquery/
         var copied_text = $(this).parent().siblings().text();
         if(!copied_text.trim()) {
-            alert("enter your answer first")
+
+            showKAConfirmMsg("enter answer in the textbox, then hit the copy button");
         }else{
             console.log(copied_text);
 
@@ -164,7 +171,8 @@ var copy_ka_text_button = function(){
             document.execCommand("copy");
             $('div#ka-showAnsweredQues').find("#selVal").remove();
 
-            alert("Copied the text: " + copied_text);
+            //alert("Copied the text: " + copied_text);
+            showKAConfirmMsg(copied_text)
             enterLogIntoDatabase('attempted to use copy button', 'khan academy' , copied_text, current_pagenumber)
         }
 
@@ -241,13 +249,26 @@ var saveKAresponseToDB = function(activity_id, imgID, response_type, answer_text
                     'answer': answer_text,
                     },
                success: function(response){
-
+                    showKAConfirmMsg("Your response was saved");
                     console.log(response)
                     enterLogIntoDatabase('khan academy after inserting into db, img id'+imgID, 'answer'+activity_id , answer_text, current_pagenumber)
             }
 
             });
 
+
+}
+
+var showKAConfirmMsg = function(msg){
+
+     modal = $("#ka-confirm-modal")
+
+     $("#ka-confirm-modal").css({ display: "block" });
+     $("#ka-confirm-modal h2").text(msg);
+
+     $(".modal-close").click(function(e){
+         $("#ka-confirm-modal").css({ display: "none" });
+     });
 
 }
 

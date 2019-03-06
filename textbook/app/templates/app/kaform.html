@@ -29,7 +29,7 @@
                     <p> Write your response below. Once you have completed, click the copy button to
                     copy the answer in the clipboard and go paste it in Khan Academy.</p>
                     <textarea id="KAAnswer" class="user-answer-input" name="KAAnswer" placeholder="Write something.." style="height:180px"></textarea>
-                    <input id="ka-submit" type="button" value="Submit" class="user-input-submit-button">
+                    <input id="ka-submit" type="button" value="Submit" class="user-input-submit-button" >
                 </form>
 
                  <div class="prompt-card prompt-ka">
@@ -60,42 +60,56 @@
         </div>
 
          <!-- The Modal -->
-            <div id="moreInfoModal" class="talkmodal">
-                 <span class="modal-close">&times;</span>
-                    <h2>Talk Moves</h2>
-                      <h4>Ask a Question</h4>
-                      <ul style="margin-top:-20px">
-                        <li>I’m confused about... </li>
-                        <li>What do you mean by...?</li>
-                        <li>Why did you...instead of...?</li>
-                      </ul>
+            <!--<div id="moreInfoModal" class="talkmodal">-->
+                 <!--<span class="modal-close">&times;</span>-->
+                    <!--<h2>Talk Moves</h2>-->
+                      <!--<h4>Ask a Question</h4>-->
+                      <!--<ul style="margin-top:-20px">-->
+                        <!--<li>I’m confused about... </li>-->
+                        <!--<li>What do you mean by...?</li>-->
+                        <!--<li>Why did you...instead of...?</li>-->
+                      <!--</ul>-->
 
-                      <h4>Give some Feedback</h4>
-                      <ul style="margin-top:-20px">
-                        <li>I think your answer is right/wrong, because... </li>
-                        <li>I agree/disagree with your idea of ..., and I think .. </li>
-                        <li>You mentioned..., I think that this point is important, because…</li>
-                      </ul>
+                      <!--<h4>Give some Feedback</h4>-->
+                      <!--<ul style="margin-top:-20px">-->
+                        <!--<li>I think your answer is right/wrong, because... </li>-->
+                        <!--<li>I agree/disagree with your idea of ..., and I think .. </li>-->
+                        <!--<li>You mentioned..., I think that this point is important, because…</li>-->
+                      <!--</ul>-->
 
-                      <h4>Explain your thinking</h4>
-                      <ul style="margin-top:-20px">
-                        <li>If I compare your answer to my answer, I think... </li>
-                        <li>I think...because... </li>
-                        <li>To explain what I mean, this is an example,...</li>
-                        <li>You did… but another way to do it is...</li>
-                      </ul>
+                      <!--<h4>Explain your thinking</h4>-->
+                      <!--<ul style="margin-top:-20px">-->
+                        <!--<li>If I compare your answer to my answer, I think... </li>-->
+                        <!--<li>I think...because... </li>-->
+                        <!--<li>To explain what I mean, this is an example,...</li>-->
+                        <!--<li>You did… but another way to do it is...</li>-->
+                      <!--</ul>-->
 
+
+              <!--&lt;!&ndash; Modal content &ndash;&gt;-->
+              <!--&lt;!&ndash;<div class="modal-content">&ndash;&gt;-->
+                <!--&lt;!&ndash;<div class="modal-header">&ndash;&gt;-->
+
+                  <!--&lt;!&ndash;<h2 style="text-align: center"></h2>&ndash;&gt;-->
+                <!--&lt;!&ndash;</div>&ndash;&gt;-->
+
+              <!--&lt;!&ndash;</div>&ndash;&gt;-->
+
+            <!--</div>-->
+
+            <div id="ka-confirm-modal" class="ka-modal">
 
               <!-- Modal content -->
-              <!--<div class="modal-content">-->
-                <!--<div class="modal-header">-->
+              <div class="modal-content">
+                <div class="ka-modal-header">
+                  <span class="modal-close">&times;</span>
+                  <h2 style="text-align: center"></h2>
+                </div>
 
-                  <!--<h2 style="text-align: center"></h2>-->
-                <!--</div>-->
-
-              <!--</div>-->
+              </div>
 
             </div>
+
     </div>
 
 
