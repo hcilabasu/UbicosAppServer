@@ -15,6 +15,8 @@
 @convert2: yellow;
 @multQues1: #33cccc; /* #0099FF; */
 @multQues2: #0099ff; /* #0066cc; */
+@khanacademy1:  #6699ff;
+@khanacademy2: #9900ff;
 
 // Other colors
 @linkColor: #007BFF;
@@ -30,9 +32,10 @@ html, body {
     padding: 0;
     margin: 0;
     font-family: 'Open Sans', sans-serif;
-    font-size: 13pt;
+    font-size: 15pt;
     overflow: hidden;
 }
+
 
 h1 {
     margin: 0;
@@ -53,6 +56,15 @@ h3 {
 
 a {
     cursor: pointer;
+}
+
+.bodytool {
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 15pt;
+    overflow: hidden;
 }
 
 .center {
@@ -127,10 +139,11 @@ a {
 .btn {
     display: inline-block;
     padding: 0.7rem 1.5rem;
+    padding-left: 15px;
     background: white;
     /* border: solid 1px #007BFF; */
     color: @linkColor;
-    border-radius: 20px;
+    border-radius: 70px;
     text-decoration: none;
     box-shadow: 0 0 5px rgba(0,0,0,0.2);
     outline:0;
@@ -291,6 +304,8 @@ a {
     transition: all 0.4s;
 }
 
+
+
 /* video class color + activity button color */
 
 .video {
@@ -387,6 +402,119 @@ a {
     transition: all 0.4s;
 }
 
+/* khan academy class color + activity button color */
+.khanacademy{
+    color: @khanacademy1;
+}
+
+.activity-button.khanacademy {
+    background-image: url('/static/pics/idea.png');
+}
+.activity-button.khanacademy:after {
+    background: linear-gradient(@khanacademy1, @khanacademy2);
+}
+.activity-button.khanacademy:hover {
+    box-shadow: 0 0 30px @khanacademy1;
+    transition: all 0.4s;
+}
+
+
+
+    .verticalDivider {
+        display: grid;
+        height: 100%;
+        width: 100%;
+        padding: 0;
+        margin: 0 !important;
+        grid-template-columns: 50% 50%;
+
+        .row {
+            display: block;
+            max-height: 50% !important;
+            width:100%;
+            overflow: hidden;
+
+        }
+        }
+
+    #row-left, #row-right{
+    overflow-x: auto;
+
+    }
+
+
+    #row-left{
+    overflow: hidden;
+    position: relative;
+    grid-column: 1;
+
+    }
+
+    #row-right{
+
+    grid-column: 2;
+    position: relative;
+
+    }
+
+#ka-container {
+    display: grid;
+    height: 100%;
+    grid-template-columns: 50% 50%;
+    overflow: hidden;
+    position: fixed;
+}
+
+
+#ka-left,
+#ka-right {
+    overflow: auto;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+
+#ka-left {
+    position: relative;
+    grid-column: 1;
+
+
+}
+
+#ka-right {
+    grid-column: 2;
+    position: relative;
+    overflow: scroll;
+
+}
+
+.ka-radio { transform: scale(1.3); }
+
+.ka-user-input-submit-button {
+    display: block;
+    margin: 0 auto;
+    border-radius: 20px;
+    padding: 10px 22px;
+    font-family: verdana;
+    font-size: 15px;
+    background-color: #edf1f2;
+    color: #336699;
+    outline:0; /* blue border around it */
+    cursor: pointer;
+}
+
+.ka-copy-btn{
+    position: absolute;
+    left: 80%;
+    top: 86%;
+    height:40px;
+    width: 40px;
+    background: url('/static/pics/full-screen.png') no-repeat;
+    border-radius:30px;
+    float: left;
+    outline: 0;
+    cursor: pointer;
+}
 
 /*
     DYNAMIC CONTENT STYLING
@@ -439,6 +567,8 @@ a {
     z-index: 2;
 }
 
+
+
 /* functionality added in digTextBook.js*/
 .extend-card {
     display: inline-block;
@@ -452,11 +582,11 @@ a {
     z-index: 2;
 }
 
-#backToGallery{
+#backToGallery, #backToTchrTable{
     display: inline-block;
     position: absolute;
     top: 15px;
-    right: 100px;
+    right: 150px;
     height: 30px;
     width: 30px;
     background: url('/static/pics/back-arrow.png') no-repeat;
@@ -501,7 +631,17 @@ a {
     }
 
 #activity-feed {
-    padding-top: 80px;
+    padding-top: 125px;
+}
+
+#award-holder{
+ background-color: #C9DDE4;
+ height: 50px;
+ position: fixed;
+ top: 65px;
+ width: 100%;
+ z-index:1;
+
 }
 
 .feed {
@@ -557,6 +697,16 @@ a {
     text-align: center;
 }
 
+.user-image-posted-by {
+    position: relative;
+    display: inline-block;
+    height: 40px;
+    width: 40px !important;
+    background: #C9DDE4;
+    border-radius: 40px;
+    text-align: center;
+}
+
     .user-image span {
         position: absolute;
         bottom: -20px;
@@ -587,6 +737,48 @@ a {
         box-shadow: inset 0 3px 25px rgba(0,0,0,0.3);
         background-color: #C9DDE4;
     }
+}
+
+
+#feed-toggle {
+    position: fixed;
+    top: 15px;
+    right: 60px;
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+    z-index: 2;
+    background-image: url(../pics/time.png);
+    background-size: cover;
+    border-radius: 50%;
+    transition: all 0.4s;
+
+    &.pressedf {
+        box-shadow: inset 0 3px 25px rgba(0,0,0,0.3);
+        background-color: #C9DDE4;
+    }
+}
+
+/* reference for &:: http://lesscss.org/features/#parent-selectors-feature */
+.teacher-view-toggle {
+
+    display: inline-block;
+    position: absolute;
+    top: -14px;
+    right: 70px;
+    height: 55px;
+    width: 60px;
+    background: url('/static/pics/dashboard.png') no-repeat;
+    background-size: 100%;
+    z-index: 2;
+
+    border-radius: 50%;
+    transition: all 0.4s;
+/*
+    &.pressedt {
+        box-shadow: inset 0 3px 25px rgba(0,153,0,0.3);
+        background-color: #C9DDE4;
+    } */
 }
 
 .main-view h1 {
@@ -684,9 +876,17 @@ a {
 
 }
 
+.sectionh1 {
+
+    background: rgba(255,255,255,0.5);
+    z-index:2;
+
+}
 .section > * {
     margin: 0 20px;
 }
+
+
 
 #gallery-user-submission .btn {
     top: 50%;
@@ -699,19 +899,19 @@ a {
     cursor: pointer;
 }
 
-#gallery {
+#gallery, #tchr-gallery{
     list-style-type: none;
     padding: 0;
 }
 
-#gallery li {
+#gallery li, #tchr-gallery li {
     display: inline-block;
     margin-right: 15px;
     margin-bottom: 15px;
     position: relative;
 }
 
-#gallery li img {
+#gallery li img, #tchr-gallery li img{
     width: 100px;
     height: 80px;
 
@@ -744,36 +944,32 @@ a {
 #single-image-view { 
 
     height: 100%;
+    width: 100%;
     
     #image-feed {
+
+        height: 85%;
         padding: 15px;
         margin-bottom: 0;
+        overflow-y:auto;
+        -webkit-overflow-scrolling: touch;
+
+
     }
 
     .section { 
-        height: 300px;
+        height: 100%;
+        padding: 0px;
 
         img {
-            max-height: 80%;
-            max-width: 80%;
-            width: auto;
+            max-height: 400px;
+            width: 350px;
             height: auto;
-        }
-    }
-
-    .verticalDivider {
-        height: 95%;
-        width: 100%;
-        margin: 0 !important;
-    
-        .row {
-            display: block;
-            max-height: 50% !important;
-            width:100%;
-            overflow: auto;
 
         }
     }
+
+
 
     .message-input {
         position: absolute;
@@ -785,6 +981,12 @@ a {
         margin: 0;
         height: 38px;
     }
+}
+
+.extendedHeading{
+    position: absolute;
+    color: black;
+    top: 15px;
 }
 
 .previous-image,
@@ -808,6 +1010,13 @@ a {
     transform: translateY(-50%) scale(-1);
 }
 
+#gallery-image-user-name{
+    position: absolute;
+    bottom: 20%;
+    left: 35%;
+    color:black;
+}
+
 .gallery .feed {
     padding-bottom: 0;
 }
@@ -821,6 +1030,8 @@ a {
     */
     position: relative;
 }
+
+
 
 /* VIDEO */
 
@@ -1200,11 +1411,12 @@ a {
     background: linear-gradient(rgba(109, 155, 192, 1), rgba(105, 120, 129, 1));
 }
 
+
 /* Multiple Question Card rgba(153, 187, 255, 1), rgba(102, 102, 255, 1)*/
+
 .card.multQues {
    background: linear-gradient(rgba(51, 204, 204, 1), rgba(0, 153, 255, 1));
 }
-
 
 .convert-input input[type="text"] {
     width: 100%;
@@ -1217,6 +1429,74 @@ a {
 .floatRight {
     float: right;
 }
+
+
+/* Khan Academy Card */
+.card.khanacademy {
+
+    background: linear-gradient(rgba(102, 153, 255, 1), rgba(153, 0, 255, 1));
+    position: fixed;
+    overflow: hidden;
+
+}
+
+.ka-form {
+  border : none; /* removes the form border */
+
+}
+
+.ka-form input[type=text], textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  box-sizing: border-box;
+  margin-top: 6px;
+  margin-bottom: 16px;
+  resize: vertical;
+}
+
+
+#ka-showAnsweredQues {
+
+    ul{
+
+    list-style-type: none;
+
+   }
+}
+
+#add-new-ka-post {
+        position: absolute;
+        bottom: 100%;
+        right: 10px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        transition: all 1s;
+        width: auto;
+        height: auto;
+        overflow: hidden;
+        min-width: 60px;
+        min-height: 60px;
+}
+
+#add-new-ka-post > a {
+    display: block;
+    background: url('/static/pics/more.png') no-repeat #1F87FF;
+    background-size: 60%;
+    background-position: center center;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    transform: all 1s;
+    transform-origin: 75% 40% 0;
+}
+
+
+/* Teacher Card */
+.card.teacher {
+    background: linear-gradient(rgba(57, 172, 115, 1), rgba(51, 153, 102, 1));
+}
+
 
 /* camera */
 
@@ -1266,3 +1546,150 @@ a {
 .gallery-submission:active{
     background-color:#006600;
 }
+
+#add-new-gallery-post {
+        position: absolute;
+        bottom: 10px;
+        right: 10px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        transition: all 1s;
+        width: auto;
+        height: auto;
+        overflow: hidden;
+        min-width: 60px;
+        min-height: 60px;
+}
+
+#add-new-gallery-post > a {
+    display: block;
+    background: url('/static/pics/camera.png') no-repeat #1F87FF;
+    background-size: 60%;
+    background-position: center center;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    transform: all 1s;
+    position: absolute;
+    top: 0;
+    right: 0;
+    transform-origin: 75% 40% 0;
+}
+
+
+
+/* user prompt related css start*/
+.prompt {
+    background-color: #3d7ce2;
+}
+
+.prompt-ka {
+    background-color: #2DB872;
+}
+
+.prompt-card {
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+    box-shadow: 0 0 5px rgba(30, 192, 145,1);
+    position: absolute;
+    top: 0%;
+    height: 10%;
+    width: 100%;
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    right: 0;
+    color:  white;
+    margin: 5px 5px 5px 5px !important;
+    transform: translateX(100%);
+    transition: all 0.4s;
+    transition-timing-function: ease-out;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    z-index: 2;
+}
+
+
+.prompt-card.prompt.active {
+    transform: translateX(0);
+    transition: all 0.4s;
+    transition-timing-function: ease-out;
+    box-shadow: 4px 0 4px #3d7ce2;
+}
+
+.prompt-card.prompt-ka.active {
+    transform: translateX(0);
+    transition: all 0.4s;
+    transition-timing-function: ease-out;
+    box-shadow: 4px 0 4px #2DB872;
+}
+
+#prompt-p, #prompt-p-ka{
+
+    margin:0px;
+    height:32px;
+    max-width:100%;
+    float:left;
+    overflow:auto;
+    position:relative;
+    top: 25%;
+
+}
+
+.prompt-close-card {
+    display: inline-block;
+    position: absolute;
+    top: 10px;
+    right: 0px;
+    height: 15px;
+    width: 15px;
+    background: url('/static/pics/close-card.png') no-repeat;
+    background-size: 100%;
+    z-index: 2;
+}
+
+#prompt-badge-img, #prompt-badge-img-ka{
+    width:32px;
+    height:32px;
+    float:left;
+    margin: 0 10px;
+    position:relative;
+    top:25%
+}
+
+/* user prompt related css finish*/
+
+.posted_by_image{
+    position: absolute;
+    top: 7px;
+    left: 125px;
+
+}
+
+.back-to-gallery, back-to-tchr-table{
+    display: none;
+}
+
+
+#suggestion_text{
+    opacity: 0;
+
+
+}
+
+#badge-description{
+    position: absolute;
+    width: 25%;
+    left: 10px;
+    height: 30px;
+    z-index: -1;
+    top: 100%;
+    opacity: 0;
+    background-color: #C9DDE4;
+
+
+}
+
+
+
+
+

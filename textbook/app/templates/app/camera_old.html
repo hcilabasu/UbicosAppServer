@@ -1,0 +1,116 @@
+{% load static %}
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <style>
+            body {
+                text-align: center;
+            }
+
+            button {
+                display: block;
+                width: 200px;
+                font-size: 2rem;
+                margin: 20px auto;
+                text-align: center;
+            }
+
+            canvas {
+                background: #DDD;
+                box-shadow: inset 0 0 50px rgba(0,0,0,0.3);
+            }
+
+            canvas:empty:before {
+                content: "asdasd";
+                text-align: center;
+                color: black;
+            }
+        </style>
+    </head>
+    <body>
+        <video id="video" width="640" height="480" autoplay></video>
+        <button id="snap" class="btn">Snap Photo</button>
+        <canvas id="canvas" width="640" height="480"></canvas>
+        <br>
+        <a href="#" style="font-size: 50px;" class="button" id="btn-download" download="Picture-CURRENT-USER-TIME-HERE.png" onclick="this.download='Picture-' + getFormattedTime() + '.png'">Download Image</a>
+
+        <!--https://stackoverflow.com/questions/44484882/download-with-current-user-time-as-filename-->
+        <script src="{% static 'js/jquery.min.js' %}"></script>
+        <script>
+            // Put event listeners into place
+            window.addEventListener("DOMContentLoaded", function() {
+                // Grab elements, create settings, etc.
+                var canvas = document.getElementById('canvas');
+                var context = canvas.getContext('2d');
+                var video = document.getElementById('video');
+                var mediaConfig =  { video: true };
+                var errBack = function(e) {
+                    console.log('An error has occurred!', e)
+                };
+    
+                // Put video listeners into place
+                if(navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+                    navigator.mediaDevices.getUserMedia(mediaConfig).then(function(stream) {
+                        video.src = window.URL.createObjectURL(stream);
+                        video.play();
+                    });
+                }
+    
+                /* Legacy code below! */
+                else if(navigator.getUserMedia) { // Standard
+                    navigator.getUserMedia(mediaConfig, function(stream) {
+                        video.src = stream;
+                        video.play();
+                    }, errBack);
+                } else if(navigator.webkitGetUserMedia) { // WebKit-prefixed
+                    navigator.webkitGetUserMedia(mediaConfig, function(stream){
+                        video.src = window.webkitURL.createObjectURL(stream);
+                        video.play();
+                    }, errBack);
+                } else if(navigator.mozGetUserMedia) { // Mozilla-prefixed
+                    navigator.mozGetUserMedia(mediaConfig, function(stream){
+                        video.src = window.URL.createObjectURL(stream);
+                        video.play();
+                    }, errBack);
+                }
+    
+                // Trigger photo take
+                document.getElementById('snap').addEventListener('click', function() {
+                    context.drawImage(video, 0, 0, 640, 480);
+                });
+
+
+
+                var button = document.getElementById('btn-download');
+                button.addEventListener('click', function (e) {
+                    var dataURL = canvas.toDataURL('image/png');
+                    button.href = dataURL;
+
+
+                });
+
+
+            }, false);
+
+            function getFormattedTime() {
+                        var today = new Date();
+                        var y = today.getFullYear();
+                        // JavaScript months are 0-based.
+                        var m = today.getMonth() + 1;
+                        var d = today.getDate();
+                        var h = today.getHours();
+                        var mi = today.getMinutes();
+                        var s = today.getSeconds();
+                        return y + "-" + m + "-" + d + "-" + h + "-" + mi + "-" + s;
+                }
+        </script>
+    </body>
+</html>

@@ -1,6 +1,7 @@
 var current_pagenumber = 1 //initial page number; gets updated with page change
 var type = '' //card type
 var groupArray = ['A', 'B','C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K']
+var activity_id
 
 
 window.onerror = function(message, file, line) {
@@ -15,7 +16,7 @@ window.onerror = function(message, file, line) {
     It is also used in:
     * activityindex.js
 */
-var NUM_PAGES = 22;
+var NUM_PAGES = 12;
 
 
 $(function(){
@@ -37,14 +38,7 @@ $(function(){
 
     $('.extend-card').on('touch click', function(){
 
-        var width = $(".card").width() / $('.card').parent().width() * 100
-        width = width/2;
-
-        if (width == 50){
-            $('.card').css({'width':'100%'});
-        }else{
-            $('.card').css({'width':'50%'});
-        }
+        card_extension();
 
         var classNameWhichisExtended = $(this).offsetParent()[0].className.split(" ")[1]
         enterLogIntoDatabase('card extend', classNameWhichisExtended, 'none', current_pagenumber)
@@ -54,7 +48,8 @@ $(function(){
 
 
     //update activity feed with history of messages
-    loadFeed(); //call function from activity.js
+    loadFeed(0); //call function from activity.js //0 means all; 1 means todays chat
+
 
     // Load first pages
     // TODO the URL should indicate which page to be loaded instead of always loading pages 1 and 2
@@ -73,9 +68,26 @@ $(function(){
             hidden.fadeIn('fast');
         });
         $(this).toggleClass('pressed');
+
         //TODO: add user log
         enterLogIntoDatabase('click', 'activity index', 'none', current_pagenumber)
     });
+
+    $('#feed-toggle').click(function() {
+            $(this).toggleClass('pressedf');
+            if ($(this).hasClass("pressedf")){
+                loadFeed(1);
+            }else{
+                loadFeed(0);
+            }
+     });
+
+     //left-right key press event -- page transition -- not working right, check later
+//     $('html').keydown(function(e){
+//       if(e.which == 39) movePage(true); //go right
+//       else movePage(false);
+//     });
+
 
     //check localstorage - used for refresh
 
@@ -245,7 +257,8 @@ var bindActivityButtons = function(){
 
         //id of each each activity - based on page no
         var id = activityButton.attr('data-id');
-        console.log('id', id)
+        activity_id = id; //passing it to teacherindex.js
+        //console.log('id', id)
 
         // Disable current card and enable new card
         $('.card.active').removeClass('active');
@@ -254,7 +267,18 @@ var bindActivityButtons = function(){
         // based on the activity type, update titles in html
         $('.card.' + type + ' h1').text(type + ' #'+id); //update the title of each page
 
+//        ------------------------------teacher dashboard gallery-----------------------
+        $('.teacher-view-toggle').off().on('click', function(){
 
+            var activity_id = activityButton.attr('data-id');
+
+            $('.card.active').removeClass('active');
+            $('.card.teacher').addClass('active');
+
+            loadtable(activity_id);
+            card_extension();
+
+        })
 //        ------------------------------based on different tools-----------------------
         // TODO: make the following if dynamic
 
@@ -295,6 +319,8 @@ var bindActivityButtons = function(){
               //
               //$('div#graph-container').css("display", "none");
 
+              //if the card is already extended, put it back to normal
+              card_extension_close();
 
         }
 //        ------------------------------GALLERY-----------------------
@@ -318,7 +344,7 @@ var bindActivityButtons = function(){
             console.log(activityButton.attr('data-heading'));
 
             //update the heading
-            $('.card.' + type + ' h1').text(type + ' #'+id + ' Group ' + groupArray[user_group_id-1]);
+            $('.card.' + type + ' h1').text(activityButton.attr('data-heading') + ' Group ' + groupArray[user_group_id-1]);
 
            //update the description
            console.log(activityButton.attr('data-description'));
@@ -330,21 +356,27 @@ var bindActivityButtons = function(){
             }
 
             //update the submission heading
-            $('#gallery-group-heading').text('All Submissions')
+            $('#gallery-group-heading').text('My Submissions')
 
             //highlight the all submission  button and unhighlight the my submission
-            $("#allSubmission").css('background-color', '#006600');
-            $("#mySubmission").css('background-color', '#2DB872');
+            $("#mySubmission").css('background-color', '#006600');
+            $("#allSubmission").css('background-color', '#2DB872');
+            $("#groupSubmission").css('background-color', '#2DB872');
+
+            //since the card opens to my submission -- show user upload options
+            //display upload image from here
+             $('#gallery-user-submission').hide();
+             $('#add-new-gallery-post').show();
+
 
             //gallery 1 card stays open if explicitly not closed and you go to gallery 2.
             //with each click hide the single image view
             $('#gallery-panel').show();
             $('#single-image-view').hide();
+
             //https://stackoverflow.com/questions/52430558/dynamic-html-image-loading-using-javascript-and-django-templates
             $('img#default').attr('src', API_URL.picsBase + "/default.png");
             // end of the solution
-
-
 
 
             var view = activityButton.attr('data-view');
@@ -354,7 +386,32 @@ var bindActivityButtons = function(){
 
             //call function from gallery.js
             $("input[name='group-id']").attr('value', user_group_id);
-            viewDiv(view, user_group_id);
+            viewDiv("class", user_group_id);
+
+            //indicate that its not a middleGroupDiscussion -- variable used to extract comments as needed
+            //defined in gallery.js (top)
+            middleGroupDiscussion = 'no';
+
+            //teacher-view handle
+            //TODO: Can transfar ajax request to gallery.js inside populate function
+            if(logged_in == 'AW'){
+                $("#teacher-view").css("display", "block");
+                 $.ajax({
+                    type:'GET',
+                    url:'http://'+ host_url +'/randomDiscussionList',
+                    async: false, //wait for ajax call to finish, else logged_in is null in the following if condition
+                    success: function(e){
+
+                        console.log(e.list);
+                        populateTeacherViewDiv(e.list); //defined in gallery.js
+                    }
+                });
+            }
+
+
+
+            //if the card is already extended, put it back to normal
+            card_extension_close();
         }
 
 //        ------------------------------ANSWER-----------------------
@@ -362,18 +419,37 @@ var bindActivityButtons = function(){
 
             //get which question clicked.
             console.log(id)
+
             //hide its siblings
-
-            //if problem list - then hide the answer description and heading
-            $('.card.' + type + ' h1').text('Answer Questions');
-
-
             $('#'+id).siblings().hide();
             //show the div
             $('#'+id).show();
 
+            var divid = '#'+id
+
+            if(divid === '#page6-table'){
+                $('.card.' + type + ' h1').text('Chart');
+                $('.card.' + type + ' h4').text(' ');
+
+            }else{
+                //if problem list - then hide the answer description and heading
+                $('.card.' + type + ' h1').text('Answer Questions');
+
+                $('.card.' + type + ' h4').text('Type your answers to the questions below. When you are done, hit submit. ');
+
+                //update description
+            }
+
+
+
+
+
+
 
             //TODO: call loadHTML() from here
+
+            //if the card is already extended, put it back to normal
+            card_extension_close();
 
         }
 
@@ -382,6 +458,9 @@ var bindActivityButtons = function(){
 
              //$('input[name="table-id"]').attr('value', id)
              $('.card.' + type + ' h1').text("Talk Moves"); //update the title of each page
+
+            //if the card is already extended, put it back to normal
+             card_extension_close();
         }
 
 //        ------------------------------BRAINSTORM-----------------------
@@ -402,7 +481,45 @@ var bindActivityButtons = function(){
             $('input[name="brainstorm-id"]').attr('value', id)
 
             loadIdeaToWorkspace();
+
+            //if the card is already extended, put it back to normal
+            card_extension_close();
         }
+
+//        ------------------------------Khan Academy-----------------------
+        if($('.card.khanacademy').hasClass('active')){
+            $('.card.' + type + ' h1').text(activityButton.attr('data-heading'));
+
+            //at all times the card will be expanded; so no call to card expansion method
+            $('.card').css({'width':'100%'});
+
+            $('input[name="ka-act-id"]').attr('value', id)
+            //pass the ka-url and heading
+            //console.log('ka-url-passing to html', activityButton.attr('data-video-url'))
+            $('a#ka-form-url').attr('href', activityButton.attr('data-video-url'))
+            $('a#ka-form-url').text(activityButton.attr('data-video-topic'))
+            if(activityButton.attr('data-video-url2')){
+                console.log(activityButton.attr('data-video-url2'))
+                $('a#ka-form-url2').attr('href', activityButton.attr('data-video-url2'))
+                $('a#ka-form-url2').text(activityButton.attr('data-video-topic2'))
+                $('a#ka-form-url2').show();
+            }else{
+                console.log("no second url")
+                //hide that link
+                $('a#ka-form-url2').hide();
+            }
+
+             //check for persistence
+             $.get({
+               async: false,
+               url:'/checkKAAnswer/'+activity_id,
+               success: function(response){
+
+                  persistence_check(response.success)
+                }
+
+            });
+      }
 
         //user logging
         enterLogIntoDatabase('activity select', type , 'activity-id-'+id, current_pagenumber)
@@ -413,6 +530,30 @@ var bindActivityButtons = function(){
 
 var loadActivityIndex = function(){
     //TODO: call the parser here using ajax request, parse the files and build activity index
+
+}
+
+var card_extension = function(){
+
+    var width = $(".card").width() / $('.card').parent().width() * 100
+    width = width/2;
+
+    if (width == 50){
+        $('.card').css({'width':'100%'});
+    }else{
+        $('.card').css({'width':'50%'});
+    }
+
+}
+
+var card_extension_close = function(){
+
+    var width = $(".card").width() / $('.card').parent().width() * 100
+    width = width/2;
+
+    if (width == 100){
+        $('.card').css({'width':'50%'});
+    }
 
 }
 

@@ -25,23 +25,27 @@
     <!--</div>-->
 </div>
 
-<div id="new-idea" class="button">
-    <a class="toggle"></a>
-    <form>
-        <h3>New Idea</h3>
+ {% ifequal user.get_username 'AW' %}
 
-        <textarea name="" id="" cols="30" rows="10"></textarea>
-        <p>
-            Choose color: 
-            <a class="colorpicker active" style="background: #8FC7EC;"></a>
-            <a class="colorpicker" style="background: #BADB5A;"></a>
-            <a class="colorpicker" style="background: #F8C1C7;"></a>
-        </p>
-        <!--<p>-->
-            <!--<input type="checkbox" name="hidename" id="hidename"> <label for="hidename">Hide your name</label>-->
-        <!--</p>-->
-        <a class="btn">Submit</a>
-    </form>
-</div>
+    <div id="new-idea" class="button">
+        <a class="toggle"></a>
+        <form>
+            <h3>New Idea</h3>
+
+            <textarea name="" id="" cols="30" rows="10"></textarea>
+            <p>
+                Choose color:
+                <a class="colorpicker active" style="background: #8FC7EC;"></a>
+                <a class="colorpicker" style="background: #BADB5A;"></a>
+                <a class="colorpicker" style="background: #F8C1C7;"></a>
+            </p>
+            <!--<p>-->
+                <!--<input type="checkbox" name="hidename" id="hidename"> <label for="hidename">Hide your name</label>-->
+            <!--</p>-->
+            <a class="btn">Submit</a>
+        </form>
+    </div>
+
+{%  endifequal %}
 
 

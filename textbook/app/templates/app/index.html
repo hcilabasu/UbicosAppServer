@@ -13,7 +13,10 @@
     <link rel="stylesheet" type="text/css" href="{% static 'css/gallery.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/index.css' %}">
     <link rel="stylesheet/less" type="text/css" href="{% static 'css/digTextBook.less' %}">
-    
+    <link rel="stylesheet/less" type="text/css" href="{% static 'js/jqPlot/jquery.jqplot.css' %}">
+    <link rel="stylesheet/less" type="text/css" href="{% static 'js/jqPlot/jquery.jqplot.min.css' %}">
+
+
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
@@ -43,6 +46,7 @@
     <div id="main-container">
 
         <div id="textbook-content" class="first">
+
             <div class="page previous">
             </div>
             <div class="page" data-page="1">
@@ -68,12 +72,26 @@
         
             <a id="main-view-toggle"></a>
 
+            <a id="feed-toggle"></a>
+
             <div id="activity-feed-view" class="main-view">
                 {% include 'app/activityfeed.html' %}
+                <div id ="suggestion_text">This is the suggestion badge</div>
             </div>
+
             <div id="activity-index-view" class="main-view" style="display: none;">
                 {% include 'app/activityindex.html' %}
             </div>
+
+            <!--display teacherdashboard if logged in as teacher-->
+            <!--{% ifequal user.get_username 'AW' %}-->
+                <!--<a id="teacher-view-toggle"></a>-->
+                <!--<div id="teacher-index-view" class="" style="display: none;">-->
+                    <!--{% include 'app/teacherindex.html' %}-->
+                <!--</div>-->
+            <!--{%  endifequal %}-->
+
+
             
             <!-- 
                 Ideally we'd only have one div.card, whose content is loaded dynamically on click.
@@ -81,6 +99,10 @@
             <div class="card gallery">
                 <a class="close-card"></a>
                 <a class="extend-card"></a>
+                {% ifequal user.get_username 'AW' %}
+                <a class="teacher-view-toggle"></a>
+                {%  endifequal %}
+
                 <a class="back-to-gallery"></a>
                 {% include 'app/gallery.html' %}
             </div>
@@ -120,6 +142,17 @@
                 <a class="close-card"></a>
                 {% include 'app/multQues.html' %}
             </div>
+
+             <div class="card khanacademy">
+                <a class="close-card"></a>
+                {% include 'app/kaform.html' %}
+            </div>
+
+            <div class="card teacher">
+                <a class="close-card"></a>
+                <a class="back-to-tchr-table"></a>
+                {% include 'app/teacherindex.html' %}
+            </div>
         </div>
     </div>
 
@@ -128,16 +161,24 @@
     <script src="{% static 'js/jquery-ui.min.js' %}"></script>
     <script src="{% static 'js/jquery.ui.touch-punch.min.js' %}"></script>
     <script src="{% static 'js/d3.min.js' %}"></script>
+    <script src="{% static 'js/teacherindex.js' %}"></script>
     <script src="{% static 'js/utility.js' %}"></script>
     <script src="{% static 'js/digTextBook.js' %}"></script>
+    <script src="{% static 'js/awardbanner.js' %}"></script>
     <script src="{% static 'js/gallery.js' %}"></script>
     <script src="{% static 'js/activityfeed.js' %}"></script>
     <script src="{% static 'js/brainstorm.js' %}"></script>
     <script src="{% static 'js/convert.js' %}"></script>
+    <script src="{% static 'js/kaform.js' %}"></script>
     <script src="{% static 'js/table.js' %}"></script>
     <script src="{% static 'js/userlog.js' %}"></script>
     <script src="{% static 'js/activityindex.js' %}"></script>
     <script src="{% static 'js/multQues.js' %}"></script>
+    <script src="{% static 'js/teacherindex.js' %}"></script>
+    <script src="{% static 'js/jqPlot/jquery.jqplot.js' %}"></script>
+    <script src="{% static 'js/jqPlot/jquery.jqplot.min.js' %}"></script>
+    <script src="{% static 'js/jqPlot/plugins/jqplot.barRenderer.js' %}"></script>
+    <script src="{% static 'js/jqPlot/plugins/jqplot.categoryAxisRenderer.js' %}"></script>
 </body>
 </html>
 

@@ -31,10 +31,21 @@ class imageComment(models.Model):
     posted_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     posted_at = models.DateTimeField(auto_now_add=True)
     imageId = models.ForeignKey(imageModel, on_delete=models.CASCADE)
+    isGroupDiscussion = models.CharField(max_length=400)
 
     def natural_key(self):
         return (self.posted_by.username)
 
+class khanAcademyAnswer(models.Model):
+    ka_id = models.IntegerField()
+    ka_image = models.ImageField(upload_to='ka_images')
+    posted_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    posted_at = models.DateTimeField(auto_now_add=True)
+    response_type = models.CharField(max_length=20)
+    response = models.CharField(max_length=2000)
+
+    def natural_key(self):
+        return (self.posted_by.username)
 
 # activity feed message
 class Message(models.Model):
@@ -44,6 +55,14 @@ class Message(models.Model):
 
     def natural_key(self):
         return (self.posted_by.username)
+
+class badgeModel(models.Model):
+    userid = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    message = models.CharField(max_length=400)
+    badgeType = models.CharField(max_length=400)
+
+    def natural_key(self):
+        return (self.userid.username)
 
 
 class brainstormNote(models.Model):
@@ -78,8 +97,15 @@ class groupInfo(models.Model):
 
     def __str__(self):
         return '%s %s' % (self.activityID, self.group)
-
 #temp solution for pilot-1 -- end
+
+class random_group_users(models.Model):
+    users = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    gallery_id = models.IntegerField()
+    group = models.CharField(max_length=20)
+
+    def natural_key(self):
+        return (self.posted_by.username)
 
 class userLogTable(models.Model):
     username = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)

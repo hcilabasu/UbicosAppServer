@@ -9,15 +9,17 @@
         </p>
 
         <!--<h2>Your submission</h2>-->
-        <div style="right: 10px">
-            <a id="openCamera" href="https://hcilabasu.pythonanywhere.com/camera/" target="_blank">Open Camera</a>
-            <!--<a id="openCamera" href="http://127.0.0.1:8000/camera/" target="_blank">Open Camera</a>-->
-        </div>
+        <!--<div id="gallery-camera-div" style="right: 10px">-->
+            <!--<a id="openCamera" href="https://hcilabasu.pythonanywhere.com/camera/" target="_blank">Open Camera</a>-->
+            <!--&lt;!&ndash;<a id="openCamera" href="http://127.0.0.1:8000/camera/" target="_blank">Open Camera</a>&ndash;&gt;-->
+        <!--</div>-->
 
 
         <div id="gallery-view-only">
-            <a id="allSubmission" class="gallery-submission" href="#">All Submissions</a>  <!--<h2>defined in gallery.js</h2>-->
             <a id="mySubmission" class="gallery-submission" href="#">My Submissions</a>  <!--<h2>defined in gallery.js</h2>-->
+            <a id="allSubmission" class="gallery-submission" href="#">Class Submissions</a>  <!--<h2>defined in gallery.js</h2>-->
+            <a id="groupSubmission" class="gallery-submission" href="#">Group Discussions</a>  <!--<h2>defined in gallery.js</h2>-->
+
         </div>
 
 
@@ -31,12 +33,18 @@
                 <label for="file-upload" class="btn">
                     Choose
                 </label>
+                <!--<a class="openCamera" href="https://hcilabasu.pythonanywhere.com/camera/" target="_blank"></a>-->
                 <input type="file" name="gallery_img" class="btn" id="file-upload" />
                 <input type="hidden" name="act-id" value=""/> <!--pass gallery id number from digTextBook.js-->
                 <input type="hidden" name="group-id" value=""/> <!--pass group id number from distextBook.js/gallery.js-->
             </form>
 
         </div>
+
+         <div id="add-new-gallery-post">
+                <a class="openCamera" href="https://hcilabasu.pythonanywhere.com/camera/" target="_blank"></a>
+                <!--<a class="openCamera" href="http://127.0.0.1:8000/camera/" target="_blank"></a>-->
+         </div>
 
         <h2 id="gallery-group-heading">All Submissions</h2>
 
@@ -47,31 +55,47 @@
             <!--</li>-->
 
         </ul>
+        <ul id="teacher-view">
+
+        </ul>
     </div>
 
     <div id="single-image-view" class="gallery-panel" style="display:none">
         <div class="verticalDivider">
-            <div class="row">
-                <a id="backToGallery" href=""></a> <!--functionality defined in gallery.js; css defined in digTextBook.less-->
+            <div id="row-left">
+                 <!--functionality defined in gallery.js; css defined in digTextBook.less-->
                 <div class="section">
+                    <h4 class="extendedHeading"></h4>
                     <a href="" class="previous-image"></a>
                     <a href="" class="next-image"></a>
+                    <!--<a href="#" class="gallery_image_user_name">here i am</a>-->
                     <input type="hidden" name="image-index" value=""/>
                     <input type="hidden" name="image-db-pk" value=""/>
+                    <div class = "posted_by_image"></div>
                 </div>
             </div>
 
-            <div class="row">
-                <ul id="image-feed" class="feed">
+            <div id="row-right">
+                <a id="backToGallery" href=""></a>
+                <ul id="image-feed" class="feed" style="margin-top: 50px;">
                 </ul> 
                     
+                <div class="prompt-card prompt">
+                    <a class="prompt-close-card"></a>
+                    <!--<span id="prompt-p"></span>-->
+                    <!--<img id="badge-default" src="{% static 'pics/default.png' %}" alt="">-->
+                    <img id="prompt-badge-img" src="{% static 'pics/default.png' %}" alt="" >
+                    <p id="prompt-p" ></p>
+                </div>
+
+                <div class="message-input">
+                    <input type="text" id="image-msg-text" name="image-msg-text" placeholder="Comment on this picture">
+                    <input type="hidden" name="username" value={{ user.get_username }}>
+                    <a href="" id="image-msg-send-btn"></a>
+                </div>
             </div>
-        </div>
-        <div class="message-input">
-            <input type="text" id="image-msg-text" name="image-msg-text" placeholder="Comment on this picture">
-            <input type="hidden" name="username" value={{ user.get_username }}>
-            <a href="" id="image-msg-send-btn"></a>
-        </div>
     </div>
+    </div>
+
 </div>
 
